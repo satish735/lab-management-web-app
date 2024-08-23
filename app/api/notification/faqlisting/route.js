@@ -1,4 +1,4 @@
-import Blog from "@/model2/Blog";
+import Notification from "@/model2/Notification";
 import { parse } from "url";
 export const GET = async (request, { params }) => {
   try {
@@ -21,22 +21,22 @@ export const GET = async (request, { params }) => {
     if (searchQuery) {
       searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
     }
-    const blogdata = await Blog
+    const Notificationdata = await Notification
       .find(searchFilter)
       .sort(sort)
       .skip(skip)
       .limit(pageSize);
 
  
-    const totalCount = await Blog.find(searchFilter).countDocuments();
+    const totalCount = await Notification.find(searchFilter).countDocuments();
 
-    var response = { data: blogdata, total: totalCount }
+    var response = { data: Notificationdata, total: totalCount }
 
-    console.log("blogdata", response)
+
     return new Response(JSON.stringify(response), { status: 200 });
 
   } catch (error) {
-    console.log(error);
+
     return new Response("Error", { status: 500 });
   }
 };

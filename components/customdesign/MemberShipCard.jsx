@@ -52,7 +52,7 @@ const MemberShipCard = ({
 
                 </div>
 
-<div className="d-flex justify-content-between">
+             <div className="d-flex justify-content-between">
 
 
                 <p className={` blog_description `} >

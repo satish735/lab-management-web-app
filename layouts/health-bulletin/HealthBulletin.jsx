@@ -7,6 +7,8 @@ import useAPI from "@/hooks/useAPI";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import MultipleDropZone from "@/components/drop-zones/MultipleDropZone";
 const HealthBulletin = ({ searchParams }) => {
 
 
@@ -19,15 +21,11 @@ const HealthBulletin = ({ searchParams }) => {
             method: "post",
         },
         (e) => {
-            setname();
-
+            router.push("/admin/healthbulletin/create");
             toast.success("Health Bulletin has been created successfully");
-
         },
         (e) => {
-
             toast.error("Something went wrong while creating Health Bulletin!");
-
             return e;
         }
     );
@@ -40,19 +38,33 @@ const HealthBulletin = ({ searchParams }) => {
 
 
     const submit = () => {
-        if (name != "") {
+        if (name == "") {
+            return toast.error("Fill Name field.")
+        } else if (imageFile?.status != "uploaded") {
+            return toast.error("Select image file.")
+        } else if (filesMultiple?.length == 0) {
+            return toast.error("Add PDF file.")
+        }
+
+
+
+        if (name != "" && imageFile?.status == "uploaded") {
             HealthBulletinHandler({
                 body: {
                     name: name,
+                    backgroundLink: imageFile?.filePath,
+                    broucherLink: filesMultiple ?? []
                 },
             });
-        } else {
-            toast.error("Fill complete form.");
         }
     };
 
 
+    const [imageFile, setImageFile] = useState();
+    const [filesMultiple, setFileMultiple] = useState([])
 
+
+    console.log("imageFile", imageFile)
 
     return (
         <>
@@ -68,6 +80,13 @@ const HealthBulletin = ({ searchParams }) => {
                         />
                     </div>
 
+
+                    <div className="col-12">
+                        <h5 className="py-2 small">Add Banner Image</h5>
+                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                        <h5 className="py-2 small" >Add PDF</h5>
+                        <MultipleDropZone files={filesMultiple} setFiles={setFileMultiple} />
+                    </div>
 
                     <div className="my-3 text-end ">
                         <button

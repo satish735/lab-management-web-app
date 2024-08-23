@@ -17,8 +17,6 @@ const Test = () => {
 
 
 
-    const [ListingFields, setListingFields] = useState();
-
 
 
     const [createTestResponse, createTestHandler] = useAPI(
@@ -28,40 +26,6 @@ const Test = () => {
 
         },
         (e) => {
-
-
-            // toast.success("");
-            // setisSubmit(false)
-        },
-        (e) => {
-            // setisSubmit(false)
-            //  transformErrorDefault(
-            //     "Something went wrong while creating Test Case!",
-            //     e
-            // );
-        }
-    );
-
-
-    const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
-        {
-            url: "/getTestDetails",
-            method: "get",
-            sendImmediately: true,
-
-        },
-        (e) => {
-
-            let TestConditionListing = (e?.TestConditionListing ?? []).map((item) => {
-                return { label: item?.name, value: item?._id }
-            })
-            let BodyPartListing = (e?.BodyPartListing ?? []).map((item) => {
-                return { label: item?.name, value: item?._id }
-            })
-            setListingFields({
-                TestConditionListing: [{ label: 'Select condition', value: '' }, ...TestConditionListing], BodyPartListing: [{ label: 'Select body part', value: '' }, ...BodyPartListing]
-            })
-
             // toast.success("");
             // setisSubmit(false)
         },
@@ -178,7 +142,22 @@ const Test = () => {
         return true;
     };
 
+    const [TestType, setTestType] = useState();
+    const [TestTypeIsTouch, setTestTypeIsTouch] = useState(false);
 
+    const [TestTypeMessage, setTestTypeMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const TestTypeSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setTestTypeMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setTestTypeMessage({ type: "info", message: "" });
+
+        return true;
+    };
 
     const test_type_option = [
 
@@ -215,32 +194,17 @@ const Test = () => {
 
 
 
-    const AgeGroupTo = useInputComponent('');
-    const AgeGroupToValidater = (value) => {
+    const AgeGroup = useInputComponent('');
+    const AgeGroupValidater = (value) => {
         if (value === "" || !value) {
-            AgeGroupTo.setFeedbackMessage(
+            AgeGroup.setFeedbackMessage(
                 "Field required!"
             );
-            AgeGroupTo.setMessageType("error");
+            AgeGroup.setMessageType("error");
             return false;
         }
-        AgeGroupTo.setFeedbackMessage("");
-        AgeGroupTo.setMessageType("none");
-        return true;
-    };
-
-
-    const AgeGroupFrom = useInputComponent('');
-    const AgeGroupFromValidater = (value) => {
-        if (value === "" || !value) {
-            AgeGroupFrom.setFeedbackMessage(
-                "Field required!"
-            );
-            AgeGroupFrom.setMessageType("error");
-            return false;
-        }
-        AgeGroupFrom.setFeedbackMessage("");
-        AgeGroupFrom.setMessageType("none");
+        AgeGroup.setFeedbackMessage("");
+        AgeGroup.setMessageType("none");
         return true;
     };
 
@@ -293,7 +257,32 @@ const Test = () => {
 
 
 
-    
+    const [CollectionAt, setCollectionAt] = useState();
+    const [CollectionAtIsTouch, setCollectionAtIsTouch] = useState(false);
+
+    const [CollectionAtMessage, setCollectionAtMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const CollectionAtSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setCollectionAtMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setCollectionAtMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+    const collectionAtOption = [
+
+        { label: "Home", value: "home", },
+        { label: "Lab", value: "Lab" },
+        { label: "Home & Lab", value: "Home & Lab" },
+
+    ]
+
+
     const [HomeCollection, setHomeCollection] = useState();
     const [HomeCollectionIsTouch, setHomeCollectionIsTouch] = useState(false);
 
@@ -361,13 +350,13 @@ const Test = () => {
         let BodyPartTypeSelectValidate = commonValidate(BodyPartType);
         let MedicalConditionsSelectValidate = commonValidate(MedicalConditions);
         let PriceValidate = commonValidate(Price.enteredValue);
-
+        let TestTypeSelectValidate = commonValidate(TestType);
         let GenderTypeSelectValidate = commonValidate(GenderType);
-        let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
+        let AgeGroupValidate = commonValidate(AgeGroup.enteredValue);
         let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
         let ObservationsInputValidate = commonValidate(ObservationsInput.enteredValue);
         let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
-       
+        let CollectionAtSelectValidate = commonValidate(CollectionAt);
         let HomeCollectionSelectValidate = commonValidate(HomeCollection);
         // let ObservationTitleTypeSelectValidate = commonValidate(ObservationTitleType);
         let TestIncludedValidate = commonValidate(TestIncluded.enteredValue);
@@ -381,12 +370,13 @@ const Test = () => {
             !BodyPartTypeSelectValidate ||
             // !MedicalConditionsSelectValidate ||
             !PriceValidate ||
+            !TestTypeSelectValidate ||
             !GenderTypeSelectValidate ||
-            !AgeGroupToValidate ||
+            !AgeGroupValidate ||
             !SampleRequiredValidate ||
             !ObservationsInputValidate ||
             !PreparationRequiredValidate ||
- 
+            !CollectionAtSelectValidate ||
             !HomeCollectionSelectValidate ||
 
             !TestIncludedValidate ||
@@ -404,13 +394,14 @@ const Test = () => {
                     observations: ObservationsInput ?? null,
                     medical_conditions: MedicalConditions ?? null,
                     price: Price.enteredValue ?? null,
+                    test_type: TestType ?? null,
                     gender: GenderType ?? null,
-                    age_group: AgeGroupTo.enteredValue ?? null,
+                    age_group: AgeGroup.enteredValue ?? null,
                     requirements: null,
                     features: {
                         SampleRequiredValidate: SampleRequired.enteredValue ?? null,
                         PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
-                        
+                        CollectionAtSelectValidate: CollectionAt ?? null,
                         HomeCollectionSelectValidate: HomeCollection ?? null,
                         TestIncludedValidate: TestIncluded.enteredValue ?? null,
                         ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
@@ -429,7 +420,7 @@ const Test = () => {
             //             price: Price.enteredValue ?? null,
             //             test_type: TestType ?? null,
             //             gender: GenderType ?? null,
-            //             age_group: AgeGroupTo.enteredValue ?? null,
+            //             age_group: AgeGroup.enteredValue ?? null,
             //             requirements: null,
             //             features: {
             //                 SampleRequiredValidate: SampleRequired.enteredValue ?? null,
@@ -459,13 +450,13 @@ const Test = () => {
             BodyPartTypeSelectValidater(BodyPartType)
             MedicalConditionsSelectValidater(MedicalConditions)
             PriceValidater(Price.enteredValue)
-
+            TestTypeSelectValidater(TestType)
             GenderTypeSelectValidater(GenderType)
-            AgeGroupToValidater(AgeGroupTo.enteredValue)
+            AgeGroupValidater(AgeGroup.enteredValue)
             SampleRequiredValidater(SampleRequired.enteredValue)
             ObservationsInputValidater(ObservationsInput.enteredValue)
             PreparationRequiredValidater(PreparationRequired.enteredValue)
-     
+            CollectionAtSelectValidater(CollectionAt)
             HomeCollectionSelectValidater(HomeCollection)
             // ObservationTitleTypeSelectValidater(ObservationTitleType)
             TestIncludedValidater(TestIncluded.enteredValue)
@@ -556,7 +547,9 @@ const Test = () => {
                                 <InputSelect
                                     setValue={setMedicalConditions}
                                     value={MedicalConditions}
-                                    options={ListingFields?.TestConditionListing ?? []}
+                                    options={[
+
+                                    ]}
                                     isTouched={MedicalConditionsIsTouch}
                                     setIsTouched={setMedicalConditionsIsTouch}
                                     className="py-1"
@@ -573,7 +566,7 @@ const Test = () => {
                                 <InputSelect
                                     setValue={setBodyPartType}
                                     value={BodyPartType}
-                                    options={ListingFields?.BodyPartListing ?? []}
+                                    options={BodyParts ?? []}
                                     isTouched={BodyPartTypeIsTouch}
                                     setIsTouched={setBodyPartTypeIsTouch}
                                     className="py-1"
@@ -607,7 +600,21 @@ const Test = () => {
 
                             </div>
 
-
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputSelect
+                                    setValue={setTestType}
+                                    value={TestType}
+                                    options={test_type_option ?? []}
+                                    isTouched={TestTypeIsTouch}
+                                    setIsTouched={setTestTypeIsTouch}
+                                    className="py-1"
+                                    label={"Test Type"}
+                                    isRequired={true}
+                                    feedbackMessage={TestTypeMessage?.message}
+                                    feedbackType={TestTypeMessage?.type}
+                                    validateHandler={TestTypeSelectValidater}
+                                />
+                            </div>
 
                             <div className="col-lg-4 col-md-4 col-sm-12 ">
                                 <InputSelect
@@ -627,27 +634,6 @@ const Test = () => {
 
 
 
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputWithAddOn
-                                    label="Age Group From"
-                                    className="loginInputs"
-
-                                    setValue={AgeGroupFrom.setEnteredValue}
-                                    value={AgeGroupFrom.enteredValue}
-                                    feedbackMessage={AgeGroupFrom.feedbackMessage}
-                                    feedbackType={AgeGroupFrom.messageType}
-                                    isTouched={AgeGroupFrom.isTouched}
-                                    setIsTouched={AgeGroupFrom.setIsTouched}
-
-                                    validateHandler={AgeGroupFromValidater}
-                                    reset={AgeGroupFrom.reset}
-                                    isRequired={true}
-                                    type='number'
-                                />
-
-                            </div>
-
-
 
 
 
@@ -658,18 +644,18 @@ const Test = () => {
 
                             <div className="col-lg-4 col-md-4 col-sm-12 ">
                                 <InputWithAddOn
-                                    label="Age Group To"
+                                    label="Age Group"
                                     className="loginInputs"
 
-                                    setValue={AgeGroupTo.setEnteredValue}
-                                    value={AgeGroupTo.enteredValue}
-                                    feedbackMessage={AgeGroupTo.feedbackMessage}
-                                    feedbackType={AgeGroupTo.messageType}
-                                    isTouched={AgeGroupTo.isTouched}
-                                    setIsTouched={AgeGroupTo.setIsTouched}
+                                    setValue={AgeGroup.setEnteredValue}
+                                    value={AgeGroup.enteredValue}
+                                    feedbackMessage={AgeGroup.feedbackMessage}
+                                    feedbackType={AgeGroup.messageType}
+                                    isTouched={AgeGroup.isTouched}
+                                    setIsTouched={AgeGroup.setIsTouched}
 
-                                    validateHandler={AgeGroupToValidater}
-                                    reset={AgeGroupTo.reset}
+                                    validateHandler={AgeGroupValidater}
+                                    reset={AgeGroup.reset}
                                     isRequired={true}
                                     type='number'
                                 />
@@ -678,7 +664,22 @@ const Test = () => {
 
 
 
- 
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputSelect
+                                    setValue={setCollectionAt}
+                                    value={CollectionAt}
+                                    options={collectionAtOption ?? []}
+                                    isTouched={CollectionAtIsTouch}
+                                    setIsTouched={setCollectionAtIsTouch}
+                                    className="py-1"
+                                    label={"Collection At"}
+                                    isRequired={true}
+                                    feedbackMessage={CollectionAtMessage?.message}
+                                    feedbackType={CollectionAtMessage?.type}
+                                    validateHandler={CollectionAtSelectValidater}
+                                />
+                            </div>
 
 
                             <div className="col-lg-4 col-md-4 col-sm-12 ">

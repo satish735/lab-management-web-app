@@ -1,4 +1,4 @@
-import Blog from "@/model2/Blog";
+import PackageTest from "@/model2/PackageTest";
 import { parse } from "url";
 export const GET = async (request, { params }) => {
   try {
@@ -21,18 +21,18 @@ export const GET = async (request, { params }) => {
     if (searchQuery) {
       searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
     }
-    const blogdata = await Blog
+    const PackageTestdata = await PackageTest
       .find(searchFilter)
       .sort(sort)
       .skip(skip)
       .limit(pageSize);
 
  
-    const totalCount = await Blog.find(searchFilter).countDocuments();
+    const totalCount = await PackageTest.find(searchFilter).countDocuments();
 
-    var response = { data: blogdata, total: totalCount }
+    var response = { data: PackageTestdata, total: totalCount }
 
-    console.log("blogdata", response)
+    console.log("PackageTestdata", response)
     return new Response(JSON.stringify(response), { status: 200 });
 
   } catch (error) {

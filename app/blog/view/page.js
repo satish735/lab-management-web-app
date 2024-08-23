@@ -1,11 +1,33 @@
 "use client";
 import "../blog.css"
 import React, { useState } from 'react'
+import useAPI from "@/hooks/useAPI";
 import '@/components/home-component/frequently-asked-question/question-ans.css'
-const Blog = ({ params: { id } }) => {
+const Blog = ({ searchParams }) => {
 
+const [getdata, setdata]= useState({})
 
+    const [blogResponse, blogHandler] = useAPI(
+        {
+            url: `/blogs/${searchParams?.id}`,
+            method: "get",
+            sendImmediately: true
+        },
+        (e) => {
+            setdata(e)
+            return e
+        },
+        (e) => {
 
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating blog!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
 
     const populerblog = [
         {
@@ -36,24 +58,36 @@ const Blog = ({ params: { id } }) => {
     ]
     return (
         <div >
-           <div style={{ backgroundColor: "#f1f6ee", paddingTop:"-20px" }}>
-                 <div className="row midbox-inner p-0 " style={{margin:"0 auto"}} >
+            <div style={{ backgroundColor: "#f1f6ee", paddingTop: "-20px" }}>
+                <div className="row midbox-inner p-0 " style={{ margin: "0 auto" }} >
 
 
                     <div className="col-md-6 col-sm-6 col-12 p-3 ">
                         <div className="m-3 pt-3" >
-                            <h2 style={{ fontWeight: "500", fontSize: "2.1rem" }}>Heart Health on International Self-care Day: Daily Habits for a Stronger Heart</h2>
+                            <h2 style={{ fontWeight: "500", fontSize: "2.1rem" }}> {getdata?.title ?? ""}</h2>
                             <span>Medically Reviewed by:</span>
-                            <span style={{ color: "#21cdad" }}> Dr. Kanika</span>
+                            <span style={{ color: "#21cdad" }}> {getdata?.author ?? ""}</span>
                         </div>
                     </div>
                     <div className="col-md-6 col-sm-6 col-12 p-3 ">
                         <div className="m-3" >
-                            <img className=" rounded pt-3" style={{ height: "270px", width: "90%" }} src="/assets/images/blog1.jpg" alt="post image" loading="lazy" />
+                            <img className=" rounded pt-3" style={{ height: "270px", width: "90%" }}
+                                src={process.env.NEXT_PUBLIC_BUCKET_URL + getdata?.image} alt="post image" loading="lazy" />
                         </div>
                     </div>
+          
 
                 </div>
+            </div>
+
+            <div className="bg-white p-4">
+            <div className="small" >
+                        {getdata?.description ?? ""}
+                    </div>
+
+                    <div dangerouslySetInnerHTML={{ __html: getdata?.ckdescription }} >
+                        {/* {getdata?.ckdescription ?? ""} */}
+                    </div>
             </div>
 
             <div className="row midbox-inner" >
@@ -72,7 +106,7 @@ const Blog = ({ params: { id } }) => {
 
                         </h2>
                         <div className='container-fluid'>
-                            <div style={{ margin: '0 auto' }} className='test_faq'>
+                            <div style={{ margin: '0 auto' }} className='test_blog'>
 
                                 {
                                     (question ?? []).map((item, index) => {

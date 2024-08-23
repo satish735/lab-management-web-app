@@ -1,11 +1,11 @@
-import Blog from "@/model2/Blog";
+import Notification from "@/model2/Notification";
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
-    const Blogsdata = await Blog
+    const Notificationsdata = await Notification
       .findById(id);
 
-    return new Response(JSON.stringify(Blogsdata), { status: 200 });
+    return new Response(JSON.stringify(Notificationsdata), { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
@@ -14,13 +14,13 @@ export const GET = async (request, { params }) => {
 export const PUT = async (request, { params }) => {
   try {
 
-    console.log("paramsparams", params)
+ 
     const toUpdateBody = await request.json();
-    console.log("lllllllllll", toUpdateBody)
+
     const { id = null } = params;
-    const existingBlog = await Blog.findById(id);
+    const existingBlog = await Notification.findById(id);
     if (!existingBlog) {
-      return new Response("No Blog found with given id!", { status: 404 });
+      return new Response("No Notification found with given id!", { status: 404 });
     }
     for (const key in toUpdateBody) {
       if (key in existingBlog) {
@@ -40,8 +40,8 @@ export const PUT = async (request, { params }) => {
 export const DELETE = async (request, { params }) => {
   try {
     const { id = null } = params;
-    await Blog.findByIdAndDelete(id);
-    return new Response("Blog deleted successfully.", { status: 200 });
+    await Notification.findByIdAndDelete(id);
+    return new Response("Notification deleted successfully.", { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });

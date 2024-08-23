@@ -337,7 +337,6 @@ export default function Home() {
                 feedbackType={description.messageType}
                 isTouched={description.isTouched}
                 setIsTouched={description.setIsTouched}
-
                 validateHandler={descriptionValidater}
                 reset={description.reset}
                 isRequired={true}

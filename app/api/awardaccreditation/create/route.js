@@ -7,6 +7,7 @@ export const POST = async (request, { params }) => {
       name: requestBody?.title,
       desc: requestBody?.desc,
       time: requestBody?.date,
+      image: requestBody?.image
     });
 
     await createentries.save();

@@ -6,12 +6,20 @@ import useAPI from "@/hooks/useAPI";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import MultipleDropZone from "@/components/drop-zones/MultipleDropZone";
 const View = ({ searchParams }) => {
 
 
     const router = useRouter();
 
     const [name, setname] = useState();
+
+
+
+    const [imageFile, setImageFile] = useState();
+
+    const [filesMultiple, setFileMultiple] = useState([])
 
 
     const [healthbulletinResponse, healthbulletinHandler] = useAPI(
@@ -38,15 +46,24 @@ const View = ({ searchParams }) => {
 
     const submit = () => {
 
-        if (name != "") {
+        if (name == "") {
+            return toast.error("Fill Name field.")
+        } else if (imageFile?.status == "uploaded") {
+            return toast.error("Select image file.")
+        } else if (filesMultiple?.length == 0) {
+            return toast.error("Add PDF file.")
+        }
+
+
+        if (name != "" && imageFile?.status == "uploaded") {
 
             healthbulletinHandler({
                 body: {
-                    name: name
+                    name: name,
+                    backgroundLink: imageFile?.filePath,
+                    broucherLink: filesMultiple ?? []
                 },
             });
-        } else {
-            toast.error("Fill complete form.");
         }
     };
 
@@ -61,6 +78,12 @@ const View = ({ searchParams }) => {
         },
         (e) => {
             setname(e?.name)
+            setImageFile({
+                url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.backgroundLink,
+                status: "uploaded",
+                filepath: e?.backgroundLink
+            })
+            setFileMultiple(e?.broucher_link ?? [])
         },
         (e) => {
 
@@ -71,6 +94,8 @@ const View = ({ searchParams }) => {
             return e
         }
     );
+
+
 
 
     return (
@@ -88,12 +113,22 @@ const View = ({ searchParams }) => {
                 </div>
 
 
+                <div className="col-12">
+                    <h5 className="py-2 small">Add Banner Image</h5>
+                    <SingleImageDropZone file={imageFile} setFile={setImageFile}
+                        disabled={searchParams.type == "view" ? true : false}
+                    />
+                    <h5 className="py-2 small" >Add PDF</h5>
+                    <MultipleDropZone
+                        disabled={searchParams.type == "view" ? true : false}
+                        files={filesMultiple} setFiles={setFileMultiple} />
+                </div>
 
                 <div className="my-3 text-end ">
                     <button
                         className="mx-2 btn btn-outline-dark"
                         onClick={() => {
-                            router.push("/admin");
+                            router.push("/admin/healthbulletin");
                         }}
                         type="button"
                     >

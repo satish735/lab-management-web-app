@@ -4,7 +4,36 @@ import apiRequest from "../../utils/apiRequest";
 import "./blog.css"
 import Banner from "@/components/customdesign/Banner.jsx";
 import Card from "@/components/customdesign/Card.jsx";
+import useAPI from "@/hooks/useAPI";
 const Blog = ({ params: { id } }) => {
+
+
+
+
+    const [blogsResponse, blogsHandler] = useAPI(
+        {
+            url: "/blogs/list",
+            method: "get",
+            sendImmediately: true,
+            params: {
+                // sortColumn: sort?.column,
+                // sortDirection: sort?.direction,
+                // pageNo: pageNo,
+                // pageSize: pageSize,
+                // searchQuery: searchValue,
+            },
+        },
+        (e) => {
+            return e?.data
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting Blogs!",
+                e
+            ));
+            return e
+        }
+    );
 
     const blog = [
         {
@@ -57,7 +86,7 @@ const Blog = ({ params: { id } }) => {
         },
     ]
     return (
-        <div className="my-1" style={{overflow:"hidden"}} >
+        <div className="my-1" style={{ overflow: "hidden" }} >
 
             <Banner
                 heading="Our Blog"
@@ -66,16 +95,16 @@ const Blog = ({ params: { id } }) => {
 
             <div className="row px-3 m-2 mt-2 midbox-inner">
 
-                {blog?.map((item, index) => <div className=" col-md-4 col-sm-6 col-12 my-2" key={index}>
+                {blogsResponse?.data?.map((item, index) => <div className=" col-md-4 col-sm-6 col-12 my-2" key={index}>
 
                     <Card
                         title={item?.title}
                         description={item?.description}
-                        imgsrc="/assets/images/blog1.jpg"
+                        imgsrc={process.env.NEXT_PUBLIC_BUCKET_URL + item?.image}
                         buttontext="Read More"
-                        redirectpath={`/blog/${index}`}
-                        authername={item?.authername}
-                        createddate={item?.createddate}
+                        redirectpath={`/blog/view?id=${item?._id}`}
+                        authername={item?.author}
+                        createddate={item?.createddate ?? ""}
                     />
 
 
