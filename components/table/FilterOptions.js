@@ -1,0 +1,73 @@
+const filterOptions = [
+  { label: "is", code: "$eq", types: ["String", "Number", "Date", "Boolean"] },
+  {
+    label: "is (case sensitive)",
+    code: "$regex",
+    types: ["String"],
+    options: "",
+  },
+  {
+    label: "is not",
+    code: "$ne",
+    types: ["String", "Number", "Date", "Boolean"],
+  },
+  {
+    label: "is not (case sensitive)",
+    code: "$not",
+    subCode: "$regex",
+    types: ["String"],
+    options: "",
+  },
+  { label: "is null", code: "$exists", value: false, types: ["Any"] },
+  { label: "is not null", code: "$exists", value: true, types: ["Any"] },
+  { label: "is greater than", code: "$gt", types: ["Number", "Date"] },
+  {
+    label: "is greater than or equal to",
+    code: "$gte",
+    types: ["Number", "Date"],
+  },
+  { label: "is lower than", code: "$lt", types: ["Number", "Date"] },
+  {
+    label: "is lower than or equal to",
+    code: "$lte",
+    types: ["Number", "Date"],
+  },
+  { label: "contains", code: "$regex", types: ["String"], options: "" },
+  {
+    label: "contains (case sensitive)",
+    code: "$regex",
+    types: ["String"],
+    options: "i",
+  },
+  {
+    label: "does not contain",
+    code: "$not",
+    subCode: "$regex",
+    types: ["String"],
+    options: "",
+  },
+  {
+    label: "does not contain (case sensitive)",
+    code: "$not",
+    subCode: "$regex",
+    types: ["String"],
+    options: "i",
+  },
+  { label: "starts with", code: "$regex", types: ["String"], options: "^" },
+  {
+    label: "starts with (case sensitive)",
+    code: "$regex",
+    types: ["String"],
+    options: "^",
+  },
+  { label: "ends with", code: "$regex", types: ["String"], options: "$" },
+  {
+    label: "ends with (case sensitive)",
+    code: "$regex",
+    types: ["String"],
+    options: "$",
+  },
+  { label: "in", code: "$in", types: ["Array"] },
+  { label: "not in", code: "$nin", types: ["Array"] },
+];
+export default filterOptions;

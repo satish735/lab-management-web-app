@@ -1,0 +1,130 @@
+.card-outer-layer-div {
+  padding: 10px;
+}
+
+.card-description {
+  /* background: linear-gradient(153deg, #1b6b63, #499e4c); */
+  color: #002678;
+  width: 100%;
+  padding: 10px;
+  padding-top: 15px;
+}
+
+.card-heading-test {
+  font-size: 18px;
+  color: #002678;
+  font-weight: 600;
+  /* color: #21cdad; */
+}
+
+.card-button {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: linear-gradient(153deg, #e9f7f6, #f1f4fa);
+  color: #002678;
+  border: 2px solid #002678;
+}
+.card-button-2 {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #002678;
+  color: white;
+  border: 2px solid #002678;
+}
+.main-tests-card-box {
+  padding: 20px 15px;
+  border: 1px solid gray;
+  /* border-radius: 7px; */
+  border-radius: 12px;
+  border: 1px solid #dee2db;
+  background: #f1f6ee;
+  /* margin: 0 0 0 20px; */
+}
+.main-tests-card-box .body-tests-icon {
+  position: relative;
+  z-index: 1;
+  height: 110px;
+  display: flex;
+  align-items: center;
+}
+.main-tests-card-box .body-tests-icon:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/assets/images/condition-card-bg.png') no-repeat;
+  background-size: 100%;
+  background-position: top;
+  z-index: -1;
+}
+.main-tests-card-box .body-tests-icon img {
+  width: auto !important;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.main-tests-card-text {
+  color: #4b4b59;
+  margin-top: 10px;
+  font-size: 18px;
+  text-align: center;
+  height: 20px;
+}
+
+.dicount-off-percentage {
+  font-size: 14px;
+  font-weight: 600;
+  color: #002678;
+  padding: 6px 16px;
+  margin: 10px 0 0;
+  border-radius: 8px;
+  border: 1px solid #002678;
+  background: hsla(0, 0%, 100%, 0.1);
+  /* background: linear-gradient(153deg, #002678, #6a68f6); */
+  /* background: linear-gradient(263deg, #46bb00 5.26%, #3b9d00 104.79%); */
+
+  width: max-content;
+}
+
+.card-button:hover {
+  transition: all 0.1s linear;
+  font-size: 15px;
+  padding: 5px 10px;
+  background-color: #21cdad;
+  color: white;
+  border-color: transparent;
+}
+.card-button-2:hover {
+  transition: all 0.1s linear;
+  font-size: 15px;
+  padding: 5px 10px;
+  background-color: #21cdad;
+  color: white;
+  border-color: transparent;
+}
+.card-button-view-all {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #21cdad;
+  color: white;
+  border: 2px solid #21cdad;
+}
+.card-button-view-all:hover {
+  transition: all 0.1s linear;
+  font-size: 15px;
+  padding: 5px 10px;
+  background-color: #002678;
+  color: white;
+  border-color: transparent;
+}
+.main-card-border:hover {
+}
+/* .background-hover :hover {
+    background-color: #21cdad53;
+
+} */

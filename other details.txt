@@ -1,0 +1,45 @@
+s3
+endolab-webdata
+last acl removed
+policy 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectAcl"
+            ],
+            "Resource": "arn:aws:s3:::endolab-webdata/public/*"
+        }
+    ]
+}
+
+
+cors
+
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "PUT",
+            "POST",
+            "DELETE"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [],
+        "MaxAgeSeconds": 9000
+    }
+]
+
+
+lifecycle polity 
+expirey in 2 days with Type tag with value Temporary

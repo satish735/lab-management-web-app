@@ -1,0 +1,44 @@
+.login-form-inner .main-heading {
+  color: #000;
+  font-size: 32px;
+  margin: 20px 0;
+  margin-bottom: 8px;
+  padding: 0;
+  font-family: "Inter" Medium;
+}
+.login-form-inner .secondary-heading {
+  color: #97979a;
+  font-size: 15px;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.resend-otp {
+  color: var(--grey, #636363);
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.resend-otp span {
+  color: #68b92e;
+}
+
+.login-input-label {
+  font-size: 14px;
+  color: #3f464f;
+  margin-bottom: 5px;
+  padding-left: 2px;
+  font-family: "Inter" Medium;
+}
+.login-input {
+  height: 3rem;
+}
+.otp-boxes-form input {
+  width: 3rem !important;
+  height: 3rem;
+  margin: 0 .5rem;
+  font-size: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, .3);
+}

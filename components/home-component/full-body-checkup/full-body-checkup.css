@@ -1,0 +1,120 @@
+.heading-text-home {
+  color: #002678;
+  font-size: 35px;
+  margin: 0;
+  padding-top: 10px;
+  font-weight: 500;
+  /* font-family: Inter Medium; */
+}
+
+.view-all-main-button {
+  font-size: 16px;
+  color: "white";
+  font-weight: 500;
+}
+
+.offer-main-div {
+  /* background: linear-gradient(rgb(1, 7, 63), rgb(0, 78, 146)); */
+  /* background: linear-gradient(153deg, #034b44, #499e4c); */
+  /* position: relative; */
+  background: white;
+  margin: 0;
+  padding: 10px 0;
+  border-radius: 16px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.offer-heading-text {
+  color: #fff;
+  font-size: 38px;
+  font-family: Inter Semi Bold;
+  padding: 10px 0;
+  margin: 0;
+  position: relative;
+}
+
+.discount-code-coupen {
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: #fff;
+  font-size: 20px;
+  font-family: Inter Medium;
+  border: 1px solid hsla(0, 0%, 100%, 0.16);
+  background: hsla(0, 0%, 100%, 0.21);
+}
+
+.heading-text-youtube-section {
+  color: #002678;
+  font-size: 30px;
+  font-family: Inter Medium;
+  font-weight: 600;
+  padding: 0 0 10px;
+  margin: 0;
+}
+
+.inner-text-youtube-section {
+  color: #828599;
+  font-size: 14px;
+
+  padding: 0 0 15px;
+  margin: 0;
+}
+
+.active-health-blog {
+  display: block;
+  /* position: relative; */
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #dafe94;
+  background: #004039;
+  padding: 12px 25px;
+  width: max-content;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 18px;
+}
+
+.in-active-health-blog {
+  display: block;
+  /* position: relative; */
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #000;
+  padding: 12px 25px;
+  width: max-content;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 18px;
+}
+
+.health-blog-time-span {
+  color: #48b705;
+  font-size: 12px;
+  padding: 4px 12px 4px 13px;
+  width: max-content;
+  margin-left: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(70, 187, 0, 0.17);
+  background: rgba(93, 243, 6, 0.1);
+}
+
+.health-blog-box {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  box-shadow: 0 4px 13.3px -9px rgba(0, 0, 0, 0.25);
+  margin: 0;
+  padding: 0 0 20px;
+  position: relative;
+}
+
+.full-body-checkup-section {
+  /* background: linear-gradient(  #ffffff, #ced2d2, #ffffff); */
+}

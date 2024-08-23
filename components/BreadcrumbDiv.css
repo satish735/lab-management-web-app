@@ -1,0 +1,24 @@
+.breadcrumb-main > div {
+  margin: 4px 0 !important;
+  padding: 8px 8px;
+  background: #edeff0;
+  border-radius: 4px;
+}
+.breadcrumb-item {
+  color: #7d8083bf;
+  text-decoration: none;
+  font-weight: 500 !important;
+}
+.breadcrumb-item.active {
+  color: #21cdad !important;
+}
+.breadcrumb-item.is-disabled {
+  color: #7d8083bf !important;
+}
+.breadcrumb-item:hover {
+  color: #21cdad;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "\00bb" !important;
+}

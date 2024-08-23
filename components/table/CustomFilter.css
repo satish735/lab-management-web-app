@@ -1,0 +1,172 @@
+.filter-button {
+  z-index: 1;
+  position: relative;
+  padding-left: 30px !important;
+  font-size: 0.75rem;
+  line-height: 1.33;
+  font-weight: 600;
+  height: 2rem;
+  border: 1px solid #002678;
+  background: #002678;
+  border-radius: 4px !important;
+  padding: 8px 16px;
+  color: white;
+}
+.filter-button::before {
+  height: 0.75rem;
+  width: 0.75rem;
+  background: url(/assets/icons/custom-tables/FilterIcon.svg) no-repeat;
+  background-size: cover;
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 10px;
+  z-index: -1;
+}
+.filter-button:active,
+.filter-button:focus,
+.filter-button:hover,
+.filter-button.active {
+  color: white !important;
+  background-color: #21cdad !important;
+  border-color: #21cdad !important;
+}
+.filter-button:focus-visible {
+  color: white;
+  background-color: #21cdad;
+  border-color: #21cdad;
+  outline: 0;
+  box-shadow: #21cdad;
+}
+
+.filter-search {
+  color: #002678;
+  height: 2.4rem;
+  border: 1px solid #d6d6d6;
+  line-height: 1.33;
+  font-weight: 400;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.filter-search-div {
+  position: relative;
+  min-width: 200px;
+}
+.filter-search-div .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.filter-search-div .clear-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.filter-button-setting {
+  z-index: 1;
+  position: relative;
+  font-size: 0.75rem;
+  line-height: 1.33;
+  font-weight: 600;
+  height: 2.4rem;
+  width: 2.4rem;
+  border: 1px solid #002678;
+  background: #002678;
+  border-radius: 4px !important;
+  padding: 8px 16px;
+  color: white;
+}
+.filter-button-setting::before {
+  height: 0.9rem;
+  width: 0.9rem;
+  background: url(/assets/icons/custom-tables/SettingIcon.svg) no-repeat;
+  background-size: cover;
+  content: "";
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+}
+.filter-button-setting:active,
+.filter-button-setting:focus,
+.filter-button-setting:hover,
+.filter-button-setting.active {
+  color: white !important;
+  background-color: #21cdad !important;
+  border-color: #21cdad !important;
+}
+.filter-button-setting:focus-visible {
+  color: white;
+  background-color: #21cdad;
+  border-color: #21cdad;
+  outline: 0;
+  box-shadow: #21cdad;
+}
+
+.view-options .displayed-fields {
+  user-select: none;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  color: rgb(165, 165, 186);
+}
+.view-options .reset {
+  user-select: none;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  color: #00265c;
+  cursor: pointer;
+}
+.view-options .dropdown-menu:focus-visible {
+  box-shadow: rgba(33, 33, 52, 0.1) 0px 1px 4px;
+  border-color: rgba(33, 33, 52, 0.1);
+}
+.view-options .dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
+  --bs-dropdown-padding-y: 8px;
+  --bs-dropdown-padding-x: 8px;
+  --bs-dropdown-min-width: 12em;
+  box-shadow: rgba(33, 33, 52, 0.1) 0px 1px 4px;
+  border-color: rgba(33, 33, 52, 0.1);
+  margin-top: 4px !important;
+}
+.view-options .check-box-option {
+  user-select: none;
+  color: #00265c;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  border-radius: 4px;
+  margin: 2px 0;
+  padding: 8px 8px 8px 30px;
+  cursor: pointer;
+}
+.view-options .check-box-option label {
+  cursor: pointer;
+}
+.view-options .check-box-option:hover {
+  user-select: none;
+  color: #00265c;
+  font-weight: bold;
+  background: rgba(33, 33, 52, 0.05);
+}
+.view-options .form-check-input:checked {
+  background-color: #00265c;
+  border-color: #00265c;
+}
+.view-options .form-check-input {
+  margin-top: 0.12em;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.view-options .form-check-input[type="checkbox"] {
+  border-radius: 4px;
+}

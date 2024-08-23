@@ -1,0 +1,160 @@
+.multilevel-dropdown .parent {
+  display: block;
+  position: relative;
+  float: left;
+}
+
+.multilevel-dropdown .parent > ul {
+  transition: all 0.5s ease;
+  transform: translateY(10px);
+}
+.multilevel-dropdown .parent:hover > ul {
+  display: block;
+  position: absolute;
+  transform: translateY(0px);
+}
+
+.multilevel-dropdown .child {
+  display: none;
+}
+
+.multilevel-dropdown .child li {
+  width: 100%;
+}
+
+.multilevel-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0px;
+  min-width: 12em;
+}
+
+.multilevel-dropdown ul ul ul {
+  left: 100%;
+  top: 0;
+  margin-left: 1px;
+}
+
+.multilevel-dropdown .expand {
+  font-size: 12px;
+  float: right;
+  margin-right: 20px;
+}
+
+/* My css */
+
+.multilevel-dropdown .main-parent::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: #21cdad;
+  transition: 0.4s ease;
+}
+.multilevel-dropdown .main-parent > a {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: capitalize;
+  display: block;
+  position: relative;
+  color: #002678;
+  line-height: 80px;
+  letter-spacing: 0.4px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.multilevel-dropdown .main-parent:hover > a {
+  color: #21cdad;
+}
+
+.multilevel-dropdown .main-parent:hover::before {
+  width: 100%;
+}
+
+.multilevel-dropdown .main-parent ul {
+  background-color: white;
+  box-shadow: 0px 5px 83px 0px rgba(13, 14, 67, 0.12);
+  width: auto;
+  min-width: 235px;
+  padding: 25px 0 25px;
+  border-radius: 4px;
+  /* padding: 10px; */
+}
+
+.multilevel-dropdown .menu-item {
+  padding: 0 30px;
+}
+.multilevel-dropdown .menu-item > a {
+  cursor: pointer;
+  white-space: nowrap;
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #828599;
+  text-transform: capitalize;
+  font-weight: 400;
+  line-height: 25px;
+  position: relative;
+  padding-right: 0;
+  border-bottom: 1px solid #dfdfea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.multilevel-dropdown .menu-item > a:hover {
+  color: #21cdad;
+}
+.multilevel-dropdown .menu-item > a::before {
+  content: "";
+  position: absolute;
+  top: auto;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #21cdad;
+  transition: 0.5s ease;
+}
+.multilevel-dropdown .menu-item > a:hover::before {
+  width: 100%;
+}
+
+.multilevel-dropdown .sub-menu {
+  padding: 0 30px;
+}
+.multilevel-dropdown .sub-menu > a {
+  cursor: pointer;
+  white-space: nowrap;
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #828599;
+  text-transform: capitalize;
+  font-weight: 400;
+  line-height: 25px;
+  position: relative;
+  padding-right: 0;
+  border-bottom: 1px solid #dfdfea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.multilevel-dropdown .sub-menu > a:hover {
+  color: #21cdad;
+}
+.multilevel-dropdown .sub-menu > a::before {
+  content: "";
+  position: absolute;
+  top: auto;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #21cdad;
+  transition: 0.5s ease;
+}
+.multilevel-dropdown .sub-menu > a:hover::before {
+  width: 100%;
+}

@@ -1,0 +1,43 @@
+.cross_button {
+    background-color: #002678;
+    padding: 1px 7px;
+    border-radius: 50%;
+    color: white;
+    font-size: small;
+}
+
+.cross_button:hover {
+    background-color: #21cdad;
+}
+
+.custom_css {
+    color: #002678;
+    font-weight: 700;
+}
+
+.btn_apply_coupon {
+    background-color: #002678;
+    color: white;
+    font-weight: 600;
+}
+
+.btn_apply_coupon:hover {
+    background-color: #21cdad;
+    color: white;
+    font-weight: 700;
+}
+
+
+
+.btn_checkout {
+    background-color: #21cdad;
+    color: white;
+    font-weight: 600;
+    padding: 18px 30px;
+}
+
+.btn_checkout:hover {
+    background-color: #002678;
+    color: white;
+    font-weight: 600;
+}

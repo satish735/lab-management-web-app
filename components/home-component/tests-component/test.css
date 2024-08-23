@@ -1,0 +1,27 @@
+/* Mobile Devices (Portrait) */
+@media only screen and (max-width: 480px) {
+    .test_faq {
+        width: 100%;
+    }
+}
+
+/* Mobile Devices (Landscape) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .test_faq {
+        width: 100%;
+    }
+}
+
+/* Tablets (Portrait and Landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .test_faq {
+        width: 80%;
+    }
+}
+
+/* Desktops and larger devices */
+@media only screen and (min-width: 1025px) {
+    .test_faq {
+        width: 80%;
+    }
+}
