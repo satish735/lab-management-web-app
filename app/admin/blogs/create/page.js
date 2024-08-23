@@ -3,18 +3,15 @@
 import { useState } from "react";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import useInputComponent from "@/hooks/useInputComponent";
 import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
-import InputTextArea from "@/components/formInput/InputTextArea";
+// import TextEditor from "@/components/text-editor/TextEditor";
 import moment from "moment";
 import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 export default function Home() {
   const router = useRouter();
   const titleInput = useInputComponent();
@@ -28,33 +25,6 @@ export default function Home() {
     titleInput.setMessageType("none");
     return true;
   };
-
-
-  const [content, setContent] = useState('');
-
-
-  const [imageFile, setImageFile] = useState();
-
-  const descriptionInput = useInputComponent();
-  const descriptionInputValidater = (value) => {
-    if (!value || value == "") {
-      descriptionInput.setFeedbackMessage("Blog Description cannot be empty!");
-      descriptionInput.setMessageType("error");
-      return false;
-    }
-    descriptionInput.setFeedbackMessage(null);
-    descriptionInput.setMessageType("none");
-    return true;
-  };
-
-  const handleChange = (event, editor) => {
-    const data = editor.getData();
-    setContent(data);
-  };
-
-
-
-
   const [selectedTags, setSelectedTags] = useState([]);
   const [blogDescription, setBlogDescription] = useState("");
   const [publish, setPublish] = useState(false);
@@ -79,35 +49,28 @@ export default function Home() {
   const createBlogSubmitHandler = async (isPublish = false) => {
     setPublish(isPublish);
     var titleIsValid = titleInputValidater(titleInput?.enteredValue);
-    var isdescription = descriptionInputValidater(descriptionInput?.enteredValue);
-    if (!titleIsValid || !isdescription) {
+    if (!titleIsValid) {
       toast.error("Please check all validations before continuing!");
       return;
     }
     var submitBody = {
       title: titleInput?.enteredValue,
       author: "Test Author",
-      description: descriptionInput?.enteredValue,
+      description: blogDescription,
+      category_id: 1,
+      image: "https://picsum.photos/500/200",
       is_home: selectedTags.some((item) => item?.value == "is_home"),
       trending: selectedTags.some((item) => item?.value == "trending"),
-      isPopular: selectedTags.some((item) => item?.value == "is_popular"),
-      image: imageFile?.filePath,
-      ckdescription: content
+      is_popular: selectedTags.some((item) => item?.value == "is_popular"),
+      metaTitle: "",
+      metaDescription: "",
+      keywords: [],
+      published_at: isPublish ? moment().toString() : null,
     };
     await blogSubmitHandler({ body: submitBody });
   };
-
-
-
-
-
   return (
     <div>
-
-
-
-
-
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
@@ -121,36 +84,8 @@ export default function Home() {
           Share your insights and updates with our everyone..
         </p>
         <form>
-          <div className="col-12 text-end my-3">
-            <button
-              disabled={blogSubmitResponse?.fetching}
-              className="btn  btn-outline-dark px-5 me-2"
-              onClick={createBlogSubmitHandler}
-              type="button"
-            >
-              {blogSubmitResponse?.fetching && !publish ? (
-                <Spinner size={"sm"} />
-              ) : (
-                "Save"
-              )}
-            </button>
-            <button
-              disabled={blogSubmitResponse?.fetching}
-              className="btn btn-success px-5"
-              onClick={() => {
-                createBlogSubmitHandler(true);
-              }}
-              type="button"
-            >
-              {blogSubmitResponse?.fetching && publish ? (
-                <Spinner size={"sm"} />
-              ) : (
-                "Publish"
-              )}
-            </button>
-          </div>
           <div className="row mt-2">
-            <div className=" col-md-6 col-12">
+            <div className="col-12">
               <InputWithAddOn
                 label="Blog Title"
                 isRequired={true}
@@ -180,34 +115,40 @@ export default function Home() {
                 feedbackType={"info"}
               />
             </div>
-            <div>
-              <InputTextArea
-                label="Description"
-                isRequired={true}
-                value={descriptionInput.enteredValue}
-                setValue={descriptionInput.setEnteredValue}
-                feedbackMessage={descriptionInput.feedbackMessage}
-                feedbackType={descriptionInput.messageType}
-                isTouched={descriptionInput.isTouched}
-                setIsTouched={descriptionInput.setIsTouched}
-                validateHandler={descriptionInputValidater}
-              />
+            <div className="col-12">
+              {/* <TextEditor
+                content={blogDescription}
+                setContent={setBlogDescription}
+              /> */}
             </div>
-
-            <div className="py-3" >
-              <h6 className="py-1 small" >Add Banner Image</h6>
-              <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+            <div className="col-12 text-end my-3">
+              <button
+                disabled={blogSubmitResponse?.fetching}
+                className="btn  btn-outline-dark px-5 me-2"
+                onClick={createBlogSubmitHandler}
+                type="button"
+              >
+                {blogSubmitResponse?.fetching && !publish ? (
+                  <Spinner size={"sm"} />
+                ) : (
+                  "Save"
+                )}
+              </button>
+              <button
+                disabled={blogSubmitResponse?.fetching}
+                className="btn btn-success px-5"
+                onClick={() => {
+                  createBlogSubmitHandler(true);
+                }}
+                type="button"
+              >
+                {blogSubmitResponse?.fetching && publish ? (
+                  <Spinner size={"sm"} />
+                ) : (
+                  "Publish"
+                )}
+              </button>
             </div>
-
-            <div style={{ height: "400px" }} >
-              <CKEditor
-                editor={ClassicEditor}
-                data={content}
-                onChange={handleChange}
-              />
-
-            </div>
-
           </div>
         </form>
       </div>

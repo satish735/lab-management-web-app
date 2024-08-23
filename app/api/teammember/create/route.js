@@ -13,7 +13,6 @@ export const POST = async (request, { params }) => {
             qualificationDescription: requestBody?.qualificationDescription,
             type: requestBody?.type,
             experience: requestBody?.experience,
-            image: requestBody?.image ?? ""
         });
 
 

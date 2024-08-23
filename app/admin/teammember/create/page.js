@@ -13,7 +13,7 @@ import {
 import useInputComponent from "@/hooks/useInputComponent";
 import uuid from "react-uuid";
 import { toast } from "react-hot-toast";
-import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+
 export default function Home() {
 
 
@@ -24,7 +24,7 @@ export default function Home() {
     },
     (e) => {
       toast.success("Team Member created successfully");
-
+  
 
       FirstNameInput.reset();
       post.reset();
@@ -38,17 +38,12 @@ export default function Home() {
       setGenderType();
     },
     (e) => {
-
+     
       toast?.error("Something went wrong while creating Test Case!")
 
       return e;
     }
   );
-
-
-  const [imageFile, setImageFile] = useState();
-
-
 
   const submit = () => {
 
@@ -81,7 +76,7 @@ export default function Home() {
       !isJoinedDateValidater ||
       !isEmailValidater ||
       !isDegreeSelectValidater ||
-      !istypeSelectValidater 
+      !istypeSelectValidater
     ) {
       toast.error("Fill complete form.");
       return;
@@ -97,8 +92,7 @@ export default function Home() {
           joined_date: JoinedDate.enteredValue ?? "",
           qualification: Degree ?? "",
           type: type ?? "",
-          gender: GenderType ?? "",
-          image: imageFile?.filePath ?? ""
+          gender: GenderType ?? ""
         },
       });
 
@@ -422,11 +416,6 @@ export default function Home() {
             reset={DescriptionInput.reset}
             isRequired={true}
           />
-        </div>
-
-        <div className="col-12">
-          <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-
         </div>
 
 

@@ -1,21 +1,21 @@
-import Blog from "@/model2/Blog";
+import blog from "@/models/blog";
 export const POST = async (request, { params }) => {
   try {
     const requestBody = await request.json();
- 
-    const BlogNew = new Blog({
+    const BlogNew = new blog({
       title: requestBody?.title || "",
       author: requestBody?.author || "",
       description: requestBody?.description || "",
+      category_id: requestBody?.category_id,
+      image: requestBody?.image || "",
       is_home: requestBody?.is_home ?? false,
+      metaTitle: requestBody?.metaTitle || "",
+      metaDescription: requestBody?.metaDescription || "",
+      keywords: requestBody?.keywords ?? [],
       trending: requestBody?.trending ?? false,
+      is_popular: requestBody?.is_popular ?? false,
       published_at: requestBody?.published_at ?? null,
-      image: requestBody?.image ?? null,
-      ckdescription: requestBody?.ckdescription ?? null
-
     });
-
-    console.log("requestBody", BlogNew)
     await BlogNew.save();
     return new Response(BlogNew, { status: 200 });
   } catch (error) {

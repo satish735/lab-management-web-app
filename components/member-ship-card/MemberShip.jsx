@@ -1,38 +1,8 @@
-
-"use client";
 import React from 'react'
 import Banner from '../customdesign/Banner'
 import MemberShipCard from '../customdesign/MemberShipCard'
-import useAPI from "@/hooks/useAPI";
+
 const MemberShip = () => {
-
-    const [MemberShipResponse, MemberShipHandler] = useAPI(
-        {
-            url: "/membership/lists",
-            method: "get",
-            sendImmediately: true,
-            params: {
-                // sortColumn: sort?.column,
-                // sortDirection: sort?.direction,
-                // pageNo: pageNo,
-                // pageSize: pageSize,
-                // searchQuery: searchValue,
-            },
-        },
-        (e) => {
-            return e?.data
-        },
-        (e) => {
-            toast.error(transformErrorDefault(
-                "Something went wrong while Getting memberships!",
-                e
-            ));
-            return e
-        }
-    );
-    console.log("MemberShipResponse", MemberShipResponse)
-
-
     return (
         <div>
 
@@ -59,14 +29,9 @@ const MemberShip = () => {
             </div> */}
 
             <div className='row mb-5 px-3 m-2 mt-2 midbox-inner' >
-                {(MemberShipResponse?.data ?? []).map((item, index) => {
+                {(array ?? []).map((item, index) => {
                     return <div className=" col-md-4 col-sm-6 col-12 my-2" key={index}>
-                        <MemberShipCard
-                            card_name={item.name}
-                            imgsrc={process.env.NEXT_PUBLIC_BUCKET_URL + item?.banner}
-                            description={item.description}
-                            validity={item.validity}
-                            price={item.price} />
+                        <MemberShipCard card_name={item.card_name} imgsrc={item.image} description={item.description} validity={item.validity} price={item.price} />
                     </div>
                 })
 

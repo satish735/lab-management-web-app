@@ -17,7 +17,7 @@ const Card = ({
         <div className="bg-white rounded shadow card_view  p-2" style={{height:"100%"}} >
 
             {imgsrc && <a style={{ display: "block", textDecoration: "none", marginBottom: "8px", paddingTop: "10px" }} href={redirectpath ? `${redirectpath}` : "#"} className="blog_image">
-                <img className="img rounded" src={imgsrc ?? "/assets/images/blog1.jpg"} alt="post image" loading="lazy" />
+                <img className="img rounded" src="/assets/images/blog1.jpg" alt="post image" loading="lazy" />
             </a>}
 
             {minimgsrc && <a className="px-2" style={{ display: "block", textDecoration: "none" }} href={redirectpath ? `${redirectpath}` : "#"} >

@@ -14,11 +14,11 @@ const MembersCard = ({ data }) => {
             </div>
 
             <img
-                src={process.env.NEXT_PUBLIC_BUCKET_URL + data?.image}
+                src={'/assets/images/temp/img3.jpg'}
                 alt=""
                 className="scientific-team-image"
                 style={{
-                    height: "290px",
+                    height: "230px",
                     width: "100%",
                     border: "none",
                     borderRadius: "12px 12px 0 0 ",

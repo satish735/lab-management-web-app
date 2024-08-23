@@ -5,17 +5,10 @@ import { useState } from "react";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 const Create = ({ searchParams }) => {
 
 
     const router = useRouter();
-
-
-    const [imageFile, setImageFile] = useState({
-        url: "",
-        status: "original",
-    });
 
     const [awardaccreditationResponse, awardaccreditationHandler] = useAPI(
         {
@@ -53,8 +46,7 @@ const Create = ({ searchParams }) => {
                 body: {
                     title: title,
                     desc: descs,
-                    date: date,
-                    image: imageFile?.url
+                    date: date
                 },
             });
         } else {
@@ -94,13 +86,6 @@ const Create = ({ searchParams }) => {
                             setValue={setdate}
                             type="date"
                         />
-                    </div>
-
-
-
-                    <div className="col-12">
-                        <h5 className="py-2 small">Add Image</h5>
-                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
                     </div>
 
                     <div className="my-3 text-end">

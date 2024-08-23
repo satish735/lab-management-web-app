@@ -64,7 +64,7 @@ export default function Home() {
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Package Category", link: "/admin/Package-Category" },
+          { label: "Package Category", link: "/admin/package-category" },
           { label: "Create", active: true },
         ]}
       />
@@ -75,7 +75,7 @@ export default function Home() {
           <div className="row mt-2">
             <div className="col-12">
               <InputWithAddOn
-                label="Blog Title"
+                label="Add Category"
                 isRequired={true}
                 value={nameInput.enteredValue}
                 setValue={nameInput.setEnteredValue}

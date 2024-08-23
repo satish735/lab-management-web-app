@@ -19,14 +19,14 @@ const ViewFaq = ({ searchParams }) => {
             method: "PUT",
         },
         (e) => {
- 
+            console.log("jjjjjjjjjjjjj")
             setquestions();
             setanswers();
             toast.success("FAQ update successfully");
 
         },
         (e) => {
-    
+            console.log("jkkkkkkkkkkkkkkk")
             toast.error(
                 transformErrorDefault(
                     "Something went wrong while creating FAQ!",

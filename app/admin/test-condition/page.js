@@ -7,7 +7,7 @@ import PreviewFilters from "@/components/table/PreviewFilters";
 import { useState, useEffect } from "react";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { Badge } from "reactstrap";
@@ -43,7 +43,7 @@ export default function Home() {
   const [selectedViewOptions, setSelectedViewOptions] = useState([
     "action",
     "name"
-    
+
   ]);
   const changePageAndRows = (page, rows) => {
     testconditionHandler({
@@ -91,7 +91,7 @@ export default function Home() {
       setTotalRows(e?.total);
     },
     (e) => {
-      toast.error( transformErrorDefault(
+      toast.error(transformErrorDefault(
         "Something went wrong while Getting test condition!",
         e
       ));
@@ -109,14 +109,16 @@ export default function Home() {
               Icon={Eye}
               name="View"
               onClick={() => {
-                router.push(`/admin/test-condition/${row?._id}`);
+                router.push(`/admin/test-condition/view?id=${row?._id}&type=view`);
               }}
             />
+
+
             <ActionOption
               Icon={Pencil}
               name="Edit"
               onClick={() => {
-                router.push(`/admin/test-condition/${row?._id}/edit`);
+                router.push(`/admin/test-condition/view?id=${row?._id}&type=edit`);
               }}
             />
           </>
@@ -138,9 +140,9 @@ export default function Home() {
       isSelectRequired: true,
       hasTooltip: true,
       className: "mnw-12",
-    } 
+    }
 
-     ,
+    ,
     {
       label: "Created At",
       value: (row) => {
