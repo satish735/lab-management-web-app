@@ -1,10 +1,11 @@
-import blog from "@/models/blog";
+import BodyPart from "@/model2/BodyPart";
+ 
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
-    const Blog =await blog
+    const BodyParts =await BodyPart
       .findById(id);
-    return new Response(Blog, { status: 200 });
+    return new Response(JSON.stringify(BodyParts), { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
@@ -14,17 +15,17 @@ export const PATCH = async (request, { params }) => {
   try {
     const toUpdateBody = await request.json();
     const { id = null } = params;
-    const existingBlog = await blog.findById(id);
-    if (!existingBlog) {
-      return new Response("No Blog found with given id!", { status: 404 });
+    const existingBodyPart = await BodyPart.findById(id);
+    if (!existingBodyPart) {
+      return new Response("No Body Part found with given id!", { status: 404 });
     }
     for (const key in toUpdateBody) {
-      if (key in existingBlog) {
-        existingBlog[key] = toUpdateBody[key];
+      if (key in existingBodyPart) {
+        existingBodyPart[key] = toUpdateBody[key];
       }
     }
-    await existingBlog.save();
-    return new Response(existingBlog, { status: 200 });
+    await existingBodyPart.save();
+    return new Response(JSON.stringify(existingBodyPart), { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
@@ -33,8 +34,8 @@ export const PATCH = async (request, { params }) => {
 export const DELETE = async (request, { params }) => {
   try {
     const { id = null} = params;
-    await blog.findByIdAndDelete(id);
-    return new Response("Blog deleted successfully.", { status: 200 });
+    await BodyPart.findByIdAndDelete(id);
+    return new Response("Body Part deleted successfully.", { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
