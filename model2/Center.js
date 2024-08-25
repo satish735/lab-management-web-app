@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const CenterSchema = new Schema({
   centreId: { type: Number, required: true, unique: true },
   centre: { type: String, required: true, unique: true },
-  centreNameInApp: { type: String, required: true },
+  centreNameInApp: { type: String, required: true },//to be removed 
   address: { type: String, required: true },
   address2: { type: String },
   contact: { type: String, required: true },
@@ -19,6 +19,8 @@ const CenterSchema = new Schema({
   is_delete: { type: Boolean, default: false },
   slug: { type: String, unique: true },
   publishedAt: { type: Date, default: null },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
 });
 
 CenterSchema.pre("save", function (next) {

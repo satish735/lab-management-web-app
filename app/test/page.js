@@ -1,84 +1,69 @@
 import MenuItems from "@/components/multilevel-dropdown/MenuItems";
 import MultiLevelDropDown from "@/components/multilevel-dropdown/MultiLevelDropDown";
-// import "@/components/multilevel-dropdown/CustomDropdown.css";
-const menuItems = [
-  {
-    type: "parent",
-    label: "Parent menu 1",
-    menu: [{ label: "Menu Item 4", href: "#" }],
-  },
-  {
-    type: "parent",
-    label: "Parent menu 2",
-    menu: [{ label: "Menu Item 4", href: "#" }],
-  },
-  {
-    type: "parent",
-    label: "Parent menu 3",
-    menu: [{ label: "Menu Item 4", href: "#" }],
-  },
-  {
-    type: "parent",
-    label: "Parent menu 4",
-    menu: [{ label: "Menu Item 4", href: "#" }],
-  },
-  {
-    type: "parent",
-    label: "Parent menu 5",
-    menu: [{ label: "Menu Item 4", href: "#" }],
-  },
-  {
-    type: "parent",
-    label: "Parent menu 6",
-    menu: [{ label: "Menu Item 4", href: "#" }],
-  },
-  {
-    type: "parent",
-    label: "Parent menu 7",
-    menu: [
-      { label: "Menu Item 1 ", href: "#" },
-      { label: "Menu Item 2", href: "#" },
-      { label: "Menu Item 3", href: "#" },
-      { label: "Menu Item 4", href: "#" },
-      {
-        label: "Sub Menu 1",
-        href: "#",
-        type: "sub-menu",
-        menu: [
-          { label: "Menu Item 5", href: "#" },
-          { label: "Menu Item 6", href: "#" },
-          { label: "Menu Item 7", href: "#" },
-          { label: "Menu Item 8", href: "#" },
-        ],
-      },
-      {
-        label: "Sub Menu 2",
-        href: "#",
-        type: "sub-menu",
-        menu: [
-          { label: "Menu Item 9", href: "#" },
-          { label: "Menu Item 10", href: "#" },
-          { label: "Menu Item 11", href: "#" },
-          {
-            label: "Sub menu 3",
-            href: "#",
-            type: "sub-menu",
-            menu: [
-              { label: "Menu Item 9", href: "#" },
-              { label: "Menu Item 10", href: "#" },
-              { label: "Menu Item 11", href: "#" },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+import UpcomingSlots from "@/components/slots/UpcomingSlots";
 
 export default function Test() {
+  const slotData = [
+    {
+      _id: "64e0c3e4c9d3e7000a0b8d1b",
+      date: "2024-08-25T00:00:00.000Z",
+      centerId: "64e0c3e4c9d3e7000a0b8d1a",
+      status: "active",
+      slotTimes: [
+        {
+          _id: "64e0c3e4c9d3e7000a0b8d28",
+          slotStartTime: "08:00 AM",
+          status: "active",
+          timeInterval: 60,
+          createdAt: "2024-08-25T08:00:00.000Z",
+          updatedAt: "2024-08-25T08:00:00.000Z",
+        },
+        {
+          _id: "64e0c3e4c9d3e7000a0b8d29",
+          slotStartTime: "10:00 AM",
+          status: "active",
+          timeInterval: 60,
+          createdAt: "2024-08-25T08:00:00.000Z",
+          updatedAt: "2024-08-25T08:00:00.000Z",
+        },
+        // More slotTimes can be added here
+      ],
+      createdAt: "2024-08-25T08:00:00.000Z",
+      updatedAt: "2024-08-25T08:00:00.000Z",
+    },
+    {
+      _id: "64e0c3e4c9d3e7000a0b8d1c",
+      date: "2024-08-26T00:00:00.000Z",
+      centerId: "64e0c3e4c9d3e7000a0b8d1a",
+      status: "active",
+      slotTimes: [
+        {
+          _id: "64e0c3e4c9d3e7000a0b8d2a",
+          slotStartTime: "08:00 AM",
+          status: "active",
+          timeInterval: 60,
+          createdAt: "2024-08-26T08:00:00.000Z",
+          updatedAt: "2024-08-26T08:00:00.000Z",
+        },
+        {
+          _id: "64e0c3e4c9d3e7000a0b8d2b",
+          slotStartTime: "10:00 AM",
+          status: "active",
+          timeInterval: 60,
+          createdAt: "2024-08-26T08:00:00.000Z",
+          updatedAt: "2024-08-26T08:00:00.000Z",
+        },
+        // More slotTimes can be added here
+      ],
+      createdAt: "2024-08-26T08:00:00.000Z",
+      updatedAt: "2024-08-26T08:00:00.000Z",
+    },
+    // More SlotDates can be added here
+  ];
+
   return (
     <div>
-      <MultiLevelDropDown data={menuItems} />
+      <UpcomingSlots slotData={slotData} />
     </div>
   );
 }
