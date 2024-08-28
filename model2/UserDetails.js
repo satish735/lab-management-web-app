@@ -5,8 +5,8 @@ const { Schema } = mongoose;
 const UserDetailsSchema = new Schema({
   contactPhone: { type: String },
   name: { type: String, required: true },
-  email: { type: String, unique: true },//to be discuss unique ness
-  gender: { type: String, enum: ['male', 'female', 'other'] },
+  email: { type: String },//to be discuss unique ness
+  gender: { type: String},
   relation: { type: String },
   image: { type: String },
   dob: { type: Date },
@@ -14,5 +14,6 @@ const UserDetailsSchema = new Schema({
   deleted: { type: Boolean, default: false },
   is_delete: { type: Boolean, default: false },
 });
+
 
 export default mongoose.models.UserDetails || mongoose.model('UserDetails', UserDetailsSchema);
