@@ -7,6 +7,11 @@ const slotDateSchema = new Schema({
     type: Date,
     required: true
   },
+  day: {
+    type: String,
+    enum: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
+    required: true
+  },
   centerId: {
     type: Schema.Types.ObjectId,
     ref: 'Center', // Reference to the Center model

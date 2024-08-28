@@ -21,6 +21,17 @@ const slotTimeSchema = new Schema({
     type: Number, // Duration in minutes
     required: true
   }
+  ,
+  maxUse: {
+    type: Number, // Duration in minutes
+    required: true,
+    default: 0
+  },
+  defaultUse: {
+    type: Number, // Duration in minutes
+    required: true,
+    default: 0
+  }
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt fields
 });

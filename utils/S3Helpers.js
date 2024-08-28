@@ -186,6 +186,45 @@ async function addUpdateTagBucket(
     return err;
   }
 }
+async function makeS3FilesPermanent(bucketName, type = "single", oldFile, newFile) {
+  const tempTagSet = [{ Key: "Type", Value: "Temporary" }];
+  const permTagSet = [{ Key: "Type", Value: "Permanent" }];
+
+  try {
+    if (type === "multiple") {
+      const newFileSet = new Set(newFile || []);
+      const oldFileSet = new Set(oldFile || []);
+
+      const diffNew = [...newFileSet].filter(item => !oldFileSet.has(item));
+      const diffOld = [...oldFileSet].filter(item => !newFileSet.has(item));
+
+      await Promise.all(diffNew.map(async newItem => {
+        await addUpdateTagBucket(bucketName, newItem, permTagSet);
+      }));
+
+      await Promise.all(diffOld.map(async oldItem => {
+        await addUpdateTagBucket(bucketName, oldItem, tempTagSet);
+      }));
+    }
+
+    if (type === "single") {
+      if (oldFile !== newFile) {
+        if (oldFile) {
+          await addUpdateTagBucket(bucketName, oldFile, tempTagSet);
+        }
+        if (newFile) {
+          await addUpdateTagBucket(bucketName, newFile, permTagSet);
+        }
+      }
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Error updating S3 file tags:", err);
+    return false;
+  }
+}
+
 module.exports = {
   getBucketList,
   putObjectInBucket,
@@ -197,4 +236,5 @@ module.exports = {
   getPreSignedURL,
   getPreSignedURLforUpload,
   addUpdateTagBucket,
+  makeS3FilesPermanent
 };

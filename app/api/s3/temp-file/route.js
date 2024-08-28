@@ -8,7 +8,7 @@ export const GET = async (request, { params }) => {
     if (!file_path) {
       throw new Error("File Path cannot be null!");
     }
-    const tempFile = await TempFile.findOne({ file_path: file_path });
+    const File = await TempFile.findOne({ file_path: file_path });
     return new Response(JSON.stringify(tempFile), { status: 200 });
   } catch (error) {
     return new Response(error?.message, { status: 500 });
