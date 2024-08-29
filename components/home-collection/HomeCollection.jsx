@@ -51,7 +51,7 @@ const HomeCollection = () => {
 
     const [allPackageResponse, allPackageHandler] = useAPI(
         {
-            url: "/test/lists",
+            url: "/test/list",
             method: "get",
             sendImmediately: true,
             params: {

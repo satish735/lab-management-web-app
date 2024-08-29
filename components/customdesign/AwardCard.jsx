@@ -27,7 +27,7 @@ const AwardCard = ({
                     </h5>
                 </div>
                 <div>
-                    <div style={{ fontSize: '50px', color: '#00277a', textAlign: 'center' }}>
+                    <div style={{ fontSize: '50px', color: '#065465', textAlign: 'center' }}>
                         <FaAward />
 
                     </div>

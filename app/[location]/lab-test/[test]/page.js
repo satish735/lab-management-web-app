@@ -15,7 +15,7 @@ const page = ({ searchParams }) => {
 
   const [allTestResponse, allTestHandler] = useAPI(
     {
-      url: "/test/lists",
+      url: "/test/list",
       method: "get",
       sendImmediately: true,
       params: {
