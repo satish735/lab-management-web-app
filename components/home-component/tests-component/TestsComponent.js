@@ -45,6 +45,41 @@ const TestsComponent = () => {
   );
 
 
+  const [ListingFields, setListingFields] = useState();
+
+  const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
+    {
+      url: "/getTestDetails",
+      method: "get",
+      sendImmediately: true,
+
+    },
+    (e) => {
+
+
+
+      let TestConditionListing = e?.TestConditionListing
+      let BodyPartListing = e?.BodyPartListing
+
+
+      setListingFields({
+        TestConditionListing: TestConditionListing, BodyPartListing: BodyPartListing,
+      })
+
+
+
+    },
+    (e) => {
+
+      //  transformErrorDefault(
+      //     "Something went wrong while creating Test Case!",
+      //     e
+      // );
+    }
+  );
+
+
+
   return (
     <div>
       <div className="container-fluid mt-5 heading-text-home">
@@ -52,7 +87,7 @@ const TestsComponent = () => {
 
         <div>
           <CarousalSlider
-            DataList={[]}
+            DataList={ListingFields?.TestConditionListing ?? []}
             slidesToScroll={1}
             slidesToShow_lg={7}
             sliderFor={"tests-by-medical-condition"}
@@ -74,7 +109,7 @@ const TestsComponent = () => {
 
         <div>
           <CarousalSlider
-            DataList={[]}
+            DataList={ListingFields?.BodyPartListing ?? []}
             slidesToScroll={1}
             slidesToShow_lg={7}
             sliderFor={"tests-by-body-part"}
@@ -82,7 +117,7 @@ const TestsComponent = () => {
         </div>
 
         <div className="text-center my-4">
-          <button onClick={() => { router.push(`/`) }}
+          <button onClick={() => { router.push(`/home-collection`) }}
             className=" card-button-view-all px-4 py-2 "
             style={{ fontSize: "18px", fontWeight: "600" }}
           >
@@ -422,12 +457,12 @@ const TestsComponent = () => {
 
         <div className="container-fluid">
           <div
-            className="container-fluid"
+            className="container-fluid global-background-gradient"
             style={{
               padding: "30px",
               overflow: "hidden",
               borderRadius: "16px",
-              background: "linear-gradient(rgb(1, 7, 63), rgb(0, 78, 146))",
+              // background: "linear-gradient(rgb(1, 7, 63), rgb(0, 78, 146))",
             }}
           >
             <h2

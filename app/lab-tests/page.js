@@ -1,11 +1,11 @@
-import HealthPackage from '@/components/test&packages/health-package-component/HealthPackage'
+ import LabTest from '@/components/test&packages/lab-test-component/LabTest'
 import UserLayout from '@/layouts/UserLayout'
 import React from 'react'
 
 const page = () => {
   return (
     <UserLayout>
-      <HealthPackage />
+      <LabTest />
     </UserLayout>
 
   )

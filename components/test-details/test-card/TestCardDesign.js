@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SvgIcon from "../../home-component/SvgIcon";
 import "@/styles/common-card-designs/card_designs.css";
 import "../total-test-include/totalTestInclude.css";
 import { useRouter } from "next/navigation";
-const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
+const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
   const router = useRouter()
-   
+  const [discountprice, setdiscountprice] = useState();
+  useEffect(() => {
+    let FinalPrice = (listing?.rate) * (1 - ((listing?.discountPercentage) / 100))
+    setdiscountprice(FinalPrice)
+  }, [])
   return (
     <div
       className={`card-outer-layer-div  col-lg-${lg} col-md-${md} col-sm-12`}
@@ -42,7 +46,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
 
                   <span style={{ color: "green", fontWeight: "500" }}>
                     {" "}
-                    ₹ {listing?.totalMrp}
+                    ₹ {discountprice}
                   </span>
                 </div>
                 <div className="col-12 text-end">
@@ -79,7 +83,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
                       </span>
                     </p>
                     <p className="col-9 ps-3 " style={{ fontSize: "12px" }}>
-                      {(listing?.itemId ?? [])?.length} test included
+                      {(listing?.observation ?? [])?.length} Observation included
                     </p>
                   </div>
                 </div>
@@ -98,7 +102,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
                       </span>
                     </p>
                     <p className="col-9 ps-3 " style={{ fontSize: "12px" }}>
-                        Result with in {" "}
+                      Result with in {" "}
                       {listing?.reportGenerationHours ?? ''} hours
                     </p>
                   </div>
@@ -112,7 +116,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
                   <button
                     className="card-button-package-card "
                     style={{ fontSize: "13px" }}
-                    onClick={() => { router.push(`/jaipur/health-package/${'package'}?id=${listing?._id}`) }}
+                    onClick={() => { router.push(`/jaipur/lab-test/${'test'}?id=${listing?._id}`) }}
                   >
                     View Details <span>→</span>
                   </button>
@@ -131,4 +135,4 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
   );
 };
 
-export default PackageCardDesign;
+export default TestCardDesign;

@@ -1,7 +1,7 @@
 import SvgIcon from '@/components/home-component/SvgIcon'
 import React from 'react'
 
-const PackagesDetails = ({ packageData }) => {
+const TestsDetails = ({ packageData }) => {
   return (
     <div className='px-3 py-3' style={{ background: 'linear-gradient(180deg, rgb(1 7 63) , #004e92)', borderRadius: '13px' }}>
 
@@ -75,7 +75,7 @@ const PackagesDetails = ({ packageData }) => {
   )
 }
 
-export default PackagesDetails
+export default TestsDetails
 
 
 
@@ -85,7 +85,7 @@ const Card = ({ packageData }) => {
       <div style={{ backgroundColor: '#21cdad', padding: '10px', borderTopLeftRadius: '13px', borderTopRightRadius: '13px' }}>
 
         <div className='d-flex justify-content-between'>
-          <p><span style={{ color: 'white' }}> ₹ {packageData?.totalMrp ?? ''}</span>  <span style={{ textDecoration: 'line-through', color: 'red' }}> ₹ {packageData?.rate ?? ''}</span></p>
+          <p><span style={{ color: 'white' }}> ₹ {packageData?.rate ?? ''}</span>  <span style={{ textDecoration: 'line-through', color: 'red' }}> ₹ {packageData?.rate ?? ''}</span></p>
 
           <div>
             <button className='card-button-package-card-light'>

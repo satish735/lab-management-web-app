@@ -1,7 +1,10 @@
 import React from "react";
 import SvgIcon from "../home-component/SvgIcon";
+import { useRouter } from "next/navigation";
 
 const PopularTestCard = ({ listing }) => {
+  const router = useRouter();
+
   return (
     <div className="card-outer-layer-div">
       <div className="main-card-border">
@@ -23,15 +26,20 @@ const PopularTestCard = ({ listing }) => {
             }}
           >
             {/*div  for image */}
-            <img
-              src={"/assets/images/temp/img3.jpg"}
+
+
+            <div
+              // src={process.env.NEXT_PUBLIC_BUCKET_URL + 'public/3bdf5e58-47ce-d0fa-526d-1859ea3e77f7.png'}
               alt=""
               className=""
               style={{
                 height: "200px",
                 width: "100%",
                 border: "none",
-                borderRadius: "10px 10px 0 0",
+                borderRadius: "10px 10px 0 0 ",
+                backgroundImage: `Url(${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.img})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'auto'
               }}
             />
           </div>
@@ -45,10 +53,10 @@ const PopularTestCard = ({ listing }) => {
           >
             <div className="row">
               <div className="col-9">
-                <p className="card-heading-test">{listing?.test_name}</p>
+                <p className="card-heading-test">{listing?.name}</p>
               </div>
               <div className="col-3 text-end">
-                <p> ₹ {listing?.test_price}</p>
+                <p> ₹ {listing?.rate}</p>
               </div>
             </div>
 
@@ -69,7 +77,7 @@ const PopularTestCard = ({ listing }) => {
                     </span>
                   </p>
                   <p className="col-9 ps-3 " style={{ fontSize: "12px" }}>
-                    {listing?.no_of_observation} Observation included
+                    {(listing?.observation ?? [])?.length} Observation included
                   </p>
                 </div>
               </div>
@@ -88,8 +96,8 @@ const PopularTestCard = ({ listing }) => {
                     </span>
                   </p>
                   <p className="col-9 ps-3 " style={{ fontSize: "12px" }}>
-                    {listing?.no_of_observation}Result with in{" "}
-                    {listing?.no_of_hours} hours
+                      Result with in{" "}
+                    {listing?.reportGenerationHours} hours
                   </p>
                 </div>
               </div>
@@ -99,7 +107,7 @@ const PopularTestCard = ({ listing }) => {
 
             <div className="row px-1 pb-1">
               <div className="col-6">
-                <button className="card-button " style={{ fontSize: "13px" }}>
+                <button className="card-button " style={{ fontSize: "13px" }} onClick={() => { router.push(`/jaipur/lab-test/test?id=${listing?._id}`) }}>
                   View Details <span>→</span>
                 </button>
               </div>

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 const FullBodyCheckupCard = ({ listing }) => {
   const router = useRouter();
 
+  console.log(listing)
   return (
     <div className="card-outer-layer-div">
       <div className="main-card-border" style={{}}>
@@ -27,10 +28,11 @@ const FullBodyCheckupCard = ({ listing }) => {
               border: "none",
             }}
           >
+            <img src={process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}/>
             {/*div  for image */}
 
-            <img
-              src={listing?.img}
+            <div
+              // src={process.env.NEXT_PUBLIC_BUCKET_URL + 'public/3bdf5e58-47ce-d0fa-526d-1859ea3e77f7.png'}
               alt=""
               className=""
               style={{
@@ -38,6 +40,9 @@ const FullBodyCheckupCard = ({ listing }) => {
                 width: "100%",
                 border: "none",
                 borderRadius: "12px 12px 0 0 ",
+                backgroundImage:`Url(${process.env.NEXT_PUBLIC_BUCKET_URL + 'public/3bdf5e58-47ce-d0fa-526d-1859ea3e77f7.png'})`,
+                backgroundRepeat:'no-repeat',
+                backgroundSize:'auto'
               }}
             />
           </div>
@@ -53,7 +58,7 @@ const FullBodyCheckupCard = ({ listing }) => {
               <div className="col-8">
                 <div>
                   <p className="card-heading-test text-start">
-                    {listing?.package_name}
+                    {listing?.name}
                   </p>
                 </div>
                 <p
@@ -64,17 +69,17 @@ const FullBodyCheckupCard = ({ listing }) => {
                   }}
                 >
                   <span>•</span>{" "}
-                  <span>{listing?.no_of_test_included} Test Include</span>
+                  <span>{(listing?.itemId ?? [])?.length ?? ''} Test Include</span>
                 </p>
               </div>
               <div className="col-4 mb-1 text-end" style={{ color: "#828599" }}>
                 <span style={{ fontSize: "10px" }}>
-                  <del> ₹ {listing?.total_price_without_discount}</del>
+                  <del> ₹ {listing?.rate}</del>
                 </span>
-                <span> ₹ {listing?.final_price_with_discount}</span>
+                <span> ₹ {listing?.totalMrp}</span>
                 <p className="mt-3">
                   <span className="dicount-off-percentage">
-                    {listing?.discount} off
+                    {listing?.discountPercentage}% off
                   </span>
                 </p>
               </div>
@@ -83,7 +88,7 @@ const FullBodyCheckupCard = ({ listing }) => {
             <div className="row px-1 pb-1">
               <div className="col-6">
 
-                <button className="card-button" onClick={() => { router.push(`/jaipur/health-package/advance-heart-secure-profile`) }}>
+                <button className="card-button" onClick={() => { router.push( `/jaipur/health-package/package?id=${listing?._id}` ) }}>
                   View Details <span>→</span>
                 </button>
               </div>

@@ -13,7 +13,9 @@
   height: 60px;
   display: flex;
   align-items: center;
-  background-color: #00226c;
+  
+  background-color: #003747;
+  /* background-color: #00226c; */
 }
 @media (min-width: 1200px) {
   .header-topbar {
