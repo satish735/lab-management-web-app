@@ -238,7 +238,7 @@ export default function Home() {
           <button
             className=" btn btn-outline-dark"
             onClick={() => {
-              router.push("/admin/create/centers");
+              router.push("/admin/centers/create");
             }}
             type="button"
           >

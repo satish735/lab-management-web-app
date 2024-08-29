@@ -2,10 +2,10 @@
 import dynamic from 'next/dynamic';
 import "./TextEditor.css";
 import { useState, useEffect, useRef } from "react";
-const { CKEditor } = dynamic(() => import("@ckeditor/ckeditor5-react"), {
-  ssr: false,
-});
-const {
+
+
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import {
   ClassicEditor,
   AccessibilityHelp,
   Alignment,
@@ -81,86 +81,7 @@ const {
   TodoList,
   Underline,
   Undo,
-} = dynamic(() => import("ckeditor5"), { ssr: false });
-
-// import { CKEditor } from "@ckeditor/ckeditor5-react";
-// import {
-//   ClassicEditor,
-//   AccessibilityHelp,
-//   Alignment,
-//   Autoformat,
-//   AutoImage,
-//   AutoLink,
-//   Autosave,
-//   Base64UploadAdapter,
-//   BlockQuote,
-//   Bold,
-//   CloudServices,
-//   Code,
-//   CodeBlock,
-//   Essentials,
-//   FindAndReplace,
-//   FontBackgroundColor,
-//   FontColor,
-//   FontFamily,
-//   FontSize,
-//   FullPage,
-//   GeneralHtmlSupport,
-//   Heading,
-//   Highlight,
-//   HorizontalLine,
-//   HtmlComment,
-//   HtmlEmbed,
-//   ImageBlock,
-//   ImageCaption,
-//   ImageInline,
-//   ImageInsert,
-//   ImageInsertViaUrl,
-//   ImageResize,
-//   ImageStyle,
-//   ImageTextAlternative,
-//   ImageToolbar,
-//   ImageUpload,
-//   Indent,
-//   IndentBlock,
-//   Italic,
-//   Link,
-//   LinkImage,
-//   List,
-//   ListProperties,
-//   Markdown,
-//   MediaEmbed,
-//   Mention,
-//   Paragraph,
-//   PasteFromOffice,
-//   RemoveFormat,
-//   SelectAll,
-//   ShowBlocks,
-//   SourceEditing,
-//   SpecialCharacters,
-//   SpecialCharactersArrows,
-//   SpecialCharactersCurrency,
-//   SpecialCharactersEssentials,
-//   SpecialCharactersLatin,
-//   SpecialCharactersMathematical,
-//   SpecialCharactersText,
-//   Strikethrough,
-//   Style,
-//   Subscript,
-//   Superscript,
-//   Table,
-//   TableCaption,
-//   TableCellProperties,
-//   TableColumnResize,
-//   TableProperties,
-//   TableToolbar,
-//   TextPartLanguage,
-//   TextTransformation,
-//   Title,
-//   TodoList,
-//   Underline,
-//   Undo,
-// } from "ckeditor5";
+} from "ckeditor5";
 import "ckeditor5/ckeditor5.css";
 export default function Page({
   content = "Your Content here",

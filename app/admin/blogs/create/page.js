@@ -12,8 +12,13 @@ import InputTextArea from "@/components/formInput/InputTextArea";
 import moment from "moment";
 import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import dynamic from "next/dynamic";
+const TextEditor = dynamic(
+  () => import("@/components/text-editor/TextEditor"),
+  { ssr: false }
+);
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 export default function Home() {
   const router = useRouter();
@@ -29,9 +34,7 @@ export default function Home() {
     return true;
   };
 
-
-  const [content, setContent] = useState('');
-
+  const [content, setContent] = useState("");
 
   const [imageFile, setImageFile] = useState();
 
@@ -51,9 +54,6 @@ export default function Home() {
     const data = editor.getData();
     setContent(data);
   };
-
-
-
 
   const [selectedTags, setSelectedTags] = useState([]);
   const [blogDescription, setBlogDescription] = useState("");
@@ -79,7 +79,9 @@ export default function Home() {
   const createBlogSubmitHandler = async (isPublish = false) => {
     setPublish(isPublish);
     var titleIsValid = titleInputValidater(titleInput?.enteredValue);
-    var isdescription = descriptionInputValidater(descriptionInput?.enteredValue);
+    var isdescription = descriptionInputValidater(
+      descriptionInput?.enteredValue
+    );
     if (!titleIsValid || !isdescription) {
       toast.error("Please check all validations before continuing!");
       return;
@@ -92,22 +94,13 @@ export default function Home() {
       trending: selectedTags.some((item) => item?.value == "trending"),
       isPopular: selectedTags.some((item) => item?.value == "is_popular"),
       image: imageFile?.filePath,
-      ckdescription: content
+      ckdescription: content,
     };
     await blogSubmitHandler({ body: submitBody });
   };
 
-
-
-
-
   return (
     <div>
-
-
-
-
-
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
@@ -194,20 +187,14 @@ export default function Home() {
               />
             </div>
 
-            <div className="py-3" >
-              <h6 className="py-1 small" >Add Banner Image</h6>
+            <div className="py-3">
+              <h6 className="py-1 small">Add Banner Image</h6>
               <SingleImageDropZone file={imageFile} setFile={setImageFile} />
             </div>
 
-            <div style={{ height: "400px" }} >
-              <CKEditor
-                editor={ClassicEditor}
-                data={content}
-                onChange={handleChange}
-              />
-
+            <div style={{ height: "400px" }}>
+              <TextEditor content={content} setContent={setContent} />
             </div>
-
           </div>
         </form>
       </div>

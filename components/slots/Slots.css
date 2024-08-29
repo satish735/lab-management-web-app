@@ -1,0 +1,15 @@
+
+.rmdp-day:has(.in-service) {
+    background-color: white !important;
+    border-radius: 50%;
+    color: white !important;
+    cursor: default;
+    border: none;
+    box-shadow: none;
+}
+
+span.in-service {
+    background-color: #cc0303 !important;
+    border-radius: 50%;
+    cursor: default;
+}
