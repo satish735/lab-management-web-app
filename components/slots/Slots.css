@@ -19,7 +19,6 @@ span.in-service {
     border: 0.5px solid #3939392c;
     border-radius: 6px;
     width: 100%;
-    min-height: 290px;
     padding: 10px;
 }
 
@@ -35,8 +34,171 @@ span.in-service {
     color: rgb(102, 102, 135);
     text-align: center;
     margin-bottom: 0px;
-  }
-  .view-slots-section .no-content-found {
+}
+
+.view-slots-section .no-content-found {
     text-align: center;
     padding: 64px;
-  }
+}
+
+.view-slots-section .slot-date-section {
+    position: relative;
+    width: 120px;
+    display: inline-block;
+    border-radius: 8px;
+    border: 0.5px solid #3939392c;
+    margin: 6px;
+    background-color: white;
+    padding-top: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+
+.view-slots-section .slot-date-section .date-month {
+    margin-bottom: 0px;
+    font-weight: 700;
+
+}
+
+.view-slots-section .slot-date-section .year {
+    margin-bottom: 8px;
+}
+
+.view-slots-section .slot-date-section .day {
+    margin-bottom: 0px;
+    border-top: 0.5px solid #3939392c;
+    padding: 2px;
+    border-radius: 0 0 8px 8px;
+    font-weight: 500;
+}
+
+.slot-date-section .upcoming {
+    background: rgba(0, 123, 255, 0.2)
+}
+
+.slot-date-section .current {
+    background: rgba(40, 167, 69, 0.2)
+}
+
+.slot-date-section .disabled {
+    background: rgba(255, 0, 0, 0.2)
+}
+
+.slot-date-section .past {
+    background: rgba(108, 117, 125, 0.2)
+}
+
+.slot-date-section.upcoming:hover,
+.slot-date-section.upcoming.selected {
+    background: rgba(0, 123, 255, 0.05);
+    border: 1px solid rgba(0, 123, 255, 0.5);
+}
+
+.slot-date-section.current:hover,
+.slot-date-section.current.selected {
+    background: rgba(40, 167, 69, 0.05);
+    border: 1px solid rgba(40, 167, 69, 0.5);
+}
+
+.slot-date-section.disabled:hover,
+.slot-date-section.disabled.selected {
+    background: rgba(255, 0, 0, 0.05);
+    border: 1px solid rgba(255, 0, 0, 0.5)
+}
+
+.slot-date-section.past:hover,
+.slot-date-section.past.selected {
+    background: rgba(108, 117, 125, 0.05);
+    border: 1px solid rgba(108, 117, 125, 0.5);
+}
+
+
+.view-slots-section .slot-time-section {
+    padding: 10px 6px;
+    margin: 0 6px;
+    border: 0.5px solid #3939392c;
+    border-radius: 6px;
+    background: #3939390a;
+}
+
+.slot-time-section .slot-time-block {
+    width: 180px;
+    display: inline-block;
+    border-radius: 8px;
+    border: 0.5px solid #3939392c;
+    margin: 6px;
+    background-color: white;
+    padding-top: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.slot-time-section .slot-time-block .timing {
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.slot-time-section .slot-time-block .consumed {
+    margin-bottom: 0px;
+    border-top: 0.5px solid #3939392c;
+    padding: 1px;
+    border-radius: 0 0 8px 8px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+
+.slot-time-block .upcoming {
+    background: rgba(0, 123, 255, 0.2)
+}
+
+.slot-time-block .current {
+    background: rgba(40, 167, 69, 0.2)
+}
+
+.slot-time-block .disabled {
+    background: rgba(255, 0, 0, 0.2)
+}
+
+.slot-time-block .past {
+    background: rgba(108, 117, 125, 0.2)
+}
+
+.slot-time-block .full {
+    background: rgba(255, 193, 7, 0.2)
+}
+
+.slot-time-section h2 {
+    font-size: 20px;
+    color: var(--color-primary);
+    margin-bottom: 0px;
+    /* background: linear-gradient(90deg, #8edfd06b 0%, rgba(0, 38, 120, 0) 100%); */
+    padding: 6px 10px;
+    border-radius: 0px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border-bottom: 0.5px solid #3939392c;
+}
+
+.slot-time-block .remove-icon,
+.slot-date-section .remove-icon {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    padding: 3px;
+    font-size: 20px;
+    cursor: pointer;
+    border: 0.5px solid #3939392c;
+    border-radius: 10px;
+    fill: #1a1a1a67;
+    z-index: 8;
+}
+
+.slot-time-block .remove-icon:hover,
+.slot-date-section .remove-icon:hover {
+    border: 1px solid red;
+    fill: red;
+
+}

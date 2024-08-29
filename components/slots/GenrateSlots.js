@@ -20,16 +20,16 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
     const [selectedSlots, setSelectedSlots] = useState([])
     const generateDateHandler = () => {
         if (!selectedPickType) {
-            toast.error("select Dates to generate Slots.")
+            toast.error("Select Dates to generate Slots.")
             return
         }
         if (!selectedSlots || selectedSlots.length === 0) {
-            toast.error("select slot-timings to generate Slots.")
+            toast.error("Select slot-timings to generate Slots.")
             return
         }
         if (selectedPickType == "range") {
             if ((!selectedRangeValues || selectedRangeValues.length == 0)) {
-                toast.error("select date ranges to generate Slots.")
+                toast.error("Select date ranges to generate Slots.")
                 return
 
             }
@@ -54,7 +54,7 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
 
         if (selectedPickType == "multi-pick") {
             if (!selectedMultiPick || selectedMultiPick.length == 0) {
-                toast.error("select dates to generate Slots.")
+                toast.error("Select dates to generate Slots.")
                 return
             }
             var slotDates = selectedMultiPick.map(item => item?.format("YYYY-MM-DD"))
@@ -91,7 +91,6 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
     }
     return (
         <div>
-            <h1>Genrate Slots </h1>
             <div className='row'>
                 <div className='col-lg-6 col-md-6 col-12'>
                     <InputSelect options={[{ value: "range", label: "With Range" }, { value: "multi-pick", label: "With Multi Picker" }]}

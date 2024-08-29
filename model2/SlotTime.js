@@ -27,7 +27,7 @@ const slotTimeSchema = new Schema({
     required: true,
     default: 0
   },
-  defaultUse: {
+  currentUse: {
     type: Number, // Duration in minutes
     required: true,
     default: 0
