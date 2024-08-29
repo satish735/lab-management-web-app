@@ -2,7 +2,8 @@
 
 
 import BodyPart from "@/model2/BodyPart";
-import Membership from "@/model2/Membership";
+import PackageTest from "@/model2/PackageTest";
+import TestCondition from "@/model2/TestCondition";
 
 import { parse } from "url";
 export const GET = async (request, { params }) => {
@@ -15,13 +16,21 @@ export const GET = async (request, { params }) => {
 
         const searchFilter = {};
 
-        const MembershipInstance = await BodyPart
-            .find(searchFilter)
-            .sort(sort)
-            .skip(skip)
-            .limit(pageSize);
-        const totalCount = await Membership.find(searchFilter).countDocuments();
-        var response = { data: MembershipInstance, total: totalCount };
+        const PackageTestInstance = await PackageTest
+            .find({testType:'Test'});
+
+        const BodyPartInstance = await BodyPart
+            .find(searchFilter);
+
+
+
+        const TestConditionInstance = await TestCondition
+            .find(searchFilter);
+
+
+
+
+        var response = { BodyPartListing: BodyPartInstance, TestConditionListing: TestConditionInstance, PackageTestInstanceListing: PackageTestInstance };
         return new Response(JSON.stringify(response), { status: 200 });
     } catch (error) {
         console.log(error);

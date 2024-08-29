@@ -28,7 +28,7 @@ const MembersCard = ({ data }) => {
 
             </img>
 
-            <div style={{ background: ' linear-gradient(153deg, #000428 , #004e92)', borderRadius: "0px 0px 12px 12px ", }}>
+            <div className='global-background-gradient' style={{  borderRadius: "0px 0px 12px 12px ", }}>
                 <div className='row  '>
                     <div className='col-8   py-3' style={{ paddingLeft: '30px' }}>
                         <p style={{ marginBottom: '5px', fontSize: '18px', fontWeight: '400', color: '#fff' }}>

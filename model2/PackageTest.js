@@ -4,8 +4,8 @@ import slugify from 'slugify';
 const { Schema } = mongoose;
 
 const PackageTestSchema = new Schema({
-  itemId: { type: String, required: true },
-  id: { type: String, required: true },
+  itemId: [{ type: Schema.Types.ObjectId, ref: 'PackageTest' }],
+  id: { type: String },
   name: { type: String, required: true },//For Test
   rate: { type: Number, required: true },//For Test
   desc: { type: String },//For Test
@@ -16,6 +16,7 @@ const PackageTestSchema = new Schema({
   gender: { type: String, enum: ['male', 'female', 'both'] },//For Test
   fromAge: { type: Number },//For Test
   toAge: { type: Number },//For Test
+  observation: [{ type: String }],//For Test
   discountPercentage: { type: Number },//For Package
   reportGenerationTime: { type: String },//For Test
   reportGenerationHours: { type: Number },//For Test
@@ -52,3 +53,7 @@ PackageTestSchema.pre("save", function (next) {
 });
 
 export default mongoose.models.PackageTest || mongoose.model('PackageTest', PackageTestSchema);
+
+
+
+ 

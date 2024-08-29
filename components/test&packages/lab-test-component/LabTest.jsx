@@ -6,7 +6,8 @@ import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
 import toast from 'react-hot-toast'
-const HealthPackage = () => {
+import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
+const LabTest = () => {
 
     const [ListingFields, setListingFields] = useState();
 
@@ -67,14 +68,14 @@ const HealthPackage = () => {
 
 
             let packageList = (e?.data ?? []).filter((item) => {
-                return item.testType === 'Package'
+                return item.testType === 'Test'
             });
 
             return { packageList: packageList }
         },
         (e) => {
             toast.error(transformErrorDefault(
-                "Something went wrong while Getting packages!",
+                "Something went wrong while Getting tests!",
                 e
             ));
             return e
@@ -83,13 +84,12 @@ const HealthPackage = () => {
 
 
     const [bodyPartValue, setBodyPartValue] = useState([])
-   
-
+    
     const changeSearchValue = () => {
 
     }
     return (
-        <div className='pt-3 pb-4' style={{ backgroundColor: '#f1f6ee' }}>
+        <div className='py-3 pb-4 ' style={{ backgroundColor: '#f1f6ee' }}>
             <div style={{ width: '92%', margin: '0 auto' }} >
 
 
@@ -131,7 +131,7 @@ const HealthPackage = () => {
 
                     <div className='col-lg-9 col-md-9 col-sm-12 ps-4 pt-3'>
                         <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
-                            Health Packages
+                            Lab Tests
                         </div>
                         <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
                             Showing 1-19 of 19 Packages
@@ -139,7 +139,7 @@ const HealthPackage = () => {
 
                         <div className='row'>
                             {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
-                                return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
                             })}
                         </div>
 
@@ -152,7 +152,7 @@ const HealthPackage = () => {
     )
 }
 
-export default HealthPackage
+export default LabTest
 
 const SearchComponent = ({ changeSearchValue }) => {
     const [searchValue, setSearchValue] = useState("");

@@ -64,7 +64,7 @@ const AboutUs = () => {
 
 
                     <div className='col-lg-6 col-md-6 col-sm-12 ' style={{ padding: '0px 30px 0 10px' }}>
-                        <div className='pe-3 pt-3 why-choose-us-image-div-parent-div ' style={{ background: ' linear-gradient(153deg, #000428 , #004e92)', width: '100%', borderRadius: '15px', position: 'relative' }}>
+                        <div className='pe-3 pt-3 why-choose-us-image-div-parent-div global-background-gradient' style={{   width: '100%', borderRadius: '15px', position: 'relative' }}>
 
 
 
@@ -155,7 +155,7 @@ const AboutUs = () => {
 
 
                     <div className='col-lg-6 col-md-6 col-sm-12  ' style={{ padding: '0px 10px 0 90px' }}>
-                        <div className='pe-3 pt-3 director-image-div-parent-div' style={{ background: ' linear-gradient(153deg, #000428 , #004e92)', width: '100%', borderRadius: '15px', position: 'relative' }}>
+                        <div className='pe-3 pt-3 director-image-div-parent-div global-background-gradient' style={{   width: '100%', borderRadius: '15px', position: 'relative' }}>
 
                             <div>
                                 <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
@@ -226,7 +226,7 @@ const AboutUs = () => {
             <div className='midbox-inner'>
 
                 <div className='py-4 ' style={{}}>
-                    <p className='mb-5 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Core Members </p>
+                    <p className='mb-5 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Team </p>
 
                     <div className='row'>
                         {

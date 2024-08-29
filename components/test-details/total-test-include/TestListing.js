@@ -6,7 +6,7 @@ const TestListing = ({ item }) => {
     return (<>
         <div onClick={() => { setShowDetails(!showDetails) }} className='my-3 py-1 px-2 d-flex justify-content-between' style={{ cursor: 'pointer', backgroundColor: 'white', borderRadius: '8px', color: '#21cdad', fontSize: '16px' }}>
             <div style={{ cursor: 'pointer' }}>
-                {item?.name}
+                Observations Included
             </div>
 
             <div>
@@ -28,7 +28,7 @@ const TestListing = ({ item }) => {
 
             <>
                 <div className='px-3'>
-                    {(item?.observation ?? []).map((values, index) => {
+                    {(item  ?? []).map((values, index) => {
                         return (
                             <>
                                 <p key={index} style={{ color: '#7c7c7c', marginBottom: '5px' }}><span className='me-3'>•</span>{values}</p>
@@ -39,7 +39,7 @@ const TestListing = ({ item }) => {
                     }
                 </div>
 
-                <hr />
+               
 
             </>
 

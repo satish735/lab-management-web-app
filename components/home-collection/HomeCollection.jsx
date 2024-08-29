@@ -4,7 +4,92 @@ import { Input } from 'reactstrap'
 import CheckboxInput from '../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../package-details/package-card/PackageCardDesign'
+import useAPI from '@/hooks/useAPI'
+import TestCardDesign from '../test-details/test-card/TestCardDesign'
 const HomeCollection = () => {
+
+
+    const [ListingFields, setListingFields] = useState();
+
+    const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
+        {
+            url: "/getTestDetails",
+            method: "get",
+            sendImmediately: true,
+
+        },
+        (e) => {
+
+
+
+            let TestConditionListing = (e?.TestConditionListing ?? []).map((item) => {
+                return { label: item?.name, value: item?._id }
+            })
+            let BodyPartListing = (e?.BodyPartListing ?? []).map((item) => {
+                return { label: item?.name, value: item?._id }
+            })
+
+
+            setListingFields({
+                TestConditionListing: TestConditionListing, BodyPartListing: BodyPartListing,
+            })
+
+
+
+        },
+        (e) => {
+
+            //  transformErrorDefault(
+            //     "Something went wrong while creating Test Case!",
+            //     e
+            // );
+        }
+    );
+
+
+
+
+    const [allPackageResponse, allPackageHandler] = useAPI(
+        {
+            url: "/test/lists",
+            method: "get",
+            sendImmediately: true,
+            params: {
+                // sortColumn: sort?.column,
+                // sortDirection: sort?.direction,
+                pageNo: 1,
+                pageSize: 20,
+                // searchQuery: searchValue,
+            },
+        },
+        (e) => {
+
+
+
+
+            let packageList = (e?.data ?? []).filter((item) => {
+                return item.testType === 'Package'
+            });
+
+            let testList = (e?.data ?? []).filter((item) => {
+                return item.testType === 'Test'
+            });
+
+            return { packageList: packageList, testList: testList }
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting tests!",
+                e
+            ));
+            return e
+        }
+    );
+
+    const [bodyPartValue, setBodyPartValue] = useState([])
+
+
+// console.log(allPackageResponse);
 
     const changeSearchValue = () => {
 
@@ -29,9 +114,9 @@ const HomeCollection = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Select Type
                             </p>
-                            <div style={{  }}>
-                                {(select_type_list ?? []).map((item,index) => {
-                                    return <FiltersList item={item} key={index}/>
+                            <div style={{}}>
+                                {(select_type_list ?? []).map((item, index) => {
+                                    return <FiltersList item={item} key={index} />
                                 })}
 
                             </div>
@@ -43,11 +128,10 @@ const HomeCollection = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Body Parts
                             </p>
-                            <div style={{ height: '220px', overflowY: 'scroll' }}>
-                                {(filter_body_list ?? []).map((item,index) => {
-                                    return <FiltersList item={item} key={index} />
+                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
+                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
                                 })}
-
                             </div>
                         </div>
 
@@ -56,9 +140,9 @@ const HomeCollection = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Health Conditions
                             </p>
-                            <div style={{ height: '220px', overflowY: 'scroll' }}>
-                                {(filter_health_list ?? []).map((item ,index) => {
-                                    return <FiltersList item={item} key={index} />
+                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
+                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
                                 })}
 
                             </div>
@@ -66,17 +150,24 @@ const HomeCollection = () => {
                     </div>
 
                     <div className='col-lg-9 col-md-9 col-sm-12 ps-4'>
-                        <div className='mb-2'  style={{color:'#000',fontSize:'24px',fontWeight:'500'}}>
-                             Packages and Tests
+                        <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
+                            Packages and Tests
                         </div>
-                        <div  className='mb-3'  style={{color:'#1e1e2f',fontSize:'18px'}}>
+                        <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
                             Showing 1-19 of 19 Packages
                         </div>
 
                         <div className='row'>
-                            {(popular_test ?? []).map((keyValue,index) => {
-                                return <PackageCardDesign listing={keyValue} lg={4} md={4}  key={index}/>
+                            {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
+                                return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
                             })}
+
+
+                            {(allPackageResponse?.data?.testList  ?? []).map((keyValue, index) => {
+                                return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                            })}
+
+
                         </div>
 
 
@@ -146,8 +237,11 @@ const SearchComponent = ({ changeSearchValue }) => {
     );
 };
 
-const FiltersList = ({ item }) => {
+const FiltersList = ({ item, setBodyPartValue }) => {
     const [FilterCheck, setFilterCheck] = useState();
+
+
+
     return (
 
         <div className='mx-2'>
@@ -156,13 +250,35 @@ const FiltersList = ({ item }) => {
             <div className='d-flex '>
                 <div ><CheckboxInput
                     check={FilterCheck}
-                    setChecked={setFilterCheck}
+                    setChecked={() => {
+                        if (FilterCheck) {
+                            setBodyPartValue(prev => {
+                                let data = (prev ?? []).filter((value) => {
+                                    if (value.value === item.value) {
+
+                                    }
+                                    else {
+                                        return value
+                                    }
+                                })
+                                return data
+
+                            });
+
+                        }
+                        else {
+                            setBodyPartValue(prev => [...prev, item]);
+
+                        }
+
+                        setFilterCheck(!FilterCheck)
+                    }}
                     label={''}
                 />
                 </div>
 
-                <div >
-                    {item.field}
+                <div  >
+                    {item.label}
                 </div>
             </div>
 
@@ -171,50 +287,20 @@ const FiltersList = ({ item }) => {
     )
 }
 
-let filter_body_list = [
-    { field: 'Heart' },
-    { field: 'Kidney' },
-    { field: 'Liver' },
-    { field: 'Thyroid' },
-    { field: 'Brain' },
-    { field: 'Intestines' },
-    { field: 'Joints' },
-    { field: 'Pancreas' },
-    { field: 'Stomach' },
-    { field: 'Muscle' },
-    { field: 'Male Reproductive System ' },
+
+
+
+
+let select_type_list = [
+    { label: 'Package', label: 'Package' },
+    { label: 'Test',label: 'Test' },
+
 
 
 
 ]
 
-let filter_health_list = [
-    { field: 'Deabetes' },
-    { field: 'Heart Diseses' },
-    { field: 'Infection' },
-    { field: 'Hypertension' },
-    { field: 'Anemia' },
-    { field: 'Cancer' },
-    { field: 'Infertility' },
-    { field: 'Fever' },
-    { field: 'AIDS' },
-    { field: 'Allergy' },
-    { field: 'Obesity' },
-
-
-
-]
-
-let select_type_list = [
-    { field: 'Package' },
-    { field: 'Test' },
-   
-
-
-
-]
-
-let popular_test = [{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },   
+let popular_test = [{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
 { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
 { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
 { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },

@@ -28,6 +28,7 @@
 .custom-table .custom-table-header-cell {
   user-select: none;
   font-weight: 600;
+ 
   font-size: 0.6875rem;
   line-height: 1.45;
   text-transform: uppercase;

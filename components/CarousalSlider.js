@@ -8,14 +8,14 @@ import '@/styles/common-card-designs/card_designs.css'
 import FullBodyCheckupCard from "./type-of-card-design/FullBodyCheckupCard";
 import PopularTestCard from "./type-of-card-design/PopularTestCard";
 import TestsCard from "./type-of-card-design/TestsCard";
-let package_item = [{ img: '/assets/images/temp/img1.jpg', package_name: 'Diabities Suraksha Package*', no_of_test_included: '12', total_price_without_discount: '3300', final_price_with_discount: '2000', discount: '20%' },
-{ img: '/assets/images/temp/img2.jpg', package_name: 'Cardiac Suraksha Health Package*', no_of_test_included: '22', total_price_without_discount: '2300', final_price_with_discount: '2000', discount: '20%' },
-{ img: '/assets/images/temp/img3.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
-{ img: '/assets/images/temp/img4.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
-{ img: '/assets/images/temp/img1.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
-{ img: '/assets/images/temp/img2.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
-{ img: '/assets/images/temp/img3.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' }
-]
+// let package_item = [{ img: '/assets/images/temp/img1.jpg', package_name: 'Diabities Suraksha Package*', no_of_test_included: '12', total_price_without_discount: '3300', final_price_with_discount: '2000', discount: '20%' },
+// { img: '/assets/images/temp/img2.jpg', package_name: 'Cardiac Suraksha Health Package*', no_of_test_included: '22', total_price_without_discount: '2300', final_price_with_discount: '2000', discount: '20%' },
+// { img: '/assets/images/temp/img3.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
+// { img: '/assets/images/temp/img4.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
+// { img: '/assets/images/temp/img1.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
+// { img: '/assets/images/temp/img2.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' },
+// { img: '/assets/images/temp/img3.jpg', package_name: 'Advance Heart Health Package*', no_of_test_included: '9', total_price_without_discount: '3900', final_price_with_discount: '2000', discount: '20%' }
+// ]
 
 
 let popular_test = [
@@ -64,6 +64,8 @@ const CarousalSlider = ({
 
     };
 
+    console.log(DataList);
+    
 
     return (
         <>
@@ -72,7 +74,7 @@ const CarousalSlider = ({
                 {
                     sliderFor == 'packages' &&
 
-                    ((package_item ?? []).map((listing,index) => {
+                    ((DataList ?? []).map((listing,index) => {
                         return <FullBodyCheckupCard listing={listing} key={index} />
                     }))
                 }
@@ -81,23 +83,23 @@ const CarousalSlider = ({
                 {
                     sliderFor == 'popular test' &&
 
-                    ((popular_test ?? []).map((listing,index) => {
+                    ((DataList ?? []).map((listing,index) => {
                         return <PopularTestCard listing={listing} key={index} />
                     }))
                 }
                 {
                     sliderFor == 'tests-by-body-part' &&
 
-                    ((Carditems ?? []).map((listing,index) => {
-                        return <TestsCard listing={listing} key={index} />
+                    ((DataList ?? []).map((listing,index) => {
+                        return <TestsCard listing={listing} key={index} type={'body-part'} />
                     }))
                 }
 
 {
                     sliderFor == 'tests-by-medical-condition' &&
 
-                    ((Carditems ?? []).map((listing,index) => {
-                        return <TestsCard listing={listing} key={index} />
+                    ((DataList ?? []).map((listing,index) => {
+                        return <TestsCard listing={listing} key={index}  type={'medical-condition'} />
                     }))
                 }
                 
