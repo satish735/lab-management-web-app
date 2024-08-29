@@ -28,7 +28,8 @@ const FullBodyCheckupCard = ({ listing }) => {
               border: "none",
             }}
           >
-            <img src={process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}/>
+            {/* process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image */}
+            {/* <img src={'/assets/images/logo.jpg'}/> */}
             {/*div  for image */}
 
             <div
@@ -40,9 +41,10 @@ const FullBodyCheckupCard = ({ listing }) => {
                 width: "100%",
                 border: "none",
                 borderRadius: "12px 12px 0 0 ",
-                backgroundImage:`Url(${process.env.NEXT_PUBLIC_BUCKET_URL + 'public/3bdf5e58-47ce-d0fa-526d-1859ea3e77f7.png'})`,
+                backgroundImage:`Url('/assets/images/PackagesBanner.jpg')`,
                 backgroundRepeat:'no-repeat',
-                backgroundSize:'auto'
+                backgroundSize:'cover',
+                 
               }}
             />
           </div>

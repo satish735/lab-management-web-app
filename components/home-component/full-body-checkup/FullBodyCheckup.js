@@ -30,7 +30,7 @@ const FullBodyCheckup = () => {
 
   const [testResponse, testHandler] = useAPI(
     {
-      url: "/test/lists",
+      url: "/test/list",
       method: "get",
       sendImmediately: true,
       params: {

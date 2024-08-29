@@ -51,7 +51,7 @@ const LabTest = () => {
 
     const [allPackageResponse, allPackageHandler] = useAPI(
         {
-            url: "/test/lists",
+            url: "/test/list",
             method: "get",
             sendImmediately: true,
             params: {
@@ -134,7 +134,7 @@ const LabTest = () => {
                             Lab Tests
                         </div>
                         <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
-                            Showing 1-19 of 19 Packages
+                            Showing 1-19 of 19 Tests
                         </div>
 
                         <div className='row'>

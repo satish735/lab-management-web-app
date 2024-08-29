@@ -342,7 +342,7 @@ const TestsComponent = () => {
                     className="row my-2 pt-4 pb-3 px-2"
                     style={{
                       backgroundColor: " rgba(104, 185, 46, .05)",
-                      border: "1px solid #002678",
+                      border: "1px solid #003747",
                       borderRadius: "12px",
                     }}
                   >
@@ -488,7 +488,7 @@ const TestsComponent = () => {
         <div className="mt-5">
           <h2
             style={{
-              color: "#002678 ",
+              color: "#003747 ",
               fontSize: " 40px",
               textAlign: "center",
               margin: "0 20%",
