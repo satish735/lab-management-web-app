@@ -2,6 +2,8 @@
 import moment from "moment";
 import React, { useState } from "react";
 import "./UpcomingSlots.css";
+import { FaXmark } from "react-icons/fa6";
+
 const UpcomingSlots = ({ slotData = [] }) => {
   const [selectedSlotDate, setSelectedSlotDate]
     = useState(null)
@@ -85,11 +87,11 @@ const TimeGroupedView = ({ items }) => {
           <h2 className="slot-category-heading">{slot}</h2>
           <div>
             {groupedItems[slot].map((item, index) => (
-              <div key={index} className="slot-time-slot">{item.slotStartTime}</div>
+              <div key={index} className="slot-time-slot">{item.slotStartTime}<FaXmark /></div>
             ))}
-          </div>
+              </div>
         </div>
       ))}
-    </div>
-  );
+        </div>
+      );
 };

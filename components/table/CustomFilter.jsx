@@ -145,7 +145,7 @@ const ViewSettingComponent = ({ selected = [], options = [], onChange }) => {
     </div>
   );
 };
-const FilterOptionsComponent = ({ selected = [], options = [] }, onChange) => {
+const FilterOptionsComponent = ({ selected = [], options = [], onChange }) => {
   const checkClickHandler = (key) => {};
   const resetHandler = () => {};
   return (

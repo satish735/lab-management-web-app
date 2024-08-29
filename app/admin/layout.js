@@ -1,7 +1,7 @@
 import AdminLayout from "@/layouts/AdminLayout";
 
 function RootLayout({ children }) {
-  return <>{children}</>;
+  return <AdminLayout>{children}</AdminLayout>;
 }
 
 export default RootLayout;
