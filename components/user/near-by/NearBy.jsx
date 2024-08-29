@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import './nearby.css'
 import { FaAngleDown, FaPhone, FaArrowsSplitUpAndLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import useAPI from '@/hooks/useAPI';
+import { Spinner } from 'reactstrap';
 
 const NearBy = () => {
 
@@ -14,6 +16,52 @@ const NearBy = () => {
     const handleSearch = () => {
 
     }
+
+    const[inputSearch,setInputSearch]=useState('')
+    const [allPackageResponse, allPackageHandler] = useAPI(
+        {
+            url: "/centers/list",
+            method: "get",
+            sendImmediately: true,
+            params: {
+                // sortColumn: sort?.column,
+                // sortDirection: sort?.direction,
+                pageNo: 1,
+                pageSize: 20,
+                // searchQuery: searchValue,
+            },
+        },
+        (e) => {
+
+
+
+            console.log(e);
+
+
+            return e
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting packages!",
+                e
+            ));
+            return e
+        }
+    );
+
+    const inputChange=(e)=>{
+        setInputSearch(e.target.value)
+        allPackageHandler({
+            params: {
+                // sortColumn: sort?.column,
+                // sortDirection: sort?.direction,
+                pageNo: 1,
+                pageSize: 20,
+                searchQuery: e.target.value,
+            },
+        })
+    }
+
     return (
         <div style={{ position: 'relative' }}>
 
@@ -32,23 +80,34 @@ const NearBy = () => {
             <div className='floating-map-div'>
                 <div style={{ backgroundColor: 'white', borderRadius: '12px', width: '342px' }}>
 
-                    <div style={{ color: 'white', fontSize: '20px', fontWeight: '600', padding: '15px 10px', borderRadius: '12px', backgroundColor: '#00277a' }} >
+                    <div style={{ color: 'white', fontSize: '20px', fontWeight: '600', padding: '15px 10px', borderRadius: '5px', backgroundColor: '#00277a' }} >
                         <div className="search-box">
                             <button className="btn-search"><FaSearch /></button>
 
-                            <input type="text" className="input-search" placeholder="Type to Search..." />
+                            <input type="text" className="input-search" placeholder="Type to Search..." onChange={(e)=>{inputChange(e)}} />
                         </div>
-                            {/* <span >Offices and Main Labs</span> */}
+                        {/* <span >Offices and Main Labs</span> */}
 
                     </div>
-                    <div className='scroll-div'>
-                        {
-                            (array ?? []).map((itemValue, index) => {
-                                return <LocationCard itemValue={itemValue} key={index} />
-                            })
-                        }
+                    {allPackageResponse?.fetching ? (
+                        <div className='text-center my-5'>
 
-                    </div>
+                        <Spinner size={"lg"} />
+                        </div>
+
+                    ) : (
+                        <div className='scroll-div'>
+
+
+                            {
+                                (allPackageResponse?.data?.data ?? []).map((itemValue, index) => {
+                                    return <LocationCard itemValue={itemValue} key={index} />
+                                })
+                            }
+
+                        </div>
+                    )}
+
                 </div>
 
             </div>
@@ -73,7 +132,7 @@ const LocationCard = ({ itemValue }) => {
         <div className='w-100' style={{ padding: '15px 20px', cursor: 'pointer' }}>
             <div className={`row ${showDiv ? ' noraml-lab-details-text-selected ' : ' noraml-lab-details-text'} `} style={{ fontSize: '18px', fontWeight: '500' }}>
                 <p onClick={() => { setShowDiv(!showDiv) }} className='col-10'>
-                    {itemValue.centername}
+                    {itemValue?.centre}
 
 
                 </p>
@@ -92,11 +151,11 @@ const LocationCard = ({ itemValue }) => {
 
                     <div className='row'>
                         <p className='col-8' style={{ color: '#86868a', fontSize: '16px' }}>
-                            {itemValue.address}
+                            {itemValue?.address}
 
                         </p>
                         <p className='col-4 text-end' style={{ color: '#46b902', fontSize: '13px', fontWeight: '500' }}>
-                            {itemValue.distance} Away
+                            {itemValue?.distance ?? '4km'} Away
                         </p>
                     </div>
 
@@ -124,7 +183,7 @@ const LocationCard = ({ itemValue }) => {
                                 {ViewTimings &&
                                     <div style={{ fontSize: '13px', color: '#86868a' }}>
 
-                                        {itemValue.openAt} - {itemValue.close}
+                                        {itemValue.labOpeningTime} - {itemValue.labClosingTime}
 
                                     </div>
 
@@ -140,7 +199,7 @@ const LocationCard = ({ itemValue }) => {
                                 <button className='d-flex gap-1 py-1 px-2   call-button' style={{
                                     borderRadius:
                                         '10px', color: 'white', fontWeight: '600'
-                                }}><p className='mb-0'><FaPhone /></p><span>984573894</span></button>
+                                }}><p className='mb-0'><FaPhone /></p><span>{itemValue.contact}</span></button>
 
 
                             </div>

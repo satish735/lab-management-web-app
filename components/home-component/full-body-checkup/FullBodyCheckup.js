@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import apiRequest from "@/utils/apiRequest";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
+import { Spinner } from "reactstrap";
 const FullBodyCheckup = () => {
 
 
@@ -99,14 +100,22 @@ const FullBodyCheckup = () => {
           </div>
         </div>
 
-        <div className="full-body-checkup-section py-5">
-          <CarousalSlider
-            DataList={testResponse?.data?.packagesList}
-            slidesToScroll={1}
-            slidesToShow_lg={3}
-            sliderFor={"packages"}
-          />
-        </div>
+        {testResponse?.fetching ? (
+          <div className='text-center my-5'>
+
+            <Spinner size={"xl"} />
+          </div>
+
+        ) : (
+          <div className="full-body-checkup-section py-5">
+            <CarousalSlider
+              DataList={testResponse?.data?.packagesList}
+              slidesToScroll={1}
+              slidesToShow_lg={3}
+              sliderFor={"packages"}
+            />
+          </div>
+        )}
 
         <div className="text-center my-4">
           <button onClick={() => { router.push(`/health-packages`) }}
@@ -120,16 +129,22 @@ const FullBodyCheckup = () => {
 
       <div className="container-fluid">
         <p className=" heading-text-home my-2">Most Popular Tests</p>
+        {testResponse?.fetching ? (
+          <div className='text-center my-5'>
 
-        <div>
-          <CarousalSlider
-            DataList={testResponse?.data?.testList}
-            slidesToScroll={1}
-            slidesToShow_lg={4}
-            sliderFor={"popular test"}
-          />
-        </div>
+            <Spinner size={"xl"} />
+          </div>
 
+        ) : (
+          <div>
+            <CarousalSlider
+              DataList={testResponse?.data?.testList}
+              slidesToScroll={1}
+              slidesToShow_lg={4}
+              sliderFor={"popular test"}
+            />
+          </div>
+        )}
         <div className="text-center my-5">
           <button onClick={() => { router.push(`/lab-tests`) }}
             className=" card-button-view-all px-4 py-2 "

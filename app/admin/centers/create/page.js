@@ -232,6 +232,27 @@ export default function Home() {
     await blogSubmitHandler({ body: submitBody });
   };
 
+
+  const [centerSitResponse, centerSuHandler] = useAPI(
+    {
+      url: "/centers/create",
+      method: "post",
+    },
+    (e) => {
+       
+    },
+    (e) => {
+      toast.error(
+        transformErrorDefault("Something went wrong while creating Center!", e)
+      );
+      return e;
+    }
+  );
+
+  const abab=()=>{
+    centerSuHandler()
+  }
+
   return (
     <div>
       <BreadcrumbDiv
@@ -246,6 +267,7 @@ export default function Home() {
         <p className="sub-heading">
           Easily Add and Configure a New Center to Application Database
         </p>
+        <buttom onClick={()=>{abab()}}>hhkhj</buttom>
         <form>
           <div className="row mt-2">
             <div className="col-lg-6 col-md-6 col-sm-12 ">
