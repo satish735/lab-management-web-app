@@ -135,7 +135,8 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                                 },
                             ]}
                             onChange={(ranges) => {
-                                const checkIfIsInRange = ranges.some(([start, end]) => {
+                               var new_ranges = ranges.filter(([start, end]) => start && end)
+                                const checkIfIsInRange = new_ranges.some(([start, end]) => {
                                     const startStr = start?.format?.();
                                     const endStr = end?.format?.();
                                     const startDate = new Date(startStr);
@@ -149,11 +150,11 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                                 });
                                 console.log(checkIfIsInRange, "check")
                                 if (checkIfIsInRange) return false;
-                                setSelectedRangeValues(ranges);
+                                setSelectedRangeValues(new_ranges);
                             }}
                             mapDays={({ date }) => {
                                 let className;
-                                const strDate = date.format();
+                                const strDate = date?.format();
                                 if (disabledDateStrings.includes(strDate)) {
                                     className = "in-service"
                                 };

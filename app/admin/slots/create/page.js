@@ -165,6 +165,10 @@ export default function Home() {
         <GenrateSlots slots={genratedSlots} setSlots={setGenratedSlots} centerId="testCenterId" />
         <br />
         <ViewSlots slots={genratedSlots} editable={true} setSlots={setGenratedSlots} />
+        <div className="w-100 text-end py-2">
+          <button className="btn btn-theme secondary-outline me-2">Cancel</button>
+          <button className="btn btn-theme primary ">Save Generated Slots</button>
+        </div>
       </div>
     </div>
   );
