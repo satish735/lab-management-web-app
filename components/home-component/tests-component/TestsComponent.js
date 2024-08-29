@@ -12,6 +12,7 @@ import PopularTest from "../popular-test/PopularTest";
 import "./test.css";
 import { useRouter } from "next/navigation";
 import useAPI from "@/hooks/useAPI";
+import { Spinner } from "reactstrap";
 const TestsComponent = () => {
   const router = useRouter();
 
@@ -84,15 +85,22 @@ const TestsComponent = () => {
     <div>
       <div className="container-fluid mt-5 heading-text-home">
         <p className="  my-4">Tests by Medical Conditions</p>
+        {getBasicDetailsResponse?.fetching ? (
+          <div className='text-center my-5'>
 
-        <div>
-          <CarousalSlider
-            DataList={ListingFields?.TestConditionListing ?? []}
-            slidesToScroll={1}
-            slidesToShow_lg={7}
-            sliderFor={"tests-by-medical-condition"}
-          />
-        </div>
+            <Spinner size={"xl"} />
+          </div>
+
+        ) : (
+          <div>
+            <CarousalSlider
+              DataList={ListingFields?.TestConditionListing ?? []}
+              slidesToScroll={1}
+              slidesToShow_lg={7}
+              sliderFor={"tests-by-medical-condition"}
+            />
+          </div>
+        )}
 
         <div className="text-center my-4">
           <button onClick={() => { router.push(`/home-collection`) }}
@@ -104,9 +112,17 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="container-fluid">
+      <div className="container-fluid  heading-text-home">
         <p className=" heading-text-home my-2">Tests by Body Parts</p>
 
+
+        {getBasicDetailsResponse?.fetching ? (
+          <div className='text-center my-5'>
+
+            <Spinner size={"xl"} />
+          </div>
+
+        ) : (
         <div>
           <CarousalSlider
             DataList={ListingFields?.BodyPartListing ?? []}
@@ -115,6 +131,7 @@ const TestsComponent = () => {
             sliderFor={"tests-by-body-part"}
           />
         </div>
+        )}
 
         <div className="text-center my-4">
           <button onClick={() => { router.push(`/home-collection`) }}
