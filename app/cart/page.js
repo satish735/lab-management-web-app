@@ -127,7 +127,7 @@ console.log("addtestandpackage", addtestandpackage)
                 <div className=" col-sm-8 col-12 ">
                     {userinfoResponse?.data?.map((item, index) => {
                         return (
-                            <div className=" py-1" >
+                            <div className=" py-1" key={index} >
                                 <Accordion open={open} toggle={accordiontoggle}>
                                     <AccordionItem className="">
                                         <AccordionHeader targetId={index}>
@@ -145,9 +145,9 @@ console.log("addtestandpackage", addtestandpackage)
                                         <AccordionBody accordionId={index}>
                                             <h6 className="py-2" >Tests & Packages</h6>
                                             <div className="row" >
-                                                {initialProducts?.map((key) => {
+                                                {initialProducts?.map((key,index) => {
                                                     return (
-                                                        <div className="col-sm-6 col-12" >
+                                                        <div key={index}  className="col-sm-6 col-12" >
                                                             <div className="checkbox-tests-packages-item w-100 ">
                                                                 <div className="filter-boxleft">
                                                                     <label className="container-checkbox" >
@@ -163,7 +163,7 @@ console.log("addtestandpackage", addtestandpackage)
                                                                                     })
                                                                                     console.log("changepermission",changepermission)
 
-                                                                                    return {...testnew,istest:changepermission?.istest}
+                                                                                    return {...testnew,istest:changepermission}
 
                                                                                 }else{
                                                                                     return testnew

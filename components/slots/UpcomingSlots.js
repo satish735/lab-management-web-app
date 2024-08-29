@@ -80,8 +80,8 @@ const TimeGroupedView = ({ items }) => {
 
   return (
     <div>
-      {Object.keys(groupedItems).map((slot) => (
-        <div key={slot} className="py-2">
+      {Object.keys(groupedItems).map((slot, index) => (
+        <div key={index} className="py-2">
           <h2 className="slot-category-heading">{slot}</h2>
           <div>
             {groupedItems[slot].map((item, index) => (
