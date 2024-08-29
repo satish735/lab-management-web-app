@@ -2,21 +2,20 @@ import React from 'react'
 import '@/components/package-details/total-test-include/totalTestInclude.css'
 import TestListing from './TestListing'
 import SvgIcon from '@/components/home-component/SvgIcon'
-import PackageCardDesign from '../package-card/PackageCardDesign'
+import PackageCardDesign from '../test-card/TestCardDesign'
 const TotalTestInclude = ({ total_test }) => {
   return (
     <>
       <div className='test-include-div bg-white py-4' style={{ borderRadius: '10px' }}>
         <h2 className='heading-text px-3'>
-          Total Test Included ({(total_test?.itemId ?? [])?.length})
+          {total_test?.name ?? ''}
         </h2>
 
         <div className='px-3' >
-          {(total_test?.itemId ?? []).map((item, index) => {
-            return <TestListing item={item} key={index} />
-          })}
-        </div>
+          <TestListing item={total_test?.observation}   />
 
+        </div>
+        
 
       </div>
 

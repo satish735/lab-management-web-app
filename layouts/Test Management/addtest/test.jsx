@@ -5,18 +5,22 @@ import InputSelect from "@/components/project-main-component/input-component/Inp
 import { useEffect, useState } from "react";
 import useAPI from "@/hooks/useAPI";
 import InputTextArea from "@/components/formInput/InputTextArea"
-import InputTextAreaMultiple from "@/components/formInput/InputTextAreaMultiple"
+import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 
-import { BodyParts, SampleTypes, Observations_List } from "@/staticdata/staticdropdown"
 import useInputComponent from "@/hooks/useInputComponent";
 import uuid from "react-uuid";
+import { Spinner } from "reactstrap";
+import TestListing from "@/components/package-details/total-test-include/TestListing";
 
 const Test = () => {
 
     const [isSubmit, setisSubmit] = useState(false)
 
+    const [imageFile, setImageFile] = useState();
 
+    const [ListingFields, setListingFields] = useState();
 
+    const [ObservationsData, setObservationsData] = useState([{ observations: '', id: uuid() }]);
 
 
     const [createTestResponse, createTestHandler] = useAPI(
@@ -26,6 +30,60 @@ const Test = () => {
 
         },
         (e) => {
+
+
+            if (TestOrPackage === 'Test') {
+                toast.success("Test created successfully.");
+
+            }
+            if (TestOrPackage === 'Package') {
+                toast.success("Package created successfully.");
+
+            }
+            // setisSubmit(false)
+        },
+        (e) => {
+            // setisSubmit(false)
+            //  transformErrorDefault(
+            //     "Something went wrong while creating Test Case!",
+            //     e
+            // );
+        }
+    );
+
+
+    const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
+        {
+            url: "/getTestDetails",
+            method: "get",
+            sendImmediately: true,
+
+        },
+        (e) => {
+
+            
+
+            let TestConditionListing = (e?.TestConditionListing ?? []).map((item) => {
+                return { label: item?.name, value: item?._id }
+            })
+            let BodyPartListing = (e?.BodyPartListing ?? []).map((item) => {
+                return { label: item?.name, value: item?._id }
+            })
+
+            let total_cost = 0;
+            let TestListing = (e?.PackageTestInstanceListing ?? []).map((item) => {
+
+                console.log(item);
+
+                total_cost += Number(item?.rate);
+                return { label: item?.name, value: item?._id }
+            })
+            setListingFields({
+                TestConditionListing: TestConditionListing, BodyPartListing: BodyPartListing, TestListing: TestListing
+            })
+
+            ActualCost.setEnteredValue(total_cost);
+
             // toast.success("");
             // setisSubmit(false)
         },
@@ -92,7 +150,7 @@ const Test = () => {
         DescriptionInput.setMessageType("none");
         return true;
     };
-    const [BodyPartType, setBodyPartType] = useState();
+    const [BodyPartType, setBodyPartType] = useState([]);
     const [BodyPartTypeIsTouch, setBodyPartTypeIsTouch] = useState(false);
 
     const [BodyPartTypeMessage, setBodyPartTypeMessage] = useState({
@@ -110,7 +168,7 @@ const Test = () => {
     };
 
 
-    const [MedicalConditions, setMedicalConditions] = useState();
+    const [MedicalConditions, setMedicalConditions] = useState([]);
     const [MedicalConditionsIsTouch, setMedicalConditionsIsTouch] = useState(false);
 
     const [MedicalConditionsMessage, setMedicalConditionsMessage] = useState({
@@ -142,22 +200,7 @@ const Test = () => {
         return true;
     };
 
-    const [TestType, setTestType] = useState();
-    const [TestTypeIsTouch, setTestTypeIsTouch] = useState(false);
 
-    const [TestTypeMessage, setTestTypeMessage] = useState({
-        type: "info",
-        message: "",
-    });
-    const TestTypeSelectValidater = (value) => {
-        if (value === "" || !value) {
-            setTestTypeMessage({ type: "error", message: "Field Required!" });
-            return false;
-        }
-        setTestTypeMessage({ type: "info", message: "" });
-
-        return true;
-    };
 
     const test_type_option = [
 
@@ -184,9 +227,10 @@ const Test = () => {
 
     const genderoption = [
 
+        { label: "", value: "", },
         { label: "Male", value: "male", },
         { label: "Female", value: "female" },
-        { label: "Male & Female", value: "Male & Female" },
+        { label: "Male & Female", value: "both" },
 
     ]
 
@@ -194,17 +238,32 @@ const Test = () => {
 
 
 
-    const AgeGroup = useInputComponent('');
-    const AgeGroupValidater = (value) => {
+    const AgeGroupTo = useInputComponent('');
+    const AgeGroupToValidater = (value) => {
         if (value === "" || !value) {
-            AgeGroup.setFeedbackMessage(
+            AgeGroupTo.setFeedbackMessage(
                 "Field required!"
             );
-            AgeGroup.setMessageType("error");
+            AgeGroupTo.setMessageType("error");
             return false;
         }
-        AgeGroup.setFeedbackMessage("");
-        AgeGroup.setMessageType("none");
+        AgeGroupTo.setFeedbackMessage("");
+        AgeGroupTo.setMessageType("none");
+        return true;
+    };
+
+
+    const AgeGroupFrom = useInputComponent('');
+    const AgeGroupFromValidater = (value) => {
+        if (value === "" || !value) {
+            AgeGroupFrom.setFeedbackMessage(
+                "Field required!"
+            );
+            AgeGroupFrom.setMessageType("error");
+            return false;
+        }
+        AgeGroupFrom.setFeedbackMessage("");
+        AgeGroupFrom.setMessageType("none");
         return true;
     };
 
@@ -257,31 +316,6 @@ const Test = () => {
 
 
 
-    const [CollectionAt, setCollectionAt] = useState();
-    const [CollectionAtIsTouch, setCollectionAtIsTouch] = useState(false);
-
-    const [CollectionAtMessage, setCollectionAtMessage] = useState({
-        type: "info",
-        message: "",
-    });
-    const CollectionAtSelectValidater = (value) => {
-        if (value === "" || !value) {
-            setCollectionAtMessage({ type: "error", message: "Field Required!" });
-            return false;
-        }
-        setCollectionAtMessage({ type: "info", message: "" });
-
-        return true;
-    };
-
-    const collectionAtOption = [
-
-        { label: "Home", value: "home", },
-        { label: "Lab", value: "Lab" },
-        { label: "Home & Lab", value: "Home & Lab" },
-
-    ]
-
 
     const [HomeCollection, setHomeCollection] = useState();
     const [HomeCollectionIsTouch, setHomeCollectionIsTouch] = useState(false);
@@ -301,6 +335,7 @@ const Test = () => {
     };
     const homeCollectionOption = [
 
+        { label: "", value: "", },
         { label: "Yes", value: "yes", },
         { label: "No", value: "No" },
 
@@ -309,19 +344,7 @@ const Test = () => {
 
 
 
-    const TestIncluded = useInputComponent('');
-    const TestIncludedValidater = (value) => {
-        if (value === "" || !value) {
-            TestIncluded.setFeedbackMessage(
-                "Field required!"
-            );
-            TestIncluded.setMessageType("error");
-            return false;
-        }
-        TestIncluded.setFeedbackMessage("");
-        TestIncluded.setMessageType("none");
-        return true;
-    };
+
     const ResultWithinHours = useInputComponent('');
     const ResultWithinHoursValidater = (value) => {
         if (value === "" || !value) {
@@ -336,6 +359,83 @@ const Test = () => {
         return true;
     };
 
+    const DiscountPercentage = useInputComponent('');
+    const DiscountPercentageValidater = (value) => {
+        if (value === "" || !value) {
+            DiscountPercentage.setFeedbackMessage(
+                "Field required!"
+            );
+            DiscountPercentage.setMessageType("error");
+            return false;
+        }
+        DiscountPercentage.setFeedbackMessage("");
+        DiscountPercentage.setMessageType("none");
+        return true;
+    };
+
+
+
+    const [Testlisting, setTestlisting] = useState([]);
+    const [TestlistingIsTouch, setTestlistingIsTouch] = useState(false);
+
+    const [TestlistingMessage, setTestlistingMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const TestlistingSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setTestlistingMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setTestlistingMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+
+    const ActualCost = useInputComponent('');
+    const ActualCostValidater = (value) => {
+        if (value === "" || !value) {
+            ActualCost.setFeedbackMessage(
+                "Field required!"
+            );
+            ActualCost.setMessageType("error");
+            return false;
+        }
+        ActualCost.setFeedbackMessage("");
+        ActualCost.setMessageType("none");
+        return true;
+    };
+
+    const FinalMRP = useInputComponent('');
+    const FinalMRPValidater = (value) => {
+        if (value === "" || !value) {
+            FinalMRP.setFeedbackMessage(
+                "Field required!"
+            );
+            FinalMRP.setMessageType("error");
+            return false;
+        }
+        FinalMRP.setFeedbackMessage("");
+        FinalMRP.setMessageType("none");
+        return true;
+    };
+
+
+
+    const PackageName = useInputComponent('');
+    const PackageNameValidater = (value) => {
+        if (value === "" || !value) {
+            PackageName.setFeedbackMessage(
+                "Field required!"
+            );
+            PackageName.setMessageType("error");
+            return false;
+        }
+        PackageName.setFeedbackMessage("");
+        PackageName.setMessageType("none");
+        return true;
+    };
 
 
 
@@ -345,98 +445,208 @@ const Test = () => {
     const SubmitHandler = () => {
 
 
-        let TestNameInputValidate = commonValidate(TestNameInput.enteredValue);
-        let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
-        let BodyPartTypeSelectValidate = commonValidate(BodyPartType);
-        let MedicalConditionsSelectValidate = commonValidate(MedicalConditions);
-        let PriceValidate = commonValidate(Price.enteredValue);
-        let TestTypeSelectValidate = commonValidate(TestType);
-        let GenderTypeSelectValidate = commonValidate(GenderType);
-        let AgeGroupValidate = commonValidate(AgeGroup.enteredValue);
-        let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
-        let ObservationsInputValidate = commonValidate(ObservationsInput.enteredValue);
-        let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
-        let CollectionAtSelectValidate = commonValidate(CollectionAt);
-        let HomeCollectionSelectValidate = commonValidate(HomeCollection);
-        // let ObservationTitleTypeSelectValidate = commonValidate(ObservationTitleType);
-        let TestIncludedValidate = commonValidate(TestIncluded.enteredValue);
-        let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
+        if (TestOrPackage === 'Test') {
+
+
+
+            let TestNameInputValidate = commonValidate(TestNameInput.enteredValue);
+            let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
+            let BodyPartTypeSelectValidate = commonValidate(BodyPartType);
+            let MedicalConditionsSelectValidate = commonValidate(MedicalConditions);
+            let PriceValidate = commonValidate(Price.enteredValue);
+
+            let GenderTypeSelectValidate = commonValidate(GenderType);
+            let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
+            let AgeGroupFromValidate = commonValidate(AgeGroupFrom.enteredValue);
+            let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
+
+            let ObservationsInputValidate = (ObservationsData ?? []).length > 0;
+            let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
+            let DiscountPercentageValidate = commonValidate(DiscountPercentage.enteredValue);
+
+            let HomeCollectionSelectValidate = commonValidate(HomeCollection);
+            let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
 
 
 
 
-        if (!TestNameInputValidate ||
-            !DescriptionInputValidate ||
-            !BodyPartTypeSelectValidate ||
-            // !MedicalConditionsSelectValidate ||
-            !PriceValidate ||
-            !TestTypeSelectValidate ||
-            !GenderTypeSelectValidate ||
-            !AgeGroupValidate ||
-            !SampleRequiredValidate ||
-            !ObservationsInputValidate ||
-            !PreparationRequiredValidate ||
-            !CollectionAtSelectValidate ||
-            !HomeCollectionSelectValidate ||
+            if (!TestNameInputValidate ||
+                !DescriptionInputValidate ||
+                !BodyPartTypeSelectValidate ||
+                !MedicalConditionsSelectValidate ||
+                !PriceValidate ||
+                !GenderTypeSelectValidate ||
+                !AgeGroupToValidate ||
+                !SampleRequiredValidate ||
+                !ObservationsInputValidate ||
+                !PreparationRequiredValidate ||
+                !DiscountPercentageValidate ||
+                !AgeGroupFromValidate ||
+                !HomeCollectionSelectValidate ||
 
-            !TestIncludedValidate ||
-            !ResultWithinHoursValidate) {
+                !ResultWithinHoursValidate ||
+                !imageFile?.filePath
 
 
-            console.log('Validation failed for one or more inputs.');
-        } else {
+            ) {
 
-            console.log({
-                body: {
-                    name: TestNameInput.enteredValue ?? null,
-                    description: DescriptionInput.enteredValue ?? null,
-                    body_parts_type: BodyPartType ?? null,
-                    observations: ObservationsInput ?? null,
-                    medical_conditions: MedicalConditions ?? null,
-                    price: Price.enteredValue ?? null,
-                    test_type: TestType ?? null,
-                    gender: GenderType ?? null,
-                    age_group: AgeGroup.enteredValue ?? null,
-                    requirements: null,
-                    features: {
-                        SampleRequiredValidate: SampleRequired.enteredValue ?? null,
-                        PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
-                        CollectionAtSelectValidate: CollectionAt ?? null,
-                        HomeCollectionSelectValidate: HomeCollection ?? null,
-                        TestIncludedValidate: TestIncluded.enteredValue ?? null,
-                        ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
+
+                console.log('Validation failed for one or more inputs.');
+            } else {
+
+                // console.log({
+                //     body: {
+                //         name: TestNameInput.enteredValue ?? null,
+                //         description: DescriptionInput.enteredValue ?? null,
+                //         body_parts_type: BodyPartType ?? null,
+                //         observations: ObservationsData ?? null,
+                //         image: imageFile?.filePath ?? null,
+                //         medical_conditions: MedicalConditions ?? null,
+                //         price: Price.enteredValue ?? null,
+                //         gender: GenderType ?? null,
+                //         age_groupFrom: AgeGroupFrom.enteredValue ?? null,
+
+                //         age_groupTo: AgeGroupTo.enteredValue ?? null,
+                //         requirements: null,
+                //         DiscountPercentage: DiscountPercentage.enteredValue,
+
+                //         SampleRequiredValidate: SampleRequired.enteredValue ?? null,
+                //         PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
+
+                //         HomeCollectionSelectValidate: HomeCollection ?? null,
+                //         ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
+
+
+                //     }
+                // });
+                createTestHandler(
+                    {
+                        body: {
+                            name: TestNameInput.enteredValue ?? null,
+                            desc: DescriptionInput.enteredValue ?? null,
+                            bodyParts: BodyPartType ?? null,
+                            observation: ObservationsData ?? null,
+                            image: imageFile?.filePath ?? null,
+                            conditions: MedicalConditions ?? null,
+                            rate: Price.enteredValue ?? null,
+                            gender: GenderType ?? null,
+                            fromAge: AgeGroupFrom.enteredValue ?? null,
+                            testType: TestOrPackage ?? null,
+                            toAge: AgeGroupTo.enteredValue ?? null,
+                            discountPercentage: DiscountPercentage.enteredValue,
+
+                            sampleCollection: SampleRequired.enteredValue ?? null,
+                            preparation: PreparationRequired.enteredValue ?? null,
+
+                            homeCollection: HomeCollection ?? null,
+                            reportGenerationHours: ResultWithinHours.enteredValue ?? null,
+
+
+                        }
                     }
+                )
 
-                }
-            });
-            // createTestHandler(
-            //     {
-            //         body: {
-            //             name: TestNameInput.enteredValue ?? null,
-            //             description: DescriptionInput.enteredValue ?? null,
-            //             body_parts_type: BodyPartType ?? null,
-            //             observations: ObservationsInput ?? null,
-            //             medical_conditions: MedicalConditions ?? null,
-            //             price: Price.enteredValue ?? null,
-            //             test_type: TestType ?? null,
-            //             gender: GenderType ?? null,
-            //             age_group: AgeGroup.enteredValue ?? null,
-            //             requirements: null,
-            //             features: {
-            //                 SampleRequiredValidate: SampleRequired.enteredValue ?? null,
-            //                 PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
-            //                 CollectionAtSelectValidate: CollectionAt ?? null,
-            //                 HomeCollectionSelectValidate: HomeCollection ?? null,
-            //                 TestIncludedValidate: TestIncluded.enteredValue ?? null,
-            //                 ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
-            //             }
-
-            //         }
-            //     }
-            // )
-            console.log('All validations passed successfully.');
+            }
         }
+        else {
+            let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
+            let ActualCostInputValidate = commonValidate(ActualCost.enteredValue);
+            let PackageNameValidate = commonValidate(PackageName.enteredValue);
+            let TestlistingSelectValidate = commonValidate(Testlisting);
 
+
+
+            let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
+
+            let GenderTypeSelectValidate = commonValidate(GenderType);
+            let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
+            let AgeGroupFromValidate = commonValidate(AgeGroupFrom.enteredValue);
+            let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
+
+            let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
+            let DiscountPercentageValidate = commonValidate(DiscountPercentage.enteredValue);
+
+            let HomeCollectionSelectValidate = commonValidate(HomeCollection);
+            let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
+
+
+            if (!FinalMRPInputValidate ||
+                !ActualCostInputValidate ||
+                !TestlistingSelectValidate ||
+                !PackageNameValidate
+                ||
+                !DescriptionInputValidate ||
+                !GenderTypeSelectValidate ||
+                !AgeGroupToValidate ||
+                !SampleRequiredValidate ||
+                !PreparationRequiredValidate ||
+                !DiscountPercentageValidate ||
+                !AgeGroupFromValidate ||
+                !HomeCollectionSelectValidate ||
+
+                !ResultWithinHoursValidate ||
+                !imageFile?.filePath
+            ) {
+                console.log('Validation failed for one or more inputs.');
+
+            }
+
+            else {
+
+                // console.log({
+                //     name: PackageName.enteredValue ?? null,
+                //     itemId: Testlisting ?? [],
+                //     desc: DescriptionInput.enteredValue ?? null,
+
+                //     image: imageFile?.filePath ?? null,
+
+                //     rate: ActualCost.enteredValue ?? null,
+                //     totalMRP: FinalMRP.enteredValue ?? null,
+                //     gender: GenderType ?? null,
+                //     fromAge: AgeGroupFrom.enteredValue ?? null,
+                //     testType: TestOrPackage ?? null,
+                //     toAge: AgeGroupTo.enteredValue ?? null,
+                //     discountPercentage: DiscountPercentage.enteredValue,
+
+                //     sampleCollection: SampleRequired.enteredValue ?? null,
+                //     preparation: PreparationRequired.enteredValue ?? null,
+
+                //     homeCollection: HomeCollection ?? null,
+                //     reportGenerationHours: ResultWithinHours.enteredValue ?? null,
+
+
+                // });
+
+                createTestHandler(
+                    {
+                        body: {
+                            name: PackageName.enteredValue ?? null,
+                            itemId: Testlisting ?? [],
+                            desc: DescriptionInput.enteredValue ?? null,
+
+                            image: imageFile?.filePath ?? null,
+
+                            rate: Number(ActualCost.enteredValue) ?? null,
+                            totalMrp: Number(FinalMRP.enteredValue) ?? null,
+                            gender: GenderType ?? null,
+                            fromAge: Number(AgeGroupFrom.enteredValue) ?? null,
+                            testType: TestOrPackage ?? null,
+                            toAge: Number(AgeGroupTo.enteredValue) ?? null,
+                            discountPercentage: Number(DiscountPercentage.enteredValue),
+
+                            sampleCollection: SampleRequired.enteredValue ?? null,
+                            preparation: PreparationRequired.enteredValue ?? null,
+
+                            homeCollection: HomeCollection ?? null,
+                            reportGenerationHours: ResultWithinHours.enteredValue ?? null,
+
+
+                        }
+                    }
+                )
+
+            }
+        }
 
     }
 
@@ -450,16 +660,15 @@ const Test = () => {
             BodyPartTypeSelectValidater(BodyPartType)
             MedicalConditionsSelectValidater(MedicalConditions)
             PriceValidater(Price.enteredValue)
-            TestTypeSelectValidater(TestType)
+
             GenderTypeSelectValidater(GenderType)
-            AgeGroupValidater(AgeGroup.enteredValue)
+            AgeGroupToValidater(AgeGroupTo.enteredValue)
             SampleRequiredValidater(SampleRequired.enteredValue)
             ObservationsInputValidater(ObservationsInput.enteredValue)
             PreparationRequiredValidater(PreparationRequired.enteredValue)
-            CollectionAtSelectValidater(CollectionAt)
+
             HomeCollectionSelectValidater(HomeCollection)
             // ObservationTitleTypeSelectValidater(ObservationTitleType)
-            TestIncludedValidater(TestIncluded.enteredValue)
             ResultWithinHoursValidater(ResultWithinHours.enteredValue)
         }
 
@@ -502,6 +711,277 @@ const Test = () => {
                         Add Package Details
                     </h5>
                     <div className=" mb-3  py-0 px-3"  >
+                        <div className="row my-3">
+                            <div className="col-lg-3 col-md-4 col-sm-12">
+                                <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
+                                <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                            </div>
+
+                            <div className="col-lg-9 col-md-8 col-sm-12">
+
+                                <div className="row">
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Package Name"
+                                            className="loginInputs"
+                                            setValue={PackageName.setEnteredValue}
+                                            value={PackageName.enteredValue}
+                                            feedbackMessage={PackageName.feedbackMessage}
+                                            feedbackType={PackageName.messageType}
+                                            isTouched={PackageName.isTouched}
+                                            setIsTouched={PackageName.setIsTouched}
+                                            validateHandler={PackageNameValidater}
+                                            reset={PackageName.reset}
+                                            isRequired={true}
+
+                                        />
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputMultipleSelect
+                                            setValue={setTestlisting}
+                                            value={Testlisting}
+                                            options={ListingFields?.TestListing ?? []}
+                                            isTouched={TestlistingIsTouch}
+                                            setIsTouched={setTestlistingIsTouch}
+                                            className="py-1"
+                                            label={"Select Tests To Include"}
+                                            isRequired={true}
+                                            feedbackMessage={TestlistingMessage?.message}
+                                            feedbackType={TestlistingMessage?.type}
+                                            validateHandler={TestlistingSelectValidater}
+                                        />
+                                    </div>
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Actual Price"
+                                            className="loginInputs"
+                                            setValue={ActualCost.setEnteredValue}
+                                            value={ActualCost.enteredValue}
+                                            feedbackMessage={ActualCost.feedbackMessage}
+                                            feedbackType={ActualCost.messageType}
+                                            isTouched={ActualCost.isTouched}
+                                            setIsTouched={ActualCost.setIsTouched}
+                                            validateHandler={ActualCostValidater}
+                                            reset={ActualCost.reset}
+                                            isRequired={true}
+                                            disabled={true}
+                                            type="number"
+                                        />
+                                    </div>
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Final Price"
+                                            className="loginInputs"
+                                            setValue={FinalMRP.setEnteredValue}
+                                            value={FinalMRP.enteredValue}
+                                            feedbackMessage={FinalMRP.feedbackMessage}
+                                            feedbackType={FinalMRP.messageType}
+                                            isTouched={FinalMRP.isTouched}
+                                            setIsTouched={FinalMRP.setIsTouched}
+                                            validateHandler={FinalMRPValidater}
+                                            reset={FinalMRP.reset}
+                                            isRequired={true}
+                                            type="number"
+                                        />
+                                    </div>
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Discount Percentage"
+                                            className="loginInputs"
+                                            setValue={DiscountPercentage.setEnteredValue}
+                                            value={DiscountPercentage.enteredValue}
+                                            feedbackMessage={DiscountPercentage.feedbackMessage}
+                                            feedbackType={DiscountPercentage.messageType}
+                                            isTouched={DiscountPercentage.isTouched}
+                                            setIsTouched={DiscountPercentage.setIsTouched}
+                                            validateHandler={DiscountPercentageValidater}
+                                            reset={DiscountPercentage.reset}
+                                            isRequired={true}
+                                        />
+                                    </div>
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputSelect
+                                            setValue={setGenderType}
+                                            value={GenderType}
+                                            options={genderoption ?? []}
+                                            isTouched={GenderTypeIsTouch}
+                                            setIsTouched={setGenderTypeIsTouch}
+                                            className="py-1"
+                                            label={"Gender"}
+                                            isRequired={true}
+                                            feedbackMessage={GenderTypeMessage?.message}
+                                            feedbackType={GenderTypeMessage?.type}
+                                            validateHandler={GenderTypeSelectValidater}
+                                        />
+                                    </div>
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputWithAddOn
+                                            label="Age Group From"
+                                            className="loginInputs"
+
+                                            setValue={AgeGroupFrom.setEnteredValue}
+                                            value={AgeGroupFrom.enteredValue}
+                                            feedbackMessage={AgeGroupFrom.feedbackMessage}
+                                            feedbackType={AgeGroupFrom.messageType}
+                                            isTouched={AgeGroupFrom.isTouched}
+                                            setIsTouched={AgeGroupFrom.setIsTouched}
+
+                                            validateHandler={AgeGroupFromValidater}
+                                            reset={AgeGroupFrom.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+                                    </div>
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputWithAddOn
+                                            label="Age Group To"
+                                            className="loginInputs"
+
+                                            setValue={AgeGroupTo.setEnteredValue}
+                                            value={AgeGroupTo.enteredValue}
+                                            feedbackMessage={AgeGroupTo.feedbackMessage}
+                                            feedbackType={AgeGroupTo.messageType}
+                                            isTouched={AgeGroupTo.isTouched}
+                                            setIsTouched={AgeGroupTo.setIsTouched}
+
+                                            validateHandler={AgeGroupToValidater}
+                                            reset={AgeGroupTo.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+                                    </div>
+
+
+
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputSelect
+                                            setValue={setHomeCollection}
+                                            value={HomeCollection}
+                                            options={homeCollectionOption ?? []}
+                                            isTouched={HomeCollectionIsTouch}
+                                            setIsTouched={setHomeCollectionIsTouch}
+                                            className="py-1"
+                                            label={"Home Collection"}
+                                            isRequired={true}
+                                            feedbackMessage={HomeCollectionMessage?.message}
+                                            feedbackType={HomeCollectionMessage?.type}
+                                            validateHandler={HomeCollectionSelectValidater}
+                                        />
+                                    </div>
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Result Within Hours"
+                                            className="loginInputs"
+
+                                            setValue={ResultWithinHours.setEnteredValue}
+                                            value={ResultWithinHours.enteredValue}
+                                            feedbackMessage={ResultWithinHours.feedbackMessage}
+                                            feedbackType={ResultWithinHours.messageType}
+                                            isTouched={ResultWithinHours.isTouched}
+                                            setIsTouched={ResultWithinHours.setIsTouched}
+
+                                            validateHandler={ResultWithinHoursValidater}
+                                            reset={ResultWithinHours.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+
+                                    </div>
+                                    <div className="col-lg-8 col-md-8 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Sample Required"
+                                            className="loginInputs"
+
+                                            setValue={SampleRequired.setEnteredValue}
+                                            value={SampleRequired.enteredValue}
+                                            feedbackMessage={SampleRequired.feedbackMessage}
+                                            feedbackType={SampleRequired.messageType}
+                                            isTouched={SampleRequired.isTouched}
+                                            setIsTouched={SampleRequired.setIsTouched}
+
+                                            validateHandler={SampleRequiredValidater}
+                                            reset={SampleRequired.reset}
+                                            isRequired={true}
+                                        />
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div className="col-lg-6 col-md-6 col-sm-12 ">
+
+                                <InputTextArea
+                                    label="Preparation Required"
+                                    className="loginInputs"
+
+                                    setValue={PreparationRequired.setEnteredValue}
+                                    value={PreparationRequired.enteredValue}
+                                    feedbackMessage={PreparationRequired.feedbackMessage}
+                                    feedbackType={PreparationRequired.messageType}
+                                    isTouched={PreparationRequired.isTouched}
+                                    setIsTouched={PreparationRequired.setIsTouched}
+
+                                    validateHandler={PreparationRequiredValidater}
+                                    reset={PreparationRequired.reset}
+                                    isRequired={true}
+                                />
+                            </div>
+
+                            <div className="col-lg-6 col-md-6 col-sm-12 ">
+                                <InputTextArea
+                                    label="Description"
+                                    className="loginInputs"
+
+                                    setValue={DescriptionInput.setEnteredValue}
+                                    value={DescriptionInput.enteredValue}
+                                    feedbackMessage={DescriptionInput.feedbackMessage}
+                                    feedbackType={DescriptionInput.messageType}
+                                    isTouched={DescriptionInput.isTouched}
+                                    setIsTouched={DescriptionInput.setIsTouched}
+
+                                    validateHandler={DescriptionInputValidater}
+                                    reset={DescriptionInput.reset}
+                                    isRequired={true}
+                                />
+
+                            </div>
+
+
+
+                        </div>
 
                     </div>
                 </>
@@ -520,117 +1000,238 @@ const Test = () => {
 
                         <div className="row my-3">
 
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                            <div className="col-lg-3 col-md-4 col-sm-12">
+                                <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
+                                <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                            </div>
 
-                                <InputWithAddOn
-                                    label="Test Name"
-                                    className="loginInputs"
+                            <div className="col-lg-9 col-md-8 col-sm-12">
+                                <div className="row">
 
-                                    setValue={TestNameInput.setEnteredValue}
-                                    value={TestNameInput.enteredValue}
-                                    feedbackMessage={TestNameInput.feedbackMessage}
-                                    feedbackType={TestNameInput.messageType}
-                                    isTouched={TestNameInput.isTouched}
-                                    setIsTouched={TestNameInput.setIsTouched}
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-                                    validateHandler={TestNameInputValidater}
-                                    reset={TestNameInput.reset}
-                                    isRequired={true}
-                                />
+                                        <InputWithAddOn
+                                            label="Test Name"
+                                            className="loginInputs"
+
+                                            setValue={TestNameInput.setEnteredValue}
+                                            value={TestNameInput.enteredValue}
+                                            feedbackMessage={TestNameInput.feedbackMessage}
+                                            feedbackType={TestNameInput.messageType}
+                                            isTouched={TestNameInput.isTouched}
+                                            setIsTouched={TestNameInput.setIsTouched}
+
+                                            validateHandler={TestNameInputValidater}
+                                            reset={TestNameInput.reset}
+                                            isRequired={true}
+                                        />
 
 
+                                    </div>
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputMultipleSelect
+                                            setValue={setMedicalConditions}
+                                            value={MedicalConditions}
+                                            options={ListingFields?.TestConditionListing ?? []}
+                                            isTouched={MedicalConditionsIsTouch}
+                                            setIsTouched={setMedicalConditionsIsTouch}
+                                            className="py-1"
+                                            label={"Health Condition"}
+                                            isRequired={true}
+                                            feedbackMessage={MedicalConditionsMessage?.message}
+                                            feedbackType={MedicalConditionsMessage?.type}
+                                            validateHandler={MedicalConditionsSelectValidater}
+                                        />
+                                    </div>
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputMultipleSelect
+                                            setValue={setBodyPartType}
+                                            value={BodyPartType}
+                                            options={ListingFields?.BodyPartListing ?? []}
+                                            isTouched={BodyPartTypeIsTouch}
+                                            setIsTouched={setBodyPartTypeIsTouch}
+                                            className="py-1"
+                                            label={"Body Part"}
+                                            isRequired={true}
+                                            feedbackMessage={BodyPartTypeMessage?.message}
+                                            feedbackType={BodyPartTypeMessage?.type}
+                                            validateHandler={BodyPartTypeSelectValidater}
+                                        />
+                                    </div>
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Price"
+                                            className="loginInputs"
+
+                                            setValue={Price.setEnteredValue}
+                                            value={Price.enteredValue}
+                                            feedbackMessage={Price.feedbackMessage}
+                                            feedbackType={Price.messageType}
+                                            isTouched={Price.isTouched}
+                                            setIsTouched={Price.setIsTouched}
+
+                                            validateHandler={PriceValidater}
+                                            reset={Price.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Discount Percentage"
+                                            className="loginInputs"
+                                            setValue={DiscountPercentage.setEnteredValue}
+                                            value={DiscountPercentage.enteredValue}
+                                            feedbackMessage={DiscountPercentage.feedbackMessage}
+                                            feedbackType={DiscountPercentage.messageType}
+                                            isTouched={DiscountPercentage.isTouched}
+                                            setIsTouched={DiscountPercentage.setIsTouched}
+                                            validateHandler={DiscountPercentageValidater}
+                                            reset={DiscountPercentage.reset}
+                                            isRequired={true}
+                                        />
+                                    </div>
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputSelect
+                                            setValue={setGenderType}
+                                            value={GenderType}
+                                            options={genderoption ?? []}
+                                            isTouched={GenderTypeIsTouch}
+                                            setIsTouched={setGenderTypeIsTouch}
+                                            className="py-1"
+                                            label={"Gender"}
+                                            isRequired={true}
+                                            feedbackMessage={GenderTypeMessage?.message}
+                                            feedbackType={GenderTypeMessage?.type}
+                                            validateHandler={GenderTypeSelectValidater}
+                                        />
+                                    </div>
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputWithAddOn
+                                            label="Age Group From"
+                                            className="loginInputs"
+
+                                            setValue={AgeGroupFrom.setEnteredValue}
+                                            value={AgeGroupFrom.enteredValue}
+                                            feedbackMessage={AgeGroupFrom.feedbackMessage}
+                                            feedbackType={AgeGroupFrom.messageType}
+                                            isTouched={AgeGroupFrom.isTouched}
+                                            setIsTouched={AgeGroupFrom.setIsTouched}
+
+                                            validateHandler={AgeGroupFromValidater}
+                                            reset={AgeGroupFrom.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+                                    </div>
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputWithAddOn
+                                            label="Age Group To"
+                                            className="loginInputs"
+
+                                            setValue={AgeGroupTo.setEnteredValue}
+                                            value={AgeGroupTo.enteredValue}
+                                            feedbackMessage={AgeGroupTo.feedbackMessage}
+                                            feedbackType={AgeGroupTo.messageType}
+                                            isTouched={AgeGroupTo.isTouched}
+                                            setIsTouched={AgeGroupTo.setIsTouched}
+
+                                            validateHandler={AgeGroupToValidater}
+                                            reset={AgeGroupTo.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+                                    </div>
+
+
+
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputSelect
+                                            setValue={setHomeCollection}
+                                            value={HomeCollection}
+                                            options={homeCollectionOption ?? []}
+                                            isTouched={HomeCollectionIsTouch}
+                                            setIsTouched={setHomeCollectionIsTouch}
+                                            className="py-1"
+                                            label={"Home Collection"}
+                                            isRequired={true}
+                                            feedbackMessage={HomeCollectionMessage?.message}
+                                            feedbackType={HomeCollectionMessage?.type}
+                                            validateHandler={HomeCollectionSelectValidater}
+                                        />
+                                    </div>
+
+
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Result Within Hours"
+                                            className="loginInputs"
+
+                                            setValue={ResultWithinHours.setEnteredValue}
+                                            value={ResultWithinHours.enteredValue}
+                                            feedbackMessage={ResultWithinHours.feedbackMessage}
+                                            feedbackType={ResultWithinHours.messageType}
+                                            isTouched={ResultWithinHours.isTouched}
+                                            setIsTouched={ResultWithinHours.setIsTouched}
+
+                                            validateHandler={ResultWithinHoursValidater}
+                                            reset={ResultWithinHours.reset}
+                                            isRequired={true}
+                                            type='number'
+                                        />
+
+
+                                    </div>
+                                    <div className="col-lg-8 col-md-8 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Sample Required"
+                                            className="loginInputs"
+
+                                            setValue={SampleRequired.setEnteredValue}
+                                            value={SampleRequired.enteredValue}
+                                            feedbackMessage={SampleRequired.feedbackMessage}
+                                            feedbackType={SampleRequired.messageType}
+                                            isTouched={SampleRequired.isTouched}
+                                            setIsTouched={SampleRequired.setIsTouched}
+
+                                            validateHandler={SampleRequiredValidater}
+                                            reset={SampleRequired.reset}
+                                            isRequired={true}
+                                        />
+                                    </div>
+
+
+
+                                </div>
                             </div>
 
 
 
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputSelect
-                                    setValue={setMedicalConditions}
-                                    value={MedicalConditions}
-                                    options={[
-
-                                    ]}
-                                    isTouched={MedicalConditionsIsTouch}
-                                    setIsTouched={setMedicalConditionsIsTouch}
-                                    className="py-1"
-                                    label={"Health Condition"}
-                                    isRequired={true}
-                                    feedbackMessage={MedicalConditionsMessage?.message}
-                                    feedbackType={MedicalConditionsMessage?.type}
-                                    validateHandler={MedicalConditionsSelectValidater}
-                                />
-                            </div>
-
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputSelect
-                                    setValue={setBodyPartType}
-                                    value={BodyPartType}
-                                    options={BodyParts ?? []}
-                                    isTouched={BodyPartTypeIsTouch}
-                                    setIsTouched={setBodyPartTypeIsTouch}
-                                    className="py-1"
-                                    label={"Body Part"}
-                                    isRequired={true}
-                                    feedbackMessage={BodyPartTypeMessage?.message}
-                                    feedbackType={BodyPartTypeMessage?.type}
-                                    validateHandler={BodyPartTypeSelectValidater}
-                                />
-                            </div>
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                <InputWithAddOn
-                                    label="Price"
-                                    className="loginInputs"
-
-                                    setValue={Price.setEnteredValue}
-                                    value={Price.enteredValue}
-                                    feedbackMessage={Price.feedbackMessage}
-                                    feedbackType={Price.messageType}
-                                    isTouched={Price.isTouched}
-                                    setIsTouched={Price.setIsTouched}
-
-                                    validateHandler={PriceValidater}
-                                    reset={Price.reset}
-                                    isRequired={true}
-                                    type='number'
-                                />
-
-
-                            </div>
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputSelect
-                                    setValue={setTestType}
-                                    value={TestType}
-                                    options={test_type_option ?? []}
-                                    isTouched={TestTypeIsTouch}
-                                    setIsTouched={setTestTypeIsTouch}
-                                    className="py-1"
-                                    label={"Test Type"}
-                                    isRequired={true}
-                                    feedbackMessage={TestTypeMessage?.message}
-                                    feedbackType={TestTypeMessage?.type}
-                                    validateHandler={TestTypeSelectValidater}
-                                />
-                            </div>
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputSelect
-                                    setValue={setGenderType}
-                                    value={GenderType}
-                                    options={genderoption ?? []}
-                                    isTouched={GenderTypeIsTouch}
-                                    setIsTouched={setGenderTypeIsTouch}
-                                    className="py-1"
-                                    label={"Gender"}
-                                    isRequired={true}
-                                    feedbackMessage={GenderTypeMessage?.message}
-                                    feedbackType={GenderTypeMessage?.type}
-                                    validateHandler={GenderTypeSelectValidater}
-                                />
-                            </div>
 
 
 
@@ -639,126 +1240,6 @@ const Test = () => {
 
 
 
-
-
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputWithAddOn
-                                    label="Age Group"
-                                    className="loginInputs"
-
-                                    setValue={AgeGroup.setEnteredValue}
-                                    value={AgeGroup.enteredValue}
-                                    feedbackMessage={AgeGroup.feedbackMessage}
-                                    feedbackType={AgeGroup.messageType}
-                                    isTouched={AgeGroup.isTouched}
-                                    setIsTouched={AgeGroup.setIsTouched}
-
-                                    validateHandler={AgeGroupValidater}
-                                    reset={AgeGroup.reset}
-                                    isRequired={true}
-                                    type='number'
-                                />
-
-                            </div>
-
-
-
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputSelect
-                                    setValue={setCollectionAt}
-                                    value={CollectionAt}
-                                    options={collectionAtOption ?? []}
-                                    isTouched={CollectionAtIsTouch}
-                                    setIsTouched={setCollectionAtIsTouch}
-                                    className="py-1"
-                                    label={"Collection At"}
-                                    isRequired={true}
-                                    feedbackMessage={CollectionAtMessage?.message}
-                                    feedbackType={CollectionAtMessage?.type}
-                                    validateHandler={CollectionAtSelectValidater}
-                                />
-                            </div>
-
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputSelect
-                                    setValue={setHomeCollection}
-                                    value={HomeCollection}
-                                    options={homeCollectionOption ?? []}
-                                    isTouched={HomeCollectionIsTouch}
-                                    setIsTouched={setHomeCollectionIsTouch}
-                                    className="py-1"
-                                    label={"Home Collection"}
-                                    isRequired={true}
-                                    feedbackMessage={HomeCollectionMessage?.message}
-                                    feedbackType={HomeCollectionMessage?.type}
-                                    validateHandler={HomeCollectionSelectValidater}
-                                />
-                            </div>
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                <InputWithAddOn
-                                    label="No Of Test Included"
-                                    className="loginInputs"
-
-                                    setValue={TestIncluded.setEnteredValue}
-                                    value={TestIncluded.enteredValue}
-                                    feedbackMessage={TestIncluded.feedbackMessage}
-                                    feedbackType={TestIncluded.messageType}
-                                    isTouched={TestIncluded.isTouched}
-                                    setIsTouched={TestIncluded.setIsTouched}
-
-                                    validateHandler={TestIncludedValidater}
-                                    reset={TestIncluded.reset}
-                                    isRequired={true}
-                                    type='number'
-                                />
-
-                            </div>
-
-                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                <InputWithAddOn
-                                    label="Result Within Hours"
-                                    className="loginInputs"
-
-                                    setValue={ResultWithinHours.setEnteredValue}
-                                    value={ResultWithinHours.enteredValue}
-                                    feedbackMessage={ResultWithinHours.feedbackMessage}
-                                    feedbackType={ResultWithinHours.messageType}
-                                    isTouched={ResultWithinHours.isTouched}
-                                    setIsTouched={ResultWithinHours.setIsTouched}
-
-                                    validateHandler={ResultWithinHoursValidater}
-                                    reset={ResultWithinHours.reset}
-                                    isRequired={true}
-                                    type='number'
-                                />
-
-
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 ">
-
-                                <InputTextArea
-                                    label="Sample Required"
-                                    className="loginInputs"
-
-                                    setValue={SampleRequired.setEnteredValue}
-                                    value={SampleRequired.enteredValue}
-                                    feedbackMessage={SampleRequired.feedbackMessage}
-                                    feedbackType={SampleRequired.messageType}
-                                    isTouched={SampleRequired.isTouched}
-                                    setIsTouched={SampleRequired.setIsTouched}
-
-                                    validateHandler={SampleRequiredValidater}
-                                    reset={SampleRequired.reset}
-                                    isRequired={true}
-                                />
-                            </div>
 
 
 
@@ -801,28 +1282,26 @@ const Test = () => {
                             </div>
 
 
-                            <div className="col-lg-6 col-md-6 col-sm-12 ">
-                                <InputTextArea
-                                    label="Observations"
-                                    className="loginInputs"
 
-                                    setValue={ObservationsInput.setEnteredValue}
-                                    value={ObservationsInput.enteredValue}
-                                    feedbackMessage={ObservationsInput.feedbackMessage}
-                                    feedbackType={ObservationsInput.messageType}
-                                    isTouched={ObservationsInput.isTouched}
-                                    setIsTouched={ObservationsInput.setIsTouched}
+                        </div>
 
-                                    validateHandler={ObservationsInputValidater}
-                                    reset={ObservationsInput.reset}
-                                    isRequired={true}
-                                />
-
-                            </div>
+                        <hr />
+                        <h5 className="mb-4 mt-2">
+                            Add Observations
+                        </h5>
 
 
+                        {(ObservationsData ?? []).map((observationsItem, index) => {
+                            return <ObservationsSection observationsItem={observationsItem} key={index} setObservationsData={setObservationsData} length={(ObservationsData ?? []).length} />
+                        })}
 
+                        <div className='my-2 '>
+                            <p>
+                                <span style={{ cursor: 'pointer' }} onClick={() => { setObservationsData(prev => { return [...prev, { observations: '', id: uuid() }] }) }}>
+                                    <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more observations</span>
+                                </span>
 
+                            </p>
                         </div>
                     </div>
                 </>
@@ -830,7 +1309,14 @@ const Test = () => {
 
             }
             <div className=" my-3  text-end  ">
-                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-5">Create</button>
+                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-5">
+
+                    {createTestResponse?.fetching ? (
+                        <Spinner size={"sm"} />
+                    ) : (
+                        "Create"
+                    )}
+                </button>
             </div>
 
         </div>
@@ -856,3 +1342,107 @@ export const commonValidate = (value) => {
 
 
 
+
+const ObservationsSection = ({ observationsItem, key, setObservationsData, length }) => {
+    const Observations = useInputComponent('');
+    const ObservationsValidater = (value) => {
+        if (value === "" || !value) {
+            Observations.setFeedbackMessage(
+                "Field required!"
+            );
+            Observations.setMessageType("error");
+            return false;
+        }
+        Observations.setFeedbackMessage("");
+        Observations.setMessageType("none");
+        return true;
+    };
+
+    const insertobservations = (value) => {
+
+
+        setObservationsData(prev => {
+
+            let observationsListing = (prev ?? []).map((observationsObject) => {
+                if (observationsObject?.id == observationsItem?.id) {
+                    return { ...observationsObject, ['observations']: value }
+                }
+                else {
+                    return { ...observationsObject }
+
+                }
+            })
+            return observationsListing
+
+        })
+    }
+
+
+    const deleteobservations = () => {
+
+        setObservationsData(prev => {
+
+
+
+            let observationsListing = (prev ?? []).filter((observationsObject) => {
+
+
+                if (observationsObject?.id === observationsItem?.id) {
+
+                }
+                else {
+                    return observationsObject
+                }
+            })
+            return observationsListing
+
+
+        })
+    }
+
+    useEffect(() => {
+        if (observationsItem) {
+            Observations.setEnteredValue(observationsItem.observations ?? '')
+        }
+    }, [observationsItem])
+
+    return (
+        <>
+            <div className="col-lg-8 col-md-8 col-sm-12 " key={key}>
+                <div className='row'>
+                    <div className='col-9'>
+                        <InputWithAddOn
+                            label="Observations"
+                            className="loginInputs"
+
+                            setValue={Observations.setEnteredValue}
+                            value={Observations.enteredValue}
+                            feedbackMessage={Observations.feedbackMessage}
+                            feedbackType={Observations.messageType}
+                            isTouched={Observations.isTouched}
+                            setIsTouched={Observations.setIsTouched}
+
+                            validateHandler={ObservationsValidater}
+                            reset={Observations.reset}
+                            isRequired={true}
+                            onBlurAction={(e) => {
+                                insertobservations(e)
+                            }}
+                        />
+                    </div>
+
+                    {
+                        (length > 1) &&
+                        <div className='col-3 ' style={{ paddingTop: '29px', boxSizing: 'border-box' }}>
+                            <button onClick={() => { deleteobservations() }} className='' style={{ border: '2px solid red', borderRadius: '10px', color: 'red', fontSize: '15px', fontWeight: '500', backgroundColor: 'white', padding: '2px 10px' }}>X <span>Remove</span></button>
+
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </>
+    )
+}

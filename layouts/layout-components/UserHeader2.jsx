@@ -104,11 +104,11 @@ const UserHeader2 = () => {
                 <ul className="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0">
                   <li>
                     <FaPhone size={18} className="phone-icon" />
-                    <a href="tel:+5565454117">(002) 01061245741 </a>
+                    <a href="tel:+5565454117">9739923174 | 1800000000 </a>
                   </li>
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html">Mon - Fri: 8:00 am - 7:00 pm</a>
+                    <a href="contact-us.html">Mon - Fri: 8:00 am - 8:00 pm</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">

@@ -11,9 +11,9 @@ const UpcomingSlots = ({ slotData = [] }) => {
     <> {
       slotData.length > 0 && <div className="upcoming-slots-section">
         <div className="date-section">
-          {slotData.map((slotDateItem) => {
+          {slotData.map((slotDateItem, index) => {
             return (
-              <div className="date-block" onClick={() => { setSelectedSlotDate(slotDateItem) }}>
+              <div key={index} className="date-block" onClick={() => { setSelectedSlotDate(slotDateItem) }}>
                 <p className="date-month">{moment(slotDateItem?.date).format("DD")}{" " + moment(slotDateItem?.date).format("MMM")}</p>
                 <p className="year">{moment(slotDateItem?.date).format("YYYY")}</p>
                 <p className="day">{moment(slotDateItem?.date).format('ddd')}</p>
@@ -82,8 +82,8 @@ const TimeGroupedView = ({ items }) => {
 
   return (
     <div>
-      {Object.keys(groupedItems).map((slot) => (
-        <div key={slot} className="py-2">
+      {Object.keys(groupedItems).map((slot, index) => (
+        <div key={index} className="py-2">
           <h2 className="slot-category-heading">{slot}</h2>
           <div>
             {groupedItems[slot].map((item, index) => (

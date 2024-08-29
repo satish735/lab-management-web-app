@@ -1,7 +1,7 @@
 import "./UserFooter.css";
 const UserFooter = () => {
   return (
-    <div className="user-footer">
+    <div className="user-footer global-background-gradient" style={{backgroundColor:'rgb(1, 7, 63)'}}>
       <div className="midbox-inner">
         <div className="footer-section row">
           <div className="footer-about col-md-4 col-sm-4 col-12">

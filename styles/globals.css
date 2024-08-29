@@ -422,3 +422,8 @@ body::-webkit-scrollbar-thumb {
 .btn-theme.secondary-outline:disabled {
   opacity: 0.9;
 }
+
+.global-background-gradient{
+  background:  linear-gradient(153deg, #003747 , #065465);
+ 
+ }

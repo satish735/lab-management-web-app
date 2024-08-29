@@ -1,0 +1,136 @@
+.heading-text {
+    padding-bottom: 20px;
+    font-weight: 600;
+    font-size: 25px;
+    width: 100%;
+    position: relative;
+    display: block;
+    color: #002678;
+
+}
+
+.test-include-div {
+    background-color: white;
+}
+
+.no-of-test-done {
+    background-image: url('../../../public/assets/images/package-details/PcakgeTotalTestDoneBackground.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 200px;
+
+    border-radius: 13px;
+}
+
+
+.frequent-buy-packages-backgroud {
+    /* background-image: url('../../../public/assets/images/package-details/frequent-buy-package-background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 600px;
+
+    border-radius: 13px; */
+}
+
+.frequent-buy-packages-backgroud-overlay {
+    height: 100%;
+    width: 100%;
+    /* background-color: #002678e2; */
+    padding-top: 10px;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+
+}
+
+.overlap-div-no-of-test-done {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(33, 205, 173, 0.806);
+    padding-top: 60px;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+}
+
+
+.vertical-image-div {
+    background-image: url('../../../public/assets/images/package-details/vertical-frequently-packages.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+
+    border-radius: 13px;
+
+    position: relative;
+}
+
+.hidden-div {
+    height: 50px;
+    width: 78%;
+    background-color: #002678;
+    float:right;
+    border-radius: 0px 10px 0px 15px;
+
+}
+
+.frequent-booked {
+     
+    position: absolute;
+    right: 0px;
+    top: -20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    background-color: #21cdad;
+    padding: 15px 15px 15px 15px;
+    border-radius: 0px 15px 0px 15px;
+}
+
+
+.card-button-package-card {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 15px;
+    background-color: white;
+    color: #002678;
+    border: 2px solid #002678;
+}
+
+.card-button-package-card:hover {
+    transition: all 0.1s linear;
+    font-size: 15px;
+
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: white;
+
+    color: #21cdad;
+    border-color: #21cdad;
+}
+
+
+.card-button-package-card-light {
+    padding: 5px 10px;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: white;
+    color: #21cdad;
+    border: 2px solid #21cdad;
+}
+
+/* .card-button-package-card-light:hover {
+    transition: all 0.1s linear;
+    font-size: 15px;
+
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: white;
+
+    color: #21cdad;
+    border-color: #21cdad;
+} */

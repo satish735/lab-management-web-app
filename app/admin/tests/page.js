@@ -42,7 +42,10 @@ export default function Home() {
   ]);
   const [selectedViewOptions, setSelectedViewOptions] = useState([
     "action",
-    "name"
+    "name",
+    'rate',
+    'testType',
+    'gender', 'fromAge', 'toAge', 'reportGenerationHours','discountPercentage',"preparation","homeCollection", "sampleCollection"
 
   ]);
   const changePageAndRows = (page, rows) => {
@@ -75,7 +78,7 @@ export default function Home() {
 
   const [testsResponse, testsHandler] = useAPI(
     {
-      url: "/test/list",
+      url: "/test/lists",
       method: "get",
       sendImmediately: true,
       params: {
@@ -128,6 +131,7 @@ export default function Home() {
       isDefault: true,
       isSelectRequired: true,
       className: "mnw-12",
+      
     },
     {
       key: "name",
@@ -137,12 +141,162 @@ export default function Home() {
       },
       sortable: true,
       isDefault: true,
-      isSelectRequired: true,
+      isSelectRequired: false,
       hasTooltip: true,
       className: "mnw-12",
     }
 
     ,
+
+    {
+      key: "rate",
+      label: "Price",
+      value: (row) => {
+        return row?.rate;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "testType",
+      label: "Type",
+      value: (row) => {
+        return row?.testType;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "gender",
+      label: "Gender",
+      value: (row) => {
+        return row?.gender;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "fromAge",
+      label: "From Age",
+      value: (row) => {
+        return row?.fromAge;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+    {
+      key: "toAge",
+      label: "To Age",
+      value: (row) => {
+        return row?.toAge;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "reportGenerationHours",
+      label: "Report Generation Hours",
+      value: (row) => {
+        return row?.reportGenerationHours;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "discountPercentage",
+      label: "Discount Percentage",
+      value: (row) => {
+        return row?.discountPercentage;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+   
+
+    ,
+
+    {
+      key: "preparation",
+      label: "Preparations",
+      value: (row) => {
+        return row?.preparation;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+    ,
+
+    {
+      key: "homeCollection",
+      label: "Home Collection",
+      value: (row) => {
+        return row?.homeCollection ?'Yes':'No';
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "sampleCollection",
+      label: "Sample Collection",
+      value: (row) => {
+        return row?.sampleCollection;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: false,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
     {
       label: "Created At",
       value: (row) => {
@@ -205,7 +359,7 @@ export default function Home() {
         <CustomTable
           loading={testsResponse?.fetching}
           columns={columns}
-          data={getlistingdata ?? [1,2]}
+          data={getlistingdata ?? [1, 2]}
           sort={sort}
           sortAction={sortAction}
           selectedColumns={selectedViewOptions}

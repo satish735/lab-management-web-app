@@ -60,7 +60,7 @@ const CustomTable = ({
         <div className="custom-table-box">
           <Table responsive striped={striped} hover={hover}>
             <thead>
-              <tr className="custom-table-header">
+              <tr className="custom-table-header" style={{width:'100%'}}>
                 {columns
                   .filter((columnsItem) =>
                     selectedColumns.length > 0
