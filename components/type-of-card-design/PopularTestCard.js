@@ -37,9 +37,9 @@ const PopularTestCard = ({ listing }) => {
                 width: "100%",
                 border: "none",
                 borderRadius: "10px 10px 0 0 ",
-                backgroundImage: `Url(${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.img})`,
+                backgroundImage: `Url('/assets/images/TestBanner.jpg')`,
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: 'auto'
+                backgroundSize:'cover',
               }}
             />
           </div>

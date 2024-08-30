@@ -1,5 +1,4 @@
 'use client'
- 
 import TestsDetails from '@/components/test-details/about-test/TestsDetails'
 import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
 import TotalTestInclude from '@/components/test-details/total-test-include/TotalTestInclude'
@@ -8,14 +7,14 @@ import UserLayout from '@/layouts/UserLayout'
 import React from 'react'
 import toast from 'react-hot-toast'
 
-const page = ({ searchParams }) => {
+const Page = ({ searchParams }) => {
 
 
     
 
   const [allTestResponse, allTestHandler] = useAPI(
     {
-      url: "/test/lists",
+      url: "/test/list",
       method: "get",
       sendImmediately: true,
       params: {
@@ -129,7 +128,7 @@ const page = ({ searchParams }) => {
     )
 }
 
-export default page
+export default Page
 
  
 let popular_test = [{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },

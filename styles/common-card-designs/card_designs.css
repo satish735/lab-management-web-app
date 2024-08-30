@@ -4,7 +4,7 @@
 
 .card-description {
   /* background: linear-gradient(153deg, #1b6b63, #499e4c); */
-  color: #002678;
+  color: #003747;
   width: 100%;
   padding: 10px;
   padding-top: 15px;
@@ -12,7 +12,7 @@
 
 .card-heading-test {
   font-size: 18px;
-  color: #002678;
+  color: #003747;
   font-weight: 600;
   /* color: #21cdad; */
 }
@@ -22,16 +22,16 @@
   border-radius: 8px;
   font-size: 15px;
   background-color: linear-gradient(153deg, #e9f7f6, #f1f4fa);
-  color: #002678;
-  border: 2px solid #002678;
+  color: #003747;
+  border: 2px solid #003747;
 }
 .card-button-2 {
   padding: 5px 10px;
   border-radius: 8px;
   font-size: 15px;
-  background-color: #002678;
+  background-color: #003747;
   color: white;
-  border: 2px solid #002678;
+  border: 2px solid #003747;
 }
 .main-tests-card-box {
   padding: 20px 15px;
@@ -78,13 +78,13 @@
 .dicount-off-percentage {
   font-size: 14px;
   font-weight: 600;
-  color: #002678;
+  color: #003747;
   padding: 6px 16px;
   margin: 10px 0 0;
   border-radius: 8px;
-  border: 1px solid #002678;
+  border: 1px solid #003747;
   background: hsla(0, 0%, 100%, 0.1);
-  /* background: linear-gradient(153deg, #002678, #6a68f6); */
+  /* background: linear-gradient(153deg, #003747, #6a68f6); */
   /* background: linear-gradient(263deg, #46bb00 5.26%, #3b9d00 104.79%); */
 
   width: max-content;
@@ -118,7 +118,7 @@
   transition: all 0.1s linear;
   font-size: 15px;
   padding: 5px 10px;
-  background-color: #002678;
+  background-color: #003747;
   color: white;
   border-color: transparent;
 }

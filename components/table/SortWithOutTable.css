@@ -1,0 +1,86 @@
+.sort-options .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+    --bs-dropdown-padding-y: 8px;
+    --bs-dropdown-padding-x: 8px;
+    --bs-dropdown-min-width: 12em;
+    box-shadow: rgba(33, 33, 52, 0.1) 0px 1px 4px;
+    border-color: rgba(33, 33, 52, 0.1);
+    margin-top: 4px !important;
+}
+
+.sort-options .dropdown-menu:focus-visible {
+    box-shadow: rgba(33, 33, 52, 0.1) 0px 1px 4px;
+    border-color: rgba(33, 33, 52, 0.1);
+}
+
+
+.sort-button-setting {
+    z-index: 1;
+    position: relative;
+    font-size: 0.75rem;
+    line-height: 1.33;
+    font-weight: 600;
+    height: 2.4rem;
+    width: 2.4rem;
+    border: 1px solid #002678;
+    background: #002678;
+    border-radius: 4px !important;
+    padding: 8px 16px;
+    color: white;
+}
+
+.sort-button-setting::before {
+    height: 1rem;
+    width: 1rem;
+    background: url(/assets/icons/custom-tables/SortIcon.svg) no-repeat;
+    background-size: cover;
+    content: "";
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+}
+
+.sort-button-setting:active,
+.sort-button-setting:focus,
+.sort-button-setting:hover,
+.sort-button-setting.active {
+    color: white !important;
+    background-color: #21cdad !important;
+    border-color: #21cdad !important;
+}
+
+.sort-button-setting:focus-visible {
+    color: white;
+    background-color: #21cdad;
+    border-color: #21cdad;
+    outline: 0;
+    box-shadow: #21cdad;
+}
+
+.sort-options .sort-option-item {
+    user-select: none;
+    color: #00265c;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    border-radius: 4px;
+    margin: 2px 0;
+    padding: 8px 8px 8px 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.sort-options .sort-option-item:hover,
+.sort-options .sort-option-item.selected {
+    user-select: none;
+    color: #00265c;
+    font-weight: bold;
+    background: rgba(33, 33, 52, 0.05);
+}
+
+.sort-options .sort-option-item .sorted-icon {
+    position: absolute;
+    right: 10px;
+}

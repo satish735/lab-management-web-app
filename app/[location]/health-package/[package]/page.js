@@ -8,13 +8,13 @@ import UserLayout from '@/layouts/UserLayout'
 import React from 'react'
 import toast from 'react-hot-toast'
 
-const page = ({ searchParams }) => {
+const Home = ({ searchParams }) => {
 
 
     
   const [allPackageResponse, allPackageHandler] = useAPI(
     {
-      url: "/test/lists",
+      url: "/test/list",
       method: "get",
       sendImmediately: true,
       params: {
@@ -130,7 +130,7 @@ const page = ({ searchParams }) => {
     )
 }
 
-export default page
+export default Home
 
 
 let total_test = [

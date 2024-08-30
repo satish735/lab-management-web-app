@@ -37,13 +37,13 @@
 
 .upcoming-slots-section .date-block .year {
   font-size: 16px;
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .upcoming-slots-section .date-block .day {
   font-size: 16px;
-    font-weight: 700;
-    background-color: var(--color-gray);
+  font-weight: 700;
+  background-color: var(--color-gray);
 }
 
 .upcoming-slots-section .slot-setion {

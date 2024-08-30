@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const CenterSchema = new Schema({
   centreId: { type: Number, required: true, unique: true },
   centre: { type: String, required: true, unique: true },
-  centreNameInApp: { type: String, required: true },//to be removed 
+  // centreNameInApp: { type: String, required: true },//to be removed 
   address: { type: String, required: true },
   address2: { type: String },
   contact: { type: String, required: true },

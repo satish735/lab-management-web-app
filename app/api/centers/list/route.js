@@ -18,7 +18,7 @@ export const GET = async (request, { params }) => {
     }
     const searchFilter = {};
     if (searchQuery) {
-      searchFilter.$or = [{ center: { $regex: searchQuery, $options: "i" } }];
+      searchFilter.$or = [{ centre: { $regex: searchQuery, $options: "i" } }];
     }
     const centers = await Center.find(searchFilter)
       .sort(sort)

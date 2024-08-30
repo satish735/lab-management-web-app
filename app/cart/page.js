@@ -14,41 +14,27 @@ import {
     AccordionItem,
 } from 'reactstrap';
 
-const Cart = ({ params: { id } }) => {
+const Cart = ({ params: { _id } }) => {
 
     const [modal, setModal] = useState(false);
 
     const toggle = () => setModal(!modal);
 
     const [open, setOpen] = useState('1');
-    const accordiontoggle = (id) => {
-        if (open === id) {
+    const accordiontoggle = (_id) => {
+        if (open === _id) {
             setOpen();
         } else {
-            setOpen(id);
+            setOpen(_id);
         }
     };
 
 
 
-    const [initialProducts, setinitialProducts] = useState([
-        {
-            name: 'Natural Cacao Powder',
-            price: 900.00,
-            type: "test",
-            id: 1,
-            isselect: false
+    const [initialProducts, setinitialProducts] = useState([])
 
-        },
-        {
-            name: 'Biotin Complex',
-            price: 1400.00,
-            type: "package",
-            id: 2,
-            isselect: false
-        }
-    ])
 
+   
 
 
 
@@ -58,7 +44,7 @@ const Cart = ({ params: { id } }) => {
 
 
     const CouponCode = useInputComponent('');
-    const CouponCodeValidater = (value) => {
+    const CouponCodeVal_idater = (value) => {
         if (value === "" || !value) {
             CouponCode.setFeedbackMessage(
                 "Field required!"
@@ -89,10 +75,14 @@ const Cart = ({ params: { id } }) => {
             },
         },
         (e) => {
-            let add = e?.data?.map((item) => {
-                return { ...item, istest: initialProducts }
-            })
 
+            const storedData = localStorage.getItem('testpackage');
+        const parsedData = storedData ? JSON.parse(storedData) : [];
+        let testPackagedata = parsedData?.item?.map((item)=> {return {...item, isselect:false}}) 
+            let add = e?.data?.map((item) => {
+                return { ...item, istest: testPackagedata }
+            })
+            setinitialProducts(testPackagedata ?? [])
             settestandpackage(add ?? [])
             return e?.data
         },
@@ -105,9 +95,18 @@ const Cart = ({ params: { id } }) => {
         }
     );
 
+
+    const [rate, setrate] = useState(0)
+
     useEffect(() => {
-console.log("addtestandpackage", addtestandpackage)
-    },[addtestandpackage])
+        console.log("addtestandpackage", addtestandpackage)
+        let totalrate = 0; 
+            (addtestandpackage ?? [])?.map((item) => {
+                totalrate += (item?.istest ?? [])?.filter((testtype) =>
+                    testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)
+            })
+        setrate(totalrate ?? 0)
+    }, [addtestandpackage])
 
 
 
@@ -132,11 +131,11 @@ console.log("addtestandpackage", addtestandpackage)
                                     <AccordionItem className="">
                                         <AccordionHeader targetId={index}>
                                             <button className="tablinks">
-                                                <div className="filter-boxleft">
+                                                {/* <div className="filter-boxleft">
                                                     <label className="container-checkbox" >
                                                         <input type="checkbox" />
                                                     </label>
-                                                </div>
+                                                </div> */}
                                                 <h6  >
                                                     <img src="/assets/images/male.png" style={{ width: "35px", heigit: "35px", marginRight: "18px" }} alt="" />
                                                     {item?.name}</h6>
@@ -145,38 +144,38 @@ console.log("addtestandpackage", addtestandpackage)
                                         <AccordionBody accordionId={index}>
                                             <h6 className="py-2" >Tests & Packages</h6>
                                             <div className="row" >
-                                                {initialProducts?.map((key,index) => {
+                                                {initialProducts?.map((key, index) => {
                                                     return (
-                                                        <div key={index}  className="col-sm-6 col-12" >
+                                                        <div key={index} className="col-sm-6 col-12" >
                                                             <div className="checkbox-tests-packages-item w-100 ">
                                                                 <div className="filter-boxleft">
                                                                     <label className="container-checkbox" >
                                                                         <input type="checkbox" className="p-2" onClick={() => {
-                                                                            const testdata = addtestandpackage.map((testnew)=>{
-                                                                                if(item._id == testnew?._id){
-                                                                                  const changepermission =  testnew.istest?.map((changecheckbox)=>{
-                                                                                        if(changecheckbox?.id == key?.id){
-                                                                                            return {...changecheckbox,  isselect: !changecheckbox?.isselect}
-                                                                                        }else{
+                                                                            const testdata = addtestandpackage.map((testnew) => {
+                                                                                if (item._id == testnew?._id) {
+                                                                                    const changepermission = testnew.istest?.map((changecheckbox) => {
+                                                                                        if (changecheckbox?._id == key?._id) {
+                                                                                            return { ...changecheckbox, isselect: !changecheckbox?.isselect }
+                                                                                        } else {
                                                                                             return changecheckbox;
                                                                                         }
                                                                                     })
-                                                                                    console.log("changepermission",changepermission)
 
-                                                                                    return {...testnew,istest:changepermission}
 
-                                                                                }else{
+                                                                                    return { ...testnew, istest: changepermission }
+
+                                                                                } else {
                                                                                     return testnew
                                                                                 }
                                                                             })
 
 
-                                                                            
-                                                                              
-                                                                              settestandpackage(testdata);
-                                                                              
 
-                                                                            
+
+                                                                            settestandpackage(testdata);
+
+
+
                                                                         }} />
                                                                         <span className="checkmark" ></span>
 
@@ -187,7 +186,7 @@ console.log("addtestandpackage", addtestandpackage)
                                                                     src="/assets/images/test-icon.png"
 
                                                                 />
-                                                                <div className="checkbox-tests-name">{key?.name} <span>₹ {key?.price}</span></div>
+                                                                <div className="checkbox-tests-name">{key?.name} <span>₹ {key?.rate}</span></div>
 
                                                             </div>
                                                         </div>
@@ -208,29 +207,44 @@ console.log("addtestandpackage", addtestandpackage)
                     })}
 
                 </div >
-                {(addtestandpackage ?? []).length > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary"><h3>Summary</h3>
                         <div className="checkout-summary">
-                            <div className="member-box">SAN
-                                <span>1 Tests, 1 Package(s)</span>
-                            </div><div className="member-box">KAP
-                                <span>0 Tests, 1 Package(s)</span>
-                            </div>
+                            {(addtestandpackage ?? [])?.map((itemtest, index) => {
+
+                                return (
+                                    <div key={index} className="member-box">{itemtest?.name}
+                                        <span>{(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Test" && testtype?.isselect == true)?.length ?? 0}
+                                            {" "} Tests, {(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Package" && testtype?.isselect == true)?.length ?? 0}
+                                            {" "} Package(s)</span>
+                                    </div>)
+
+                            })}
+
                         </div>
-                        <h3>Price Details</h3>
-                        <div className="checkout-price-details">
-                            <div className="member-box">SAN (Price) <span>₹ 4150</span></div>
-                            <div className="member-box">KAP (Price) <span>₹ 4090</span></div>
-                        </div><div className="checkout-price-total">Total <span>₹ 8240</span>
+                        <h3>rate Details</h3>
+                        <div className="checkout-rate-details">
+
+                            {(addtestandpackage ?? [])?.map((testrate,index) => {
+                                return <div className="member-box" key={index}>{testrate?.name} (rate) <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
+                                    testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)}</span></div>
+
+
+                            })}
+
+                        </div><div className="checkout-rate-total">Total <span>₹ rate</span>
                         </div>
                     </div>
                     <div className="checkout-proceed">
-                        <div className="filter-boxleft">
-                            <label className="container-checkbox"><input type="checkbox" /> By clicking this, I agree to Dr. Endo Labs Terms  Conditions and Privacy Policy
+                        <div className="filter-boxleft text-center">
+                            {/* <label className="container-checkbox"><input type="checkbox" /> By clicking this, I agree to Dr. Endo Labs Terms  Conditions and Privacy Policy
                                 <span className="checkmark" >
                                 </span>
-                            </label>
+                            </label> */}
+                            <button className="continue_button" >Continue</button>
                         </div>
+
+                       
 
                     </div>
                 </div>}

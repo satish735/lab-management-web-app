@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { Award, Pencil } from "lucide-react";
 import PackageCardBlue from '@/components/package-details/package-card/PackageCardBlue';
@@ -173,9 +174,9 @@ return (
                     })}
 
 
-                    {(allPackageResponse?.data?.testList ?? []).map((keyValue, index) => {
+                    {/* {(allPackageResponse?.data?.testList ?? []).map((keyValue, index) => {
                         return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                    })}
+                    })} */}
 
 
                 </div>

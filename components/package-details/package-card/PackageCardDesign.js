@@ -2,10 +2,30 @@ import React from "react";
 import SvgIcon from "../../home-component/SvgIcon";
 import "@/styles/common-card-designs/card_designs.css";
 import "../total-test-include/totalTestInclude.css";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
   const router = useRouter()
-   
+
+  const setitem = async () => {
+
+
+    const storedData = localStorage.getItem('testpackage');
+    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("Already Added")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == []  ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage.setItem('testpackage', JSON.stringify(dataToStore));
+      toast.success("Test saved successfully")
+    }
+
+
+  }
+
   return (
     <div
       className={`card-outer-layer-div  col-lg-${lg} col-md-${md} col-sm-12`}
@@ -98,7 +118,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
                       </span>
                     </p>
                     <p className="col-9 ps-3 " style={{ fontSize: "12px" }}>
-                        Result with in {" "}
+                      Result with in {" "}
                       {listing?.reportGenerationHours ?? ''} hours
                     </p>
                   </div>
@@ -118,7 +138,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
                   </button>
                 </div>
                 <div className="col-6 text-end">
-                  <button className="card-button " style={{ fontSize: "13px" }}>
+                  <button onClick={setitem} className="card-button " style={{ fontSize: "13px" }}>
                     Add to Cart <span>→</span>
                   </button>
                 </div>

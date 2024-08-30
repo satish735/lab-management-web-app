@@ -243,16 +243,47 @@
 }
 
 
-.container-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
 
-.container-checkbox .checkmark {
+
+
+/* Remove default appearance */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 25px;  /* Set width */
+    height: 25px; /* Set height */
+    background-color: #f0f0f0; /* Default background color */
+    border: 2px solid #ccc; /* Border */
+    cursor: pointer; /* Cursor change on hover */
+    border-radius: 3px; /* Rounded corners */
+    position: relative; /* Position for check mark */
+  }
+  
+  /* Checkmark styles */
+  input[type="checkbox"]:checked {
+    background-color: #4caf50; /* Checked background color */
+    border-color: #4caf50; /* Optional: border color when checked */
+  }
+  
+  /* Optional: Add checkmark */
+  input[type="checkbox"]:checked::after {
+    content: "✔"; /* Checkmark */
+    color: white; /* Checkmark color */
+    font-size: 16px; /* Checkmark size */
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-}
+    top: 0; /* Center the checkmark */
+    left: 4px; /* Center the checkmark */
+  }
+  
+
+  .continue_button{
+    padding: 12px;
+    background: #46bb00;
+    width: 100%;
+    /* display: block; */
+    border-radius: 5px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
