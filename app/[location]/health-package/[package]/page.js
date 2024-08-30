@@ -8,7 +8,7 @@ import UserLayout from '@/layouts/UserLayout'
 import React from 'react'
 import toast from 'react-hot-toast'
 
-const page = ({ searchParams }) => {
+const Home = ({ searchParams }) => {
 
 
     
@@ -130,7 +130,7 @@ const page = ({ searchParams }) => {
     )
 }
 
-export default page
+export default Home
 
 
 let total_test = [

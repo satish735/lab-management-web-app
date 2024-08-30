@@ -356,7 +356,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .btn-theme.primary {
-  background-color: var(--color-primary) !important;
+  background: var(--color-primary) !important;
   color: var(--color-white) !important;
 }
 
@@ -364,13 +364,13 @@ body::-webkit-scrollbar-thumb {
 .btn-theme.primary:focus,
 .btn-theme.primary:hover,
 .btn-theme.primary:active {
-  background-color: var(--color-primary) !important;
+  background: var(--color-primary) !important;
   color: var(--color-white) !important;
   opacity: 0.9;
 }
 
 .btn-theme.secondary {
-  background-color: var(--color-secondary) !important;
+  background: var(--color-secondary) !important;
   color: var(--color-white) !important;
 }
 
@@ -378,13 +378,13 @@ body::-webkit-scrollbar-thumb {
 .btn-theme.secondary:focus,
 .btn-theme.secondary:hover,
 .btn-theme.secondary:active {
-  background-color: var(--color-secondary) !important;
+  background: var(--color-secondary) !important;
   color: var(--color-white) !important;
   opacity: 0.9;
 }
 
 .btn-theme.primary-outline {
-  background-color: transparent !important;
+  background: transparent !important;
   color: var(--color-primary) !important;
   border-color: var(--color-primary);
   border-width: 1.5px;
@@ -394,7 +394,7 @@ body::-webkit-scrollbar-thumb {
 /* .btn-theme.primary-outline:focus, */
 .btn-theme.primary-outline:hover,
 .btn-theme.primary-outline:active {
-  background-color: var(--color-primary) !important;
+  background: var(--color-primary) !important;
   color: var(--color-white) !important;
   opacity: 0.9;
 }
@@ -404,7 +404,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .btn-theme.secondary-outline {
-  background-color: transparent !important;
+  background: transparent !important;
   color: var(--color-secondary) !important;
   border-color: var(--color-secondary);
   border-width: 1.5px;
@@ -414,7 +414,7 @@ body::-webkit-scrollbar-thumb {
 /* .btn-theme.secondary-outline:focus, */
 .btn-theme.secondary-outline:hover,
 .btn-theme.secondary-outline:active {
-  background-color: var(--color-secondary) !important;
+  background: var(--color-secondary) !important;
   color: var(--color-white) !important;
   opacity: 0.9;
 }
@@ -423,7 +423,18 @@ body::-webkit-scrollbar-thumb {
   opacity: 0.9;
 }
 
-.global-background-gradient{
-  background:  linear-gradient(153deg, #003747 , #065465);
- 
- }
+.global-background-gradient {
+  background: linear-gradient(153deg, #003747, #065465);
+
+}
+
+.modal-main-heading {
+  font-size: 1.6rem;
+  margin-bottom: 0;
+}
+
+.modal-sub-heading {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+  margin-bottom: 5px;
+}

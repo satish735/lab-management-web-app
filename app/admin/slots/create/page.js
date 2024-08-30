@@ -1,16 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import useAPI from "@/hooks/useAPI";
-import toast from "react-hot-toast";
+import {  useState } from "react";
 import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
-import moment from "moment";
-import { Spinner } from "reactstrap";
-import transformErrorDefault from "@/utils/transformErrorDefault";
-import useInputComponent from "@/hooks/useInputComponent";
-import InputWithAddOn from "@/components/formInput/InputWithAddOn";
-import InputSelect from "@/components/formInput/select/InputSelect";
 import GenrateSlots from "@/components/slots/GenrateSlots";
 import ViewSlots from "@/components/slots/ViewSlots";
 
@@ -164,7 +156,7 @@ export default function Home() {
         </p>
         <GenrateSlots slots={genratedSlots} setSlots={setGenratedSlots} centerId="testCenterId" />
         <br />
-        <ViewSlots slots={genratedSlots} editable={true} setSlots={setGenratedSlots} />
+        <ViewSlots slots={genratedSlots} type={"create"} setSlots={setGenratedSlots} />
         <div className="w-100 text-end py-2">
           <button className="btn btn-theme secondary-outline me-2">Cancel</button>
           <button className="btn btn-theme primary ">Save Generated Slots</button>

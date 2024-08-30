@@ -22,6 +22,7 @@ span.in-service {
     padding: 10px;
 }
 
+
 .view-slots-section .loading {
     text-align: center;
     padding: 94px;
@@ -193,7 +194,7 @@ span.in-service {
     border: 0.5px solid #3939392c;
     border-radius: 10px;
     fill: #1a1a1a67;
-    z-index: 8;
+
 }
 
 .slot-time-block .remove-icon:hover,
@@ -201,4 +202,10 @@ span.in-service {
     border: 1px solid red;
     fill: red;
 
+}
+
+.slot-date-section .select-check {
+    position: absolute;
+    top: 0px;
+    left: 5px;
 }
