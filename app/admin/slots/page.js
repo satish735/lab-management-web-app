@@ -10,26 +10,29 @@ import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import SortWithOutTable from "@/components/table/SortWithOutTable";
 import ViewSlots from "@/components/slots/ViewSlots";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from 'reactstrap';
 import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
 
 export default function Home() {
+    const centerId = "66d0bfdc53c49c313401480e"
+
     const router = useRouter();
     const [pageNo, setPageNo] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [totalRows, setTotalRows] = useState(10);
+    const [pageSize, setPageSize] = useState(20);
+    const [totalRows, setTotalRows] = useState(20);
     const [sort, setSort] = useState({ direction: "desc", column: "createdAt" });
     const [searchValue, setSearchValue] = useState("");
     const sortAction = (c, d) => {
-        // getSlotsHandler({
-        //     params: {
-        //         sortColumn: c,
-        //         sortDirection: d,
-        //         pageNo: pageNo,
-        //         pageSize: pageSize,
-        //         searchQuery: searchValue,
-        //     },
-        // });
+        getSlotsHandler({
+            params: {
+                sortColumn: c,
+                sortDirection: d,
+                pageNo: pageNo,
+                pageSize: pageSize,
+                searchQuery: searchValue,
+                centerId: centerId
+            },
+        });
         setSort({ column: c, direction: d });
     };
     const changePageAndRows = (page, rows) => {
@@ -40,6 +43,7 @@ export default function Home() {
                 pageNo: page,
                 pageSize: rows,
                 searchQuery: searchValue,
+                centerId: centerId
             },
         });
         setPageNo(page);
@@ -53,13 +57,14 @@ export default function Home() {
                 pageNo: pageNo,
                 pageSize: pageSize,
                 searchQuery: e,
+                centerId: centerId
             },
         });
         setSearchValue(e);
     };
     const [getSlotsResponse, getSlotsHandler] = useAPI(
         {
-            url: "/centers/list",
+            url: "/slots",
             method: "get",
             sendImmediately: true,
             params: {
@@ -68,6 +73,7 @@ export default function Home() {
                 pageNo: pageNo,
                 pageSize: pageSize,
                 searchQuery: searchValue,
+                centerId: centerId
             },
         },
         (e) => {
@@ -76,7 +82,7 @@ export default function Home() {
         },
         (e) => {
             toast.error(
-                transformErrorDefault("Something went wrong while Getting slots!", e)
+                transformErrorDefault("Something went wrong while Fetching slots!", e)
             );
             return e;
         }
@@ -88,6 +94,34 @@ export default function Home() {
     const [editSlotSelected, setEditSlotSelected] = useState([])
     const [confirmModalOpen, setConfirmModalOpen] = useState(false)
     const [confirmType, setConfirmType] = useState("enable")
+
+
+
+    const [enableDisableSlotsResponse, enableDisableSlotsHandler] = useAPI(
+        {
+            url: "/slots/enable-disable",
+            method: "post",
+        },
+        (e) => {
+            toast.success("Slots updated Successfully.")
+            setConfirmType("enable")
+            getSlotsHandler()
+        },
+        (e) => {
+            toast.error(
+                transformErrorDefault("Something went wrong while Updating slots!", e)
+            );
+            return e;
+        }
+    );
+    const enableDisableConfirmHandler = async () => {
+        var submitBody = {
+            slots: selectedSlotList.map(({ _id, rest }) => { return { _id } }),
+            status: confirmType == "enable" ? "active" : "disabled"
+        };
+        await enableDisableSlotsHandler({ body: submitBody })
+        setConfirmModalOpen(false)
+    }
     return (
         <div>
             <BreadcrumbDiv
@@ -122,20 +156,22 @@ export default function Home() {
                                     setConfirmModalOpen(true)
                                 }}
                                 type="button"
+                                style={{ minWidth: "120px" }}
                             >
-                                {" "}
-                                Enable Slots
+                                {enableDisableSlotsResponse?.fetching && confirmType == "enable" ? <Spinner size={"sm"} /> :
+                                    "Enable Slots"}
                             </button>
                             <button
                                 className=" btn btn-theme secondary-outline me-2"
                                 onClick={() => {
-                                    setConfirmType("enable")
+                                    setConfirmType("disable")
                                     setConfirmModalOpen(true)
                                 }}
+                                style={{ minWidth: "120px" }}
                                 type="button"
                             >
-                                {" "}
-                                Disable Slots
+                                {enableDisableSlotsResponse?.fetching && confirmType == "disabled" ? <Spinner size={"sm"} /> :
+                                    "Disable Slots"}
                             </button>
 
                         </>
@@ -168,161 +204,8 @@ export default function Home() {
                         ]} />
                 </div>
                 <br />
-                <ViewSlots slots={[
-                    {
-                        _id: "64e0c3e4c9d3e7000a0b8d1b",
-                        date: "2024-08-28T00:00:00.000Z",
-                        centerId: "64e0c3e4c9d3e7000a0b8d1a",
-                        status: "active",
-                    },
-                    {
-                        _id: "64e0c3e4c9d3e7000a0b8d1b",
-                        date: "2024-08-27T00:00:00.000Z",
-                        centerId: "64e0c3e4c9d3e7000a0b8d1a",
-                        status: "disabled",
-                    }, {
-                        _id: "64e0c3e4c9d3e7000a0b8d1b",
-                        date: "2024-08-29T00:00:00.000Z",
-                        centerId: "64e0c3e4c9d3e7000a0b8d1a",
-                        status: "active",
-                        slotTimes: [
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d28",
-                                slotStartTime: "08:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 19
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d29",
-                                slotStartTime: "10:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 19
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d29",
-                                slotStartTime: "12:00 PM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 50
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d29",
-                                slotStartTime: "02:00 PM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 50
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d29",
-                                slotStartTime: "04:00 PM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 19
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d29",
-                                slotStartTime: "10:00 PM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 19
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d29",
-                                slotStartTime: "12:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-25T08:00:00.000Z",
-                                updatedAt: "2024-08-25T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 0
-                            },
-                            // More slotTimes can be added here
-                        ],
-                        createdAt: "2024-08-25T08:00:00.000Z",
-                        updatedAt: "2024-08-25T08:00:00.000Z",
-                    },
-                    {
-                        _id: "64e0c3e4c9d3e7000a0b8d1c",
-                        date: "2024-08-30T00:00:00.000Z",
-                        centerId: "64e0c3e4c9d3e7000a0b8d1a",
-                        status: "active",
-                        slotTimes: [
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d2a",
-                                slotStartTime: "12:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-26T08:00:00.000Z",
-                                updatedAt: "2024-08-26T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 19
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d2b",
-                                slotStartTime: "10:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-26T08:00:00.000Z",
-                                updatedAt: "2024-08-26T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 8
-                            },
-                            // More slotTimes can be added here
-                        ],
-                        createdAt: "2024-08-26T08:00:00.000Z",
-                        updatedAt: "2024-08-26T08:00:00.000Z",
-                    },
-                    {
-                        _id: "64e0c3e4c9d3e7000a0b8d1c",
-                        date: "2024-09-01T00:00:00.000Z",
-                        centerId: "64e0c3e4c9d3e7000a0b8d1a",
-                        status: "active",
-                        slotTimes: [
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d2a",
-                                slotStartTime: "08:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-26T08:00:00.000Z",
-                                updatedAt: "2024-08-26T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 9
-                            },
-                            {
-                                _id: "64e0c3e4c9d3e7000a0b8d2b",
-                                slotStartTime: "10:00 AM",
-                                status: "active",
-                                timeInterval: 60,
-                                createdAt: "2024-08-26T08:00:00.000Z",
-                                updatedAt: "2024-08-26T08:00:00.000Z",
-                                maxUse: 50,
-                                currentUse: 19
-                            },
-                            // More slotTimes can be added here
-                        ],
-                        createdAt: "2024-08-26T08:00:00.000Z",
-                        updatedAt: "2024-08-26T08:00:00.000Z",
-                    },]}
+                <ViewSlots slots={getSlotsResponse?.data ?? []}
+                    loading={getSlotsResponse?.fetching}
                     type="view"
                     selectedSlotList={selectedSlotList} setSelectedSlotList={setSelectedSlotList}
                 />
@@ -373,19 +256,36 @@ export default function Home() {
                                 label='Select Slot to update'
                             />
                         </div>
-                        <div className='col-lg-6 col-md-6 col-12'>
-                            <button className="me-2 btn btn-theme secondary-outline">Remove</button>
-                            <button className="me-2 btn btn-theme primary">Add</button>
+                        <div className='col-lg-6 col-md-6 col-12  vertical-align-end'>
+                            <label
+                                className={'w-100 '}
+                                style={{ fontSize: "12px" }}                            >
+                                {"  "}
+                            </label>
+                            {(editSlotSelected ?? []).length > 0 && <div> <button className="me-2 btn btn-theme secondary-outline">Remove</button>
+                                <button className="me-2 btn btn-theme primary ">Add</button></div>}
                         </div>
                     </div>
                     <ViewSlots slots={toEditSlots} type="edit" setSlots={setToEditSlots} style={{ maxHeight: "60vh", overflow: "auto" }} />
                 </ModalBody>
                 <ModalFooter className=''>
-                    <button className="me-2 btn btn-theme secondary-outline">Cancel</button>
+                    <button className="me-2 btn btn-theme secondary-outline" onClick={() => { setEditModalOpen(false) }}>Cancel</button>
                     <button className="me-2 btn btn-theme primary">Update</button>
                 </ModalFooter>
             </Modal>}
-            {confirmModalOpen && <></>}
+            {confirmModalOpen && <Modal size="md" isOpen={confirmModalOpen} toggle={() => { setConfirmModalOpen(false) }} className=''>
+                <ModalHeader toggle={() => { setConfirmModalOpen(false) }} className='py-2'>
+                    <h1 className="modal-main-heading">Edit Slots</h1>
+                    <p className="modal-sub-heading">{confirmType == "enable" ? "Enable" : "Disable"} all selected slots</p>
+                </ModalHeader>
+                <ModalBody className='py-2'>
+                    <p>Are you sure you want to {confirmType == "enable" ? "Enable" : "Disable"} all selected Slots!!!</p>
+                </ModalBody>
+                <ModalFooter className=''>
+                    <button className="me-2 btn btn-theme secondary-outline" onClick={() => { setConfirmModalOpen(false) }}>Cancel</button>
+                    <button className="me-2 btn btn-theme primary" onClick={enableDisableConfirmHandler}>Confirm</button>
+                </ModalFooter>
+            </Modal>}
         </div>
     );
 }

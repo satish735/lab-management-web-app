@@ -7,7 +7,7 @@ export const GET = async (request, { params }) => {
     const {
       pageSize = 20,
       pageNo = 1,
-      sortColumn = "createdAt",
+      sortColumn = "date",
       sortDirection = "desc",
       searchQuery = "",
     } = urlParams.query;

@@ -1,144 +1,72 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import GenrateSlots from "@/components/slots/GenrateSlots";
 import ViewSlots from "@/components/slots/ViewSlots";
+import useAPI from "@/hooks/useAPI";
+import { Spinner } from "reactstrap";
+import toast from "react-hot-toast";
+import transformErrorDefault from "@/utils/transformErrorDefault";
 
 export default function Home() {
   const router = useRouter();
+  const centerId = "66d0bfdc53c49c313401480e"
 
 
 
+  const [genratedSlots, setGenratedSlots] = useState([])
 
 
-
-  const [genratedSlots, setGenratedSlots] = useState([{
-    _id: "64e0c3e4c9d3e7000a0b8d1b",
-    date: "2024-08-28T00:00:00.000Z",
-    centerId: "64e0c3e4c9d3e7000a0b8d1a",
-    status: "active",
-  },
-  {
-    _id: "64e0c3e4c9d3e7000a0b8d1b",
-    date: "2024-08-27T00:00:00.000Z",
-    centerId: "64e0c3e4c9d3e7000a0b8d1a",
-    status: "disabled",
-  }, {
-    _id: "64e0c3e4c9d3e7000a0b8d1b",
-    date: "2024-08-29T00:00:00.000Z",
-    centerId: "64e0c3e4c9d3e7000a0b8d1a",
-    status: "active",
-    slotTimes: [
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d28",
-        slotStartTime: "08:00 AM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 19
+  const [saveGeneratedSlotsResponse, saveGenratedSlotsHandler] = useAPI(
+    {
+      url: "/slots",
+      method: "post",
+    },
+    (e) => {
+      toast.success(
+        `Slots for center has been created successfully`
+      );
+      router.push("/admin/slots");
+    },
+    (e) => {
+      toast.error(
+        transformErrorDefault("Something went wrong while creating slots!", e)
+      );
+      return e;
+    }
+  );
+  const [excludeDatesResponse, excludeDatesHandler] = useAPI(
+    {
+      url: "/slots/check-dates",
+      params: {
+        center_id: centerId
       },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d29",
-        slotStartTime: "10:00 AM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 19
-      },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d29",
-        slotStartTime: "12:00 PM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 50
-      },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d29",
-        slotStartTime: "02:00 PM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 50
-      },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d29",
-        slotStartTime: "04:00 PM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 19
-      },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d29",
-        slotStartTime: "10:00 PM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 19
-      },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d29",
-        slotStartTime: "12:00 AM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-25T08:00:00.000Z",
-        updatedAt: "2024-08-25T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 0
-      },
-      // More slotTimes can be added here
-    ],
-    createdAt: "2024-08-25T08:00:00.000Z",
-    updatedAt: "2024-08-25T08:00:00.000Z",
-  },
-  {
-    _id: "64e0c3e4c9d3e7000a0b8d1c",
-    date: "2024-08-30T00:00:00.000Z",
-    centerId: "64e0c3e4c9d3e7000a0b8d1a",
-    status: "active",
-    slotTimes: [
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d2a",
-        slotStartTime: "12:00 AM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-26T08:00:00.000Z",
-        updatedAt: "2024-08-26T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 19
-      },
-      {
-        _id: "64e0c3e4c9d3e7000a0b8d2b",
-        slotStartTime: "10:00 AM",
-        status: "active",
-        timeInterval: 60,
-        createdAt: "2024-08-26T08:00:00.000Z",
-        updatedAt: "2024-08-26T08:00:00.000Z",
-        maxUse: 50,
-        currentUse: 8
-      },
-      // More slotTimes can be added here
-    ],
-    createdAt: "2024-08-26T08:00:00.000Z",
-    updatedAt: "2024-08-26T08:00:00.000Z",
-  },])
-
-
+      method: "get",
+      sendImmediately: true
+    },
+    (e) => {
+      return e?.data ?? []
+    },
+    (e) => {
+      toast.error(
+        transformErrorDefault("Something went wrong while Validating slot dates!", e)
+      );
+      return e;
+    }
+  );
+  const createSlotsSubmitHandler = async () => {
+    if (!genratedSlots || !Array.isArray(genratedSlots) || genratedSlots.length == 0) {
+      toast.error("Please generate slots before submit!");
+      return;
+    }
+    var submitBody = {
+      slots: genratedSlots,
+      center_id: centerId
+    };
+    await saveGenratedSlotsHandler({ body: submitBody });
+  };
 
   return (
     <div>
@@ -154,12 +82,16 @@ export default function Home() {
         <p className="sub-heading">
           Easily Add and Configure a Slots to Application Database
         </p>
-        <GenrateSlots slots={genratedSlots} setSlots={setGenratedSlots} centerId="testCenterId" />
+        <GenrateSlots slots={genratedSlots} setSlots={setGenratedSlots} centerId={centerId} exclude={excludeDatesResponse?.data} excludeLoading={excludeDatesResponse?.fetching} />
         <br />
         <ViewSlots slots={genratedSlots} type={"create"} setSlots={setGenratedSlots} />
         <div className="w-100 text-end py-2">
-          <button className="btn btn-theme secondary-outline me-2">Cancel</button>
-          <button className="btn btn-theme primary ">Save Generated Slots</button>
+          <button className="btn btn-theme secondary-outline me-2" onClick={() => { router.push("/admin/slots") }}>Cancel</button>
+          <button className="btn btn-theme primary " onClick={createSlotsSubmitHandler} style={{ minWidth: "100px" }}> {saveGeneratedSlotsResponse?.fetching ? (
+            <Spinner size={"sm"} />
+          ) : (
+            "Save Slots"
+          )}</button>
         </div>
       </div>
     </div>

@@ -7,19 +7,44 @@ import { FaXmark } from "react-icons/fa6";
 
 const ViewSlots = ({ loading = false, slots = [], type = "view", setSlots = () => { }, selectedSlotList = [], setSelectedSlotList = () => { }, totalSlots = 0, style = {} }) => {
     const [selectedSlot, setSelectedSlot] = useState(null)
-    const groupedSlots = groupTimeSlots(selectedSlot?.slotTimes ?? []);
+    const groupedSlots = groupTimeSlots((selectedSlot?.slotTimes ?? []).filter(slotTimeItem => slotTimeItem?.type != "removed"));
     const removeSlot = (date) => {
-        setSlots(prev => prev.filter(dateItem => dateItem?.date != date))
+        if (type == "edit") {
+            var currentSoltItem = slots.find(dateItem => dateItem?.date == date)
+            var checkCurrentUse = currentSoltItem?.slotTimes.some(timeItem => timeItem?.currentUse > 0)
+            if (checkCurrentUse) {
+                currentSoltItem.type = "disabled"
+                currentSoltItem.status = "disabled"
+                currentSoltItem.slotTimes = currentSoltItem?.slotTimes.map(timeItem => {
+                    return timeItem?.currentUse > 0 ? { ...timeItem, type: "disabled", status: "disabled" } : { ...timeItem, type: "removed" }
+                })
+                setSlots(prev => prev.map(dateItem => {
+                    return dateItem?.date == date ? currentSoltItem : dateItem
+                }))
+            }
+            else {
+                setSlots(prev => prev.filter(dateItem => dateItem?.date != date))
+            }
+        }
+        else { setSlots(prev => prev.filter(dateItem => dateItem?.date != date)) }
     }
     const removeSlotTime = (date, time) => {
-        setSlots(prev => prev.map(dateItem => {
-            if (dateItem?.date == date) {
-                var newSlot = { ...dateItem, slotTimes: (dateItem?.slotTimes ?? []).filter(slotTimeItem => slotTimeItem?.slotStartTime != time) }
-                setSelectedSlot(newSlot)
-                return newSlot
-            }
-            return dateItem
-        }).filter(dateItem => dateItem?.slotTimes && dateItem?.slotTimes.length > 0))
+        if (type == "edit") {
+            var currentSoltItem = slots.find(dateItem => dateItem?.date == date)
+            var currentSlotTimeItem = currentSoltItem?.slotTimes.find(timeItem => timeItem?.slotStartTime == time)
+            //To be continued
+
+        }
+        else {
+            setSlots(prev => prev.map(dateItem => {
+                if (dateItem?.date == date) {
+                    var newSlot = { ...dateItem, slotTimes: (dateItem?.slotTimes ?? []).filter(slotTimeItem => slotTimeItem?.slotStartTime != time) }
+                    setSelectedSlot(newSlot)
+                    return newSlot
+                }
+                return dateItem
+            }).filter(dateItem => dateItem?.slotTimes && dateItem?.slotTimes.length > 0))
+        }
     }
 
     return (
@@ -64,7 +89,7 @@ const ViewSlots = ({ loading = false, slots = [], type = "view", setSlots = () =
                     </div>
                 )}
                 {!loading && slots.length > 0 && <div className='w-100'>
-                    {slots.map((slotItem, index) => {
+                    {slots.filter(slotItem => slotItem?.type != "removed").map((slotItem, index) => {
                         var color_class = slotItem?.status == "disabled" ?
                             "disabled" :
                             moment(slotItem?.date).isBefore(moment(), 'day') ?
