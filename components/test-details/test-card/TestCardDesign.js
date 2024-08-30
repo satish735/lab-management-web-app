@@ -3,6 +3,7 @@ import SvgIcon from "../../home-component/SvgIcon";
 import "@/styles/common-card-designs/card_designs.css";
 import "../total-test-include/totalTestInclude.css";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
   const router = useRouter()
   const [discountprice, setdiscountprice] = useState();
@@ -10,6 +11,26 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
     let FinalPrice = (listing?.rate) * (1 - ((listing?.discountPercentage) / 100))
     setdiscountprice(FinalPrice)
   }, [])
+
+
+  const setitem = async () => {
+
+
+    const storedData = localStorage.getItem('testpackage');
+    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("Already Added")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == []  ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage.setItem('testpackage', JSON.stringify(dataToStore));
+      toast.success("Package saved successfully")
+    }
+
+
+  }
   return (
     <div
       className={`card-outer-layer-div  col-lg-${lg} col-md-${md} col-sm-12`}
@@ -122,7 +143,7 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
                   </button>
                 </div>
                 <div className="col-6 text-end">
-                  <button className="card-button " style={{ fontSize: "13px" }}>
+                  <button onClick={setitem} className="card-button " style={{ fontSize: "13px" }}>
                     Add to Cart <span>→</span>
                   </button>
                 </div>
