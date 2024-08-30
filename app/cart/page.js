@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import apiRequest from "../../utils/apiRequest";
+// import apiRequest from "../../utils/apiRequest"; tet
 import "./cart.css"
 import useInputComponent from '@/hooks/useInputComponent';
 import InputWithAddOn from '../../components/formInput/InputWithAddOn';

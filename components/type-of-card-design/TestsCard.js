@@ -23,7 +23,8 @@ const TestsCard = ({ listing,type }) => {
               width: "100%",
               border: "none",
               borderRadius: "10px 10px 0 0 ",
-              backgroundImage: `Url(${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image})`,
+              // backgroundImage: `Url(${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image })`,
+              backgroundImage: `Url(/assets/images/condition-card-icon.png)`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'auto'
             }}

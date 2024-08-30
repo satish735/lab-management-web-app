@@ -1,3 +1,4 @@
+import { FaLocationPin, FaPhone } from "react-icons/fa6";
 import "./UserFooter.css";
 const UserFooter = () => {
   return (
@@ -173,6 +174,19 @@ const UserFooter = () => {
                 <h4 className="but  footer-nav-mob">
                   Contact Us <i className="fas fa-chevron-down"></i>
                 </h4>
+                <ul className="footerbox">
+                  <li>
+                    <a style={{ color: "#fff", cursor: "pointer",display:'flex',gap:'5px' }}>
+                      
+                      <FaLocationPin style={{color:'rgb(204 241 122)',fontSize:'27px' }}/> D6-Opposite, Chamatkareshwar Mahadev, Banipark, Jaipur 302016</a>
+                  </li>
+
+                  <li>
+                    <a style={{ color: "#fff", cursor: "pointer",display:'flex',gap:'5px' }}><FaPhone style={{color:'rgb(204 241 122)',fontSize:'17px' }}/>+91 9739923174</a>
+                  </li>
+
+                  
+                </ul>
               </div>
             </div>
           </div>
@@ -181,7 +195,7 @@ const UserFooter = () => {
           <div className="wh">
             © Copyright 2024{" "}
             <a href="/" style={{ color: "inherit" }}>
-              Dr. B. Lal
+              Endolab
             </a>
             , All rights reserved.
           </div>

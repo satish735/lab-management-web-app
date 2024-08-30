@@ -51,7 +51,7 @@ const UserHeader2 = () => {
   const menuItems = [
     {
       type: "parent",
-      label: "Doctors",
+      label: "Our Team",
       menu: [
         { label: "Health bulitin", href: "/doctors/health-bulletin" },
         // { label: "Corporate Report Panel", href: "#" },
@@ -108,7 +108,7 @@ const UserHeader2 = () => {
                   </li>
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html">Mon - Fri: 8:00 am - 8:00 pm</a>
+                    <a href="contact-us.html"> Fri: 8:00 am - 8:00 pm - (365 days)</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">
