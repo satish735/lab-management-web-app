@@ -225,8 +225,8 @@ const Cart = ({ params: { _id } }) => {
                         <h3>rate Details</h3>
                         <div className="checkout-rate-details">
 
-                            {(addtestandpackage ?? [])?.map((testrate) => {
-                                return <div className="member-box">{testrate?.name} (rate) <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
+                            {(addtestandpackage ?? [])?.map((testrate,index) => {
+                                return <div className="member-box" key={index}>{testrate?.name} (rate) <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
                                     testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)}</span></div>
 
 

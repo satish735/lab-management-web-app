@@ -2,7 +2,6 @@ import React from 'react'
 import '@/components/package-details/total-test-include/totalTestInclude.css'
 import TestListing from './TestListing'
 import SvgIcon from '@/components/home-component/SvgIcon'
-import PackageCardDesign from '../test-card/TestCardDesign'
 const TotalTestInclude = ({ total_test }) => {
   return (
     <>
