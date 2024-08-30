@@ -185,7 +185,7 @@ const UserFooter = () => {
                     <a style={{ color: "#fff", cursor: "pointer",display:'flex',gap:'5px' }}><FaPhone style={{color:'rgb(204 241 122)',fontSize:'17px' }}/>+91 9739923174</a>
                   </li>
 
-                  
+                  {/* mn  */}
                 </ul>
               </div>
             </div>
