@@ -34,7 +34,7 @@ const Cart = ({ params: { _id } }) => {
     const [initialProducts, setinitialProducts] = useState([])
 
 
-   
+
 
 
 
@@ -77,8 +77,8 @@ const Cart = ({ params: { _id } }) => {
         (e) => {
 
             const storedData = localStorage.getItem('testpackage');
-        const parsedData = storedData ? JSON.parse(storedData) : [];
-        let testPackagedata = parsedData?.item?.map((item)=> {return {...item, isselect:false}}) 
+            const parsedData = storedData ? JSON.parse(storedData) : [];
+            let testPackagedata = parsedData?.item?.map((item) => { return { ...item, isselect: false } })
             let add = e?.data?.map((item) => {
                 return { ...item, istest: testPackagedata }
             })
@@ -99,19 +99,25 @@ const Cart = ({ params: { _id } }) => {
     const [rate, setrate] = useState(0)
 
     useEffect(() => {
-        console.log("addtestandpackage", addtestandpackage)
-        let totalrate = 0; 
-            (addtestandpackage ?? [])?.map((item) => {
-                totalrate += (item?.istest ?? [])?.filter((testtype) =>
-                    testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)
-            })
+
+        let totalrate = 0;
+        (addtestandpackage ?? [])?.map((item) => {
+            totalrate += (item?.istest ?? [])?.filter((testtype) =>
+                testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)
+        })
         setrate(totalrate ?? 0)
     }, [addtestandpackage])
 
 
 
+    useEffect(()=>{
+        localStorage.setItem('cart', JSON.stringify({cart:addtestandpackage ?? []}));
+    },[addtestandpackage])
+
+
+
     return (
-        <div style={{ backgroundColor: "white" }}>
+        <div className="midbox-inner" style={{ backgroundColor: "white" }}>
             <div className="text-center py-3" style={{ fontWeight: "bold", borderBottom: "1px solid #ccc" }}>
                 <span className="px-2">
                     Home {">"}
@@ -225,14 +231,14 @@ const Cart = ({ params: { _id } }) => {
                         <h3>rate Details</h3>
                         <div className="checkout-rate-details">
 
-                            {(addtestandpackage ?? [])?.map((testrate,index) => {
+                            {(addtestandpackage ?? [])?.map((testrate, index) => {
                                 return <div className="member-box" key={index}>{testrate?.name} (rate) <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
                                     testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)}</span></div>
 
 
                             })}
 
-                        </div><div className="checkout-rate-total">Total <span>₹ rate</span>
+                        </div><div className="checkout-rate-total">Total <span>₹ {rate}</span>
                         </div>
                     </div>
                     <div className="checkout-proceed">
@@ -244,7 +250,7 @@ const Cart = ({ params: { _id } }) => {
                             <button className="continue_button" >Continue</button>
                         </div>
 
-                       
+
 
                     </div>
                 </div>}
