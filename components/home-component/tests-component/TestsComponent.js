@@ -82,8 +82,9 @@ const TestsComponent = () => {
 
 
   return (
-    <div>
-      <div className="container-fluid mt-5 heading-text-home">
+    <div >
+       
+      <div className="midbox-inner mt-5 heading-text-home">
         <p className="  my-4">Tests by Medical Conditions</p>
         {getBasicDetailsResponse?.fetching ? (
           <div className='text-center my-5'>
@@ -112,7 +113,7 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="container-fluid  heading-text-home">
+      <div className="midbox-inner  heading-text-home">
         <p className=" heading-text-home my-2">Tests by Body Parts</p>
 
 
@@ -123,14 +124,14 @@ const TestsComponent = () => {
           </div>
 
         ) : (
-        <div>
-          <CarousalSlider
-            DataList={ListingFields?.BodyPartListing ?? []}
-            slidesToScroll={1}
-            slidesToShow_lg={7}
-            sliderFor={"tests-by-body-part"}
-          />
-        </div>
+          <div>
+            <CarousalSlider
+              DataList={ListingFields?.BodyPartListing ?? []}
+              slidesToScroll={1}
+              slidesToShow_lg={7}
+              sliderFor={"tests-by-body-part"}
+            />
+          </div>
         )}
 
         <div className="text-center my-4">
@@ -143,7 +144,7 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="container-fluid">
+      <div className="midbox-inner">
         <p
           className=" heading-text-home mt-2 mb-4  text-center"
           style={{ lineHeight: "1.2" }}
@@ -323,6 +324,8 @@ const TestsComponent = () => {
         className="container-fluid pt-5"
         style={{ backgroundColor: "#f9f9f9" }}
       >
+        <div className="midbox-inner">
+
         <p
           className=" heading-text-home my-2 text-center"
           style={{ lineHeight: "1.2" }}
@@ -408,9 +411,11 @@ const TestsComponent = () => {
             </div>
           </div>
         </div>
+        </div>
+
       </div>
 
-      <div className="container-fluid pt-5">
+      <div className="midbox-inner pt-5">
         <p className=" heading-text-home mt-2 mb-4 text-center">
           {" "}
           Health Blogs
@@ -482,23 +487,49 @@ const TestsComponent = () => {
               // background: "linear-gradient(rgb(1, 7, 63), rgb(0, 78, 146))",
             }}
           >
-            <h2
-              style={{
-                color: "#fff",
-                fontSize: "40px",
-                margin: "0 0 10px",
-                padding: "0",
-                fontFamily: "Inter Medium",
-              }}
-            >
-              Can’t find what you’re looking for?
-            </h2>
+            <div className="row">
+              <div className="col-lg-7 col-md-7 col-sm-12">
 
-            <div className="mt-4">
-              <button className="card-button   mb-4" style={{ borderColor: 'white', color: 'white' }}>
-                Contact us on Whatsapp
-              </button>
+                <h2
+                  style={{
+                    color: "#fff",
+                    fontSize: "40px",
+                    margin: "0 0 10px",
+                    padding: "0",
+                    fontFamily: "Inter Medium",
+                  }}
+                >
+                  Can’t find what you’re looking for?
+                </h2>
+
+                <div className="mt-4">
+                  <button className="contact-us-btn   mb-4"  >
+                    Contact us on <span style={{ color: "#e1fba6" }}>{"Whatsapp"}</span> 
+                  </button>
+                </div>
+
+              </div>
+              <div className="col-lg-5 col-md-5 col-sm-12 " style={{position:'relative'}}>
+                 
+                <div className="Cant-Find-Anything">
+                  <img
+                    src={'/assets/images/CantFindAnything.webp'}
+                    alt=""
+                    className="director-image"
+                    style={{
+                      height: "250px",
+                      width: "100%",
+                      border: "none",
+                      borderRadius: "12px 12px 0 0 ",
+                    }}
+                  />
+
+                </div>
+              </div>
+              
+              <img></img>
             </div>
+
           </div>
         </div>
 
@@ -525,11 +556,11 @@ const TestsComponent = () => {
           </div>
         </div>
 
-        <div className="">
+        
+      </div>
+      <div className="">
           <PopularTest />
         </div>
-      </div>
-
       <div></div>
     </div>
   );

@@ -78,12 +78,12 @@ const Page = () => {
 
     return (
         <UserLayout>
-            <div className='Milestones_main midbox-inner'>
+            <div className='Milestones_main '>
                 <Banner
                     heading="Milestones"
                     paragraph="A success story “Truth, Trust and Care for more than 30 Years”"
                 />
-                <div className="timeline">
+                <div className="timeline ">
 
 
 

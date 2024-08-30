@@ -15,7 +15,7 @@ const Home = async () => {
       <div className="midbox-inner">
         <FullBodyCheckup />
       </div>
-      <div className="midbox-inner">
+      <div className="">
         <TestsComponent />
       </div>
 

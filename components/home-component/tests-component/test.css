@@ -25,3 +25,18 @@
         width: 80%;
     }
 }
+
+.Cant-Find-Anything{
+    position: absolute;
+    top: -30px;
+}
+
+.contact-us-btn {
+    border-radius: 12px;
+    padding: 10px 16px;
+    color: #fff;
+    font-size: 20px;
+    font-family: Inter Medium;
+    border: 1px solid hsla(0, 0%, 100%, 0.16);
+    background: hsla(0, 0%, 100%, 0.21);
+  }
