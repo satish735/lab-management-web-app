@@ -278,8 +278,8 @@ a {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(263deg,
-      #002678 5.26%,
-      #002678 104.79%);
+  #003747 5.26%,
+  #003747 104.79%);
   /* Linear gradient for the thumb */
   border-radius: 12px;
   /* Rounded corners for the thumb */
@@ -289,8 +289,8 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(263deg,
-      #46bb00 5.26%,
-      #3b9d00 104.79%);
+  #21cdad 5.26%,
+  #21cdad 104.79%);
   /* Different gradient for the thumb when hovered */
   border: 3px solid #f1f1f100;
   /* Adds space around thumb */

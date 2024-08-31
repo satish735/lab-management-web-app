@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import './nearby.css'
+import '@/styles/common-card-designs/card_designs.css'
+
 import { FaAngleDown, FaPhone, FaArrowsSplitUpAndLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import useAPI from '@/hooks/useAPI';
@@ -78,7 +80,7 @@ const NearBy = () => {
             <div className='floating-map-div'>
                 <div style={{ backgroundColor: 'white', borderRadius: '12px', width: '342px' }}>
 
-                    <div style={{ color: 'white', fontSize: '20px', fontWeight: '600', padding: '15px 10px', borderRadius: '5px', backgroundColor: '#00277a' }} >
+                    <div style={{ color: 'white', fontSize: '20px', fontWeight: '600', padding: '15px 10px', borderRadius: '5px', backgroundColor: '#003747' }} >
                         <div className="search-box">
                             <button className="btn-search"><FaSearch /></button>
 
@@ -124,11 +126,13 @@ const LocationCard = ({ itemValue }) => {
 
 
     function openGoogleMaps(lat, lng) {
-        console.log('...........................................');
-        
+        // console.log('...........................................');
+
         const url = `https://www.google.com/maps?q=${lat},${lng}`;
         window.open(url, '_blank');
     }
+
+
 
     return (
 
@@ -150,7 +154,7 @@ const LocationCard = ({ itemValue }) => {
             {
                 showDiv &&
                 <div>
-                    <hr style={{ border: '2px solid rgb(0 229 237)' }} />
+                    <hr style={{ border: '2px solid #003747' }} />
 
                     <div className='row'>
                         <p className='col-8' style={{ color: '#86868a', fontSize: '16px' }}>
@@ -184,7 +188,7 @@ const LocationCard = ({ itemValue }) => {
                                 Timings <FaAngleDown />
 
                                 {ViewTimings &&
-                                    <div style={{ fontSize: '13px', color: '#86868a' }}>
+                                    <div style={{ fontSize: '13px', color: '#86868a' }} >
 
                                         {itemValue.labOpeningTime} - {itemValue.labClosingTime}
 
@@ -199,7 +203,7 @@ const LocationCard = ({ itemValue }) => {
 
                         <p className='col-12 d-flex gap-4' style={{ fontSize: '15px' }}>
                             <div className='mb-2'>
-                                <button className='d-flex gap-1 py-1 px-2   call-button' style={{
+                                <button className='d-flex gap-1 py-1 px-2   card-button-2' style={{
                                     borderRadius:
                                         '10px', color: 'white', fontWeight: '600'
                                 }}><p className='mb-0'><FaPhone /></p><span>{itemValue.contact}</span></button>
@@ -207,13 +211,15 @@ const LocationCard = ({ itemValue }) => {
 
                             </div>
                             <div className=' '>
-                                <button onclick={() => {console.log('/////////////////');
-                                  }
-                                } className='d-flex gap-1 py-1 px-2  view-direction' style={{
+                                <button onClick={()=>{openGoogleMaps(37.7749, -122.4194)
+                                 
+                                }} className='d-flex gap-1 py-1 px-2  card-button-2' style={{
+                                    borderRadius: '10px', color: 'white', fontWeight: '600'
+                                }}>
 
-                                    borderRadius:
-                                        '10px', color: 'white', fontWeight: '600'
-                                }}><p className='mb-0' style={{ paddingTop: '0px' }}><FaArrowsSplitUpAndLeft /></p><span>View_Directions</span></button>
+                                    <p className='mb-0' style={{ paddingTop: '0px' }}><FaArrowsSplitUpAndLeft /></p>
+                                    <span>View_Directions</span>
+                                </button>
                             </div>
 
 
