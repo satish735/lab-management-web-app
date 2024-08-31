@@ -128,14 +128,14 @@ const UserHeader2 = () => {
 
 
 
-  function myFunction() {
-    const storedData = localStorage.getItem('testpackage');
-      const parsedData = storedData ? JSON.parse(storedData) : [];
-      setCartItemCount((parsedData.item ?? []).length ?? 0)
-  }
+  // function myFunction() {
+  //   const storedData = localStorage.getItem('testpackage');
+  //     const parsedData = storedData ? JSON.parse(storedData) : [];
+  //     setCartItemCount((parsedData.item ?? []).length ?? 0)
+  // }
   
 
-  setInterval(myFunction, 1000);
+  // setInterval(myFunction, 1000);
 
 
 

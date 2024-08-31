@@ -72,7 +72,7 @@ const Usercart = ({ isopencart, setisopencart }) => {
                                 </div>
                                 <div className="col-7 mt-1" style={{ fontSize: "0.7rem" }}>
                                     <span style={{ fontWeight: "600" }}>{item?.name}</span>
-                                    <p className="small pt-1">₹ {item?.rate}</p>
+                                    <p className="small pt-1">₹ {item?.testType =="Test"? item?.rate : item?.totalMrp}</p>
 
                                 </div>
                                 <div className="col-3" >
@@ -98,7 +98,8 @@ const Usercart = ({ isopencart, setisopencart }) => {
                                 <span className="px-2 small" >Price</span>
                             </div>
                             <div className="col-6 " style={{ float: "right" }} >
-                                <span className="px-2 small" >₹ 6790.00</span>
+                                <span className="px-2 small" >₹ {(cartitem ?? []).reduce((totalprice, item) => totalprice + (item?.testType =="Test"? item?.rate : item?.totalMrp ?? 0), 0)
+                                }</span>
                             </div>
 
                         </div>
@@ -106,13 +107,13 @@ const Usercart = ({ isopencart, setisopencart }) => {
 
 
                     <div className="my-4 ">
-                        <a href="/cart" className="text-white card-button-2 "  style={{
+                        <a href="/cart" className="text-white card-button-2 " style={{
                             display: "block",
-                            width:"100%",
-                
+                            width: "100%",
+
                             textAlign: "center",
-                            textDecoration:"none",
-                          
+                            textDecoration: "none",
+
                         }}>
                             Book Now
                         </a>

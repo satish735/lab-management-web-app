@@ -11,27 +11,28 @@ import { useRouter } from "next/navigation";
 import { File } from "lucide-react";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
+import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 const Home = () => {
   const router = useRouter();
 
-  const [milestoneResponse, milestoneHandler] = useAPI(
+  const [AdminloginResponse, AdminloginHandler] = useAPI(
     {
-      url: "/milestones/create",
+      url: "/adminlogin/create",
       method: "post",
     },
     (e) => {
       EmailInput.setEnteredValue();
       PhoneInput.setEnteredValue();
-      DescriptionInput.setEnteredValue();
 
-      toast.success("Milestone added successfully");
+
+      toast.success("Admin login added successfully");
 
     },
     (e) => {
 
       toast.error(
         transformErrorDefault(
-          "Something went wrong while adding milestone!",
+          "Something went wrong while adding Admin login!",
           e
         )
       );
@@ -85,19 +86,20 @@ const Home = () => {
   };
 
 
-  const DescriptionInput = useInputComponent('');
-  const DescriptionInputValidater = (value) => {
+  const PasswordInput = useInputComponent('');
+  const PasswordInputValidater = (value) => {
     if (value === "" || !value) {
-      DescriptionInput.setFeedbackMessage(
+      PasswordInput.setFeedbackMessage(
         "Field required!"
       );
-      DescriptionInput.setMessageType("error");
+      PasswordInput.setMessageType("error");
       return false;
     }
-    DescriptionInput.setFeedbackMessage("");
-    DescriptionInput.setMessageType("none");
+    PasswordInput.setFeedbackMessage("");
+    PasswordInput.setMessageType("none");
     return true;
   };
+
 
 
 
@@ -114,7 +116,6 @@ const Home = () => {
     PhoneInput.setMessageType("none");
     return true;
   };
-
 
 
 
@@ -177,8 +178,6 @@ const Home = () => {
     return true;
   };
 
-
-
   const dobDate = useInputComponent("");
   const dobDateValidater = (value) => {
     if (value === "" || !value) {
@@ -212,24 +211,69 @@ const Home = () => {
     }
   );
 
+
+  const [imageFile, setImageFile] = useState({
+    url: "",
+    status: "",
+  });
+
   const submit = () => {
 
     let EmailValidate = EmailInputValidater(EmailInput.enteredValue);
     let NameValidate = NameInputValidater(NameInput.enteredValue);
-    let UserNameValidate = UserNameInputValidater(UserNameInput.enteredValue);
+    let isUserNameValidate = UserNameInputValidater(UserNameInput.enteredValue);
+    let isPasswordValidate = PasswordInputValidater(PasswordInput.enteredValue);
     let PhoneValidate = PhoneInputValidater(PhoneInput.enteredValue);
-    let descValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
-    if (!EmailValidate || !PhoneValidate || !descValidate || !NameValidate || !UserNameValidate) {
+    let isroleSelectValidater = roleSelectValidater(role)
+    let iscenterSelectValidater = centerSelectValidater(center)
+    let isdobDateValidater = dobDateValidater(dobDate?.enteredValue)
+    let isGenderTypeSelectValidater = GenderTypeSelectValidater(GenderType)
+
+    if (!EmailValidate || !PhoneValidate || !NameValidate || !isUserNameValidate ||
+      !isroleSelectValidater || !isdobDateValidater || !isGenderTypeSelectValidater || !isPasswordValidate
+    ) {
       toast.error('Fill all the fields.')
     }
     else {
-      milestoneHandler({
-        body: {
-          Email: EmailInput.enteredValue ?? '',
-          description: DescriptionInput.enteredValue ?? '',
-          Phone: PhoneInput.enteredValue ?? '',
+
+
+      if (role == "adminuser") {
+        if (!iscenterSelectValidater) {
+          toast.error('Select center minimum one.')
+        } else {
+          AdminloginHandler({
+            body: {
+              email: EmailInput.enteredValue ?? '',
+              username: DescriptionInput.enteredValue ?? '',
+              role: role ?? '',
+              name: NameInput?.enteredValue,
+              gender: GenderType ?? "",
+              dob: dobDate?.enteredValue ?? null,
+              image: imageFile?.filePath ?? "",
+              iscenter: centerResponse?.data?.filter((item) => center.some((key) => key?.value == item?.centreId)) ?? [],
+              bcryptPassword:PasswordInput?.enteredValue ?? ""
+            }
+          })
         }
-      })
+      } else {
+        AdminloginHandler({
+          body: {
+            email: EmailInput.enteredValue ?? '',
+            username: DescriptionInput.enteredValue ?? '',
+            role: role ?? '',
+            name: NameInput?.enteredValue,
+            gender: GenderType ?? "",
+            dob: dobDate?.enteredValue ?? null,
+            image: imageFile?.filePath ?? "",
+            iscenter: "*",
+            bcryptPassword:PasswordInput?.enteredValue ?? ""
+          }
+        })
+      }
+
+
+
+
     }
 
   };
@@ -240,7 +284,7 @@ const Home = () => {
 
 
 
-        <h3 className=" mb-5  text-center" style={{fontSize:"1.2rem"}} >
+        <h3 className=" mb-5  text-center" style={{ fontSize: "1.2rem" }} >
 
           Login Admin User</h3>
 
@@ -249,11 +293,19 @@ const Home = () => {
 
           <div className="row  ">
 
+            <div className="my-4">
+              <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
+
+              <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+
+
+
+            </div>
 
             <div className="col-lg-12 col-md-12 col-sm-12">
 
               <InputWithAddOn
-                label="Name"
+                label="Full Name"
                 className="loginInputs"
 
                 setValue={NameInput.setEnteredValue}
@@ -273,7 +325,7 @@ const Home = () => {
             <div className="col-lg-12 col-md-12 col-sm-12">
 
               <InputWithAddOn
-                label="Email"
+                label="Email ID"
                 className="loginInputs"
 
                 setValue={EmailInput.setEnteredValue}
@@ -313,10 +365,31 @@ const Home = () => {
 
             </div>
 
+            <div className="col-lg-12 col-md-12 col-sm-12">
+
+              <InputWithAddOn
+                label="Password"
+                className="loginInputs"
+
+                setValue={PasswordInput.setEnteredValue}
+                value={PasswordInput.enteredValue}
+                feedbackMessage={PasswordInput.feedbackMessage}
+                feedbackType={PasswordInput.messageType}
+                isTouched={PasswordInput.isTouched}
+                setIsTouched={PasswordInput.setIsTouched}
+
+                validateHandler={PasswordInputValidater}
+                reset={PasswordInput.reset}
+                isRequired={true}
+              />
+
+
+            </div>
+
 
             <div className="col-lg-12 col-md-12 col-sm-12">
               <InputWithAddOn
-                label="Phone"
+                label="Phone Number"
                 className="loginInputs"
 
                 setValue={PhoneInput.setEnteredValue}
@@ -334,7 +407,7 @@ const Home = () => {
 
             <div className="col-lg-12 col-md-12 col-sm-12 ">
               <InputWithAddOn
-                label="DOB Date"
+                label="Date of Birth"
                 className="loginInputs"
                 setValue={dobDate.setEnteredValue}
                 value={dobDate.enteredValue}
@@ -378,7 +451,7 @@ const Home = () => {
                 isTouched={roleIsTouch}
                 setIsTouched={setroleIsTouch}
                 className="py-1"
-                label={"role"}
+                label={"Role"}
                 isRequired={true}
                 feedbackMessage={roleMessage?.message}
                 feedbackrole={roleMessage?.type}
@@ -389,9 +462,11 @@ const Home = () => {
               <InputMultipleSelect
                 setValue={setcenter}
                 value={center}
-                options={(centerResponse?.data ?? [])?.map((item) => {
-                  return { label: item?.centre, value: item?._id }
-                })?.filter((item)=> iten?.publishedAt != "null" || iten?.publishedAt != null || iten?.publishedAt != undefined  )}
+                options={(centerResponse?.data ?? [])?.filter((item) =>
+                  item?.publishedAt != "null" || item?.publishedAt != null
+                  || item?.publishedAt != undefined)?.map((item) => {
+                    return { label: item?.centre, value: item?._id }
+                  })}
                 isTouched={centerIsTouch}
                 setIsTouched={setcenterIsTouch}
                 className="py-1"
