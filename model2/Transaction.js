@@ -19,8 +19,9 @@ const transactionSchema = new Schema({
   },
   transactionType: {
     type: String,
-    enum: ['credit', 'debit', 'refund'],
-    required: true
+    enum: ['paid', 'refund'],
+    required: true,
+    default: "paid"
   },
   status: {
     type: String,
@@ -29,8 +30,8 @@ const transactionSchema = new Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['credit card', 'debit card', 'paypal', 'bank transfer', 'cash'],
-    required: true
+    required: true,
+    default: "application"
   },
   transactionDate: {
     type: Date,
@@ -42,16 +43,20 @@ const transactionSchema = new Schema({
   referenceTransactionId: {
     type: String // Reference to another transaction if applicable
   },
-  bookingId: {
+  bookingId: [{
     type: Schema.Types.ObjectId,
     ref: 'Booking' // Reference to the Booking model
+  }],
+  transactionDetails: {
+    type: Map,
+    of: Schema.Types.Mixed // Values in the map can be any type
   }
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt fields
 });
 
 // Pre-save hook to generate and set the transactionId
-transactionSchema.pre('save', async function(next) {
+transactionSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest transaction document

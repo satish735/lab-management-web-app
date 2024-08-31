@@ -22,6 +22,15 @@ const defaultSideMenus = [
           },
         ],
       },
+
+      {
+        type: "sub",
+        label: "Bookings",
+        icon: <Book />,
+        link: "/admin/bookings"
+
+
+      },
       {
         type: "main",
         label: "User Management",
@@ -144,7 +153,7 @@ const defaultSideMenus = [
             link: "/admin/faq"
 
           },
-         
+
           {
             type: "sub",
             label: "Policies",
@@ -196,7 +205,7 @@ const defaultSideMenus = [
             label: "Body Parts",
             link: '/admin/body-parts'
           },
-         
+
           {
             type: "sub",
             label: "Test Condition",

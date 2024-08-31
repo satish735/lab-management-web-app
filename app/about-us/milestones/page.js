@@ -2,12 +2,11 @@
 
 "use client";
 import UserLayout from '@/layouts/UserLayout'
-
 import "./Milestones.css"
 import Banner from "@/components/customdesign/Banner.jsx";
 import useAPI from "@/hooks/useAPI";
 
-const Page = () => {
+export default function Page(){
 
 
     const data = [
@@ -60,7 +59,7 @@ const Page = () => {
             },
         },
         (e) => {
-         
+
 
             return e?.data.sort((a, b) => new Date(b.year).getFullYear() - new Date(a.year).getFullYear()) ?? []
 
@@ -89,7 +88,7 @@ const Page = () => {
 
                     {milestonesResponse?.data?.map((item, index) => {
 
-                        return <div className="container left" key={index} style={{borderLeft:"8px solid #FF9F55"}}>
+                        return <div className="container left" key={index} style={{ borderLeft: "8px solid #FF9F55" }}>
                             <div className="content shadow">
                                 <h2 style={{ color: "#21cdad", fontSize: "1.1rem", fontWeight: "bold" }} >{item?.year}</h2>
                                 {item?.title && <h3 style={{ fontSize: "1.3rem", fontWeight: "bold" }}>{item?.title}</h3>}
@@ -103,5 +102,3 @@ const Page = () => {
         </UserLayout>
     )
 }
-
-export default Page

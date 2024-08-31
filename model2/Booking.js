@@ -49,10 +49,10 @@ const bookingSchema = new Schema({
     ref: 'UserDetails',
     required: true
   },
-  testPackageId: {
-    type: Schema.Types.ObjectId,
-    ref: 'PackageTest'
-  },
+  // testPackageId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'PackageTest'
+  // },
   discount: {
     type: Number,
     min: 0,
