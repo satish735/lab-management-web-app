@@ -37,7 +37,7 @@ const CarousalSlider = ({
 }) => {
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         autoplay: true,
         autoplaySpeed: 6000,
         slidesToShow: slidesToShow_lg, // Number of slides to show at a time
@@ -48,7 +48,7 @@ const CarousalSlider = ({
                 settings: {
                     slidesToShow: slidesToShow_md,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: false,
                     dots: true
                 }
             },
