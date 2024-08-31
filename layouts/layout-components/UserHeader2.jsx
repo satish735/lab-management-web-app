@@ -28,11 +28,11 @@ const UserHeader2 = () => {
 
 
 
- const updateLocalStorage = (key, value) => {
-  localStorage.setItem(key, value);
+//  const updateLocalStorage = (key, value) => {
+//   localStorage.setItem(key, value);
 
-  setLocalStorageData(localStorage.getItem(key));
-};
+//   setLocalStorageData(localStorage.getItem(key));
+// };
 
 const [localStorageData, setLocalStorageData] = useState(() => localStorage.getItem('testpackage'));
 

@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import CarousalSlider from "@/components/CarousalSlider";
 import FullBodyCheckup from "@/components/home-component/full-body-checkup/FullBodyCheckup";
 import TestsComponent from "@/components/home-component/tests-component/TestsComponent";
