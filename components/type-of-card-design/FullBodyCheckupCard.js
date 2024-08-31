@@ -3,11 +3,33 @@ import React from "react";
 // import { ReactComponent as inovation } from '@/public/assets/images/inovation.jpg'
 import "@/styles/common-card-designs/card_designs.css";
 import { useRouter } from "next/navigation";
-
+import Usercart from "@/layouts/layout-components/cart"
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 const FullBodyCheckupCard = ({ listing }) => {
   const router = useRouter();
 
-  console.log(listing)
+  const [isopencart, setisopencart] = useState(false)
+
+  
+  const setitem = async (listing) => {
+
+
+    const storedData = localStorage.getItem('testpackage');
+    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("This package already exists in your cart")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+      setisopencart(true)
+    }
+
+
+  }
   return (
     <div className="card-outer-layer-div">
       <div className="main-card-border" style={{}}>
@@ -95,7 +117,9 @@ const FullBodyCheckupCard = ({ listing }) => {
                 </button>
               </div>
               <div className=" text-end">
-                <button className="card-button-2">
+                <button onClick={()=>{
+                  setitem(listing)
+                }}  className="card-button-2">
                   Add to Cart <span>→</span>
                 </button>
               </div>
@@ -103,6 +127,8 @@ const FullBodyCheckupCard = ({ listing }) => {
           </div>
         </div>
       </div>
+        
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

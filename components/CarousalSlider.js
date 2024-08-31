@@ -64,7 +64,7 @@ const CarousalSlider = ({
 
     };
 
-    console.log(DataList);
+    // console.log(DataList);
     
 
     return (

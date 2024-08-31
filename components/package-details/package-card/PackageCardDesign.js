@@ -4,9 +4,13 @@ import "@/styles/common-card-designs/card_designs.css";
 import "../total-test-include/totalTestInclude.css";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Usercart from "@/layouts/layout-components/cart"
+import { useEffect, useState } from "react";
 const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
   const router = useRouter()
+  const [isopencart, setisopencart] = useState(false)
 
+  
   const setitem = async () => {
 
 
@@ -15,12 +19,12 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
     const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
 
     if ((filterdata ?? [])?.length > 0) {
-      toast.error("Already Added")
+      toast.error("This package already exists in your cart")
     } else {
       const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
 
-      localStorage.setItem('testpackage', JSON.stringify(dataToStore));
-      toast.success("Test saved successfully")
+      localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+      setisopencart(true)
     }
 
 
@@ -151,6 +155,8 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
           </div>
         </div>
       </div>
+      
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

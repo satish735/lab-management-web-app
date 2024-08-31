@@ -68,7 +68,7 @@ const Cart = ({ params: { _id } }) => {
     const [rate, setrate] = useState(0)
 
     useEffect(() => {
-     
+
         let totalrate = 0;
         (addtestandpackage ?? [])?.map((item) => {
             totalrate += (item?.istest ?? [])?.filter((testtype) =>
@@ -94,17 +94,18 @@ const Cart = ({ params: { _id } }) => {
             <div className="row">
                 <div className="col-sm-7 col-12 ">
 
-                    <div id="tab-1" className="tabcontent" style={{display:"block"}}>
-                        <div className="scrollbar-1-checkout">
-                            <div className="checkout-mid-address">
-                                <div className="filter-boxleft">
-                                    <label className="container-checkbox">Office
-                                        <input type="checkbox" value="35619" />
-                                        <span className="checkmark"></span>
-                                    </label></div>
-                                <p>C-6/82, Chitrakoot, Vaishali nagar, 302021, Jaipur, Rajasthan
-                                </p>
+                    <div>
+                        <div className="checkbox-tests-packages-item bg-white border w-100 ">
+                            <div className="filter-boxleft">
+                                <input type="checkbox" className="p-2" />
+                                <span className="px-2" style={{ fontSize: "1.1rem", fontWeight: "700" }}>Office</span>
+
                             </div>
+
+                            <div className="checkbox-tests-name">
+
+                            </div>
+
                         </div>
                     </div>
 

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 const { Schema } = mongoose;
 
 const AdminLoginSchema = new Schema({
@@ -12,8 +11,8 @@ const AdminLoginSchema = new Schema({
   gender: { type: String, enum: ['male', 'female', 'other'], required: true },
   dob: { type: Date, required: true },
   image: { type: String },
-  is_delete: { type: Boolean, default: false },
-
+  iscenter: [{ type: Schema.Types.ObjectId, ref: "CenterSchema" }],
+  is_delete: { type: Boolean, default: false }
 });
 
 export default mongoose.models.AdminLogin || mongoose.model('AdminLogin', AdminLoginSchema);

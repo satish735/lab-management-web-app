@@ -2,9 +2,10 @@
 import haversine from "haversine";
 import { useEffect, useState } from "react";
 import "./UserHeader2.css";
-import { Navbar, NavbarBrand } from "reactstrap";
+import { Navbar, NavbarBrand, Button, Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 import MultiLevelDropDown from "@/components/multilevel-dropdown/MultiLevelDropDown";
 import { Navigation, Phone } from "lucide-react";
+import Usercart from "@/layouts/layout-components/cart"
 import {
   FaPhone,
   FaClock,
@@ -121,8 +122,27 @@ const UserHeader2 = () => {
       ],
     },
   ];
-  const [cartItemCount, setCartItemCount] = useState("4");
+  const [cartItemCount, setCartItemCount] = useState("0");
   const [bellItemCount, setBellItemCount] = useState("4");
+
+
+
+
+  function myFunction() {
+    const storedData = localStorage.getItem('testpackage');
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+      setCartItemCount((parsedData.item ?? []).length ?? 0)
+  }
+  
+
+  setInterval(myFunction, 1000);
+
+
+
+  const [isopencart, setisopencart] = useState(false)
+ 
+
+
 
   return (
     <div className="header header-layout1">
@@ -246,7 +266,9 @@ const UserHeader2 = () => {
                   alignItems: "center",
                 }}
               >
-                <a href="/cart" className=" cart-button">
+                <a onClick={()=>{
+                  setisopencart(!isopencart)
+                }} className=" cart-button">
                   <FaCartShopping size={20} className="cart-icon" />
                   {Number.isInteger(Number(cartItemCount)) &&
                     Number(cartItemCount) > 0 && (
@@ -272,10 +294,18 @@ const UserHeader2 = () => {
                   Login
                 </a>
               </div>
+
+
+           
+
+
+             
             </div>
           </div>
         </Navbar>
       </div>
+
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

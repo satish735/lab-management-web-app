@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import SvgIcon from "../home-component/SvgIcon";
 import { useRouter } from "next/navigation";
+import Usercart from "@/layouts/layout-components/cart"
+import toast from "react-hot-toast";
 
 const PopularTestCard = ({ listing }) => {
   const router = useRouter();
@@ -10,6 +12,29 @@ const PopularTestCard = ({ listing }) => {
     let FinalPrice = (listing?.rate) * (1 - ((listing?.discountPercentage) / 100))
     setdiscountprice(FinalPrice)
   }, [])
+
+
+  const [isopencart, setisopencart] = useState(false)
+
+  
+  const setitem = async (listing) => {
+
+
+    const storedData = localStorage.getItem('testpackage');
+    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("This package already exists in your cart")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+      setisopencart(true)
+    }
+
+
+  }
 
   return (
     <div className="card-outer-layer-div">
@@ -118,7 +143,9 @@ const PopularTestCard = ({ listing }) => {
                 </button>
               </div>
               <div className="  text-end">
-                <button className="card-button-2 " style={{ fontSize: "13px" }}>
+                <button onClick={()=>{
+                  setitem(listing)
+                }}  className="card-button-2 " style={{ fontSize: "13px" }}>
                   Add to Cart <span>→</span>
                 </button>
               </div>
@@ -126,6 +153,7 @@ const PopularTestCard = ({ listing }) => {
           </div>
         </div>
       </div>
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

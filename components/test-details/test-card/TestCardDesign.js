@@ -3,6 +3,7 @@ import SvgIcon from "../../home-component/SvgIcon";
 import "@/styles/common-card-designs/card_designs.css";
 import "../total-test-include/totalTestInclude.css";
 import { useRouter } from "next/navigation";
+import Usercart from "@/layouts/layout-components/cart"
 import toast from "react-hot-toast";
 const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
   const router = useRouter()
@@ -12,6 +13,7 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
     setdiscountprice(FinalPrice)
   }, [])
 
+  const [isopencart, setisopencart] = useState(false)
 
   const setitem = async () => {
 
@@ -21,12 +23,13 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
     const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
 
     if ((filterdata ?? [])?.length > 0) {
-      toast.error("Already Added")
+      toast.error("This test is already Exists in your cart.")
     } else {
       const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
 
       localStorage.setItem('testpackage', JSON.stringify(dataToStore));
-      toast.success("Package saved successfully")
+      setisopencart(true)
+   
     }
 
 
@@ -154,6 +157,7 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
           </div>
         </div>
       </div>
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };
