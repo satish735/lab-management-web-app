@@ -1,3 +1,6 @@
+'use client'
+import { useState } from "react";
+
 const transformErrorDefault = (mssg = "Something went wrong!", e) => {
   var message = mssg;
   if (typeof e?.response?.data == "string") {
@@ -9,3 +12,5 @@ const transformErrorDefault = (mssg = "Something went wrong!", e) => {
 };
 
 export default transformErrorDefault;
+
+ 

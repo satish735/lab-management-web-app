@@ -19,7 +19,7 @@ export const GET = async (request, { params }) => {
     }
     const searchFilter = {};
     if (searchQuery) {
-      searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
+      searchFilter.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
     const PackageTestdata = await PackageTest
       .find(searchFilter)

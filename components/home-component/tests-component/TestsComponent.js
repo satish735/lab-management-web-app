@@ -84,8 +84,9 @@ const TestsComponent = () => {
   return (
     <div >
        
-      <div className="midbox-inner mt-5 heading-text-home">
-        <p className="  my-4">Tests by Medical Conditions</p>
+      <div className="midbox-inner mt-5 ">
+        <p className=" heading-text-home my-4">Tests by Medical Conditions</p>
+        
         {getBasicDetailsResponse?.fetching ? (
           <div className='text-center my-5'>
 
@@ -113,7 +114,7 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="midbox-inner  heading-text-home">
+      <div className="midbox-inner ">
         <p className=" heading-text-home my-2">Tests by Body Parts</p>
 
 

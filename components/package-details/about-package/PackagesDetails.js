@@ -3,7 +3,7 @@ import React from 'react'
 
 const PackagesDetails = ({ packageData }) => {
   return (
-    <div className='px-3 py-3' style={{ background: 'linear-gradient(180deg, rgb(1 7 63) , #004e92)', borderRadius: '13px' }}>
+    <div className='px-3 py-3 global-background-gradient' style={{  borderRadius: '13px' }}>
 
       <p style={{ fontSize: '24px', fontWeight: '600', color: 'white' }}>
         {packageData?.name ?? ''}

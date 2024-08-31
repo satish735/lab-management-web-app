@@ -1,15 +1,18 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Input, Spinner } from 'reactstrap'
 import CheckboxInput from '../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
 import TestCardDesign from '../test-details/test-card/TestCardDesign'
+import toast from 'react-hot-toast'
+import transformErrorDefault from '@/utils/transformErrorDefault'
 const HomeCollection = () => {
 
 
     const [ListingFields, setListingFields] = useState();
+    const [InputSearch, setInputSearch] = useState();
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -65,17 +68,47 @@ const HomeCollection = () => {
         (e) => {
 
 
+            if ((typeValue ?? []).length === 0 || (typeValue ?? []).length === 2) {
+                let packageList = (e?.data ?? []).filter((item) => {
+                    return item.testType === 'Package'
+                });
+
+                let testList = (e?.data ?? []).filter((item) => {
+                    return item.testType === 'Test'
+                });
+
+                return { packageList: packageList, testList: testList }
+            }
+
+            else {
+                 
+
+                let containsPackage = typeValue.some(item =>{return  item.label === 'Package'});
 
 
-            let packageList = (e?.data ?? []).filter((item) => {
-                return item.testType === 'Package'
-            });
 
-            let testList = (e?.data ?? []).filter((item) => {
-                return item.testType === 'Test'
-            });
+                let containsTest = typeValue.some(item => item.label === 'Test');
 
-            return { packageList: packageList, testList: testList }
+                if (containsPackage) {
+                    let packageList = (e?.data ?? []).filter((item) => {
+                        return item.testType === 'Package'
+                    });
+
+
+                    return { packageList: packageList, testList: [] }
+                }
+
+                if (containsTest) {
+                    let testList = (e?.data ?? []).filter((item) => {
+                        return item.testType === 'Test'
+                    });
+
+                    return { packageList: [], testList: testList }
+                }
+            }
+
+
+
         },
         (e) => {
             toast.error(transformErrorDefault(
@@ -87,12 +120,32 @@ const HomeCollection = () => {
     );
 
     const [bodyPartValue, setBodyPartValue] = useState([])
+    const [typeValue, settypeValue] = useState([])
 
+    useEffect(() => {
+        allPackageHandler({
+            params: {
 
-// console.log(allPackageResponse);
+                pageNo: 1,
+                pageSize: 20,
+                searchQuery: InputSearch
+            }
+        })
+    }, [typeValue])
+    // console.log(typeValue);
 
-    const changeSearchValue = () => {
+    // console.log(bodyPartValue);
 
+    const changeSearchValue = (value) => {
+        setInputSearch(value)
+        allPackageHandler({
+            params: {
+
+                pageNo: 1,
+                pageSize: 20,
+                searchQuery: value
+            }
+        })
     }
     return (
         <div className='pt-3' style={{ backgroundColor: '#f1f6ee' }}>
@@ -116,7 +169,7 @@ const HomeCollection = () => {
                             </p>
                             <div style={{}}>
                                 {(select_type_list ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} />
+                                    return <FiltersOnTypeList item={item} key={index} setTypeValue={settypeValue} />
                                 })}
 
                             </div>
@@ -177,7 +230,7 @@ const HomeCollection = () => {
                             Packages and Tests
                         </div>
                         <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
-                            Showing 1-19 of 19 Packages
+                            Showing {(allPackageResponse?.data?.packageList ?? [])?.length + (allPackageResponse?.data?.testList ?? [])?.length} Test & Packages
                         </div>
 
                         {
@@ -190,22 +243,22 @@ const HomeCollection = () => {
                                 :
 
                                 <div className='row'>
-                                {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
-                                    return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                                })}
-    
-    
-                                {(allPackageResponse?.data?.testList  ?? []).map((keyValue, index) => {
-                                    return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                                })}
-    
-    
-    
-                            </div>
+                                    {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
+                                        return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                    })}
+
+
+                                    {(allPackageResponse?.data?.testList ?? []).map((keyValue, index) => {
+                                        return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                    })}
+
+
+
+                                </div>
                             )
                         }
 
-                        
+
 
 
                     </div>
@@ -279,6 +332,7 @@ const FiltersList = ({ item, setBodyPartValue }) => {
 
 
 
+
     return (
 
         <div className='mx-2'>
@@ -324,13 +378,62 @@ const FiltersList = ({ item, setBodyPartValue }) => {
     )
 }
 
+const FiltersOnTypeList = ({ item, setTypeValue }) => {
+    const [FilterCheck, setFilterCheck] = useState();
 
+
+
+
+    return (
+
+        <div className='mx-2'>
+
+
+            <div className='d-flex '>
+                <div ><CheckboxInput
+                    check={FilterCheck}
+                    setChecked={() => {
+                        if (FilterCheck) {
+                            setTypeValue(prev => {
+                                let data = (prev ?? []).filter((value) => {
+                                    if (value.label === item.label) {
+
+                                    }
+                                    else {
+                                        return value
+                                    }
+                                })
+                                return data
+
+                            });
+
+                        }
+                        else {
+                            setTypeValue(prev => [...prev, item]);
+
+                        }
+
+                        setFilterCheck(!FilterCheck)
+                    }}
+                    label={''}
+                />
+                </div>
+
+                <div  >
+                    {item.label}
+                </div>
+            </div>
+
+        </div>
+
+    )
+}
 
 
 
 let select_type_list = [
     { label: 'Package', label: 'Package' },
-    { label: 'Test',label: 'Test' },
+    { label: 'Test', label: 'Test' },
 
 
 

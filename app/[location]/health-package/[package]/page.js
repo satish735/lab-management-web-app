@@ -71,7 +71,7 @@ const Home = ({ searchParams }) => {
         <UserLayout>
             <div className='py-3' style={{ backgroundColor: '#f2f4f8' }}>
 
-                <div className='row' style={{ width: '95%', margin: '0 auto', backgroundColor: '#f2f4f8' }}>
+                <div className='row ' style={{ width: '95%', margin: '0 auto', backgroundColor: '#f2f4f8' }}>
                     <div className='col-lg-4 col-md-4 col-sm-12'>
                         <PackagesDetails packageData={packageResponse?.data} />
                     </div>

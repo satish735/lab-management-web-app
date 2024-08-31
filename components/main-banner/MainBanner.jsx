@@ -11,7 +11,7 @@ const MainBanner = () => {
       </div>
       <div className="main-banner-2">
         <MainBannerSecondPart />
-        <div className="main-banner-2-part-3">
+        {/* <div className="main-banner-2-part-3">
           <div className="row align-items-center">
             <div className="col-12 col-xl-6 offset-xl-3 px-xl-5 text-center">
               <p className="px-xl-4 fw-bold mb-0">
@@ -23,7 +23,7 @@ const MainBanner = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

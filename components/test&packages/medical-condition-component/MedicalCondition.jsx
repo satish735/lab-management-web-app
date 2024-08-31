@@ -85,7 +85,7 @@ const MedicalCondition = ({ searchParams }) => {
 return (
     <div>
 
-        <div className=' m-0 ps-5' style={{ background: ' linear-gradient(153deg, #000428 , #004e92)', padding: '80px 15px', color: '#fff', fontWeight: '600' }}>
+        <div className=' m-0 ps-5 global-background-gradient' style={{   padding: '80px 15px', color: '#fff', fontWeight: '600' }}>
 
             <h2 style={{ fontSize: '40px' }}>
                 Heart Diseases Test & Package
@@ -120,7 +120,7 @@ return (
                     </span>
                     <div className='pt-1' style={{ fontSize: '12px', fontWeight: '400' }}>
                         <div style={{ color: '#e1fba6' }}>
-                            6:30 AM - 7:30 PM
+                            8:00 AM - 8:00 PM
 
 
                         </div>

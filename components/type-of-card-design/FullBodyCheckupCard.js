@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Usercart from "@/layouts/layout-components/cart"
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-const FullBodyCheckupCard = ({ listing }) => {
+ const FullBodyCheckupCard = ({ listing }) => {
   const router = useRouter();
 
   const [isopencart, setisopencart] = useState(false)
@@ -118,6 +118,7 @@ const FullBodyCheckupCard = ({ listing }) => {
               </div>
               <div className=" text-end">
                 <button onClick={()=>{
+                
                   setitem(listing)
                 }}  className="card-button-2">
                   Add to Cart <span>→</span>

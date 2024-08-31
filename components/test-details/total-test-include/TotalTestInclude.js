@@ -6,7 +6,7 @@ const TotalTestInclude = ({ total_test }) => {
   return (
     <>
       <div className='test-include-div bg-white py-4' style={{ borderRadius: '10px' }}>
-        <h2 className='heading-text px-3'>
+        <h2 className='heading-text px-3' >
           {total_test?.name ?? ''}
         </h2>
 

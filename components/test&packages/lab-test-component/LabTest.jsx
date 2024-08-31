@@ -11,6 +11,7 @@ import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
 const LabTest = () => {
 
     const [ListingFields, setListingFields] = useState();
+    const [InputSearch, setInputSearch] = useState();
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -86,8 +87,16 @@ const LabTest = () => {
 
     const [bodyPartValue, setBodyPartValue] = useState([])
 
-    const changeSearchValue = () => {
+    const changeSearchValue = (value) => {
+        setInputSearch(value)
+        allPackageHandler({
+            params: {
 
+                pageNo: 1,
+                pageSize: 20,
+                searchQuery: value
+            }
+        })
     }
     return (
         <div className='py-3 pb-4 ' style={{ backgroundColor: '#f1f6ee' }}>
@@ -162,7 +171,7 @@ const LabTest = () => {
                             Lab Tests
                         </div>
                         <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
-                            Showing 1-19 of 19 Tests
+                            Showing {(allPackageResponse?.data?.packageList ?? []).length} Tests
                         </div>
 
 
