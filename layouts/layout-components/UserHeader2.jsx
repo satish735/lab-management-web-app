@@ -17,8 +17,47 @@ import {
   FaBell,
 } from "react-icons/fa6";
 import useAPI from "@/hooks/useAPI";
+const updateLocalStorage = (key, value) => {
+  localStorage.setItem(key, value);
+  window.dispatchEvent(new Event('storageChange')); // Dispatch a custom event
+};
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
+
+
+
+
+
+ const updateLocalStorage = (key, value) => {
+  localStorage.setItem(key, value);
+
+  setLocalStorageData(localStorage.getItem(key));
+};
+
+const [localStorageData, setLocalStorageData] = useState(() => localStorage.getItem('testpackage'));
+
+useEffect(() => {
+  const checkLocalStorage = () => {
+    const storedData = localStorage.getItem('testpackage');
+    if (storedData !== localStorageData) {
+      setLocalStorageData(storedData);
+    }
+  };
+
+
+  const intervalId = setInterval(checkLocalStorage, 1000);
+
+
+  return () => clearInterval(intervalId);
+}, [localStorageData]);
+
+useEffect(() => {
+  const parsedData = localStorageData ? JSON.parse(localStorageData) : [];
+  setCartItemCount((parsedData.item ?? []).length);
+}, [localStorageData]);
+
+
+
 
   const [testResponse, testHandler] = useAPI(
     {
@@ -128,14 +167,12 @@ const UserHeader2 = () => {
 
 
 
-  // function myFunction() {
-  //   const storedData = localStorage.getItem('testpackage');
-  //     const parsedData = storedData ? JSON.parse(storedData) : [];
-  //     setCartItemCount((parsedData.item ?? []).length ?? 0)
-  // }
-  
 
-  // setInterval(myFunction, 1000);
+
+
+
+
+ 
 
 
 

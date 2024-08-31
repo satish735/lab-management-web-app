@@ -89,7 +89,7 @@ const Page = () => {
 
                     {milestonesResponse?.data?.map((item, index) => {
 
-                        return <div className="container left" key={index}>
+                        return <div className="container left" key={index} style={{borderLeft:"8px solid #FF9F55"}}>
                             <div className="content shadow">
                                 <h2 style={{ color: "#21cdad", fontSize: "1.1rem", fontWeight: "bold" }} >{item?.year}</h2>
                                 {item?.title && <h3 style={{ fontSize: "1.3rem", fontWeight: "bold" }}>{item?.title}</h3>}

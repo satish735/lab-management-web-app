@@ -37,25 +37,12 @@
   .container {
     position: relative; /* Ensures pseudo-elements are positioned correctly */
     padding: 20px; /* Optional padding for layout purposes */
+
   }
   
 
   
-  .container::after {
-    content: '';
-    position: absolute;
-    width: 5vw; /* Responsive size relative to viewport width */
-    height: 5vw; /* Responsive size relative to viewport width */
-    max-width: 25px; /* Cap the size for larger screens */
-    max-height: 25px; /* Cap the size for larger screens */
-    background-color: white;
-    border: 0.8vw solid #FF9F55; /* Responsive border size */
-    top: 15%; /* Position the circle along the vertical line */
-    left: calc(2vw - 10px); /* Center the circle */
-    border-radius: 50%;
-    z-index: 1; /* Ensures the circle is above the line */
-  }
-  
+
   
   
 
