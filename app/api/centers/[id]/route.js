@@ -3,12 +3,12 @@ export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
     const searchedCenter = await Center.findById(id);
-    return new Response(searchedCenter, { status: 200 });
+    return new Response(JSON.stringify(searchedCenter), { status: 200 });
   } catch (error) {
     return new Response(error?.message, { status: 500 });
   }
 };
-export const PATCH = async (request, { params }) => {
+export const PUT = async (request, { params }) => {
   try {
     const toUpdateBody = await request.json();
     const { id = null } = params;
@@ -22,7 +22,7 @@ export const PATCH = async (request, { params }) => {
       }
     }
     await existingCenter.save();
-    return new Response(existingCenter, { status: 200 });
+    return new Response(JSON.stringify(existingCenter), { status: 200 });
   } catch (error) {
     return new Response(error?.message, { status: 500 });
   }

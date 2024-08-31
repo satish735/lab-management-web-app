@@ -15,8 +15,29 @@ import {
   FaCartShopping,
   FaBell,
 } from "react-icons/fa6";
+import useAPI from "@/hooks/useAPI";
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
+
+  const [testResponse, testHandler] = useAPI(
+    {
+      url: "/getCentersLocation",
+      method: "get",
+      sendImmediately: true,
+
+    },
+    (e) => {
+
+      return e
+    },
+    (e) => {
+      toast.error(transformErrorDefault(
+        "Something went wrong while Getting milestones!",
+        e
+      ));
+      return e
+    }
+  );
   useEffect(() => {
     const findNearestCity = (currentLat, currentLon) => {
       let nearestCity = null;

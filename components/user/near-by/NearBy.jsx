@@ -13,11 +13,9 @@ const NearBy = () => {
     const [state, setState] = useState('rajasthan');
     const [city, setCity] = useState('jaipur');
 
-    const handleSearch = () => {
 
-    }
 
-    const[inputSearch,setInputSearch]=useState('')
+    const [inputSearch, setInputSearch] = useState('')
     const [allPackageResponse, allPackageHandler] = useAPI(
         {
             url: "/centers/list",
@@ -49,7 +47,7 @@ const NearBy = () => {
         }
     );
 
-    const inputChange=(e)=>{
+    const inputChange = (e) => {
         setInputSearch(e.target.value)
         allPackageHandler({
             params: {
@@ -84,7 +82,7 @@ const NearBy = () => {
                         <div className="search-box">
                             <button className="btn-search"><FaSearch /></button>
 
-                            <input type="text" className="input-search" placeholder="Type to Search..." onChange={(e)=>{inputChange(e)}} />
+                            <input type="text" className="input-search" placeholder="Type to Search..." onChange={(e) => { inputChange(e) }} />
                         </div>
                         {/* <span >Offices and Main Labs</span> */}
 
@@ -92,7 +90,7 @@ const NearBy = () => {
                     {allPackageResponse?.fetching ? (
                         <div className='text-center my-5'>
 
-                        <Spinner size={"lg"} />
+                            <Spinner size={"lg"} />
                         </div>
 
                     ) : (
@@ -125,7 +123,12 @@ const LocationCard = ({ itemValue }) => {
     const [ViewTimings, setViewTimings] = useState(false)
 
 
-
+    function openGoogleMaps(lat, lng) {
+        console.log('...........................................');
+        
+        const url = `https://www.google.com/maps?q=${lat},${lng}`;
+        window.open(url, '_blank');
+    }
 
     return (
 
@@ -204,7 +207,9 @@ const LocationCard = ({ itemValue }) => {
 
                             </div>
                             <div className=' '>
-                                <button className='d-flex gap-1 py-1 px-2  view-direction' style={{
+                                <button onclick={() => {console.log('/////////////////');
+                                  }
+                                } className='d-flex gap-1 py-1 px-2  view-direction' style={{
 
                                     borderRadius:
                                         '10px', color: 'white', fontWeight: '600'

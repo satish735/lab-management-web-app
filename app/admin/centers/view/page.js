@@ -12,7 +12,7 @@ import useInputComponent from "@/hooks/useInputComponent";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import InputSelect from "@/components/formInput/select/InputSelect";
 
-export default function Home() {
+export default function Home({ searchParams }) {
   const router = useRouter();
 
   const CenterName = useInputComponent("");
@@ -93,11 +93,11 @@ export default function Home() {
     },
     (e) => {
       return e?.data.map((stateItem) => {
-        if( stateItem?.state_code==='RJ'){
-          return { label: stateItem?.name, value: stateItem?.state_code  };
+        if (stateItem?.state_code === 'RJ') {
+          return { label: stateItem?.name, value: stateItem?.state_code };
 
         }
-        else{
+        else {
           return { label: stateItem?.name, value: stateItem?.state_code };
 
         }
@@ -133,7 +133,7 @@ export default function Home() {
       return e;
     }
   );
-  
+
   // useEffect(() => {
   //   if (stateListResponse) {
   //     StateInput.setEnteredValue('RJ')
@@ -141,7 +141,7 @@ export default function Home() {
   // }, [stateListResponse]);
   useEffect(() => {
     if (StateInput?.enteredValue && StateInput?.enteredValue != "") {
-     
+
       CityListHandler({
         url: `/cities/${StateInput?.enteredValue}`,
       });
@@ -183,11 +183,11 @@ export default function Home() {
   };
   const AddressLine2Input = useInputComponent("");
   const AddressLine2InputValidater = (value) => {
-    // if (value === "" || !value) {
-    //   AddressLine2Input.setFeedbackMessage("Field required!");
-    //   AddressLine2Input.setMessageType("error");
-    //   return false;
-    // }
+    if (value === "" || !value) {
+      AddressLine2Input.setFeedbackMessage("Field required!");
+      AddressLine2Input.setMessageType("error");
+      return false;
+    }
     AddressLine2Input.setFeedbackMessage("");
     AddressLine2Input.setMessageType("none");
     return true;
@@ -227,19 +227,20 @@ export default function Home() {
     return true;
   };
   const [centerSubmitResponse, centerSubmitHandler] = useAPI(
+
     {
-      url: "/centers/create",
-      method: "post",
+      url: `/centers/${searchParams?.id}`,
+      method: "put",
     },
     (e) => {
       toast.success(
-        `Center has been added successfully`
+        `Center has been updated successfully`
       );
       router.push("/admin/centers");
     },
     (e) => {
       toast.error(
-        transformErrorDefault("Something went wrong while creating Center!", e)
+        transformErrorDefault("Something went wrong while updating Center!", e)
       );
       return e;
     }
@@ -256,9 +257,9 @@ export default function Home() {
     let ContactInput_validate = ContactInputValidater(ContactInput?.enteredValue)
     let AddressLine1Input_validate = AddressLine1InputValidater(AddressLine1Input?.enteredValue)
     let LabCloseTime_validate = LabCloseTimeValidater(LabCloseTime?.enteredValue)
-    let PinCode_validate=PinCodeValidater(PinCode?.enteredValue)
+    let PinCode_validate = PinCodeValidater(PinCode?.enteredValue)
 
-    console.log(CenterName_validate, LabOpenTime_validate, LongitudeInput_validate, LatitudeInput_validate, CityInput_validate, StateInput_validate, EmailInput_validate, ContactInput_validate, AddressLine1Input_validate, LabCloseTime_validate,PinCode_validate);
+    console.log(CenterName_validate, LabOpenTime_validate, LongitudeInput_validate, LatitudeInput_validate, CityInput_validate, StateInput_validate, EmailInput_validate, ContactInput_validate, AddressLine1Input_validate, LabCloseTime_validate, PinCode_validate);
 
     if (!CenterName_validate || !LabOpenTime_validate || !LongitudeInput_validate || !LatitudeInput_validate || !CityInput_validate || !StateInput_validate || !EmailInput_validate || !ContactInput_validate || !AddressLine1Input_validate || !LabCloseTime_validate || !PinCode_validate) {
       toast.error("Please check all validations before continuing!");
@@ -285,8 +286,39 @@ export default function Home() {
 
   };
 
+  const [getCenterResponse, getCenterHandler] = useAPI(
+    {
+      url: `/centers/${searchParams?.id}`,
+      method: "get",
+      sendImmediately: true,
 
-console.log(StateInput?.enteredValue);
+    },
+    (e) => {
+
+
+      CenterName.setEnteredValue(e?.centre ?? '');
+      LabOpenTime.setEnteredValue(e?.labOpeningTime ?? '');
+      LongitudeInput.setEnteredValue(e?.latitude ?? '');
+      LatitudeInput.setEnteredValue(e?.longitude ?? '');
+      CityInput.setEnteredValue(e?.city ?? '');
+      StateInput.setEnteredValue(e?.state ?? '');
+      EmailInput.setEnteredValue(e?.email ?? '');
+      ContactInput.setEnteredValue(e?.contact ?? '');
+      AddressLine1Input.setEnteredValue(e?.address ?? '');
+      AddressLine2Input.setEnteredValue(e?.address ?? '');
+      LabCloseTime.setEnteredValue(e?.labClosingTime ?? '');
+      PinCode.setEnteredValue(e?.pinCode ?? '');
+
+    },
+    (e) => {
+
+      toast.error(transformErrorDefault(
+        "Something went wrong while Getting Faq!",
+        e
+      ));
+      return e
+    }
+  );
 
 
   return (
@@ -294,7 +326,7 @@ console.log(StateInput?.enteredValue);
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Blogs", link: "/admin/blogs" },
+          { label: "Centers", link: "/admin/centers" },
           { label: "Create", active: true },
         ]}
       />
@@ -319,6 +351,7 @@ console.log(StateInput?.enteredValue);
                 validateHandler={CenterNameValidater}
                 reset={CenterName.reset}
                 isRequired={true}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 "></div>
@@ -336,6 +369,7 @@ console.log(StateInput?.enteredValue);
                 reset={LabOpenTime.reset}
                 isRequired={true}
                 type="time"
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-3 col-md-3 col-sm-6 ">
@@ -352,6 +386,7 @@ console.log(StateInput?.enteredValue);
                 reset={LabCloseTime.reset}
                 isRequired={true}
                 type="time"
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             {/* <hr /> */}
@@ -370,6 +405,7 @@ console.log(StateInput?.enteredValue);
                 validateHandler={AddressLine1InputValidater}
                 reset={AddressLine1Input.reset}
                 isRequired={true}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -384,6 +420,7 @@ console.log(StateInput?.enteredValue);
                 setIsTouched={AddressLine2Input.setIsTouched}
                 validateHandler={AddressLine2InputValidater}
                 reset={AddressLine2Input.reset}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 ">
@@ -400,6 +437,7 @@ console.log(StateInput?.enteredValue);
                 reset={ContactInput.reset}
                 isRequired={true}
                 type={'number'}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 ">
@@ -415,6 +453,7 @@ console.log(StateInput?.enteredValue);
                 validateHandler={EmailInputValidater}
                 reset={EmailInput.reset}
                 isRequired={true}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 ">
@@ -432,6 +471,7 @@ console.log(StateInput?.enteredValue);
                 reset={StateInput.reset}
                 isRequired={true}
                 isLoading={stateListResponse?.fetching}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -449,6 +489,7 @@ console.log(StateInput?.enteredValue);
                 reset={CityInput.reset}
                 isRequired={true}
                 isLoading={cityListResponse?.fetching}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-4 col-md-4 col-sm-6 ">
@@ -464,6 +505,7 @@ console.log(StateInput?.enteredValue);
                 validateHandler={PinCodeValidater}
                 reset={PinCode.reset}
                 isRequired={true}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-4 col-md-4 col-sm-6 ">
@@ -479,6 +521,7 @@ console.log(StateInput?.enteredValue);
                 validateHandler={LatitudeInputValidater}
                 reset={LatitudeInput.reset}
                 isRequired={true}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-lg-4 col-md-4 col-sm-6 ">
@@ -494,31 +537,56 @@ console.log(StateInput?.enteredValue);
                 validateHandler={LongitudeInputValidater}
                 reset={LongitudeInput.reset}
                 isRequired={true}
+                disabled={searchParams?.type === 'view'}
               />
             </div>
             <div className="col-12 text-end my-3">
+
+
+
               <button
-                disabled={centerSubmitResponse?.fetching}
-                className="btn  btn-outline-dark px-5 me-2"
-                onClick={() => { }}
-                type="button"
-              >
-                Cancel
-              </button>
-              <button
-                disabled={centerSubmitResponse?.fetching}
-                className="btn btn-success px-5"
+
+                className={`btn ${(searchParams?.type === 'view') ? 'btn-success' : 'btn-outline-dark'}   px-3 me-2`}
                 onClick={() => {
-                  createCenterSubmitHandler();
+                  router.push("/admin/centers");
+
                 }}
                 type="button"
               >
-                {centerSubmitResponse?.fetching ? (
-                  <Spinner size={"sm"} />
-                ) : (
-                  "Add"
-                )}
+                {searchParams?.type === 'view'
+
+                  ?
+                  'Done' : 'Cancel'
+                }
+
               </button>
+
+
+              {searchParams?.type === 'edit'
+
+                &&
+
+
+                <button
+                  style={{ float: "right" }}
+
+                  className="btn btn-success px-3"
+                  onClick={() => {
+                    createCenterSubmitHandler();
+                  }}
+                  type="button"
+                >
+                  {centerSubmitResponse?.fetching ? (
+                    <Spinner size={"sm"} />
+                  ) : (
+                    "Update"
+                  )}
+                </button>
+              }
+
+
+
+
             </div>
           </div>
         </form>

@@ -13,7 +13,7 @@ import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
-const EditBodyPartMainPage = ({searchParams}) => {
+const EditBodyPartMainPage = ({ searchParams }) => {
     const router = useRouter();
 
 
@@ -121,7 +121,7 @@ const EditBodyPartMainPage = ({searchParams}) => {
 
                 <h3 className="mb-4 px-3 py-2 mt-2  " >
 
-                 {searchParams?.type === 'view' ? 'View Body Part' :'Edit Body Part'}
+                    {searchParams?.type === 'view' ? 'View Body Part' : 'Edit Body Part'}
                 </h3>
 
                 <div className=" my-3  py-4 px-3"  >
@@ -153,14 +153,17 @@ const EditBodyPartMainPage = ({searchParams}) => {
                                 validateHandler={bodypartValidater}
                                 reset={bodypart.reset}
                                 isRequired={true}
-                            disabled={searchParams?.type === 'view'}
+                                disabled={searchParams?.type === 'view'}
                             />
                         </div>
 
 
 
                         <div className="my-3 text-end">
-                            <button
+                            {searchParams?.type === 'view'
+
+                                &&
+                                <button
                                 className="mx-2 btn btn-outline-dark"
                                 onClick={() => {
                                     router.push("/admin/body-parts");
@@ -168,22 +171,29 @@ const EditBodyPartMainPage = ({searchParams}) => {
                                 type="button"
                             >
                                 {" "}
-                                Cancel
+                                Done
                             </button>
+                            }
+                            
 
-                            <button
-                                style={{ float: "right" }}
+                            {searchParams?.type === 'view'
 
-                                className="btn btn-success px-3"
-                                onClick={submit}
-                                type="button"
-                            >
-                                {bodypartResponse?.fetching ? (
-                                    <Spinner size={"sm"} />
-                                ) : (
-                                    "Submit"
-                                )}
-                            </button>
+                                &&
+                                <button
+                                    style={{ float: "right" }}
+
+                                    className="btn btn-success px-3"
+                                    onClick={submit}
+                                    type="button"
+                                >
+                                    {bodypartResponse?.fetching ? (
+                                        <Spinner size={"sm"} />
+                                    ) : (
+                                        "Submit"
+                                    )}
+                                </button>
+                            }
+
 
                         </div>
                     </div>
