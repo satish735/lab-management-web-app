@@ -17,25 +17,19 @@ import {
   FaBell,
 } from "react-icons/fa6";
 import useAPI from "@/hooks/useAPI";
-const updateLocalStorage = (key, value) => {
-  localStorage.setItem(key, value);
-  window.dispatchEvent(new Event('storageChange')); // Dispatch a custom event
-};
+// const updateLocalStorage = (key, value) => {
+//   localStorage.setItem(key, value);
+//   window.dispatchEvent(new Event('storageChange')); // Dispatch a custom event
+// };
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
-
-
-
-
-
 //  const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
 
 //   setLocalStorageData(localStorage.getItem(key));
 // };
 
-const [localStorageData, setLocalStorageData] = useState(() => localStorage.getItem('testpackage'));
-
+const [localStorageData, setLocalStorageData] = useState();
 useEffect(() => {
   const checkLocalStorage = () => {
     const storedData = localStorage.getItem('testpackage');
@@ -43,11 +37,7 @@ useEffect(() => {
       setLocalStorageData(storedData);
     }
   };
-
-
   const intervalId = setInterval(checkLocalStorage, 1000);
-
-
   return () => clearInterval(intervalId);
 }, [localStorageData]);
 
@@ -163,24 +153,7 @@ useEffect(() => {
   ];
   const [cartItemCount, setCartItemCount] = useState("0");
   const [bellItemCount, setBellItemCount] = useState("4");
-
-
-
-
-
-
-
-
-
- 
-
-
-
   const [isopencart, setisopencart] = useState(false)
- 
-
-
-
   return (
     <div className="header header-layout1">
       <div className="header-topbar">
