@@ -144,7 +144,7 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="midbox-inner">
+      {/* <div className="midbox-inner">
         <p
           className=" heading-text-home mt-2 mb-4  text-center"
           style={{ lineHeight: "1.2" }}
@@ -318,9 +318,9 @@ const TestsComponent = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         className="container-fluid pt-5"
         style={{ backgroundColor: "#f9f9f9" }}
       >
@@ -413,15 +413,15 @@ const TestsComponent = () => {
         </div>
         </div>
 
-      </div>
+      </div> */}
 
       <div className="midbox-inner pt-5">
-        <p className=" heading-text-home mt-2 mb-4 text-center">
+        {/* <p className=" heading-text-home mt-2 mb-4 text-center">
           {" "}
           Health Blogs
-        </p>
+        </p> */}
 
-        <div className="d-flex justify-content-center gap-3">
+        {/* <div className="d-flex justify-content-center gap-3">
           <button
             onClick={() => {
               setHealthBlog("recent");
@@ -457,9 +457,9 @@ const TestsComponent = () => {
           >
             Trending
           </button>
-        </div>
+        </div> */}
 
-        <div className="my-5 container-fluid">
+        {/* <div className="my-5 container-fluid">
           {healthBlog == "recent" && <RecentBlog />}
           {healthBlog == "popular" && <PopularBlog />}
           {healthBlog == "trending" && <TrendingBlog />}
@@ -475,9 +475,9 @@ const TestsComponent = () => {
               View All
             </button>
           </div>
-        </div>
+        </div> */}
 
-        <div className="container-fluid">
+        {/* <div className="container-fluid">
           <div
             className="container-fluid global-background-gradient"
             style={{
@@ -531,7 +531,7 @@ const TestsComponent = () => {
             </div>
 
           </div>
-        </div>
+        </div> */}
 
         <div className="mt-5">
           <h2

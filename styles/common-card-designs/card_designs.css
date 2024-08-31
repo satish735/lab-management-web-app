@@ -14,7 +14,21 @@
   font-size: 18px;
   color: #003747;
   font-weight: 600;
-  /* color: #21cdad; */
+  /* overflow: hidden;
+  white-space: nowrap;
+  /* Don't forget this one */
+  /* text-overflow: ellipsis; */ 
+  
+}
+
+.truncate {
+  display: -webkit-box;          /* Display as a flexible box model */
+  -webkit-box-orient: vertical;  /* Orient the box vertically */
+  overflow: hidden;              /* Hide overflow text */
+  text-overflow: ellipsis;       /* Show ellipsis (...) for overflow text */
+  -webkit-line-clamp: 3;         /* Number of lines to show */
+  height: 4.5em;             /* Max height to accommodate 3 lines, assuming line-height of 1.5em */
+  line-height: 1.5em;            /* Set the line-height for better control */
 }
 
 .card-button {
@@ -25,6 +39,7 @@
   color: #003747;
   border: 2px solid #003747;
 }
+
 .card-button-2 {
   padding: 5px 10px;
   border-radius: 8px;
@@ -33,6 +48,7 @@
   color: white;
   border: 2px solid #003747;
 }
+
 .main-tests-card-box {
   padding: 20px 15px;
   border: 1px solid gray;
@@ -42,6 +58,7 @@
   background: #f1f6ee;
   /* margin: 0 0 0 20px; */
 }
+
 .main-tests-card-box .body-tests-icon {
   position: relative;
   z-index: 1;
@@ -49,6 +66,7 @@
   display: flex;
   align-items: center;
 }
+
 .main-tests-card-box .body-tests-icon:before {
   content: "";
   position: absolute;
@@ -61,6 +79,7 @@
   background-position: top;
   z-index: -1;
 }
+
 .main-tests-card-box .body-tests-icon img {
   width: auto !important;
   height: 60px;
@@ -94,10 +113,11 @@
   transition: all 0.1s linear;
   font-size: 15px;
   padding: 5px 10px;
-  background-color: #21cdad;
+  background-color: #21cdada1;
   color: white;
   border-color: transparent;
 }
+
 .card-button-2:hover {
   transition: all 0.1s linear;
   font-size: 15px;
@@ -106,6 +126,7 @@
   color: white;
   border-color: transparent;
 }
+
 .card-button-view-all {
   padding: 5px 10px;
   border-radius: 8px;
@@ -114,16 +135,18 @@
   color: white;
   border: 2px solid #21cdad;
 }
+
 .card-button-view-all:hover {
-  transition: all 0.1s linear;
+  /* transition: all 0.1s linear; */
   font-size: 15px;
   padding: 5px 10px;
   background-color: #003747;
   color: white;
   border-color: transparent;
 }
-.main-card-border:hover {
-}
+
+.main-card-border:hover {}
+
 /* .background-hover :hover {
     background-color: #21cdad53;
 

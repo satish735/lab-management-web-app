@@ -1,5 +1,6 @@
 'use client'
 import React, { useRef, useState } from 'react'
+import { Spinner } from "reactstrap";
 import { Input } from 'reactstrap'
 import CheckboxInput from '../../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
@@ -84,7 +85,7 @@ const LabTest = () => {
 
 
     const [bodyPartValue, setBodyPartValue] = useState([])
-    
+
     const changeSearchValue = () => {
 
     }
@@ -107,12 +108,25 @@ const LabTest = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Body Parts
                             </p>
-                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-                                {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
-                                })}
 
-                            </div>
+                            {
+                                (getBasicDetailsResponse?.fetching ?
+                                    <div className='text-center my-5'>
+
+                                        <Spinner size={"xl"} />
+                                    </div>
+
+                                    :
+
+                                    <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                        {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
+                                        })}
+
+                                    </div>
+                                )
+                            }
+
                         </div>
 
                         <hr className='my-4 ' />
@@ -120,12 +134,26 @@ const LabTest = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Health Conditions
                             </p>
-                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-                                {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
-                                })}
 
-                            </div>
+
+                            {
+                                (getBasicDetailsResponse?.fetching ?
+                                    <div className='text-center my-5'>
+
+                                        <Spinner size={"xl"} />
+                                    </div>
+
+                                    :
+
+                                    <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                        {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
+                                        })}
+
+                                    </div>
+                                )
+                            }
+
                         </div>
                     </div>
 
@@ -137,11 +165,26 @@ const LabTest = () => {
                             Showing 1-19 of 19 Tests
                         </div>
 
-                        <div className='row'>
-                            {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
-                                return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                            })}
-                        </div>
+
+                        {
+                            (allPackageResponse?.fetching ?
+                                <div className='text-center my-5'>
+
+                                    <Spinner size={"xl"} />
+                                </div>
+
+                                :
+
+                                <div className='row'>
+                                    {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
+                                        return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                    })}
+                                </div>
+                            )
+                        }
+
+
+
 
 
 

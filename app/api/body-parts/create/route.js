@@ -1,12 +1,11 @@
 import BodyPart from "@/model2/BodyPart";
-
+import makeS3FilesPermanent from ''
 export const POST = async (request, { params }) => {
  
   
   try {
     const requestBody = await request.json();
-   
-
+    makeS3FilesPermanent()
     const BodyPartNew = new BodyPart({
       name: requestBody?.name || "",
       image: requestBody?.image || "",

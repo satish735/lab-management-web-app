@@ -51,6 +51,15 @@ const UserHeader2 = () => {
   const menuItems = [
     {
       type: "parent",
+      label: "Tests & Packages",
+      menu: [
+        { label: "Tests", href: "/home-collection" },
+        { label: "Packages", href: "/health-packages" },
+        // { label: "Corporate Report Panel", href: "#" },
+      ],
+    },
+    {
+      type: "parent",
       label: "Our Team",
       menu: [
         { label: "Health bulitin", href: "/doctors/health-bulletin" },
@@ -108,7 +117,7 @@ const UserHeader2 = () => {
                   </li>
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html"> Fri: 8:00 am - 8:00 pm - (365 days)</a>
+                    <a href="contact-us.html">  8:00 AM - 8:00 PM - (365 Days)</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">
@@ -223,20 +232,20 @@ const UserHeader2 = () => {
                       <div className="cart-badge">{cartItemCount}</div>
                     )}
                 </a>
-                <a className=" cart-button">
+                {/* <a className=" cart-button">
                   <FaBell size={20} className="cart-icon" />
                   {Number.isInteger(Number(cartItemCount)) &&
                     Number(cartItemCount) > 0 && (
                       <div className="cart-badge">{cartItemCount}</div>
                     )}
-                </a>
+                </a> */}
                 <a
                   type="button"
                   className="btn  call-button"
                   href="tel:+919166125555"
                 >
                   <FaPhone size={18} className="call-icon" />
-                  +91 9462308260
+                  +91 9739923174
                 </a>
                 <a type="button" className="btn login-button" href="/login">
                   Login

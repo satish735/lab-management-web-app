@@ -1,9 +1,15 @@
-import React from "react";
+'use client'
+import React, { useEffect, useState } from "react";
 import SvgIcon from "../home-component/SvgIcon";
 import { useRouter } from "next/navigation";
 
 const PopularTestCard = ({ listing }) => {
   const router = useRouter();
+  const [discountprice, setdiscountprice] = useState();
+  useEffect(() => {
+    let FinalPrice = (listing?.rate) * (1 - ((listing?.discountPercentage) / 100))
+    setdiscountprice(FinalPrice)
+  }, [])
 
   return (
     <div className="card-outer-layer-div">
@@ -53,17 +59,17 @@ const PopularTestCard = ({ listing }) => {
           >
             <div className="row">
               <div className="col-9">
-                <p className="card-heading-test">{listing?.name}</p>
+                <p className="card-heading-test truncate">{listing?.name}</p>
               </div>
               <div className="col-3 text-end">
-                <p> ₹ {listing?.rate}</p>
+                <p> ₹{listing?.rate}</p>
               </div>
             </div>
 
             <hr />
 
-            <div className="row my-2" style={{ color: "#828599" }}>
-              <div className="col-6">
+            <div className="d-flex justify-content-between my-2" style={{ color: "#828599" }}>
+              <div className="">
                 <div className="row">
                   <p className="col-3 pt-1">
                     <span
@@ -82,7 +88,7 @@ const PopularTestCard = ({ listing }) => {
                 </div>
               </div>
 
-              <div className="col-6">
+              <div className="">
                 <div className="row">
                   <p className="col-3 pt-1">
                     <span
@@ -105,13 +111,13 @@ const PopularTestCard = ({ listing }) => {
 
             <hr />
 
-            <div className="row px-1 pb-1">
-              <div className="col-6">
+            <div className="d-flex justify-content-between px-1 pb-1">
+              <div className=" ">
                 <button className="card-button " style={{ fontSize: "13px" }} onClick={() => { router.push(`/jaipur/lab-test/test?id=${listing?._id}`) }}>
                   View Details <span>→</span>
                 </button>
               </div>
-              <div className="col-6 text-end">
+              <div className="  text-end">
                 <button className="card-button-2 " style={{ fontSize: "13px" }}>
                   Add to Cart <span>→</span>
                 </button>

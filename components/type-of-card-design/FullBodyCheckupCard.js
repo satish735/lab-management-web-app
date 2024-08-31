@@ -59,8 +59,8 @@ const FullBodyCheckupCard = ({ listing }) => {
             <div className="row">
               <div className="col-8">
                 <div>
-                  <p className="card-heading-test text-start">
-                    {listing?.name}
+                  <p className="card-heading-test text-start truncate">
+                    {listing?.name}  
                   </p>
                 </div>
                 <p
@@ -87,14 +87,14 @@ const FullBodyCheckupCard = ({ listing }) => {
               </div>
             </div>
 
-            <div className="row px-1 pb-1">
-              <div className="col-6">
+            <div className="d-flex justify-content-between px-1 pb-1">
+              <div className="">
 
                 <button className="card-button" onClick={() => { router.push( `/jaipur/health-package/package?id=${listing?._id}` ) }}>
                   View Details <span>→</span>
                 </button>
               </div>
-              <div className="col-6 text-end">
+              <div className=" text-end">
                 <button className="card-button-2">
                   Add to Cart <span>→</span>
                 </button>

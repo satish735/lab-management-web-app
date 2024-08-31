@@ -239,7 +239,7 @@ const AboutUs = () => {
 
                 </div>
             </div>
-            <div className='midbox-inner'>
+            {/* <div className='midbox-inner'>
 
                 <div className='py-4' style={{}}>
                     <p className='mb-5 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Scientific Team </p>
@@ -254,7 +254,7 @@ const AboutUs = () => {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -6,8 +6,8 @@ import '../cards/card.css'
 const MembersCard = ({ data }) => {
     return (
         <div className='col-lg-4 col-md-6 col-sm-12 my-3 scientific-team'>
-            <div className='scientific-team-hover-content ' style={{ padding: '10px 20px 10px 30px' }}>
-                <div className='scientific-team-hover-content-inner-div ' >
+            <div className='scientific-team-hover-content  ' style={{  }}>
+                <div className='scientific-team-hover-content-inner-div ' style={{ width:'100%',backgroundColor:'#003747'}}>
                     {data?.qualificationDescription}
                 </div>
 
