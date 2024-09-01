@@ -103,16 +103,16 @@ const Cart = ({ params: { _id } }) => {
         let totalrate = 0;
         (addtestandpackage ?? [])?.map((item) => {
             totalrate += (item?.istest ?? [])?.filter((testtype) =>
-                testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)
+                testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)
         })
         setrate(totalrate ?? 0)
     }, [addtestandpackage])
 
 
 
-    useEffect(()=>{
-        localStorage.setItem('cart', JSON.stringify({cart:addtestandpackage ?? []}));
-    },[addtestandpackage])
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify({ cart: addtestandpackage ?? [] }));
+    }, [addtestandpackage])
 
 
 
@@ -192,7 +192,7 @@ const Cart = ({ params: { _id } }) => {
                                                                     src="/assets/images/test-icon.png"
 
                                                                 />
-                                                                <div className="checkbox-tests-name">{key?.name} <span>₹ {key?.rate}</span></div>
+                                                                <div className="checkbox-tests-name">{key?.name} <span>₹ {key?.testType == "Test" ? key?.rate : key?.totalMrp}</span></div>
 
                                                             </div>
                                                         </div>
@@ -233,21 +233,18 @@ const Cart = ({ params: { _id } }) => {
 
                             {(addtestandpackage ?? [])?.map((testrate, index) => {
                                 return <div className="member-box" key={index}>{testrate?.name} (rate) <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
-                                    testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item.rate || 0), 0)}</span></div>
+                                    testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)}</span></div>
 
 
                             })}
 
-                        </div><div className="checkout-rate-total">Total <span>₹ {rate}</span>
+                        </div><div className="checkout-rate-total my-2 py-2" style={{ borderTop: "1px solid #dee2db" }}>Total <span style={{ float: "right" }} >₹ {rate}</span>
                         </div>
                     </div>
                     <div className="checkout-proceed">
                         <div className="filter-boxleft text-center">
-                            {/* <label className="container-checkbox"><input type="checkbox" /> By clicking this, I agree to Dr. Endo Labs Terms  Conditions and Privacy Policy
-                                <span className="checkmark" >
-                                </span>
-                            </label> */}
-                            <button className="continue_button" >Continue</button>
+
+                            <a href="/cart-address" className="continue_button" style={{ textDecoration: "none" }} >Continue</a>
                         </div>
 
 

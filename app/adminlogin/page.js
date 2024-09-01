@@ -18,7 +18,7 @@ const Home = () => {
   const [AdminloginResponse, AdminloginHandler] = useAPI(
     {
       url: "/adminlogin/create",
-      method: "post",
+      method: "post", 
     },
     (e) => {
       EmailInput.setEnteredValue();
@@ -244,7 +244,7 @@ const Home = () => {
           AdminloginHandler({
             body: {
               email: EmailInput.enteredValue ?? '',
-              username: DescriptionInput.enteredValue ?? '',
+              username: UserNameInput.enteredValue ?? '',
               role: role ?? '',
               name: NameInput?.enteredValue,
               gender: GenderType ?? "",
@@ -259,7 +259,7 @@ const Home = () => {
         AdminloginHandler({
           body: {
             email: EmailInput.enteredValue ?? '',
-            username: DescriptionInput.enteredValue ?? '',
+            username: UserNameInput.enteredValue ?? '',
             role: role ?? '',
             name: NameInput?.enteredValue,
             gender: GenderType ?? "",
@@ -280,217 +280,12 @@ const Home = () => {
 
   return (
     <>
-      <div className='  ' style={{ textAlign: "left" }}>
+      <div className='  ' style={{  }}>
 
 
 
-        <h3 className=" mb-5  text-center" style={{ fontSize: "1.2rem" }} >
 
-          Login Admin User</h3>
-
-        <div className=" "  >
-
-
-          <div className="row  ">
-
-            <div className="my-4">
-              <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-
-              <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-
-
-
-            </div>
-
-            <div className="col-lg-12 col-md-12 col-sm-12">
-
-              <InputWithAddOn
-                label="Full Name"
-                className="loginInputs"
-
-                setValue={NameInput.setEnteredValue}
-                value={NameInput.enteredValue}
-                feedbackMessage={NameInput.feedbackMessage}
-                feedbackType={NameInput.messageType}
-                isTouched={NameInput.isTouched}
-                setIsTouched={NameInput.setIsTouched}
-
-                validateHandler={NameInputValidater}
-                reset={NameInput.reset}
-                isRequired={true}
-              />
-
-
-            </div>
-            <div className="col-lg-12 col-md-12 col-sm-12">
-
-              <InputWithAddOn
-                label="Email ID"
-                className="loginInputs"
-
-                setValue={EmailInput.setEnteredValue}
-                value={EmailInput.enteredValue}
-                feedbackMessage={EmailInput.feedbackMessage}
-                feedbackType={EmailInput.messageType}
-                isTouched={EmailInput.isTouched}
-                setIsTouched={EmailInput.setIsTouched}
-
-                validateHandler={EmailInputValidater}
-                reset={EmailInput.reset}
-                isRequired={true}
-              />
-
-
-            </div>
-
-
-            <div className="col-lg-12 col-md-12 col-sm-12">
-
-              <InputWithAddOn
-                label="User Name"
-                className="loginInputs"
-
-                setValue={UserNameInput.setEnteredValue}
-                value={UserNameInput.enteredValue}
-                feedbackMessage={UserNameInput.feedbackMessage}
-                feedbackType={UserNameInput.messageType}
-                isTouched={UserNameInput.isTouched}
-                setIsTouched={UserNameInput.setIsTouched}
-
-                validateHandler={UserNameInputValidater}
-                reset={UserNameInput.reset}
-                isRequired={true}
-              />
-
-
-            </div>
-
-            <div className="col-lg-12 col-md-12 col-sm-12">
-
-              <InputWithAddOn
-                label="Password"
-                className="loginInputs"
-
-                setValue={PasswordInput.setEnteredValue}
-                value={PasswordInput.enteredValue}
-                feedbackMessage={PasswordInput.feedbackMessage}
-                feedbackType={PasswordInput.messageType}
-                isTouched={PasswordInput.isTouched}
-                setIsTouched={PasswordInput.setIsTouched}
-
-                validateHandler={PasswordInputValidater}
-                reset={PasswordInput.reset}
-                isRequired={true}
-              />
-
-
-            </div>
-
-
-            <div className="col-lg-12 col-md-12 col-sm-12">
-              <InputWithAddOn
-                label="Phone Number"
-                className="loginInputs"
-
-                setValue={PhoneInput.setEnteredValue}
-                value={PhoneInput.enteredValue}
-                feedbackMessage={PhoneInput.feedbackMessage}
-                feedbackType={PhoneInput.messageType}
-                isTouched={PhoneInput.isTouched}
-                setIsTouched={PhoneInput.setIsTouched}
-                type={'number'}
-                validateHandler={PhoneInputValidater}
-                reset={PhoneInput.reset}
-                isRequired={true}
-              />
-            </div>
-
-            <div className="col-lg-12 col-md-12 col-sm-12 ">
-              <InputWithAddOn
-                label="Date of Birth"
-                className="loginInputs"
-                setValue={dobDate.setEnteredValue}
-                value={dobDate.enteredValue}
-                feedbackMessage={dobDate.feedbackMessage}
-                feedbackType={dobDate.messageType}
-                isTouched={dobDate.isTouched}
-                setIsTouched={dobDate.setIsTouched}
-                type="date"
-                validateHandler={dobDateValidater}
-                reset={dobDate.reset}
-                isRequired={true}
-              />
-            </div>
-
-            <div className="col-lg-12 col-md-12 col-sm-12 ">
-              <InputSelect
-                setValue={setGenderType}
-                value={GenderType}
-                options={genderoption ?? []}
-                isTouched={GenderTypeIsTouch}
-                setIsTouched={setGenderTypeIsTouch}
-                className="py-1"
-                label={"Gender"}
-                isRequired={true}
-                feedbackMessage={GenderTypeMessage?.message}
-                feedbackType={GenderTypeMessage?.type}
-                validateHandler={GenderTypeSelectValidater}
-              />
-            </div>
-
-
-
-            <div className="col-lg-12 col-md-12 col-sm-12 ">
-              <InputSelect
-                setValue={setrole}
-                value={role}
-                options={[
-                  { label: "Admin", value: "admin" },
-                  { label: "Admin User", value: "adminuser" }
-                ] ?? []}
-                isTouched={roleIsTouch}
-                setIsTouched={setroleIsTouch}
-                className="py-1"
-                label={"Role"}
-                isRequired={true}
-                feedbackMessage={roleMessage?.message}
-                feedbackrole={roleMessage?.type}
-                validateHandler={roleSelectValidater}
-              />
-            </div>
-            {role == "adminuser" && <div className="col-lg-12 col-md-12 col-sm-12 ">
-              <InputMultipleSelect
-                setValue={setcenter}
-                value={center}
-                options={(centerResponse?.data ?? [])?.filter((item) =>
-                  item?.publishedAt != "null" || item?.publishedAt != null
-                  || item?.publishedAt != undefined)?.map((item) => {
-                    return { label: item?.centre, value: item?._id }
-                  })}
-                isTouched={centerIsTouch}
-                setIsTouched={setcenterIsTouch}
-                className="py-1"
-                label={"Center"}
-                isRequired={true}
-                feedbackMessage={centerMessage?.message}
-                feedbackrole={centerMessage?.type}
-                validateHandler={centerSelectValidater}
-              />
-            </div>}
-
-            <div className="my-3 ">
-
-              <button
-                // style={{ float: "right" }}
-
-                className="btn btn-success px-5 w-100"
-                onClick={submit}
-              >
-                Login
-              </button>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </>
   );

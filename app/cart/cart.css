@@ -298,3 +298,12 @@ input[type="checkbox"] {
 
 /* address page css  */
 
+.select-tab input {
+    border-radius: 50% !important
+    
+}
+
+.select-tab label {
+    font-size: 1.0rem;
+    /* margin-top: 8px; */
+}

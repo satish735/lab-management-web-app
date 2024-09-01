@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import "@/app/cart/cart.css"
 
-import Addmember from "@/app/cart/addmember"
-import useAPI from "@/hooks/useAPI";
-import toast from "react-hot-toast";
+
 import {
     Offcanvas,
     OffcanvasBody,
@@ -14,7 +12,7 @@ import {
     Button
 } from "reactstrap";
 
-const Usercart = ({ isopencart, setisopencart }) => {
+const Usercart = ({ isopencart, setisopencart  }) => {
 
 
 

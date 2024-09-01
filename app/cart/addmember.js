@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import useInputComponent from '@/hooks/useInputComponent';
-import InputWithAddOn from '../../components/formInput/InputWithAddOn';
+import InputWithAddOn from '@/components/formInput/InputWithAddOn';
 import InputSelect from "@/components/formInput/select/InputSelect";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
