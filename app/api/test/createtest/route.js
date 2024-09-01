@@ -1,17 +1,18 @@
 import PackageTest from "@/model2/PackageTest";
 import { Types } from "mongoose";
+import {makeS3FilesPermanent} from '@/utils/S3Helpers'
 export const POST = async (request, { params }) => {
   try {
-    console.log("kkkkkk");
+   
     const requestBody = await request.json();
-    console.log('tests////////////////////////////////////////////////////////////'
-    );
-
+    
+    makeS3FilesPermanent(process.env.S3_BUCKET, "single", null, requestBody?.image)
     const bodyParts = (requestBody?.bodyParts ?? []).map(part => new Types.ObjectId(part.value));
     const conditions = (requestBody?.conditions ?? []).map(condition => new Types.ObjectId(condition.value));
     const itemId = (requestBody?.itemId ?? []).map(condition => new Types.ObjectId(condition.value));
+    const centerId = (requestBody?.availableInCenters ?? []).map(condition => new Types.ObjectId(condition.value));
     const observation = (requestBody?.observation ?? []).map(obs => obs.observations);
-
+ 
     const tests = new PackageTest({
 
       name: requestBody?.name ?? null,
@@ -26,19 +27,19 @@ export const POST = async (request, { params }) => {
       itemId: itemId ?? [],
       toAge: requestBody?.toAge ?? null,
       discountPercentage: requestBody?.discountPercentage ?? null,
-
+      availableInCenters: centerId ?? [],
       sampleCollection: requestBody?.sampleCollection ?? null,
       preparation: requestBody?.preparation ?? null,
 
       homeCollection: requestBody?.homeCollection ?? null,
       reportGenerationHours: requestBody?.reportGenerationHours ?? null,
-      totalMrp:requestBody?.totalMrp ?? null,
+      totalMrp: requestBody?.totalMrp ?? null,
       testType: requestBody?.testType ?? null,
 
 
 
- 
-     
+
+
     });
     console.log(tests);
     await tests.save();

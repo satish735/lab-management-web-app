@@ -26,13 +26,13 @@ const AboutUs = () => {
         <div>
             <Banner heading={'About Us'} />
 
-            <div className='py-4  midbox-inner' style={{ backgroundColor: '#f1f6ee' }}>
+            <div className='pb-4 pt-0  midbox-inner' style={{ backgroundColor: 'white' }}>
                 <div style={{ justifyContent: 'center' }}>
 
-                    <p className='mb-3 text-center' style={{ color: '#000', fontSize: '40px' }}> About Us</p>
+                    <p className='mb-3 text-center' style={{textDecoration:'underline', color: '#000', fontSize: '30px',fontWeight:'600' }}> SSDBSHYAM Diagnostic LLP</p>
 
                     <p style={{ color: '#97979a', justifyContent: 'center', fontWeight: '500' }}>
-                        Welcome to SSDBSHYAM Diagnostic LLP, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
+                        Welcome to <span style={{fontWeight:'700'}}>SSDBSHYAM Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
                     </p>
                 </div>
 
@@ -58,7 +58,7 @@ const AboutUs = () => {
                 </div>
             </div>
 
-            <div className=' midbox-inner' style={{}}>
+            {/* <div className=' midbox-inner' style={{}}>
 
                 <div className='row  ' style={{ padding: '10px 10px', marginBottom: '140px', marginTop: '130px' }} >
 
@@ -122,7 +122,7 @@ const AboutUs = () => {
 
 
                 </div>
-            </div>
+            </div> */}
 
             <div className='midbox-inner'>
 
@@ -159,27 +159,28 @@ const AboutUs = () => {
 
                             <div>
                                 <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
-                                    Dr. B. Lal Gupta
-                                </p>
-                                <p style={{ color: '#e1fba6', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
-                                    MBBS, MD (Micribiology)
+                                SSDBC (Chairman)
                                 </p>
                                 <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
-                                    Managing Director
+                                     MD (Micribiology)
                                 </p>
+                                {/* <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
+                                    Managing Director
+                                </p> */}
 
                             </div>
 
                             <div className="director-image-div">
                                 <img
-                                    src={'/assets/images/temp/director.png'}
+                                    src={'/assets/images/temp/why-choose-us.png'}
                                     alt=""
                                     className="director-image"
                                     style={{
-                                        height: "440px",
-                                        width: "350px",
+                                        height: "320px",
+                                        width: "400px",
                                         border: "none",
                                         borderRadius: "12px 12px 0 0 ",
+                                        background:'transparent'
                                     }}
                                 />
 
@@ -193,39 +194,11 @@ const AboutUs = () => {
 
                 </div>
             </div>
-            <div className='' style={{ backgroundColor: '#f1f6ee' }}>
-
-                <div className='py-4 midbox-inner' >
-
-                    <p className='mb-3 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Core Values </p>
-
-                    <div className='row'>
-
-                        <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                            <CoreValuesCard title={list[0].title} desc={list[0].desc} />
-                        </div>
-
-                        <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                            <CoreValuesCard title={list[1].title} desc={list[1].desc} />
-
-                        </div>
-
-                        <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                            <CoreValuesCard title={list[2].title} desc={list[2].desc} />
-
-                        </div>
-
-                        <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                            <CoreValuesCard title={list[3].title} desc={list[3].desc} />
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
 
             <div className='midbox-inner'>
 
-                <div className='py-4 ' style={{}}>
+                {/* <div className='py-4 ' style={{}}>
                     <p className='mb-5 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Team </p>
 
                     <div className='row'>
@@ -237,7 +210,7 @@ const AboutUs = () => {
 
                     </div>
 
-                </div>
+                </div> */}
             </div>
             {/* <div className='midbox-inner'>
 
@@ -284,9 +257,3 @@ const CoreValuesCard = ({ title, desc }) => {
     )
 }
 
-let list = [
-    { title: 'Customer First', desc: 'We encourage all our activities to exceed customer experience and deliver the WOW experience keeping the concept of Customer First' },
-    { title: 'Accountability', desc: 'As a leading diagnostic organisation of Rajasthan, we encourage practice of taking efforts at every level and across the whole organization for taking personal responsibility for every procedure' },
-    { title: 'Respect & Trust', desc: 'We recognize the value of every patient and treat everyone with respect and dignity. We communicate honestly and build relationships based on trust and respect with each patient' },
-    { title: 'Excellence', desc: 'We ensure the highest quality of our work from the beginning to the end and strive to the best in everything we do for our patients.' },
-]

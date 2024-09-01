@@ -102,10 +102,11 @@ useEffect(() => {
   const menuItems = [
     {
       type: "parent",
-      label: "Tests & Packages",
+      label: "Packages & Tests",
       menu: [
-        { label: "Tests", href: "/home-collection" },
         { label: "Packages", href: "/health-packages" },
+
+        { label: "Tests", href: "/home-collection" }
         // { label: "Corporate Report Panel", href: "#" },
       ],
     },

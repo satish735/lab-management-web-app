@@ -12,6 +12,7 @@ const PackageTestSchema = new Schema({
   preTestInfo: { type: String },//For Test
   bodyParts: [{ type: Schema.Types.ObjectId, ref: 'BodyPart' }],//For Test
   conditions: [{ type: Schema.Types.ObjectId, ref: 'TestCondition' }],//For Test
+  availableInCenters: [{ type: Schema.Types.ObjectId, ref: 'Center', required: true }], 
   totalMrp: { type: Number },//For Package
   gender: { type: String, enum: ['male', 'female', 'both'] },//For Test
   fromAge: { type: Number },//For Test
@@ -56,4 +57,3 @@ export default mongoose.models.PackageTest || mongoose.model('PackageTest', Pack
 
 
 
- 

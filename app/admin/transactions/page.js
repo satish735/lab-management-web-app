@@ -153,7 +153,7 @@ export default function Transations() {
             label: "Bookings",
             value: (row) => {
                 return <>
-                    {Array.isArray(row?.bookingId) && row?.bookingId.map((bookingItem) => <Link href={`/admin/bookings/${bookingItem?.bookingId}`}>{bookingItem?.bookingId}</Link>)}
+                    {Array.isArray(row?.bookingId) && row?.bookingId.map((bookingItem,index) => <Link key={index} href={`/admin/bookings/${bookingItem?.bookingId}`}>{bookingItem?.bookingId}</Link>)}
                 </>
 
             },

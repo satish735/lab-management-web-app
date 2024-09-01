@@ -1,4 +1,7 @@
 import PackageTest from "@/model2/PackageTest";
+import {makeS3FilesPermanent} from '@/utils/S3Helpers'
+import { Types } from "mongoose";
+
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
@@ -14,9 +17,16 @@ export const GET = async (request, { params }) => {
 export const PUT = async (request, { params }) => {
   try {
 
-    console.log("paramsparams", params)
+    // console.log("paramsparams", params)
     const toUpdateBody = await request.json();
-    console.log("lllllllllll",toUpdateBody)
+    // console.log("lllllllllll",toUpdateBody)
+    makeS3FilesPermanent(process.env.S3_BUCKET, "single", toUpdateBody?.oldImage, toUpdateBody?.image)
+    const bodyParts = (toUpdateBody?.bodyParts ?? []).map(part => new Types.ObjectId(part.value));
+    const conditions = (toUpdateBody?.conditions ?? []).map(condition => new Types.ObjectId(condition.value));
+    const itemId = (toUpdateBody?.itemId ?? []).map(condition => new Types.ObjectId(condition.value));
+    const centerId = (toUpdateBody?.availableInCenters ?? []).map(condition => new Types.ObjectId(condition.value));
+    const observation = (toUpdateBody?.observation ?? []).map(obs => obs.observations);
+
     const { id = null } = params;
     const existingBlog = await PackageTest.findById(id);
     if (!existingBlog) {
@@ -24,7 +34,48 @@ export const PUT = async (request, { params }) => {
     }
     for (const key in toUpdateBody) {
       if (key in existingBlog) {
-        existingBlog[key] = toUpdateBody[key];
+        switch (key) {
+          case 'bodyParts': {
+            console.log('bodyParts');
+
+            existingBlog[key] = bodyParts;
+            break
+
+          }
+          case 'conditions': {
+            console.log('conditions');
+
+            existingBlog[key] = conditions;
+            break
+
+          }
+          case 'itemId': {
+            console.log('itemId');
+
+            existingBlog[key] = itemId;
+            break
+
+          }
+          case 'availableInCenters': {
+            console.log('availableInCenters');
+
+            existingBlog[key] = centerId;
+            break
+
+          }
+          case 'observation': {
+            console.log('observation');
+
+            existingBlog[key] = observation;
+            break
+
+          }
+          default: {
+            existingBlog[key] = toUpdateBody[key];
+
+          }
+
+        }
       }
     }
     await existingBlog.save();

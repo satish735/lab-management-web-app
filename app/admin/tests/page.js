@@ -78,7 +78,7 @@ export default function Home() {
 
   const [testsResponse, testsHandler] = useAPI(
     {
-      url: "/test/lists",
+      url: "/test/list",
       method: "get",
       sendImmediately: true,
       params: {
@@ -339,7 +339,7 @@ export default function Home() {
             type="button"
           >
             {" "}
-            Create Tests
+            Create Packages & Tests
           </button>
         </div>
 

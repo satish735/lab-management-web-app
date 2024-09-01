@@ -65,8 +65,7 @@ const FullBodyCheckup = () => {
     }
   );
 
-  console.log(testResponse);
-
+ 
 
   return (
     <div className="">
@@ -140,7 +139,7 @@ const FullBodyCheckup = () => {
             <CarousalSlider
               DataList={testResponse?.data?.testList}
               slidesToScroll={1}
-              slidesToShow_lg={4}
+              slidesToShow_lg={3}
               sliderFor={"popular test"}
             />
           </div>

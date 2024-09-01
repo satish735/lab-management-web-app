@@ -65,14 +65,14 @@ const Blog = ({ params: { id } }) => {
 
 
 
-            <div className="midbox-inner my-2" >
-                <div className="col-sm-4 col-12 text-center" style={{ margin: "0 auto" }} >
+            <div className=" my-2" >
+                <div className="col-sm-4 col-12 text-center midbox-inner" style={{ margin: "0 auto" }} >
                     <h5 style={{ color: "#002678", fontWeight: "800", fontSize: "2rem" }} >Our  Core  Values,  Vision  and  Mission</h5>
 
                 </div>
 
-                <div className="row" >
-                    {ourcorevalue?.map((item,index) => <div className="col-sm-4 col-12 my-2" key={index}>
+                <div className="row midbox-inner" >
+                    {ourcorevalue?.map((item, index) => <div className="col-sm-4 col-12 my-2" key={index}>
                         <Card
                             title={item?.title}
                             description={item?.description}
@@ -82,7 +82,40 @@ const Blog = ({ params: { id } }) => {
                     </div>)}
 
                 </div>
-                <div className='row  ' style={{ padding: '10px 10px', marginBottom: '140px', marginTop: '130px' }} >
+
+
+                <div className=' my-4' style={{ backgroundColor: '#f1f6ee' }}>
+
+                    <div className='py-4 midbox-inner' >
+
+                        <p className='mb-3 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Core Values </p>
+
+                        <div className='row'>
+
+                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
+                                <CoreValuesCard title={list[0].title} desc={list[0].desc} />
+                            </div>
+
+                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
+                                <CoreValuesCard title={list[1].title} desc={list[1].desc} />
+
+                            </div>
+
+                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
+                                <CoreValuesCard title={list[2].title} desc={list[2].desc} />
+
+                            </div>
+
+                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
+                                <CoreValuesCard title={list[3].title} desc={list[3].desc} />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className='row  midbox-inner' style={{   marginBottom: '140px', marginTop: '130px' }} >
 
 
                     <div className='col-lg-6 col-md-6 col-sm-12  ' style={{ padding: '0px 30px 0 10px' }}>
@@ -146,7 +179,7 @@ const Blog = ({ params: { id } }) => {
                 </div>
 
 
-                <div className="py-3 my-3">
+                <div className="py-3 my-3 midbox-inner">
                     <div className="col-sm-6 col-12">
                         <h6 style={{ color: "#002678", fontSize: "1.0rem", fontWeight: "700" }}>Job Application Form</h6>
                         <h4 style={{ color: "#002678", fontSize: "2.0rem", fontWeight: "700" }}>Please Fill Out the Form Below to Submit Your Job Application!</h4>
@@ -249,3 +282,34 @@ const Blog = ({ params: { id } }) => {
     );
 };
 export default Blog;
+
+const CoreValuesCard = ({ title, desc }) => {
+
+    return (
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '12px', border: '1px solid #dee2db', height: '100%' }}>
+            <div>
+
+            </div>
+
+            <div>
+                <p style={{ color: '#1e1e2f', fontSize: '18px' }}>
+                    {title}
+                </p>
+                <div>
+                    <p style={{ color: '#97979a', fontSize: '16px' }}>
+                        {desc}
+                    </p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+
+let list = [
+    { title: 'Customer First', desc: 'We encourage all our activities to exceed customer experience and deliver the WOW experience keeping the concept of Customer First' },
+    { title: 'Accountability', desc: 'As a leading diagnostic organisation of Rajasthan, we encourage practice of taking efforts at every level and across the whole organization for taking personal responsibility for every procedure' },
+    { title: 'Respect & Trust', desc: 'We recognize the value of every patient and treat everyone with respect and dignity. We communicate honestly and build relationships based on trust and respect with each patient' },
+    { title: 'Excellence', desc: 'We ensure the highest quality of our work from the beginning to the end and strive to the best in everything we do for our patients.' },
+]

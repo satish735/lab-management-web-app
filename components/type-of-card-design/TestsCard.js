@@ -9,7 +9,7 @@ const TestsCard = ({ listing, type }) => {
   return (
     <div className="card-outer-layer-div " onClick={() => {
       router.push(`/${type}/${listing?.name}?id=${listing?._id}`)
-    }}>
+    }} style={{height:'100%'}}>
       <div className="main-tests-card-box">
         <div className="mx-auto my-auto  gradient-background-shade" style={{paddingTop:'20px',borderRadius:'50%' ,width:'100px',height:'100px'}}>
           {/* <div > */}
@@ -35,7 +35,7 @@ const TestsCard = ({ listing, type }) => {
 
 
         </div>
-        <p className="text-center main-tests-card-text">{listing?.name}</p>
+        <p className="text-center main-tests-card-text" style={{minHeight:'30px'}}>{listing?.name}</p>
       </div>
     </div>
   );

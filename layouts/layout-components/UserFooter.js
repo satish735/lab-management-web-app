@@ -75,7 +75,7 @@ const UserFooter = () => {
                 />
               </a>
             </div> */}
-            <div className="footer-awards-recognition">
+            {/* <div className="footer-awards-recognition">
               <h3>Awards &amp; Recognition</h3>
               <ul>
                 <li>
@@ -94,7 +94,7 @@ const UserFooter = () => {
                   <img src="/assets/icons/awards/5.webp" alt="award-icon5" />
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
           <div className="footer-links col-md-7 col-sm-7 col-12 ">
@@ -151,11 +151,11 @@ const UserFooter = () => {
                   </li>
                 </ul>
               </div>
-              <div className="footer-navbox col-md-3 col-sm-3">
+              {/* <div className="footer-navbox col-md-3 col-sm-3">
                 <h4 className="footer-nav-des">Doctors</h4>
-                {/* <h4 className="but  footer-nav-mob">
+                <h4 className="but  footer-nav-mob">
                   Doctors <i className="fas fa-chevron-down"></i>
-                </h4> */}
+                </h4>
                 <ul className="footerbox">
                   <li>
                     <a target="_self" href="/healthbulletin">
@@ -163,7 +163,7 @@ const UserFooter = () => {
                     </a>
                   </li>
                 </ul>
-                {/* <h4 className="footer-nav-des">Patients</h4> */}
+                <h4 className="footer-nav-des">Patients</h4>
                 <h4 className="but  footer-nav-mob">
                   Patients <i className="fas fa-chevron-down"></i>
                 </h4>
@@ -172,7 +172,7 @@ const UserFooter = () => {
                     <a style={{ color: "#fff", cursor: "pointer" }}>My Report</a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               <div className="footer-navbox col-md-3 col-sm-3">
                 <a href="/contact-us" style={{textDecoration:'none'}}>
                   <h4 className="footer-nav-des">Contact Us</h4>

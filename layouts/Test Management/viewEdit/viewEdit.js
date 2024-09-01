@@ -15,17 +15,19 @@ import { useRouter } from "next/navigation";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
 
-const Test = () => {
+const ViewEdit = ({ searchParams }) => {
+    // console.log(searchParams,'searchParams');
+    const router = useRouter();
 
-    let router = useRouter()
     const [isSubmit, setisSubmit] = useState(false)
 
     const [imageFile, setImageFile] = useState();
+    const [oldImage, setoldImage] = useState();
+
 
     const [ListingFields, setListingFields] = useState();
 
     const [ObservationsData, setObservationsData] = useState([{ observations: '', id: uuid() }]);
-
 
     const [TestOrPackage, setTestOrPackage] = useState();
     const [TestOrPackageIsTouch, setTestOrPackageIsTouch] = useState(false);
@@ -54,8 +56,8 @@ const Test = () => {
 
     const [createTestResponse, createTestHandler] = useAPI(
         {
-            url: "/test/createtest",
-            method: "post",
+            url: `/test/${searchParams?.id}`,
+            method: "put",
 
         },
         (e) => {
@@ -63,15 +65,15 @@ const Test = () => {
             router.push('/admin/tests')
 
             if (TestOrPackage === 'Test') {
-                toast.success("Test created successfully.");
+                toast.success("Test updated successfully.");
 
             }
             if (TestOrPackage === 'Package') {
-                toast.success("Package created successfully.");
+                toast.success("Package updated successfully.");
 
             }
 
-            // setisSubmit(false)
+            return e
         },
         (e) => {
             // setisSubmit(false)
@@ -101,16 +103,19 @@ const Test = () => {
                 return { label: item?.name, value: item?._id }
             })
 
-             
+            let total_cost = 0;
             let TestListing = (e?.PackageTestInstanceListing ?? []).map((item) => {
 
- 
-                 return { label: item?.name, value: item?._id, price: item?.rate }
+
+
+                total_cost += Number(item?.rate);
+                return { label: item?.name, value: item?._id, price: item?.rate }
             })
-             setListingFields({
+            setListingFields({
                 TestConditionListing: TestConditionListing, BodyPartListing: BodyPartListing, TestListing: TestListing
             })
 
+            ActualCost.setEnteredValue(total_cost);
 
             // toast.success("");
             // setisSubmit(false)
@@ -419,13 +424,7 @@ const Test = () => {
 
     const ActualCost = useInputComponent('');
     const ActualCostValidater = (value) => {
-        if (value === "" || !value) {
-            ActualCost.setFeedbackMessage(
-                "Field required!"
-            );
-            ActualCost.setMessageType("error");
-            return false;
-        }
+
         ActualCost.setFeedbackMessage("");
         ActualCost.setMessageType("none");
         return true;
@@ -517,7 +516,7 @@ const Test = () => {
             ) {
 
 
-                toast.error("Validation failed for one or more inputs or at image upload.");
+                console.log('Validation failed for one or more inputs.');
             } else {
 
                 // console.log({
@@ -553,6 +552,7 @@ const Test = () => {
                             bodyParts: BodyPartType ?? null,
                             observation: ObservationsData ?? null,
                             image: imageFile?.filePath ?? null,
+                            oldImage: (imageFile?.filePath === oldImage) ? null : oldImage,
                             conditions: MedicalConditions ?? null,
                             rate: Price.enteredValue ?? null,
                             gender: GenderType ?? null,
@@ -613,8 +613,7 @@ const Test = () => {
                 !imageFile?.filePath
                 || !SelectCenterValidate
             ) {
-                toast.error("Validation failed for one or more inputs or at image upload.");
-
+                console.log('Validation failed for one or more inputs.');
 
             }
 
@@ -653,6 +652,7 @@ const Test = () => {
                             availableInCenters: SelectCenter ?? [],
 
                             image: imageFile?.filePath ?? null,
+                            oldImage: (imageFile?.filePath === oldImage) ? null : oldImage,
 
                             rate: Number(ActualCost.enteredValue) ?? null,
                             totalMrp: Number(FinalMRP.enteredValue) ?? null,
@@ -711,7 +711,6 @@ const Test = () => {
 
         },
         (e) => {
-
             return e
         },
         (e) => {
@@ -724,18 +723,218 @@ const Test = () => {
     );
 
 
+
+    const [getTestsPackagesResponse, getTestsPackagesHandler] = useAPI(
+        {
+            url: `/test/${searchParams?.id}`,
+            method: "get",
+            sendImmediately: true,
+
+        },
+        (e) => {
+            console.log(e);
+
+
+            // {
+            //     "_id": "66d43d52346908503591b193",
+            //         "itemId": [],
+            //             "name": "CREATININE",
+            //                 "rate": 1200,
+            //                     "desc": "",
+            //                         "bodyParts": [
+            //                             "66c624710de4e1b1d62e7b29"
+            //                         ],
+            //                             "conditions": [
+            //                                 "66c76a05b7d422211b927962"
+            //                             ],
+            //                                 "totalMrp": null,
+            //                                     "gender": "both",
+            //                                         "fromAge": 20,
+            //                                             "toAge": 55,
+            //                                                 "observation": [
+            //                                                     "Creatinine",
+            //                                                     "Creatinine eGFR"
+            //                                                 ],
+            //                                                     "discountPercentage": 10,
+            //                                                         "reportGenerationHours": 8,
+            //                                                             "image": "public/b1c9e446-91da-e3e5-86b0-a77d87f194a1.jpg",
+            //                                                                 "testType": "Test",
+            //                                                                     "isBestSeller": false,
+            //                                                                         "homeCollection": true,
+            //                                                                             "isTrigger": false,
+            //                                                                                 "nearMe": false,
+            //                                                                                     "sampleCollection": "Serum",
+            //                                                                                         "preparation": "No specific preparation required.",
+            //                                                                                             "packageTestList": [],
+            //                                                                                                 "is_delete": false,
+            //                                                                                                     "slug": "creatinine",
+            //                                                                                                         "__v": 0
+            // }
+
+
+
+
+
+            setTestOrPackage(e?.testType)
+
+
+            setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
+
+            setoldImage(e?.image)
+            TestNameInput.setEnteredValue(e?.name)
+            PackageName.setEnteredValue(e?.name)
+
+            DescriptionInput.setEnteredValue(e?.desc)
+            AgeGroupFrom.setEnteredValue(e?.fromAge)
+            DiscountPercentage.setEnteredValue(e?.discountPercentage)
+            ResultWithinHours.setEnteredValue(e?.reportGenerationHours)
+            setGenderType(e?.gender)
+            AgeGroupTo.setEnteredValue(e?.toAge)
+            SampleRequired.setEnteredValue(e?.sampleCollection)
+            PreparationRequired.setEnteredValue(e?.preparation)
+            setHomeCollection(e?.homeCollection ? 'yes' : 'no')
+
+
+
+            if (e?.testType === 'Test') {
+                if ((e?.observation ?? []).length) {
+
+                    let data = (e?.observation ?? []).map((item) => {
+                        return { observations: item, id: uuid() }
+                    })
+                    setObservationsData(data)
+
+                }
+                Price.setEnteredValue(e?.rate)
+
+            }
+
+            if (e?.testType === 'Package') {
+                ActualCost.setEnteredValue()
+                FinalMRP.setEnteredValue(e?.totalMrp)
+
+            }
+
+
+
+
+
+            return e
+        },
+        (e) => {
+
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting Faq!",
+                e
+            ));
+            return e
+        }
+    );
+
+
     useEffect(() => {
-        let total_cost = 0;
-        let TestListing = (Testlisting ?? []).map((item) => {
 
-            console.log(item);
+        if (ListingFields && getTestsPackagesResponse?.data) {
 
-            total_cost += Number(item?.price);
-            return item
-        })
-        ActualCost.setEnteredValue(total_cost);
 
-    }, [Testlisting])
+            let data = (ListingFields?.BodyPartListing ?? []).filter((item) => {
+
+
+
+                if ((getTestsPackagesResponse?.data?.bodyParts ?? []).includes(item?.value)) {
+                    return item
+
+                }
+
+            })
+
+            setBodyPartType(data)
+
+
+
+            let data2 = (ListingFields?.TestConditionListing ?? []).filter((item) => {
+
+
+
+                if ((getTestsPackagesResponse?.data?.conditions ?? []).includes(item?.value)) {
+                    return item
+
+                }
+
+            })
+
+            setMedicalConditions(data2)
+
+
+
+
+            let data3 = (ListingFields?.TestListing ?? []).filter((item) => {
+
+
+
+                if ((getTestsPackagesResponse?.data?.itemId ?? []).includes(item?.value)) {
+                    return item
+
+                }
+
+            })
+
+            setTestlisting(data3)
+            // 
+
+        }
+
+    }, [ListingFields, getTestsPackagesResponse?.data])
+
+    useEffect(() => {
+
+        if (testResponse?.data && getTestsPackagesResponse?.data) {
+
+
+            let data = (testResponse?.data?.centerListing ?? []).filter((item) => {
+
+
+
+                if ((getTestsPackagesResponse?.data?.availableInCenters ?? []).includes(item?.value)) {
+                    return item
+
+                }
+
+            })
+
+            setSelectCenter(data)
+
+
+        }
+
+    }, [testResponse?.data, getTestsPackagesResponse?.data])
+
+
+    useEffect(() => {
+        console.log(testResponse?.data, getTestsPackagesResponse?.data?.centerListing, '//////');
+
+        if (testResponse?.data && getTestsPackagesResponse?.data) {
+
+
+            let data = (testResponse?.data?.centerListing ?? []).filter((item) => {
+
+
+
+                if ((getTestsPackagesResponse?.data?.availableInCenters ?? []).includes(item?.value)) {
+                    return item
+
+                }
+
+            })
+
+            setSelectCenter(data)
+
+
+        }
+
+    }, [testResponse?.data, getTestsPackagesResponse?.data])
+
+
     return (<>
 
         <div className='bg-white pt-2 pb-3 mt-2' style={{ borderRadius: '5px' }}>
@@ -761,6 +960,8 @@ const Test = () => {
                         feedbackMessage={TestOrPackageMessage?.message}
                         feedbackType={TestOrPackageMessage?.type}
                         validateHandler={TestOrPackageSelectValidater}
+                        disabled={true}
+
                     />
                 </div>
             </div>
@@ -799,6 +1000,7 @@ const Test = () => {
                                             validateHandler={PackageNameValidater}
                                             reset={PackageName.reset}
                                             isRequired={true}
+                                            disabled={searchParams?.type === 'view'}
 
                                         />
                                     </div>
@@ -815,6 +1017,7 @@ const Test = () => {
                                             feedbackMessage={SelectCenterMessage?.message}
                                             feedbackType={SelectCenterMessage?.type}
                                             validateHandler={SelectCenterSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
                                     <div className="col-lg-4 col-md-4 col-sm-12 ">
@@ -830,6 +1033,7 @@ const Test = () => {
                                             feedbackMessage={TestlistingMessage?.message}
                                             feedbackType={TestlistingMessage?.type}
                                             validateHandler={TestlistingSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -847,8 +1051,9 @@ const Test = () => {
                                             validateHandler={ActualCostValidater}
                                             reset={ActualCost.reset}
                                             isRequired={true}
-                                            disabled={true}
+
                                             type="number"
+                                            disabled={true}
                                         />
                                     </div>
 
@@ -867,6 +1072,7 @@ const Test = () => {
                                             reset={FinalMRP.reset}
                                             isRequired={true}
                                             type="number"
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -884,6 +1090,7 @@ const Test = () => {
                                             validateHandler={DiscountPercentageValidater}
                                             reset={DiscountPercentage.reset}
                                             isRequired={true}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -901,6 +1108,7 @@ const Test = () => {
                                             feedbackMessage={GenderTypeMessage?.message}
                                             feedbackType={GenderTypeMessage?.type}
                                             validateHandler={GenderTypeSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -922,6 +1130,7 @@ const Test = () => {
                                             reset={AgeGroupFrom.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
                                     </div>
@@ -943,6 +1152,7 @@ const Test = () => {
                                             reset={AgeGroupTo.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
                                     </div>
@@ -965,6 +1175,7 @@ const Test = () => {
                                             feedbackMessage={HomeCollectionMessage?.message}
                                             feedbackType={HomeCollectionMessage?.type}
                                             validateHandler={HomeCollectionSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -987,6 +1198,7 @@ const Test = () => {
                                             reset={ResultWithinHours.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
 
@@ -1015,6 +1227,7 @@ const Test = () => {
                                     validateHandler={SampleRequiredValidater}
                                     reset={SampleRequired.reset}
                                     isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
                                 />
                             </div>
 
@@ -1036,6 +1249,7 @@ const Test = () => {
                                     validateHandler={PreparationRequiredValidater}
                                     reset={PreparationRequired.reset}
                                     isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
                                 />
                             </div>
 
@@ -1054,6 +1268,7 @@ const Test = () => {
                                     validateHandler={DescriptionInputValidater}
                                     reset={DescriptionInput.reset}
                                     isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
                                 />
 
                             </div>
@@ -1103,6 +1318,7 @@ const Test = () => {
                                             validateHandler={TestNameInputValidater}
                                             reset={TestNameInput.reset}
                                             isRequired={true}
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
 
@@ -1123,6 +1339,7 @@ const Test = () => {
                                             feedbackMessage={MedicalConditionsMessage?.message}
                                             feedbackType={MedicalConditionsMessage?.type}
                                             validateHandler={MedicalConditionsSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -1140,6 +1357,7 @@ const Test = () => {
                                             feedbackMessage={BodyPartTypeMessage?.message}
                                             feedbackType={BodyPartTypeMessage?.type}
                                             validateHandler={BodyPartTypeSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -1156,6 +1374,7 @@ const Test = () => {
                                             feedbackMessage={SelectCenterMessage?.message}
                                             feedbackType={SelectCenterMessage?.type}
                                             validateHandler={SelectCenterSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -1176,6 +1395,7 @@ const Test = () => {
                                             reset={Price.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
 
@@ -1194,6 +1414,7 @@ const Test = () => {
                                             validateHandler={DiscountPercentageValidater}
                                             reset={DiscountPercentage.reset}
                                             isRequired={true}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -1211,6 +1432,7 @@ const Test = () => {
                                             feedbackMessage={GenderTypeMessage?.message}
                                             feedbackType={GenderTypeMessage?.type}
                                             validateHandler={GenderTypeSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -1232,6 +1454,7 @@ const Test = () => {
                                             reset={AgeGroupFrom.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
                                     </div>
@@ -1253,6 +1476,7 @@ const Test = () => {
                                             reset={AgeGroupTo.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
                                     </div>
@@ -1275,6 +1499,7 @@ const Test = () => {
                                             feedbackMessage={HomeCollectionMessage?.message}
                                             feedbackType={HomeCollectionMessage?.type}
                                             validateHandler={HomeCollectionSelectValidater}
+                                            disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
@@ -1297,6 +1522,7 @@ const Test = () => {
                                             reset={ResultWithinHours.reset}
                                             isRequired={true}
                                             type='number'
+                                            disabled={searchParams?.type === 'view'}
                                         />
 
 
@@ -1328,6 +1554,7 @@ const Test = () => {
                                     validateHandler={SampleRequiredValidater}
                                     reset={SampleRequired.reset}
                                     isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
                                 />
                             </div>
 
@@ -1354,6 +1581,7 @@ const Test = () => {
                                     validateHandler={PreparationRequiredValidater}
                                     reset={PreparationRequired.reset}
                                     isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
                                 />
                             </div>
 
@@ -1372,6 +1600,7 @@ const Test = () => {
                                     validateHandler={DescriptionInputValidater}
                                     reset={DescriptionInput.reset}
                                     isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
                                 />
 
                             </div>
@@ -1387,17 +1616,24 @@ const Test = () => {
 
 
                         {(ObservationsData ?? []).map((observationsItem, index) => {
-                            return <ObservationsSection observationsItem={observationsItem} key={index} setObservationsData={setObservationsData} length={(ObservationsData ?? []).length} />
+                            return <ObservationsSection searchParams={searchParams} observationsItem={observationsItem} key={index} setObservationsData={setObservationsData} length={(ObservationsData ?? []).length} />
                         })}
 
-                        <div className='my-2 '>
-                            <p>
-                                <span style={{ cursor: 'pointer' }} onClick={() => { setObservationsData(prev => { return [...prev, { observations: '', id: uuid() }] }) }}>
-                                    <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more observations</span>
-                                </span>
+                        {
+                            searchParams?.type !== 'view' &&
+                            <div className='my-2 '>
+                                <p>
+                                    <span style={{ cursor: 'pointer' }} onClick={() => {
 
-                            </p>
-                        </div>
+                                        setObservationsData(prev => { return [...prev, { observations: '', id: uuid() }] })
+                                    }}>
+                                        <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more observations</span>
+                                    </span>
+
+                                </p>
+                            </div>
+                        }
+
                     </div>
                 </>
 
@@ -1422,7 +1658,7 @@ const Test = () => {
 
 }
 
-export default Test;
+export default ViewEdit;
 
 export const commonValidate = (value) => {
     if (value === "" || !value) {
@@ -1438,7 +1674,7 @@ export const commonValidate = (value) => {
 
 
 
-const ObservationsSection = ({ observationsItem, key, setObservationsData, length }) => {
+const ObservationsSection = ({ observationsItem, key, setObservationsData, length, searchParams }) => {
     const Observations = useInputComponent('');
     const ObservationsValidater = (value) => {
         if (value === "" || !value) {
@@ -1523,11 +1759,12 @@ const ObservationsSection = ({ observationsItem, key, setObservationsData, lengt
                             onBlurAction={(e) => {
                                 insertobservations(e)
                             }}
+                            disabled={searchParams?.type === 'view'}
                         />
                     </div>
 
                     {
-                        (length > 1) &&
+                        (length > 1 && searchParams?.type !== 'view') &&
                         <div className='col-3 ' style={{ paddingTop: '29px', boxSizing: 'border-box' }}>
                             <button onClick={() => { deleteobservations() }} className='' style={{ border: '2px solid red', borderRadius: '10px', color: 'red', fontSize: '15px', fontWeight: '500', backgroundColor: 'white', padding: '2px 10px' }}>X <span>Remove</span></button>
 
