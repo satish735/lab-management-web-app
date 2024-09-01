@@ -13,9 +13,7 @@ export const GET = async (request, { params }) => {
             searchQuery = "",
             centerId = null
         } = urlParams.query;
-        if (!centerId) {
-            return new Response("Center Id cannot be null for Fetching slots!", { status: 400 });
-        }
+
         const skip = (pageNo - 1) * pageSize;
         const sort = {};
         if (sortColumn) {
@@ -24,6 +22,10 @@ export const GET = async (request, { params }) => {
         const searchFilter = {};
         if (searchQuery) {
             searchFilter.$or = [{ date: { $regex: searchQuery, $options: "i" } }, { status: { $regex: searchQuery, $options: "i" } }, { day: { $regex: searchQuery, $options: "i" } }];
+        }
+        if (centerId) {
+            searchFilter.centerId = centerId
+
         }
         const userinfodata = await SlotDate
             .find(searchFilter).populate({

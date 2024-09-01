@@ -14,8 +14,10 @@ import { Badge } from "reactstrap";
 import { Eye, Pencil } from "lucide-react";
 import moment from "moment";
 import ActionOption from "@/components/ActionOption";
+import Link from "next/link";
 
 export default function Home() {
+  const centerId = "66d2f3a4ec819eaf2ac4bcfc"
   const router = useRouter();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -23,13 +25,14 @@ export default function Home() {
   const [sort, setSort] = useState({ direction: "desc", column: "createdAt" });
   const [searchValue, setSearchValue] = useState("");
   const sortAction = (c, d) => {
-    blogsHandler({
+    bookingsHandler({
       params: {
         sortColumn: c,
         sortDirection: d,
         pageNo: pageNo,
         pageSize: pageSize,
         searchQuery: searchValue,
+        centerId
       },
     });
     setSort({ column: c, direction: d });
@@ -41,34 +44,36 @@ export default function Home() {
     // { key: "name", type: "$is", value: 1, label: "Anil Puri" },
   ]);
   const [selectedViewOptions, setSelectedViewOptions] = useState([
-    "action",
-    "title",
-    "author",
-    "category",
+    "bookingId",
     "status",
-    "tags",
+    "paymentType",
+    "paymentStatus",
+    "collectionType",
+    "slotId",
+    "total",
+    "action"
   ]);
   const changePageAndRows = (page, rows) => {
-    blogsHandler({
+    bookingsHandler({
       params: {
         sortColumn: sort?.column,
         sortDirection: sort?.direction,
         pageNo: page,
         pageSize: rows,
-        searchQuery: searchValue,
+        searchQuery: searchValue, centerId
       },
     });
     setPageNo(page);
     setPageSize(rows);
   };
   const changeSearchValue = (e) => {
-    blogsHandler({
+    bookingsHandler({
       params: {
         sortColumn: sort?.column,
         sortDirection: sort?.direction,
         pageNo: pageNo,
         pageSize: pageSize,
-        searchQuery: e,
+        searchQuery: e, centerId
       },
     });
     setSearchValue(e);
@@ -76,9 +81,9 @@ export default function Home() {
 
   const [getlistingdata, setlistingdata] = useState([]);
 
-  const [blogsResponse, blogsHandler] = useAPI(
+  const [bookingsResponse, bookingsHandler] = useAPI(
     {
-      url: "/blogs/list",
+      url: "/bookings",
       method: "get",
       sendImmediately: true,
       params: {
@@ -86,7 +91,7 @@ export default function Home() {
         sortDirection: sort?.direction,
         pageNo: pageNo,
         pageSize: pageSize,
-        searchQuery: searchValue,
+        searchQuery: searchValue, centerId
       },
     },
     (e) => {
@@ -95,7 +100,7 @@ export default function Home() {
     },
     (e) => {
       toast.error(transformErrorDefault(
-        "Something went wrong while Getting Blogs!",
+        "Something went wrong while Getting Bookings!",
         e
       ));
       return e
@@ -112,14 +117,14 @@ export default function Home() {
               Icon={Eye}
               name="View"
               onClick={() => {
-                router.push(`/admin/blogs/${row?.slug}`);
+                router.push(`/admin/bookings/${row?.bookingId}`);
               }}
             />
             <ActionOption
               Icon={Pencil}
               name="Edit"
               onClick={() => {
-                router.push(`/admin/blogs/${row?.slug}/edit`);
+                router.push(`/admin/bookings/${row?.bookingId}/edit`);
               }}
             />
           </>
@@ -131,15 +136,21 @@ export default function Home() {
       className: "mnw-12",
     },
     {
-      key: "title",
-      label: "Title",
+      key: "bookingId",
+      label: "Booking Number",
       value: (row) => {
-        return row?.title;
+        return <Link href={`/admin/bookings/${row?.bookingId}`}>{row?.bookingId}</Link>
+
       },
       sortable: true,
       isDefault: true,
       isSelectRequired: true,
       hasTooltip: true,
+      notSame: true,
+      tooltip: (row) => {
+        return row?.bookingId
+
+      },
       className: "mnw-12",
     },
 
@@ -147,59 +158,93 @@ export default function Home() {
       label: "Status",
       value: (row) => {
         return (
-          <Badge color={row?.published_at ? "success" : "warning"}>
-            {row?.published_at ? "Published" : "Draft"}
+          <Badge className="text-capitalize" color={{
+            'upcoming': "primary", 'completed': "success", 'cancelled': "danger", 'rescheduled': "warning", 'no-show': "secondary", "created": "secondary"
+          }[row?.status]}>
+            {row?.status}
           </Badge>
         );
       },
       key: "status",
-
       isDefault: true,
       className: "mnw-12",
     },
     {
-      label: "Category",
+      label: "Payment Type",
       value: (row) => {
-        return row?.category_id;
+        return <Badge className="text-capitalize" color={"secondary"}>
+          {{
+            'online': "Digital", 'cash': "Cash"
+          }[row?.paymentType]}
+        </Badge>
       },
-      key: "category",
-
+      key: "paymentType",
       isDefault: true,
       className: "mnw-12",
     },
     {
-      label: "Author",
+      label: "Payment Status",
       value: (row) => {
-        return row?.author;
+        return <Badge className="text-capitalize" color={{
+          'pending': "primary", 'completed': "success", 'failed': "danger", 'refunded': "warning"
+        }[row?.paymentStatus]}>
+          {row?.paymentStatus}
+        </Badge>
       },
-      key: "author",
-
+      key: "paymentStatus",
       isDefault: true,
       className: "mnw-12",
     },
     {
-      label: "Tags",
+      label: "Collection Type",
       value: (row) => {
-        return (
-          <>
-            {row?.is_popular && <Badge className="me-1">Popular</Badge>}
-            {row?.trending && <Badge className="me-1">Trending</Badge>}
-            {row?.is_home && <Badge className="me-1">Home</Badge>}
-          </>
-        );
+        return <Badge className="text-capitalize" color={{
+          'lab': "primary", 'home': "info"
+        }[row?.collectionType]}>
+          {row?.collectionType}
+        </Badge>
       },
-      key: "tags",
+      key: "collectionType",
+      isDefault: true,
+      className: "mnw-12",
+    },
+    {
+      label: "Slot",
+      value: (row) => {
+        console.log(row?.slotId)
+        return (row?.slotId?.slotDate?.date || "") + " " + (row?.slotId?.slotStartTime || "")
+      },
+      key: "slotId",
+      isDefault: true,
+      className: "mnw-12",
+    },
+    {
+      label: "Patient",
+      value: (row) => {
 
+        return (row?.teamMemberId?.name || "")
+      },
+      key: "teamMemberId",
+      isDefault: true,
+      className: "mnw-12",
+    },
+    {
+      label: "Total Amount",
+      value: (row) => {
+        console.log(row)
+        return "Rs " + (row?.total || "")
+
+      },
+      key: "total",
       isDefault: true,
       className: "mnw-12",
     },
     {
       label: "Created At",
       value: (row) => {
-        l
         return moment(row?.createdAt).format("LLL");
       },
-      key: "created_at",
+      key: "createdAt",
       sortable: true,
       hasTooltip: true,
       className: "mnw-12",
@@ -209,7 +254,7 @@ export default function Home() {
       value: (row) => {
         return moment(row?.updatedAt).format("LLL");
       },
-      key: "updated_at",
+      key: "updatedAt",
       sortable: true,
       hasTooltip: true,
       className: "mnw-12",
@@ -221,22 +266,22 @@ export default function Home() {
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Blogs", link: "/admin/blogs", active: true },
+          { label: "Bookings", link: "/admin/bookings", active: true },
         ]}
       />
       <div className="admin-content-box">
-        <h1 className="main-heading">Blogs</h1>
-        <p className="sub-heading">Listing page for blogs.</p>
+        <h1 className="main-heading">Bookings</h1>
+        <p className="sub-heading">Listing page for bookings.</p>
         <div className="text-end my-2">
           <button
             className=" btn btn-outline-dark"
             onClick={() => {
-              router.push("/admin/blogs/create");
+              router.push("/admin/bookings/create");
             }}
             type="button"
           >
             {" "}
-            Create Blog
+            Create Booking
           </button>
         </div>
 
@@ -254,7 +299,7 @@ export default function Home() {
 
         <br />
         <CustomTable
-          loading={blogsResponse?.fetching}
+          loading={bookingsResponse?.fetching}
           columns={columns}
           data={getlistingdata ?? []}
           sort={sort}

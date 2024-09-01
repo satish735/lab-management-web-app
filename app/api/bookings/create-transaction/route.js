@@ -14,14 +14,14 @@ export const POST = async (request, { params }) => {
             return new Response("Booking Id cannot be null!", { status: 400 });
         }
         var getBookings = await Booking.find({ _id: { $in: booking_ids } }).select("_id bookingId total");
-        if (!getBookings.length != booking_ids.length) {
+        if (getBookings.length != booking_ids.length) {
             await session.abortTransaction();
             session.endSession();
             return new Response("Bookings not found for given Booking Id's!", { status: 400 });
         }
         const merchantUserId = 'MUID-' + uuidv4().toString(36).slice(-6);
         const createTransaction = new Transaction({
-            amount: getBookings.reduce((sum, item) => sum + (item.total != null ? item.total : 0), 0),
+            amount: getBookings.reduce((sum, item) => sum + (item.total != null ? item.total : 0), 0) ,
             description: "Payment for booking.",
             bookingId: booking_ids,
             referenceTransactionId: merchantUserId

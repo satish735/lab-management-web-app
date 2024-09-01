@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const bookingSchema = new Schema({
   bookingId: {
     type: String,
-    required: true,
+    // required: true,
     unique: true
   },
   centerId: {
@@ -19,7 +19,7 @@ const bookingSchema = new Schema({
   }],
   status: {
     type: String,
-    enum: ['upcoming', 'completed', 'cancelled', 'rescheduled', 'no-show'],
+    enum: ['upcoming', 'completed', 'cancelled', 'rescheduled', 'no-show', "created"],
     default: 'upcoming'
   },
   paymentStatus: {
@@ -37,17 +37,14 @@ const bookingSchema = new Schema({
     enum: ['lab', 'home'],
     required: true
   },
-  slotId: [{
+  slotId: {
     type: Schema.Types.ObjectId,
     ref: 'SlotTime'
-  }, {
-    type: Schema.Types.ObjectId,
-    ref: 'SlotDate'
-  }],
+  },
   teamMemberId: {
     type: Schema.Types.ObjectId,
     ref: 'UserDetails',
-    required: true
+    // required: true
   },
   // testPackageId: {
   //   type: Schema.Types.ObjectId,
@@ -70,7 +67,7 @@ const bookingSchema = new Schema({
   addressId: {
     type: Schema.Types.ObjectId,
     ref: 'Address',
-    required: true
+    // required: true
   },
   couponSelectedId: {
     type: Schema.Types.ObjectId,
@@ -85,7 +82,7 @@ const bookingSchema = new Schema({
 });
 
 // Pre-save hook to generate and set the bookingId
-bookingSchema.pre('save', async function(next) {
+bookingSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest booking document

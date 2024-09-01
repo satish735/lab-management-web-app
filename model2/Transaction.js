@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const transactionSchema = new Schema({
   transactionId: {
     type: String,
-    required: true,
+    // required: true,
     unique: true
   },
   amount: {

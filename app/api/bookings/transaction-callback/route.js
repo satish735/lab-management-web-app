@@ -7,7 +7,7 @@ export const POST = async (request, { params }) => {
     session.startTransaction();
     try {
         const requestBody = await request.json();
-        var decodeReceivedResponse = parseCallbackResponse(requestBody)
+        var decodeReceivedResponse = parseCallbackResponse(requestBody?.response)
         if (decodeReceivedResponse?.status == "failed") {
             throw new Error(decodeReceivedResponse?.message)
         }

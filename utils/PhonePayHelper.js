@@ -15,9 +15,9 @@ async function initiatePayment({ transactionid, merchantUserId, amount, redirect
             merchantId: process.env.PAYMENT_GATEWAY_MERCHANT_ID,
             merchantTransactionId: transactionid,
             merchantUserId: merchantUserId,
-            amount: amount,
+            amount: amount * 100,
             redirectUrl: `${process.env.NEXT_PUBLIC_BUCKET_URL}/${redirectUrl}`,
-            redirectMode: "GET",
+            redirectMode: "REDIRECT",
             callbackUrl: `${process.env.NEXT_PUBLIC_BUCKET_URL}/${callbackUrl}`,
             mobileNumber: userMobileNumber,
             paymentInstrument: {
