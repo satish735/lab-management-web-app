@@ -17,9 +17,14 @@ export const GET = async (request, { params }) => {
         }
         const searchFilter = {};
         if (searchQuery) {
-            searchFilter.$or = [{ bookingId: { $regex: searchQuery, $options: "i" } }, { status: { $regex: searchQuery, $options: "i" } }, { paymentStatus: { $regex: searchQuery, $options: "i" } }];
+            searchFilter.$or = [
+                { transactionId: { $regex: searchQuery, $options: "i" } },
+                { status: { $regex: searchQuery, $options: "i" } },
+                { transactionType: { $regex: searchQuery, $options: "i" } },
+                { paymentMethod: { $regex: searchQuery, $options: "i" } },
+                { referenceTransactionId: { $regex: searchQuery, $options: "i" } }
+            ];
         }
-
         const bookingList = await Transaction
             .find(searchFilter).populate({ path: "bookingId" })
             .sort(sort)

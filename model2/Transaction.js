@@ -19,9 +19,9 @@ const transactionSchema = new Schema({
   },
   transactionType: {
     type: String,
-    enum: ['paid', 'refund'],
+    enum: ['booking', 'refund'],
     required: true,
-    default: "paid"
+    default: "booking"
   },
   status: {
     type: String,
