@@ -16,9 +16,9 @@ async function initiatePayment({ transactionid, merchantUserId, amount, redirect
             merchantTransactionId: transactionid,
             merchantUserId: merchantUserId,
             amount: amount * 100,
-            redirectUrl: `${process.env.NEXT_PUBLIC_BUCKET_URL}/${redirectUrl}`,
+            redirectUrl: `${process.env.NEXT_PUBLIC_APPLICATION_URL}/${redirectUrl}`,
             redirectMode: "REDIRECT",
-            callbackUrl: `${process.env.NEXT_PUBLIC_BUCKET_URL}/${callbackUrl}`,
+            callbackUrl: `${process.env.NEXT_PUBLIC_APPLICATION_URL}/${callbackUrl}`,
             mobileNumber: userMobileNumber,
             paymentInstrument: {
                 type: "PAY_PAGE",
@@ -56,7 +56,7 @@ async function initiatePayment({ transactionid, merchantUserId, amount, redirect
 async function parseCallbackResponse(base64Response) {
     try {
         var decodedSha = null
-        const buffer = Buffer.from(base64String, 'base64');
+        const buffer = Buffer.from(base64Response, 'base64');
         const utf8String = buffer.toString('utf8');
         decodedSha = JSON.parse(utf8String)
         return { status: "success", decoded: decodedSha }

@@ -8,21 +8,21 @@ export const POST = async (request, { params }) => {
     try {
         const requestBody = await request.json();
         console.log(requestBody)
-        var decodeReceivedResponse = parseCallbackResponse(requestBody?.response)
+        var decodeReceivedResponse = await parseCallbackResponse(requestBody?.response)
         if (decodeReceivedResponse?.status == "failed") {
             throw new Error(decodeReceivedResponse?.message)
         }
         var transactionResponse = decodeReceivedResponse?.decoded
-        var getTransaction = await Transaction.findOne({ transactionId: transactionResponse?.data?.transactionId })
-        getTransaction.status = transactionResponse?.data?.status == "COMPLETED" ? "completed" : "failed";
+        var getTransaction = await Transaction.findOne({ transactionId: transactionResponse?.data?.merchantTransactionId })
+        getTransaction.status = transactionResponse?.data?.state == "COMPLETED" ? "completed" : "failed";
         var paymentMethod = transactionResponse?.data?.paymentInstrument?.type
-
         if (typeof paymentMethod == "string") {
             getTransaction.paymentMethod = paymentMethod.toLowerCase()
         }
         getTransaction.transactionDetails = transactionResponse
+        getTransaction.referenceTransactionId = transactionResponse?.data?.transactionId
         await getTransaction.save({ session })
-        var updateBookings = await Booking.updateMany({ _id: { $in: getTransaction?.bookingId } }, { paymentStatus: paymentMethod }, { session });
+        var updateBookings = await Booking.updateMany({ _id: { $in: getTransaction?.bookingId } }, { paymentStatus: getTransaction.status }, { session });
         await session.commitTransaction();
         session.endSession();
         return new Response({ message: 'Payment status updated successfully.' }, { status: 200 });

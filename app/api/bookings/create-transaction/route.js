@@ -24,7 +24,7 @@ export const POST = async (request, { params }) => {
             amount: getBookings.reduce((sum, item) => sum + (item.total != null ? item.total : 0), 0) ,
             description: "Payment for booking.",
             bookingId: booking_ids,
-            referenceTransactionId: merchantUserId
+           
         })
         await createTransaction.save({ session });
         var paymentinitiate = await initiatePayment({
