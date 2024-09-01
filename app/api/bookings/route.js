@@ -54,13 +54,14 @@ export const POST = async (request, { params }) => {
             return new Response("Team member, Packages, Slot and center Id cannot be null!", { status: 400 });
         }
         var slotCheck = await SlotTime.findById(slot_id)
+        console.log(slotCheck)
         if (!slotCheck || (Number(slotCheck?.currentUse ?? 0) + team_members.length) > slotCheck?.maxUse) {
             await session.abortTransaction();
             session.endSession();
             return new Response("Slots are not available for your bookings! Please try again by changing slots!", { status: 400 });
         }
         const bookingPromises = []
-        for (const team_member of team_members.filter(teamItem => team_member?.member_id && teamItem?.packages && Array.isArray(teamItem?.packages) && teamItem?.packages.length > 0)) {
+        for (const team_member of team_members.filter(teamItem => teamItem?.member_id && teamItem?.packages && Array.isArray(teamItem?.packages) && teamItem?.packages.length > 0)) {
             const newBooking = new Booking({
                 centerId: center_id,
                 packages: team_member?.packages,
