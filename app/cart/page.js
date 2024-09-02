@@ -315,10 +315,10 @@ const Cart = ({ params: { _id } }) => {
                 </span>
             </div>
 
-            {userinfoResponse?.fetching ? <Spinner size={"xl"} /> :
+            {userinfoResponse?.fetching ? <div className="text-center" ><Spinner size={"xl"} /> </div>:
 
                 <div>
-
+ 
 
                     {step == 1 && <div>
                         <h2 className="p-4 " style={{ fontWeight: "700", fontSize: "1.2rem" }}> Add Patients</h2>
@@ -588,7 +588,6 @@ const Cart = ({ params: { _id } }) => {
                                     <div className="filter-boxleft text-center">
 
                                         <button onClick={() => {
-                                            alert("yes")
                                             setstep(4)
                                         }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
                                     </div>
