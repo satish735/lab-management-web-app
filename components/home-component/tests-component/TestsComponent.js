@@ -1,12 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import "@/components/home-component/full-body-checkup/full-body-checkup.css";
-import InputSelect from "@/components/project-main-component/input-component/InputSelect";
-import CarousalSlider from "@/components/CarousalSlider";
-import YoutubeComponent from "../i-frame-component/YoutubeComponent";
-import RecentBlog from "../health-blog/RecentBlog";
-import PopularBlog from "../health-blog/PopularBlog";
-import TrendingBlog from "../health-blog/TrendingBlog";
+ import CarousalSlider from "@/components/CarousalSlider";
+ 
 import FrequentlyAskQuestion from "../frequently-asked-question/FrequentlyAskQuestion";
 import PopularTest from "../popular-test/PopularTest";
 import "./test.css";

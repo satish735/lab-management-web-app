@@ -3,6 +3,32 @@ import React from 'react'
 import MembersCard from './cards/MembersCard'
 import Banner from '@/components/customdesign/Banner'
 import useAPI from "@/hooks/useAPI";
+import Card from "@/components/customdesign/Card.jsx";
+
+
+
+const ourcorevalue = [
+    {
+        title: "Customer First",
+        img: "/assets/images/CustomerFirst.png",
+        description: "We encourage all our activities to exceed customer experience and deliver the WOW experience keeping the concept of 'Customer First'"
+    },
+    {
+        title: "Accountability2",
+        img: "/assets/images/Accountability.png",
+        description: "As a leading diagnostic organisation of Rajasthan, we encourage practice of taking efforts at every level and across the whole organization for taking personal responsibility for every procedure."
+    },
+    {
+        title: "Respect & Trust",
+        img: "/assets/images/Respect.png",
+        description: "We recognize the value of every patient and treat everyone with respect and dignity. We communicate honestly and build relationships based on trust and respect with each patient."
+    },
+    {
+        title: "Excellence",
+        img: "/assets/images/Excellence.png",
+        description: "We ensure the highest quality of our work from the beginning to the end and strive to the best in everything we do for our patients."
+    },
+]
 const AboutUs = () => {
 
     const [teammemberResponse, teammemberHandler] = useAPI(
@@ -29,10 +55,10 @@ const AboutUs = () => {
             <div className='pb-4 pt-0  midbox-inner' style={{ backgroundColor: 'white' }}>
                 <div style={{ justifyContent: 'center' }}>
 
-                    <p className='mb-3 text-center' style={{textDecoration:'underline', color: '#000', fontSize: '30px',fontWeight:'600' }}> SSDBSHYAM Diagnostic LLP</p>
+                    <p className='mb-3 text-center' style={{ textDecoration: 'underline', color: '#003747', fontWeight: "800", fontSize: "2rem" }}> SSDBSHYAM Diagnostic LLP</p>
 
                     <p style={{ color: '#97979a', justifyContent: 'center', fontWeight: '500' }}>
-                        Welcome to <span style={{fontWeight:'700'}}>SSDBSHYAM Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
+                        Welcome to <span style={{ fontWeight: '700' }}>SSDBSHYAM Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
                     </p>
                 </div>
 
@@ -58,6 +84,22 @@ const AboutUs = () => {
                 </div>
             </div>
 
+            <div className="col-sm-4 col-12 text-center midbox-inner mt-5" style={{ margin: "0 auto" }} >
+                <h5 style={{ color: "#003747", fontWeight: "800", fontSize: "2rem" }} >Our  Core  Values,  Vision  and  Mission</h5>
+
+            </div>
+
+            <div className="row midbox-inner mt-4" >
+                {ourcorevalue?.map((item, index) => <div className="col-sm-4 col-12 my-2" key={index}>
+                    <Card
+                        title={item?.title}
+                        description={item?.description}
+                        extraprops={{ height: "200px" }}
+                        minimgsrc={item?.img}
+                    />
+                </div>)}
+
+            </div>
             {/* <div className=' midbox-inner' style={{}}>
 
                 <div className='row  ' style={{ padding: '10px 10px', marginBottom: '140px', marginTop: '130px' }} >
@@ -129,7 +171,7 @@ const AboutUs = () => {
                 <div className='row py-4   my-5' >
 
                     <div className='col-lg-6 col-md-6 col-sm-12  '>
-                        <p style={{ color: '#000', fontSize: '40px', fontWeight: '600' }}>
+                        <p style={{ color: '#003747', fontWeight: "700", fontSize: "2rem"}}>
                             Director’s Message
                         </p>
 
@@ -155,14 +197,14 @@ const AboutUs = () => {
 
 
                     <div className='col-lg-6 col-md-6 col-sm-12  ' style={{ padding: '0px 10px 0 90px' }}>
-                        <div className='pe-3 pt-3 director-image-div-parent-div global-background-gradient' style={{   width: '100%', borderRadius: '15px', position: 'relative' }}>
+                        <div className='pe-3 pt-3 director-image-div-parent-div global-background-gradient' style={{ width: '100%', borderRadius: '15px', position: 'relative' }}>
 
                             <div>
                                 <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
-                                SSDBC (Chairman)
+                                    SSDBC (Chairman)
                                 </p>
                                 <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
-                                     MD (Micribiology)
+                                    MD (Micribiology)
                                 </p>
                                 {/* <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
                                     Managing Director
@@ -180,7 +222,7 @@ const AboutUs = () => {
                                         width: "400px",
                                         border: "none",
                                         borderRadius: "12px 12px 0 0 ",
-                                        background:'transparent'
+                                        background: 'transparent'
                                     }}
                                 />
 
@@ -194,7 +236,7 @@ const AboutUs = () => {
 
                 </div>
             </div>
-           
+
 
             <div className='midbox-inner'>
 
@@ -235,25 +277,8 @@ const AboutUs = () => {
 export default AboutUs
 
 
-const CoreValuesCard = ({ title, desc }) => {
 
-    return (
-        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '12px', border: '1px solid #dee2db', height: '100%' }}>
-            <div>
 
-            </div>
 
-            <div>
-                <p style={{ color: '#1e1e2f', fontSize: '18px' }}>
-                    {title}
-                </p>
-                <div>
-                    <p style={{ color: '#97979a', fontSize: '16px' }}>
-                        {desc}
-                    </p>
-                </div>
-            </div>
-        </div>
-    )
-}
+
 

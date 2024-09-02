@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "@/components/home-component/full-body-checkup/full-body-checkup.css";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
 import CarousalSlider from "@/components/CarousalSlider";
@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
 const FullBodyCheckup = () => {
 
-
+  const [locationSelected, setlocationSelected] = useState();
 
   const [SelectCategory, setSelectCategory] = useState();
   const [SelectCategoryIsTouch, setSelectCategoryIsTouch] = useState();
@@ -28,22 +28,25 @@ const FullBodyCheckup = () => {
 
 
 
+console.log(locationSelected);
 
   const [testResponse, testHandler] = useAPI(
     {
       url: "/test/list",
       method: "get",
-      sendImmediately: true,
+      // sendImmediately: true,
       params: {
         // sortColumn: sort?.column,
         // sortDirection: sort?.direction,
         pageNo: 1,
         pageSize: 20,
+        location: locationSelected ?? null
         // searchQuery: searchValue,
       },
     },
     (e) => {
 
+      console.log(e);
 
 
       let packages = (e?.data ?? []).filter((item) => {
@@ -65,7 +68,24 @@ const FullBodyCheckup = () => {
     }
   );
 
- 
+  useEffect(() => {
+
+    let data = JSON.parse(localStorage.getItem("selectedLocation"));
+    
+    
+    setlocationSelected(data)
+
+    testHandler({
+      params: {
+        pageNo: 1,
+        pageSize: 20,
+        location: data?.selectedLocation ?? null
+      }
+    })
+
+  }, [])
+
+
 
   return (
     <div className="">

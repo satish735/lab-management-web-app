@@ -199,19 +199,21 @@ useEffect(() => {
                     </li>
                   </ul>
                   <div className="miniPopup-language-area">
-                    <button
+                     <button
                       className="miniPopup-language-trigger"
                       type="button"
                     >
-                      <span className="btn-text">
+                      
+                      <span className="btn-text" onClick={()=>{   localStorage.setItem('selectedLocation',JSON.stringify({selectedLocation:'Jaipur'}))}}>
                         {cityList.find(
                           (item) => item?.QueryCityName == currentCity
                         )?.CityName ?? "Select Location"}
                       </span>
-
+                     
                       <FaChevronDown size={14} className="dropdonw-arrow" />
                       <span className="btn-shape"></span>
                     </button>
+                    
                     <ul className="miniPopup miniPopup-language list-unstyled">
                       <li>
                         <button>

@@ -5,33 +5,11 @@ import apiRequest from "../../utils/apiRequest";
 import "@/app/blog/blog.css"
 
 import Banner from "@/components/customdesign/Banner.jsx";
-import Card from "@/components/customdesign/Card.jsx";
 const Blog = ({ params: { id } }) => {
 
 
 
-    const ourcorevalue = [
-        {
-            title: "Customer First",
-            img: "/assets/images/CustomerFirst.png",
-            description: "We encourage all our activities to exceed customer experience and deliver the WOW experience keeping the concept of 'Customer First'"
-        },
-        {
-            title: "Accountability2",
-            img: "/assets/images/Accountability.png",
-            description: "As a leading diagnostic organisation of Rajasthan, we encourage practice of taking efforts at every level and across the whole organization for taking personal responsibility for every procedure."
-        },
-        {
-            title: "Respect & Trust",
-            img: "/assets/images/Respect.png",
-            description: "We recognize the value of every patient and treat everyone with respect and dignity. We communicate honestly and build relationships based on trust and respect with each patient."
-        },
-        {
-            title: "Excellence",
-            img: "/assets/images/Excellence.png",
-            description: "We ensure the highest quality of our work from the beginning to the end and strive to the best in everything we do for our patients."
-        },
-    ]
+
 
 
 
@@ -66,123 +44,12 @@ const Blog = ({ params: { id } }) => {
 
 
             <div className=" my-2" >
-                <div className="col-sm-4 col-12 text-center midbox-inner" style={{ margin: "0 auto" }} >
-                    <h5 style={{ color: "#002678", fontWeight: "800", fontSize: "2rem" }} >Our  Core  Values,  Vision  and  Mission</h5>
-
-                </div>
-
-                <div className="row midbox-inner" >
-                    {ourcorevalue?.map((item, index) => <div className="col-sm-4 col-12 my-2" key={index}>
-                        <Card
-                            title={item?.title}
-                            description={item?.description}
-                            extraprops={{ height: "200px" }}
-                            minimgsrc={item?.img}
-                        />
-                    </div>)}
-
-                </div>
-
-
-                <div className=' my-4' style={{ backgroundColor: '#f1f6ee' }}>
-
-                    <div className='py-4 midbox-inner' >
-
-                        <p className='mb-3 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Core Values </p>
-
-                        <div className='row'>
-
-                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                                <CoreValuesCard title={list[0].title} desc={list[0].desc} />
-                            </div>
-
-                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                                <CoreValuesCard title={list[1].title} desc={list[1].desc} />
-
-                            </div>
-
-                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                                <CoreValuesCard title={list[2].title} desc={list[2].desc} />
-
-                            </div>
-
-                            <div className=' px-3 py-2 col-lg-3 col-md-6 col-sm-12'>
-                                <CoreValuesCard title={list[3].title} desc={list[3].desc} />
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div className='row  midbox-inner' style={{   marginBottom: '140px', marginTop: '130px' }} >
-
-
-                    <div className='col-lg-6 col-md-6 col-sm-12  ' style={{ padding: '0px 30px 0 10px' }}>
-                        <div className='pe-3 pt-3' style={{ background: ' linear-gradient(153deg, #000428 , #004e92)', width: '100%', height: '100%', borderRadius: '15px', position: 'relative' }}>
-
-
-
-                            <div className="why-choose-us-image-div">
-                                <img
-                                    src={'/assets/images/temp/why-choose-us.png'}
-                                    alt=""
-                                    className="director-image"
-                                    style={{
-                                        height: "400px",
-                                        width: "100%",
-                                        border: "none",
-                                        borderRadius: "12px 12px 0 0 ",
-                                    }}
-                                />
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-
-                    <div className='col-lg-6 col-md-6 col-sm-12'>
-                        <p style={{ color: '#000', fontSize: '40px', fontWeight: '600' }}>
-                            Why Choose Us?
-                        </p>
-                        <ul>
-                            <li className='my-3' style={{ color: '#46bb00', fontSize: '16px', fontWeight: '500' }}>
-                                <span >Accurate Results:</span> <span style={{ color: '#97979a', fontSize: '16px', fontWeight: '400' }}>
-                                    Rigorous quality control measures ensure the accuracy and reliability of every test.
-                                </span>
-                            </li>
-
-                            <li className='my-3' style={{ color: '#46bb00', fontSize: '16px', fontWeight: '500' }}>
-                                <span >Advanced Technology:</span> <span style={{ color: '#97979a', fontSize: '16px', fontWeight: '400' }}>
-                                    Cutting-edge equipment and techniques for comprehensive diagnostics.
-                                </span>
-                            </li>
-
-                            <li className='my-3' style={{ color: '#46bb00', fontSize: '16px', fontWeight: '500' }}>
-                                <span >Experienced Professionals: </span> <span style={{ color: '#97979a', fontSize: '16px', fontWeight: '400' }}>
-                                    A team of dedicated experts committed to excellence in diagnostics.
-                                </span>
-                            </li>
-
-                            <li className='my-3' style={{ color: '#46bb00', fontSize: '16px', fontWeight: '500' }}>
-                                <span >Patient Convenience:  </span> <span style={{ color: '#97979a', fontSize: '16px', fontWeight: '400' }}>
-                                    Efficient service delivery and patient-centric approach for a hassle-free experience.
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-
-
-
-                </div>
-
+                
 
                 <div className="py-3 my-3 midbox-inner">
                     <div className="col-sm-6 col-12">
-                        <h6 style={{ color: "#002678", fontSize: "1.0rem", fontWeight: "700" }}>Job Application Form</h6>
-                        <h4 style={{ color: "#002678", fontSize: "2.0rem", fontWeight: "700" }}>Please Fill Out the Form Below to Submit Your Job Application!</h4>
+                        <h6 style={{ color: "#065465", fontSize: "1.0rem", fontWeight: "700" }}>Job Application Form</h6>
+                        <h4 style={{ color: "#065465", fontSize: "2.0rem", fontWeight: "700" }}>Please Fill Out the Form Below to Submit Your Job Application!</h4>
                     </div>
                     <div className="row py-2">
 
@@ -283,6 +150,7 @@ const Blog = ({ params: { id } }) => {
 };
 export default Blog;
 
+
 const CoreValuesCard = ({ title, desc }) => {
 
     return (
@@ -304,8 +172,6 @@ const CoreValuesCard = ({ title, desc }) => {
         </div>
     )
 }
-
-
 
 let list = [
     { title: 'Customer First', desc: 'We encourage all our activities to exceed customer experience and deliver the WOW experience keeping the concept of Customer First' },

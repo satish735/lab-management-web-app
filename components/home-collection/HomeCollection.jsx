@@ -13,6 +13,7 @@ const HomeCollection = () => {
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
+    const [locationSelected, setlocationSelected] = useState();
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -56,8 +57,7 @@ const HomeCollection = () => {
         {
             url: "/test/list",
             method: "get",
-            sendImmediately: true,
-            params: {
+             params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
@@ -81,9 +81,9 @@ const HomeCollection = () => {
             }
 
             else {
-                 
 
-                let containsPackage = typeValue.some(item =>{return  item.label === 'Package'});
+
+                let containsPackage = typeValue.some(item => { return item.label === 'Package' });
 
 
 
@@ -123,15 +123,26 @@ const HomeCollection = () => {
     const [typeValue, settypeValue] = useState([])
 
     useEffect(() => {
+        let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+
+        setlocationSelected(data)
+
+
         allPackageHandler({
             params: {
 
                 pageNo: 1,
                 pageSize: 20,
-                searchQuery: InputSearch
+                searchQuery: InputSearch,
+                location: data?.selectedLocation ?? null
+
             }
         })
     }, [typeValue])
+
+
+
     // console.log(typeValue);
 
     // console.log(bodyPartValue);

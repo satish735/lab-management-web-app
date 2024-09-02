@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Input, Spinner } from 'reactstrap'
 import CheckboxInput from '../../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
@@ -10,6 +10,7 @@ const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
+    const [locationSelected, setlocationSelected] = useState();
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -53,13 +54,12 @@ const HealthPackage = () => {
         {
             url: "/test/list",
             method: "get",
-            sendImmediately: true,
-            params: {
+             params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
                 pageSize: 20,
-                // searchQuery: searchValue,
+                location: locationSelected
             },
         },
         (e) => {
@@ -82,6 +82,24 @@ const HealthPackage = () => {
         }
     );
 
+    useEffect(() => {
+
+        let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+
+        setlocationSelected(data)
+
+        allPackageHandler({
+            params: {
+                pageNo: 1,
+                pageSize: 20,
+                location: data?.selectedLocation ?? null,
+                searchQuery: InputSearch,
+
+            }
+        })
+
+    }, [])
 
     const [bodyPartValue, setBodyPartValue] = useState([])
 

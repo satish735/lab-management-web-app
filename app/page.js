@@ -9,6 +9,8 @@ import { getSession } from "next-auth/react";
 const Home = async () => {
   const session = await getSession();
   console.log(session);
+
+ 
   return (
     <UserLayout>
       <MainBanner />
@@ -18,25 +20,7 @@ const Home = async () => {
       <div className="">
         <TestsComponent />
       </div>
-
-      {/* <div className="my-4"></div>
-      <div>
-        <CarousalSlider
-          DataList={items}
-          slidesToScroll={1}
-          slidesToShow_lg={4}
-          sliderFor={"popular test"}
-        />
-      </div> */}
-
-      <div>
-        {/* <PaginationListComponent
-          changeRowPage={null}
-          currentPage={1}
-          totalRows={20}
-          currentRows={10}
-        /> */}
-      </div>
+ 
     </UserLayout>
   );
 };
