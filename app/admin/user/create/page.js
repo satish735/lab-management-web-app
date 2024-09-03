@@ -4,47 +4,36 @@ import InputMultipleSelect from "@/components/formInput/select/InputMultipleSele
 import InputSelect from "@/components/formInput/select/InputSelect";
 import { useEffect, useState } from "react";
 import useAPI from "@/hooks/useAPI";
-import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { File } from "lucide-react";
-import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
+import { Spinner } from "reactstrap";
+import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 const Home = () => {
   const router = useRouter();
 
-  const [milestoneResponse, milestoneHandler] = useAPI(
-    {
-      url: "/milestones/create",
-      method: "post",
-    },
-    (e) => {
-      EmailInput.setEnteredValue();
-      PhoneInput.setEnteredValue();
-      DescriptionInput.setEnteredValue();
 
-      toast.success("Milestone added successfully");
+  const [imageFile, setImageFile] = useState({
+    url: "",
+    status: "",
+  });
 
-    },
-    (e) => {
 
-      toast.error(
-        transformErrorDefault(
-          "Something went wrong while adding milestone!",
-          e
-        )
-      );
-      return e;
-    }
-  );
 
 
   const EmailInput = useInputComponent('');
   const EmailInputValidater = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  
     if (value === "" || !value) {
       EmailInput.setFeedbackMessage(
         "Field required!"
       );
+      EmailInput.setMessageType("error");
+      return false;
+    }
+
+    if (!emailRegex.test(value)) {
+      EmailInput.setFeedbackMessage("Please enter a valid email address (e.g., user@example.com).");
       EmailInput.setMessageType("error");
       return false;
     }
@@ -78,6 +67,15 @@ const Home = () => {
       UserNameInput.setMessageType("error");
       return false;
     }
+
+    const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+    if (!usernameRegex.test(value)) {
+      UserNameInput.setFeedbackMessage(
+        "Username must be 3-20 characters long and can only contain letters, numbers, and underscores."
+      );
+      UserNameInput.setMessageType("error");
+      return false;
+    }s
     UserNameInput.setFeedbackMessage("");
     UserNameInput.setMessageType("none");
     return true;
@@ -109,8 +107,46 @@ const Home = () => {
       PhoneInput.setMessageType("error");
       return false;
     }
+    const phoneRegex = /^[789]\d{9}$/;
+    const cleanedValue = value.replace(/\D/g, '');
+
+    if (cleanedValue.length !== 10 || !phoneRegex.test(cleanedValue)) {
+      PhoneInput.setFeedbackMessage(
+        "Please enter a valid 10-digit Indian phone number."
+      );
+      PhoneInput.setMessageType("error");
+      return false;
+    }
+  
     PhoneInput.setFeedbackMessage("");
     PhoneInput.setMessageType("none");
+    return true;
+  };
+
+
+
+
+  const PasswordInput = useInputComponent('');
+  const PasswordInputValidater = (value) => {
+    if (value === "" || !value) {
+      PasswordInput.setFeedbackMessage(
+        "Field required!"
+      );
+      PasswordInput.setMessageType("error");
+      return false;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const minLength = 8;
+    if (!passwordRegex.test(value)) {
+      PasswordInput.setFeedbackMessage(
+        "Password must be at least 8 characters with mixed types  Example 'Root@123'."
+      );
+      PasswordInput.setMessageType("error");
+      return false;
+    }
+    PasswordInput.setFeedbackMessage("");
+    PasswordInput.setMessageType("none");
     return true;
   };
 
@@ -219,7 +255,6 @@ const Home = () => {
     {
       url: "/adminlogin/create",
       method: "post",
-      method: "post", 
     },
     (e) => {
       EmailInput.setEnteredValue();
@@ -227,7 +262,7 @@ const Home = () => {
 
 
       toast.success("Admin login added successfully");
-
+return e
     },
     (e) => {
 
@@ -242,8 +277,12 @@ const Home = () => {
   );
 
 
-  
+
   const submit = () => {
+
+    console.log("vvv",center?.map((item)=>{
+      return item?.value
+    }) )
 
     let EmailValidate = EmailInputValidater(EmailInput.enteredValue);
     let NameValidate = NameInputValidater(NameInput.enteredValue);
@@ -258,7 +297,7 @@ const Home = () => {
     if (!EmailValidate || !PhoneValidate || !NameValidate || !isUserNameValidate ||
       !isroleSelectValidater || !isdobDateValidater || !isGenderTypeSelectValidater || !isPasswordValidate
     ) {
-      toast.error('Fill all the fields.')
+      toast.error('Fill all required fields.')
     }
     else {
 
@@ -277,8 +316,10 @@ const Home = () => {
               gender: GenderType ?? "",
               dob: dobDate?.enteredValue ?? null,
               image: imageFile?.filePath ?? "",
-              iscenter: centerResponse?.data?.filter((item) => center.some((key) => key?.value == item?.centreId)) ?? [],
-              bcryptPassword:PasswordInput?.enteredValue ?? ""
+              iscenter: center?.map((item)=>{
+                return item?.value
+              }) ?? [],
+              bcryptPassword: PasswordInput?.enteredValue ?? ""
             }
           })
         }
@@ -293,8 +334,8 @@ const Home = () => {
             gender: GenderType ?? "",
             dob: dobDate?.enteredValue ?? null,
             image: imageFile?.filePath ?? "",
-            iscenter: "*",
-            bcryptPassword:PasswordInput?.enteredValue ?? ""
+            iscenter: ["*"],
+            bcryptPassword: PasswordInput?.enteredValue ?? ""
           }
         })
       }
@@ -317,7 +358,10 @@ const Home = () => {
           Create Admin User</h3>
 
         <div className=" "  >
+          <div  className="my-2" >
 
+            <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+          </div>
 
           <div className="row  ">
 
@@ -403,6 +447,22 @@ const Home = () => {
                 isRequired={true}
               />
             </div>
+            <div className="col-lg-4 col-md-4 col-sm-12">
+              <InputWithAddOn
+                label="Password"
+                className="loginInputs"
+
+                setValue={PasswordInput.setEnteredValue}
+                value={PasswordInput.enteredValue}
+                feedbackMessage={PasswordInput.feedbackMessage}
+                feedbackType={PasswordInput.messageType}
+                isTouched={PasswordInput.isTouched}
+                setIsTouched={PasswordInput.setIsTouched}
+                validateHandler={PasswordInputValidater}
+                reset={PasswordInput.reset}
+                isRequired={true}
+              />
+            </div>
 
             <div className="col-lg-4 col-md-4 col-sm-12 ">
               <InputWithAddOn
@@ -474,15 +534,27 @@ const Home = () => {
             </div>}
 
             <div className="my-3 ">
-
+                 
               <button
                 style={{ float: "right" }}
 
                 className="btn btn-success px-5 "
                 onClick={submit}
               >
-                Login
+                {AdminloginResponse?.fetching ? <Spinner size={"sm"} /> : "Create User"}
               </button>
+
+              <button
+                style={{ float: "right" }}
+
+                className="btn btn-dark px-4 mx-3 "
+              onClick={()=>{
+                router.push("/admin/user")
+              }}
+              >
+                Cancel
+              </button>
+
             </div>
           </div>
         </div>

@@ -11,7 +11,17 @@ const AdminLoginSchema = new Schema({
   gender: { type: String, enum: ['male', 'female', 'other'], required: true },
   dob: { type: Date, required: true },
   image: { type: String },
-  iscenter: [{ type: Schema.Types.ObjectId, ref: "CenterSchema" }],
+  iscenter: [{
+    type: Schema.Types.Mixed,
+    validate: {
+      validator: function (value) {
+        // Allow "*" or check if the value is a valid ObjectId
+        return value === '*' || Types.ObjectId.isValid(value);
+      },
+      message: props => `${props.value} is not a valid ObjectId or "*" for full access.`
+    },
+    ref: "CenterSchema" // Adding reference for ObjectId type values
+  }],
   is_delete: { type: Boolean, default: false }
 });
 

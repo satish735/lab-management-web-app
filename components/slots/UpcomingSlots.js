@@ -8,7 +8,7 @@ import { Spinner } from "reactstrap";
 import toast from "react-hot-toast";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { FaCheckToSlot } from "react-icons/fa6";
-const UpcomingSlots = ({ selectedSlot = null, onChange = () => { } }) => {
+const UpcomingSlots = ({ selectedSlot = null, onChange = () => { }, setslotdata = () => { } }) => {
   const [selectedSlotDate, setSelectedSlotDate]
     = useState(null)
   const [getUpcomingSlotsResponse, getUpcomingSlotsHandler] = useAPI(
@@ -96,12 +96,13 @@ const UpcomingSlots = ({ selectedSlot = null, onChange = () => { } }) => {
                       toast.error("Slot Time is over please select Upcoming Slot!")
                     } else if (slot_color_class == "upcoming") {
                       onChange(slot?._id)
+                      setslotdata(slot)
                     }
                   }}
                 >
                   <p className='timing'>{slot?.slotStartTime}</p>
                   <p className={`consumed ${slot_color_class}`}>{slot?.currentUse ?? 0}/{slot?.maxUse ?? 0}</p>
-              {selectedSlot == slot?._id  &&  <FaCheckToSlot className="checked-icon" />}
+                  {selectedSlot == slot?._id && <FaCheckToSlot className="checked-icon" />}
                 </div>
               }
               )}
@@ -129,6 +130,7 @@ const groupTimeSlots = (slots) => {
     if (period === 'AM') {
       return hour === 12 ? 'Morning' : 'Morning'; // 12 AM is considered Morning, and other AM times
     } else if (period === 'PM') {
+
       if (hour === 12) return 'Afternoon'; // 12 PM (Noon) is considered Afternoon
       return hour >= 1 && hour <= 5 ? 'Afternoon' : 'Evening'; // 1 PM to 5 PM, and 6 PM to 11 PM
     }

@@ -17,6 +17,8 @@ import CheckboxInput from "@/components/formInput/CheckboxInput.jsx"
 import Address from "@/app/address/create/page"
 import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
+import UpcomingSlots from "@/components/slots/UpcomingSlots";
+
 const Cart = ({ params: { _id } }) => {
 
 
@@ -144,9 +146,27 @@ const Cart = ({ params: { _id } }) => {
     );
 
 
-    const [selectlab, setselectlab] = useState({})
+    const [selectlab, setselectlab] = useState(null)
+    const [selectaddress, setselectaddress] = useState(null)
 
-    const [selectaddress, setselectaddress] = useState({})
+    const [isselectaddresoptions, setisselectaddresoptions] = useState(false)
+    useEffect(() => {
+
+        if (islab) {
+            if (selectlab == null) {
+                setisselectaddresoptions(false)
+            } else {
+                setisselectaddresoptions(true)
+            }
+        }else{
+            if (selectaddress == null) {
+                setisselectaddresoptions(false)
+            } else {
+                setisselectaddresoptions(true)
+            }
+        }
+
+    }, [selectlab, selectaddress, islab])
 
 
     const [AddressResponse, AddressHandler] = useAPI(
@@ -294,7 +314,7 @@ const Cart = ({ params: { _id } }) => {
                 center_id: "66d2f3a4ec819eaf2ac4bcfc",
                 payment_type: ispayonline ? "cash" : "cash",
                 collection_type: islab ? "lab" : "lab",
-                slot_id: "66d43539f993be8ad9766010",
+                slot_id:selectedSlotId ?? "66d43539f993be8ad9766010",
                 discoun: 0,
                 home_collection_charge: 0,
                 total: rate,
@@ -304,6 +324,13 @@ const Cart = ({ params: { _id } }) => {
             }
         })
     }
+
+
+
+
+    const [selectedSlotId, setSelectedSlotId] = useState(null)
+
+    const[slotdata, setslotdata]= useState([])
     return (
         <div className="midbox-inner" style={{ backgroundColor: "white" }}>
             <div className="text-center py-3" style={{ fontWeight: "bold", borderBottom: "1px solid #ccc" }}>
@@ -315,10 +342,10 @@ const Cart = ({ params: { _id } }) => {
                 </span>
             </div>
 
-            {userinfoResponse?.fetching ? <div className="text-center" ><Spinner size={"xl"} /> </div>:
+            {userinfoResponse?.fetching ? <div className="text-center" ><Spinner size={"xl"} /> </div> :
 
                 <div>
- 
+
 
                     {step == 1 && <div>
                         <h2 className="p-4 " style={{ fontWeight: "700", fontSize: "1.2rem" }}> Add Patients</h2>
@@ -585,12 +612,12 @@ const Cart = ({ params: { _id } }) => {
                                     </div>
                                 </div>
                                 <div className="checkout-proceed">
-                                    <div className="filter-boxleft text-center">
+                                    {isselectaddresoptions && <div className="filter-boxleft text-center">
 
                                         <button onClick={() => {
-                                            setstep(4)
+                                            setstep(3)
                                         }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
-                                    </div>
+                                    </div>}
 
 
 
@@ -606,6 +633,53 @@ const Cart = ({ params: { _id } }) => {
                             toggle={toggle2}
                         />
 
+                    </div>}
+                    {step == 3 && <div>
+                        <div className="row" >
+                            <div className="col-sm-8 col-12" >
+                                <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} setslotdata={setslotdata} />
+                            </div>
+                            {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                                <div className="summary"><h3>Summary</h3>
+                                    <div className="checkout-summary">
+                                        {(addtestandpackage ?? [])?.map((itemtest, index) => {
+
+                                            return (
+                                                <div key={index} className="member-box">{itemtest?.name}
+                                                    <span>{(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Test" && testtype?.isselect == true)?.length ?? 0}
+                                                        {" "} Tests, {(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Package" && testtype?.isselect == true)?.length ?? 0}
+                                                        {" "} Package(s)</span>
+                                                </div>)
+
+                                        })}
+
+                                    </div>
+                                    <h3>rate Details</h3>
+                                    <div className="checkout-rate-details">
+
+                                        {(addtestandpackage ?? [])?.map((testrate, index) => {
+                                            return <div className="member-box" key={index}>{testrate?.name} (rate) <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
+                                                testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)}</span></div>
+
+
+                                        })}
+
+                                    </div><div className="checkout-rate-total my-2 py-2" style={{ borderTop: "1px solid #dee2db" }}>Total <span style={{ float: "right" }} >₹ {rate}</span>
+                                    </div>
+                                </div>
+                                {selectedSlotId !=null && <div className="checkout-proceed">
+                                    <div className="filter-boxleft text-center">
+
+                                        <button onClick={() => {
+                                            setstep(4)
+                                        }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
+                                    </div>
+
+
+
+                                </div>}
+                            </div>}
+                        </div>
                     </div>}
 
                     {step == 4 && <div>
