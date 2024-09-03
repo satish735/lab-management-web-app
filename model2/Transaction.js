@@ -60,7 +60,7 @@ transactionSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest transaction document
-      const lastTransaction = await mongoose.model('Transaction').findOne().sort({ transactionId: -1 });
+      const lastTransaction = await mongoose.model('Transaction').findOne().sort({ createdAt: -1 });
 
       if (lastTransaction) {
         // Extract the last transaction ID number

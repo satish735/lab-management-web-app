@@ -1,20 +1,35 @@
-.upcoming-slots-section {
+.upcoming-slots-date-section {
   width: 100%;
   padding: 10px;
-}
-
-.upcoming-slots-section .date-section {
-  width: 100%;
-  max-height: 290px;
-  overflow-y: auto;
-  background-color: #21cdad1c;
-  border-radius: 8px;
   border: 0.5px solid #3939392c;
-  padding: 10px;
+  border-radius: 8px;
+
+}
+
+.upcoming-slots-date-section .loading {
+  text-align: center;
+  padding: 40px;
 }
 
 
-.upcoming-slots-section .date-block {
+.upcoming-slots-date-section .no-content-found p {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: rgb(102, 102, 135);
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.upcoming-slots-date-section .no-content-found {
+  text-align: center;
+  padding: 20px;
+}
+
+
+
+.upcoming-slots-date-section .slot-date-section {
+  position: relative;
   width: 120px;
   display: inline-block;
   border-radius: 8px;
@@ -22,54 +37,180 @@
   margin: 6px;
   background-color: white;
   padding-top: 10px;
-}
-
-.upcoming-slots-section .date-block p {
-  width: 100%;
+  cursor: pointer;
   text-align: center;
+}
+
+
+
+.upcoming-slots-date-section .slot-date-section .date-month {
   margin-bottom: 0px;
-}
-
-.upcoming-slots-section .date-block .date-month {
-  font-size: 18px;
   font-weight: 700;
+
 }
 
-.upcoming-slots-section .date-block .year {
-  font-size: 16px;
+.upcoming-slots-date-section .slot-date-section .year {
+  margin-bottom: 8px;
+}
+
+.upcoming-slots-date-section .slot-date-section .day {
+  margin-bottom: 0px;
+  border-top: 0.5px solid #3939392c;
+  padding: 2px;
+  border-radius: 0 0 8px 8px;
   font-weight: 500;
 }
 
-.upcoming-slots-section .date-block .day {
-  font-size: 16px;
-  font-weight: 700;
-  background-color: var(--color-gray);
+.slot-date-section .upcoming {
+  background: rgba(0, 123, 255, 0.2)
 }
 
-.upcoming-slots-section .slot-setion {
+.slot-date-section .current {
+  background: rgba(40, 167, 69, 0.2)
+}
+
+.slot-date-section .disabled {
+  background: rgba(255, 0, 0, 0.2)
+}
+
+.slot-date-section .past {
+  background: rgba(108, 117, 125, 0.2)
+}
+
+.slot-date-section.upcoming:hover,
+.slot-date-section.upcoming.selected {
+  background: rgba(0, 123, 255, 0.05);
+  border: 1px solid rgba(0, 123, 255, 0.5);
+}
+
+.slot-date-section.current:hover,
+.slot-date-section.current.selected {
+  background: rgba(40, 167, 69, 0.05);
+  border: 1px solid rgba(40, 167, 69, 0.5);
+}
+
+.slot-date-section.disabled:hover,
+.slot-date-section.disabled.selected {
+  background: rgba(255, 0, 0, 0.05);
+  border: 1px solid rgba(255, 0, 0, 0.5)
+}
+
+.slot-date-section.past:hover,
+.slot-date-section.past.selected {
+  background: rgba(108, 117, 125, 0.05);
+  border: 1px solid rgba(108, 117, 125, 0.5);
+}
+
+
+.upcoming-slots-time-section {
+  margin-top: 8px;
   width: 100%;
-  background-color: #21cdad1c;
+  padding: 10px;
+  border: 0.5px solid #3939392c;
+  border-radius: 8px;
+  text-align: left;
+}
+
+
+.upcoming-slots-time-section .slot-time-block {
+  width: 180px;
+  display: inline-block;
   border-radius: 8px;
   border: 0.5px solid #3939392c;
-  padding: 10px;
-  margin-top: 5px;
-}
-
-.upcoming-slots-section .slot-setion .slot-category-heading {
-  color: var(--color-primary);
-  font-size: 20px;
-  background: rgb(0, 38, 120);
-  background: linear-gradient(90deg, rgba(0, 38, 120, 0.7457107843137255) 0%, rgba(0, 38, 120, 0) 100%);
-  padding: 6px 10px;
-  border-radius: 6px;
-}
-
-.upcoming-slots-section .slot-time-slot {
-  display: inline-block;
+  margin: 6px;
   background-color: white;
+  padding-top: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.upcoming-slots-time-section .slot-time-block .timing {
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.upcoming-slots-time-section .slot-time-block .consumed {
+  margin-bottom: 0px;
+  border-top: 0.5px solid #3939392c;
+  padding: 1px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+
+.slot-time-block .upcoming {
+  background: rgba(0, 123, 255, 0.2)
+}
+
+.slot-time-block .current {
+  background: rgba(40, 167, 69, 0.2)
+}
+
+.slot-time-block .disabled {
+  background: rgba(255, 0, 0, 0.2)
+}
+
+.slot-time-block .past {
+  background: rgba(108, 117, 125, 0.2)
+}
+
+.slot-time-block .full {
+  background: rgba(255, 193, 7, 0.2)
+}
+
+
+.slot-time-block.upcoming:hover,
+.slot-time-block.upcoming.selected {
+  background: rgba(0, 123, 255, 0.05);
+  border: 1px solid rgba(0, 123, 255, 0.5);
+  cursor: pointer;
+
+}
+
+.slot-time-block.current:hover,
+.slot-time-block.current.selected {
+  background: rgba(40, 167, 69, 0.05);
+  border: 1px solid rgba(40, 167, 69, 0.5);
+  cursor: pointer;
+}
+
+/* .slot-time-block.disabled:hover,
+.slot-time-block.disabled.selected {
+  background: rgba(255, 0, 0, 0.2)
+} */
+
+/* .slot-time-block.past:hover,
+.slot-time-block.past.selected {
+  background: rgba(108, 117, 125, 0.2)
+} */
+
+/* .slot-time-block.full:hover,
+.slot-time-block.full.selected {
+  background: rgba(255, 193, 7, 0.2)
+} */
+
+
+.slot-time-block .checked-icon {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  fill: rgba(40, 167, 69, 0.5);
+
+}
+
+.upcoming-slots-time-section h2 {
+  font-size: 20px;
   color: var(--color-primary);
-  padding: 5px 10px;
-  border-radius: 15px;
-  border: 0.5px solid #3939392c;
-  margin: 0px 4px;
+  margin-bottom: 0px;
+  /* background: linear-gradient(90deg, #8edfd06b 0%, rgba(0, 38, 120, 0) 100%); */
+  padding: 6px 10px;
+  border-radius: 0px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  border-bottom: 0.5px solid #3939392c;
 }

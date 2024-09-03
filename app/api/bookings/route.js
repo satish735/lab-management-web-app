@@ -2,6 +2,8 @@ import Booking from "@/model2/Booking";
 import BookingActivity from "@/model2/BookingActivity";
 import Coupon from "@/model2/Coupon";
 import Membership from "@/model2/Membership";
+import SlotDate from "@/model2/SlotDate";
+import UserDetails from "@/model2/UserDetails";
 import SlotTime from "@/model2/SlotTime";
 import Transaction from "@/model2/Transaction";
 import mongoose from "mongoose";
@@ -31,7 +33,6 @@ export const GET = async (request, { params }) => {
         }
         const bookingList = await Booking
             .find(searchFilter).populate({ path: "slotId", select: "slotStartTime slotDate", populate: { path: "slotDate", select: "date" } }).populate({ path: "teamMemberId", select: "name email" })
-            .populate({ path: "teamMemberId" })
             .sort(sort)
             .skip(skip)
             .limit(pageSize);

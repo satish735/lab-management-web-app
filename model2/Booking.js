@@ -86,7 +86,7 @@ bookingSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest booking document
-      const lastBooking = await mongoose.model('Booking').findOne().sort({ bookingId: -1 });
+      const lastBooking = await mongoose.model('Booking').findOne().sort({ createdAt: -1 });
 
       if (lastBooking) {
         // Extract the last booking ID number

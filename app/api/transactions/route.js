@@ -1,4 +1,5 @@
 import Transaction from "@/model2/Transaction";
+import Booking from "@/model2/Booking";
 import { parse } from "url";
 export const GET = async (request, { params }) => {
     try {
