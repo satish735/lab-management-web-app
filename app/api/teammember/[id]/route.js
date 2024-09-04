@@ -1,8 +1,8 @@
-import AdminLogin from "@/model2/AdminLogin";
+import StaffMember from "@/model2/StaffMember";
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
-    const getdata = await AdminLogin
+    const getdata = await StaffMember
       .findById(id);
 
     return new Response(JSON.stringify(getdata), { status: 200 });
@@ -16,7 +16,7 @@ export const PUT = async (request, { params }) => {
 
     const toUpdateBody = await request.json();
     const { id = null } = params;
-    const getfindbyid = await AdminLogin.findById(id);
+    const getfindbyid = await StaffMember.findById(id);
     if (!existinguser) {
       return new Response("No user found with given id!", { status: 404 });
     }
@@ -35,7 +35,7 @@ export const PUT = async (request, { params }) => {
 export const DELETE = async (request, { params }) => {
   try {
     const { id = null } = params;
-    await AdminLogin.findByIdAndDelete(id);
+    await StaffMember.findByIdAndDelete(id);
     return new Response("user deleted successfully.", { status: 200 });
   } catch (error) {
     return new Response(error?.message, { status: 500 });

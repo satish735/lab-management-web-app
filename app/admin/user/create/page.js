@@ -23,7 +23,7 @@ const Home = () => {
 
   const EmailInput = useInputComponent('');
   const EmailInputValidater = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (value === "" || !value) {
       EmailInput.setFeedbackMessage(
         "Field required!"
@@ -75,7 +75,7 @@ const Home = () => {
       );
       UserNameInput.setMessageType("error");
       return false;
-    }s
+    }
     UserNameInput.setFeedbackMessage("");
     UserNameInput.setMessageType("none");
     return true;
@@ -117,7 +117,7 @@ const Home = () => {
       PhoneInput.setMessageType("error");
       return false;
     }
-  
+
     PhoneInput.setFeedbackMessage("");
     PhoneInput.setMessageType("none");
     return true;
@@ -257,15 +257,24 @@ const Home = () => {
       method: "post",
     },
     (e) => {
-      EmailInput.setEnteredValue();
-      PhoneInput.setEnteredValue();
+      // EmailInput.setEnteredValue();
+      // PhoneInput.setEnteredValue();
+      
 
+      if (e?.issubmit == false) {
+        toast.error(
+          e?.res
+        );
+      } else {
+        toast.success("Admin login added successfully");
+      router.push("/admin/user")
 
-      toast.success("Admin login added successfully");
-return e
+      }
+
+      return e
     },
     (e) => {
-
+      console.log("error", e)
       toast.error(
         transformErrorDefault(
           "Something went wrong while adding Admin login!",
@@ -280,9 +289,9 @@ return e
 
   const submit = () => {
 
-    console.log("vvv",center?.map((item)=>{
+    console.log("vvv", center?.map((item) => {
       return item?.value
-    }) )
+    }))
 
     let EmailValidate = EmailInputValidater(EmailInput.enteredValue);
     let NameValidate = NameInputValidater(NameInput.enteredValue);
@@ -309,14 +318,14 @@ return e
           AdminloginHandler({
             body: {
               email: EmailInput.enteredValue ?? '',
-              username: DescriptionInput.enteredValue ?? '',
+              phone: PhoneInput.enteredValue ?? '',
               username: UserNameInput.enteredValue ?? '',
               role: role ?? '',
               name: NameInput?.enteredValue,
               gender: GenderType ?? "",
               dob: dobDate?.enteredValue ?? null,
               image: imageFile?.filePath ?? "",
-              iscenter: center?.map((item)=>{
+              iscenter: center?.map((item) => {
                 return item?.value
               }) ?? [],
               bcryptPassword: PasswordInput?.enteredValue ?? ""
@@ -327,7 +336,7 @@ return e
         AdminloginHandler({
           body: {
             email: EmailInput.enteredValue ?? '',
-            username: DescriptionInput.enteredValue ?? '',
+            phone: PhoneInput.enteredValue ?? '',
             username: UserNameInput.enteredValue ?? '',
             role: role ?? '',
             name: NameInput?.enteredValue,
@@ -358,7 +367,7 @@ return e
           Create Admin User</h3>
 
         <div className=" "  >
-          <div  className="my-2" >
+          <div className="my-2" >
 
             <SingleImageDropZone file={imageFile} setFile={setImageFile} />
           </div>
@@ -534,7 +543,7 @@ return e
             </div>}
 
             <div className="my-3 ">
-                 
+
               <button
                 style={{ float: "right" }}
 
@@ -548,9 +557,9 @@ return e
                 style={{ float: "right" }}
 
                 className="btn btn-dark px-4 mx-3 "
-              onClick={()=>{
-                router.push("/admin/user")
-              }}
+                onClick={() => {
+                  router.push("/admin/user")
+                }}
               >
                 Cancel
               </button>

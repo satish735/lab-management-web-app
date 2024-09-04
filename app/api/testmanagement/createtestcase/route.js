@@ -5,10 +5,6 @@ export const POST = async (request) => {
 
         const { test = null } = await request.json();
 
-
-
-        console.log(test);
-
         const newtest = new testpackage({
             name: name,
             test: test

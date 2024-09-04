@@ -37,7 +37,8 @@ export default function Home() {
   ]);
   const [selectedViewOptions, setSelectedViewOptions] = useState([
     "action",
-    "name",
+    "email",
+    "username"
   ]);
   const changePageAndRows = (page, rows) => {
     healthbulletinHandler({
@@ -69,7 +70,7 @@ export default function Home() {
 
   const [healthbulletinResponse, healthbulletinHandler] = useAPI(
     {
-      url: "/user/list",
+      url: "/adminlogin/list",
       method: "get",
       sendImmediately: true,
       params: {
@@ -122,15 +123,67 @@ export default function Home() {
       className: "mnw-12",
     },
     {
+      key: "email",
+      label: "Email",
+      value: (row) => {
+        return row?.email;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+    },
+    {
+      key: "email",
+      label: "Email",
+      value: (row) => {
+        return row?.email;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+    },
+    {
+      key: "username",
+      label: "User Name",
+      value: (row) => {
+        return row?.username;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+    },
+    {
+      key: "phone",
+      label: "Phone Number",
+      value: (row) => {
+        return row?.phone;
+      },
+      sortable: true,
+      isDefault: false,
+      isSelectRequired: false,
+    },
+    {
       key: "name",
       label: "Name",
       value: (row) => {
         return row?.name;
       },
       sortable: true,
-      isDefault: true,
-      isSelectRequired: true,
+      isDefault: false,
+      isSelectRequired: false,
     },
+
+    {
+      key: "gender",
+      label: "Gender",
+      value: (row) => {
+        return row?.gender;
+      },
+      sortable: true,
+      isDefault: false,
+      isSelectRequired: false,
+    },
+
 
 
 

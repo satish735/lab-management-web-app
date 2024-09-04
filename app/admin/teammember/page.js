@@ -9,20 +9,21 @@ import useAPI from "@/hooks/useAPI";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Eye, Pencil } from "lucide-react";
+import ActionOption from "@/components/ActionOption";
+
 
 export default function Home() {
 
   const [selectedViewOptions, setSelectedViewOptions] = useState([
+    "action",
     "name",
     "gender",
     "email",
     "phone",
     "qualification",
-    "type",
-    "qualificationDescription",
-    "post",
-    "experience",
-    "qualification"
+
+
   ]);
 
 
@@ -115,11 +116,29 @@ export default function Home() {
     {
       label: "Action",
       value: (row) => {
-        return <span style={{ cursor: "pointer" }}>...</span>;
+        return (
+          <>
+            <ActionOption
+              Icon={Eye}
+              name="View"
+              onClick={() => {
+                router.push(`/admin/teammember/view?id=${row?._id}&type=view`);
+              }}
+            />
+            <ActionOption
+              Icon={Pencil}
+              name="Edit"
+              onClick={() => {
+                router.push(`/admin/teammember/view?id=${row?._id}&type=edit`);
+              }}
+            />
+          </>
+        );
       },
       key: "action",
-      sortable: false,
       isDefault: true,
+      isSelectRequired: true,
+      className: "mnw-12",
     },
     {
       label: "Name",
@@ -159,7 +178,7 @@ export default function Home() {
       },
       key: "phone",
       sortable: false,
-      isDefault: true,
+      isDefault: false,
     },
     {
       label: "Type",
@@ -168,7 +187,7 @@ export default function Home() {
       },
       key: "type",
       sortable: false,
-      isDefault: true,
+      isDefault: false,
     },
     {
       label: "Post",
@@ -177,7 +196,7 @@ export default function Home() {
       },
       key: "post",
       sortable: false,
-      isDefault: true,
+      isDefault: false,
     },
 
     {
@@ -187,7 +206,7 @@ export default function Home() {
       },
       key: "qualification",
       sortable: false,
-      isDefault: true,
+      isDefault: false,
     },
     {
       label: "Qualification Description",
@@ -196,7 +215,7 @@ export default function Home() {
       },
       key: "qualificationDescription",
       sortable: false,
-      isDefault: true,
+      isDefault: false,
     },
     {
       label: "Experience",
@@ -205,7 +224,7 @@ export default function Home() {
       },
       key: "experience",
       sortable: false,
-      isDefault: true,
+      isDefault: false,
     },
   ];
 

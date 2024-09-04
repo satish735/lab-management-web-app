@@ -1,6 +1,6 @@
  
 
-import Milestone from "@/model2/Milestone";
+import AdminLogin from "@/model2/AdminLogin";
 import { parse } from "url";
 export const GET = async (request, { params }) => {
   try {
@@ -21,13 +21,13 @@ export const GET = async (request, { params }) => {
     if (searchQuery) {
       searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
     }
-    const MilestonesInstance = await Milestone
+    const getlistingdata = await AdminLogin
       .find(searchFilter)
       .sort(sort)
       .skip(skip)
       .limit(pageSize);
-    const totalCount = await Milestone.find(searchFilter).countDocuments();
-    var response = { data: MilestonesInstance, total: totalCount };
+    const totalCount = await AdminLogin.find(searchFilter).countDocuments();
+    var response = { data: getlistingdata, total: totalCount };
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.log(error);

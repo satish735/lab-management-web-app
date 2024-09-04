@@ -46,7 +46,7 @@ const defaultSideMenus = [
           },
           {
             type: "sub",
-            label: "Add user",
+            label: "Users",
             link: "/admin/user"
 
 

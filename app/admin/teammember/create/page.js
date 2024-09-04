@@ -14,7 +14,10 @@ import useInputComponent from "@/hooks/useInputComponent";
 import uuid from "react-uuid";
 import { toast } from "react-hot-toast";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const router = useRouter();
 
 
   const [createteamsResponse, createteamsHandler] = useAPI(
@@ -26,16 +29,7 @@ export default function Home() {
       toast.success("Team Member created successfully");
 
 
-      FirstNameInput.reset();
-      post.reset();
-      DescriptionInput.reset();
-      Email.reset();
-      Phone.reset();
-      NumberOfExp.reset();
-      JoinedDate.reset();
-      setDegree();
-      settype();
-      setGenderType();
+      router.pusg("/admin/teammember")
     },
     (e) => {
 
@@ -81,7 +75,7 @@ export default function Home() {
       !isJoinedDateValidater ||
       !isEmailValidater ||
       !isDegreeSelectValidater ||
-      !istypeSelectValidater 
+      !istypeSelectValidater
     ) {
       toast.error("Fill complete form.");
       return;
@@ -437,9 +431,19 @@ export default function Home() {
               submit()
             }}
             style={{ float: "right" }}
-            className="btn btn-success px-4 mx-5"
+            className="btn btn-success px-4 mx-3"
           >
             Submit
+          </button>
+
+          <button
+            style={{ float: "right" }}
+            className="btn btn-dark px-4 mx-3"
+            onClick={() => {
+              router.push("/admin/teammember")
+            }}
+          >
+            Cancel
           </button>
         </div>
       </div>
