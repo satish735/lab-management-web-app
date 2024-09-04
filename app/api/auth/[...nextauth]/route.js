@@ -6,7 +6,8 @@ import bcrypt from "bcryptjs"; // For password hashing
 
 import user from "@/models/user";
 import moment from "moment";
-
+import AdminLogin from "@/model2/AdminLogin";
+import Center from "@/model2/Center";
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -18,23 +19,33 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const User = await user.findOne({ email: credentials?.email });
+          const User = await AdminLogin.findOne({ email: credentials?.email });
           if (!User) {
             throw new Error("User not found!");
           }
-          if (User.role !== "admin") {
-            throw new Error("Not authorized!");
-          }
-          if (credentials.password !== User.password) {
+
+          if (credentials.password !== User.bcryptPassword) {
             throw new Error("Incorrect password!");
           }
-
+          var centers = []
+          if (User.role == "admin") {
+            var newCenters = await Center.find({ publishedAt: { $ne: null } }).select("centre city state")
+            centers = newCenters
+          }
+          else if (User.role == "adminuser" && Array.isArray(User.iscenter) && User.iscenter.length > 0) {
+            var newCenters = await Center.find({ _id: { $in: User.iscenter } }).select("centre city state")
+            centers = newCenters
+          }
+          else {
+            throw new Error("Not authorized!");
+          }
           return {
             id: User._id,
             name: User.name,
             email: User.email,
             role: User.role,
             phone: User.phone,
+            centers: centers
           };
         } catch (err) {
           throw new Error(err.message);
@@ -90,6 +101,7 @@ export const authOptions = {
         token.name = User.name;
         token.role = User.role;
         token.phone = User.phone;
+        token.centers = User?.centers ?? []
       }
       return token;
     },
@@ -101,6 +113,7 @@ export const authOptions = {
           name: token.name,
           role: token.role,
           phone: token.phone,
+          centers: token?.centers
         };
       }
       return session;

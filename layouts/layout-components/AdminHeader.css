@@ -12,12 +12,188 @@
     cursor: pointer;
     user-select: none;
     font-size: 22px;
-    fill:var(--color-secondary)
+    fill: var(--color-secondary)
 }
 
 .header-button-icon:hover {
     opacity: 0.8;
     font-size: 25px;
-    fill:var(--color-primary)
+    fill: var(--color-primary)
+}
 
+
+.profile-icon-button {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    /* Scale the image to cover the div */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent repeating of the image */
+}
+
+.profile-icon-button:hover {
+    cursor: pointer;
+    border: 1px solid var(--color-primary);
+    box-shadow: var(--color-primary) 0px 0px 2px;
+}
+
+.profile-menu {
+    margin-right: -16px;
+    /* min-height: 200px; */
+    margin-top: 14px;
+    border: none;
+    padding: 6px !important;
+    width: 375px;
+    /* background: #f1f6ee; */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.profile-menu::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-bottom: 13px solid #e9f4e5;
+    /* Caret color */
+    position: absolute;
+    right: 23px;
+    top: 0;
+    transform: translateY(-100%);
+
+}
+
+.profile-menu .image {
+    height: 64px;
+    width: 64px;
+    border-radius: 12px;
+    background-size: cover;
+    /* Scale the image to cover the div */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent repeating of the image */
+}
+
+.profile-menu .profile-option {
+    cursor: pointer;
+    padding: 6px;
+    position: relative;
+}
+
+
+.profile-menu .profile-option:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    border-radius: 12px;
+
+}
+
+.profile-option .user-details {
+    width: calc(100% - 64px);
+    padding-left: 10px;
+}
+
+.profile-menu .name {
+    margin-bottom: 0px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 30px;
+    color: var(--color-secondary);
+    user-select: none;
+}
+
+.profile-menu .role {
+    margin-bottom: 0px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-gray);
+    user-select: none;
+}
+
+.profile-option .logout-div {
+    position: absolute;
+    right: 10px;
+    bottom: 4px;
+    font-size: 16px;
+    color: var(--bs-danger);
+    cursor: pointer;
+}
+
+.profile-option .logout-div:hover {
+    color: var(--color-primary)
+}
+
+.profile-center-section {
+    /* margin-top: 8px; */
+    cursor: pointer;
+}
+
+.profile-center-section .center-details {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    border-radius: 6px;
+    padding: 6px;
+    position: relative;
+}
+
+.profile-center-section .name {
+    margin-bottom: 0px;
+    width: calc(100% - 35px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    color: var(--color-secondary);
+    user-select: none;
+}
+
+.profile-center-section .city {
+    margin-bottom: 0px;
+    font-size: 14px;
+    width: calc(100% - 35px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-gray);
+    user-select: none;
+}
+
+
+.profile-center-section .change-center-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    fill: var(--color-secondary);
+    cursor: pointer;
+}
+
+.profile-center-section .change-center-icon:hover,
+.profile-center-section:hover .change-center-icon {
+    fill: var(--color-primary)
+}
+
+
+
+
+.profile-center-section .select-center {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+.profile-center-section .select-center:hover {
+    color: var(--color-primary);
 }

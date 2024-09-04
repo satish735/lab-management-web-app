@@ -1,15 +1,28 @@
 import Image from "next/image";
 // import LeftToggle from "./sidemenu-icons/LeftToggle";
 
-import { FaIndent, FaExpand, FaOutdent } from "react-icons/fa6";
+import { FaIndent, FaExpand, FaOutdent, FaSort, FaArrowRightToBracket } from "react-icons/fa6";
+import { BsArrowsFullscreen, BsFullscreenExit } from "react-icons/bs";
 
 import "./AdminHeader.css"
+import useFullscreen from "@/hooks/useFullScreen";
+import { DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useState } from "react";
 const AdminHeader = ({
   isMobile,
   mobileToggle,
   collapsed,
   collapsedToggle,
 }) => {
+
+  const { isFullscreen, toggleFullscreen } = useFullscreen()
+  var name = "T R"
+  var image_div_styling = {
+    backgroundImage: `url('https://ui-avatars.com/api?background=random&name=${name}')`
+  }
   return (
     <div
       style={{
@@ -56,28 +69,83 @@ const AdminHeader = ({
           className="header-toggle-icon"
         />
       )} */}
-      {isMobile && (
+      {
+        isMobile && (
+          <FaIndent
+            onClick={mobileToggle}
+            className="header-button-icon" />
+        )
+      }
+      {
+        collapsed && !isMobile && (
+          <FaIndent
+            onClick={collapsedToggle}
+            className="header-button-icon" />
 
-        <FaIndent
-          onClick={mobileToggle}
-          className="header-button-icon" />
-      )}
-      {collapsed && !isMobile && (
-        <FaIndent
-          onClick={collapsedToggle}
-          className="header-button-icon" />
+        )
+      }
+      {
+        !collapsed && !isMobile && (
+          <FaOutdent onClick={collapsedToggle}
+            className="header-button-icon" />
 
-      )}
-      {!collapsed && !isMobile && (
-        <FaOutdent onClick={collapsedToggle}
-          className="header-button-icon" />
-
-      )}
-      <div>
-        <FaExpand className="header-button-icon" />
+        )
+      }
+      <div className="d-flex align-items-center gap-3">
+        {isFullscreen ? <BsFullscreenExit className="header-button-icon" onClick={toggleFullscreen} /> : <BsArrowsFullscreen className="header-button-icon" onClick={toggleFullscreen} />}
+        {/* <div style={image_div_styling} className="profile-icon-button"></div> */}
+        <ProfileComponent />
       </div>
       {/* <LeftToggle  /> */}
-    </div>
+    </div >
   );
 };
 export default AdminHeader;
+const ProfileComponent = () => {
+  const session = useSession()
+  console.log(session)
+  const router = useRouter();
+  var name = "Anil Puri"
+  var role = "admin-user"
+  var center_name = "Anith Path Lab"
+  var city = "jaipur"
+  var image_div_styling = {
+    backgroundImage: `url('https://ui-avatars.com/api?background=random&name=${name}')`
+  }
+  const logoutHandler = async (e) => {
+    e.stopPropagation();
+    try {
+      await signOut({ redirect: true, callbackUrl: '/login/admin' });
+    } catch (err) {
+      toast.error(err?.message)
+      console.error('Logout error:', err);
+    }
+  }
+  const [selectCenterIsOpen, setSelectedCenterIsOpen] = useState("")
+
+  return <UncontrolledDropdown style={{ height: "40px" }}>
+    <DropdownToggle
+      style={image_div_styling}
+      className="profile-icon-button"
+      tag="span"
+    ></DropdownToggle>
+    <DropdownMenu className="profile-menu">
+      <div className="profile-center-section mb-2">
+        <div className="center-details">
+          <h1 className="name  text-capitalize">{center_name}</h1>
+          <p className="text-capitalize city">{city}</p>
+          <FaSort className="change-center-icon" />
+        </div>
+      </div>
+      <div className="d-flex  profile-option" onClick={() => { router.push("/admin/profile") }}>
+        <div style={image_div_styling} className="image"></div>
+        <div className="user-details">
+          <h1 className="name  text-capitalize">{name}</h1>
+          <p className="text-capitalize role">{role}</p>
+        </div>
+        <div className="logout-div" onClick={logoutHandler}><FaArrowRightToBracket className="logout-icon" /> Logout</div>
+      </div>
+
+    </DropdownMenu>
+  </UncontrolledDropdown>
+}
