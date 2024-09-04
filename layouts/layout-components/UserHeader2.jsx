@@ -23,28 +23,28 @@ import useAPI from "@/hooks/useAPI";
 // };
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
-//  const updateLocalStorage = (key, value) => {
-//   localStorage.setItem(key, value);
+  //  const updateLocalStorage = (key, value) => {
+  //   localStorage.setItem(key, value);
 
-//   setLocalStorageData(localStorage.getItem(key));
-// };
+  //   setLocalStorageData(localStorage.getItem(key));
+  // };
 
-const [localStorageData, setLocalStorageData] = useState();
-useEffect(() => {
-  const checkLocalStorage = () => {
-    const storedData = localStorage.getItem('testpackage');
-    if (storedData !== localStorageData) {
-      setLocalStorageData(storedData);
-    }
-  };
-  const intervalId = setInterval(checkLocalStorage, 1000);
-  return () => clearInterval(intervalId);
-}, [localStorageData]);
+  const [localStorageData, setLocalStorageData] = useState();
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      const storedData = localStorage.getItem('testpackage');
+      if (storedData !== localStorageData) {
+        setLocalStorageData(storedData);
+      }
+    };
+    const intervalId = setInterval(checkLocalStorage, 1000);
+    return () => clearInterval(intervalId);
+  }, [localStorageData]);
 
-useEffect(() => {
-  const parsedData = localStorageData ? JSON.parse(localStorageData) : [];
-  setCartItemCount((parsedData.item ?? []).length);
-}, [localStorageData]);
+  useEffect(() => {
+    const parsedData = localStorageData ? JSON.parse(localStorageData) : [];
+    setCartItemCount((parsedData.item ?? []).length);
+  }, [localStorageData]);
 
 
 
@@ -142,11 +142,11 @@ useEffect(() => {
           type: "sub-menu",
           menu: [
 
-            { label: "Franchising Opportunity", href: "#" },
-            { label: "Lab Acquisition", href: "#" },
-            { label: "Hospital Lab Management", href: "#" },
-            { label: "Corporate Wellness", href: "#" },
-            { label: "Regional Partner", href: "#" },
+            { label: "Franchising Opportunity", href: "/partner-with-us/franchising-opportunity" },
+            { label: "Lab Acquisition", href: "/partner-with-us/lab-acquisition" },
+            { label: "Hospital Lab Management", href: "/partner-with-us/hospital-lab-management" },
+            { label: "Corporate Wellness", href: "/partner-with-us/corporate-wellness" },
+            { label: "Regional Partner", href: "/partner-with-us/regional-partner" },
           ],
         },
       ],
@@ -199,21 +199,21 @@ useEffect(() => {
                     </li>
                   </ul>
                   <div className="miniPopup-language-area">
-                     <button
+                    <button
                       className="miniPopup-language-trigger"
                       type="button"
                     >
-                      
-                      <span className="btn-text" onClick={()=>{   localStorage.setItem('selectedLocation',JSON.stringify({selectedLocation:'Jaipur'}))}}>
+
+                      <span className="btn-text" onClick={() => { localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: 'Jaipur' })) }}>
                         {cityList.find(
                           (item) => item?.QueryCityName == currentCity
                         )?.CityName ?? "Select Location"}
                       </span>
-                     
+
                       <FaChevronDown size={14} className="dropdonw-arrow" />
                       <span className="btn-shape"></span>
                     </button>
-                    
+
                     <ul className="miniPopup miniPopup-language list-unstyled">
                       <li>
                         <button>
@@ -279,7 +279,7 @@ useEffect(() => {
                   alignItems: "center",
                 }}
               >
-                <a onClick={()=>{
+                <a onClick={() => {
                   setisopencart(!isopencart)
                 }} className=" cart-button">
                   <FaCartShopping size={20} className="cart-icon" />
@@ -309,10 +309,10 @@ useEffect(() => {
               </div>
 
 
-           
 
 
-             
+
+
             </div>
           </div>
         </Navbar>
