@@ -327,14 +327,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* header */
-.header-toggle-icon {
-  cursor: pointer;
-  user-select: none;
-}
 
-.header-toggle-icon:hover {
-  opacity: 0.8;
-}
 
 .midbox-inner {
   margin: 0 auto;

@@ -15,7 +15,7 @@ const AdminFooter = () => {
       }}
     >
       <span>
-        © {moment().year()} <a href="/">Dr. B. Lal</a>. All rights reserved.
+        © {moment().year()} <a href="/">Endolabs</a>. All rights reserved.
       </span>
     </div>
   );

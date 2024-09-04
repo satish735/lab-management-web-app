@@ -59,8 +59,8 @@ const SidebarHeader = ({ collapsed, children, rtl, ...rest }) => {
           <Image
             src={"/assets/images/logo-collasped.png"}
             alt="hello"
-            height={50}
-            width={160}
+            height={35}
+            width={35}
           />
         ) : (
           <Image

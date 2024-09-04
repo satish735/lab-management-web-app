@@ -1,4 +1,5 @@
 "use client";
+import "./AdminLayout.css"
 import React, { useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Switch from "./layout-components/sidemenu-components/Switch";
@@ -135,6 +136,7 @@ const AdminLayout = ({ children }) => {
         height: "100%",
         direction: rtl ? "rtl" : "ltr",
       }}
+      className="left-side-scroll-remove"
     >
       <Sidebar
         collapsedWidth={"75px"}
@@ -156,6 +158,7 @@ const AdminLayout = ({ children }) => {
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
+        
         >
           <SidebarHeader
             collapsed={collapsed}

@@ -1,6 +1,9 @@
 import Image from "next/image";
 // import LeftToggle from "./sidemenu-icons/LeftToggle";
 
+import { FaIndent, FaExpand, FaOutdent } from "react-icons/fa6";
+
+import "./AdminHeader.css"
 const AdminHeader = ({
   isMobile,
   mobileToggle,
@@ -19,13 +22,14 @@ const AdminHeader = ({
         left: "5px",
         display: "flex",
         alignItems: "center",
-        padding: "20px 10px",
+        padding: "20px 15px",
         background: "white",
         justifyContent: "space-between",
-        zIndex:999
+        verticalAlign: "center",
+        zIndex: 99
       }}
     >
-      {isMobile && (
+      {/* {isMobile && (
         <Image
           width={35}
           height={35}
@@ -51,8 +55,27 @@ const AdminHeader = ({
           onClick={collapsedToggle}
           className="header-toggle-icon"
         />
+      )} */}
+      {isMobile && (
+
+        <FaIndent
+          onClick={mobileToggle}
+          className="header-button-icon" />
       )}
-      <div></div>
+      {collapsed && !isMobile && (
+        <FaIndent
+          onClick={collapsedToggle}
+          className="header-button-icon" />
+
+      )}
+      {!collapsed && !isMobile && (
+        <FaOutdent onClick={collapsedToggle}
+          className="header-button-icon" />
+
+      )}
+      <div>
+        <FaExpand className="header-button-icon" />
+      </div>
       {/* <LeftToggle  /> */}
     </div>
   );

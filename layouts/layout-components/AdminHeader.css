@@ -1,0 +1,23 @@
+.header-toggle-icon {
+    cursor: pointer;
+    user-select: none;
+}
+
+.header-toggle-icon:hover {
+    opacity: 0.8;
+    zoom: 1.2
+}
+
+.header-button-icon {
+    cursor: pointer;
+    user-select: none;
+    font-size: 22px;
+    fill:var(--color-secondary)
+}
+
+.header-button-icon:hover {
+    opacity: 0.8;
+    font-size: 25px;
+    fill:var(--color-primary)
+
+}

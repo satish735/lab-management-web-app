@@ -201,7 +201,7 @@ const UserFooter = () => {
           <div className="wh">
             © Copyright 2024{" "}
             <a href="/" style={{ color: "inherit" }}>
-              Endolab
+            Endolabs
             </a>
             , All rights reserved.
           </div>
