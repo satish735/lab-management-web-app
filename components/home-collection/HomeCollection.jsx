@@ -57,7 +57,7 @@ const HomeCollection = () => {
         {
             url: "/test/list",
             method: "get",
-             params: {
+            params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
@@ -67,6 +67,7 @@ const HomeCollection = () => {
         },
         (e) => {
 
+            console.log(e);
 
             if ((typeValue ?? []).length === 0 || (typeValue ?? []).length === 2) {
                 let packageList = (e?.data ?? []).filter((item) => {
@@ -120,26 +121,56 @@ const HomeCollection = () => {
     );
 
     const [bodyPartValue, setBodyPartValue] = useState([])
+    const [ConditionsValue, setConditionsValue] = useState([])
     const [typeValue, settypeValue] = useState([])
 
+    // console.log(bodyPartValue,ConditionsValue);
+
     useEffect(() => {
-        let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
 
-        setlocationSelected(data)
+
+        if (!locationSelected) {
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+            setlocationSelected(data)
 
 
-        allPackageHandler({
-            params: {
+            allPackageHandler({
+                params: {
 
-                pageNo: 1,
-                pageSize: 20,
-                searchQuery: InputSearch,
-                location: data?.selectedLocation ?? null
+                    pageNo: 1,
+                    pageSize: 20,
+                    searchQuery: InputSearch,
+                    location: data?.selectedLocation ?? null,
+                    bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
 
-            }
-        })
-    }, [typeValue])
+                }
+            })
+        }
+
+        else {
+            allPackageHandler({
+                params: {
+
+                    pageNo: 1,
+                    pageSize: 20,
+                    searchQuery: InputSearch,
+                    location: locationSelected ?? null,
+                    bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                }
+            })
+        }
+
+
+
+
+    }, [typeValue, ConditionsValue, bodyPartValue])
+
+
 
 
 
@@ -154,7 +185,9 @@ const HomeCollection = () => {
 
                 pageNo: 1,
                 pageSize: 20,
-                searchQuery: value
+                searchQuery: value,
+                bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
             }
         })
     }
@@ -227,7 +260,7 @@ const HomeCollection = () => {
 
                                     <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
                                         {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
-                                            return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setConditionsValue} />
                                         })}
 
                                     </div>

@@ -9,9 +9,13 @@ export const GET = async (request, { params }) => {
       sortColumn = "createdAt",
       sortDirection = "desc",
       searchQuery = "",
-      location = null
+      location = null,
+      bodyPartsIds = null,
+      conditionIds = null
     } = urlParams.query;
 
+    let bodyPartsIdsArray=JSON.parse(bodyPartsIds ?? [])
+    let conditionIdsArray=JSON.parse(conditionIds ?? [])
 
     const skip = (pageNo - 1) * pageSize;
     const sort = {};
@@ -22,6 +26,21 @@ export const GET = async (request, { params }) => {
     if (searchQuery) {
       searchFilter.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
+
+    console.log(searchFilter, bodyPartsIdsArray, conditionIdsArray);
+
+
+    if (bodyPartsIdsArray && bodyPartsIdsArray.length > 0) {
+      searchFilter.bodyParts = { $in: bodyPartsIdsArray };
+    }
+
+    // If you have specific `conditions` IDs to filter by
+    if (conditionIdsArray && conditionIdsArray.length > 0) {
+      searchFilter.conditions = { $in: conditionIdsArray };
+    }
+
+
+
 
     if (!location || location === null) {
       const PackageTestdata = await PackageTest
@@ -35,28 +54,30 @@ export const GET = async (request, { params }) => {
 
       var response = { data: PackageTestdata, total: totalCount }
 
-       return new Response(JSON.stringify(response), { status: 200 });
+      return new Response(JSON.stringify(response), { status: 200 });
     }
 
     else {
+
+
       const PackageTestdata = await PackageTest
         .find(searchFilter).populate('availableInCenters')
         .sort(sort)
         .skip(skip)
         .limit(pageSize);
 
- 
+
 
       let data = (PackageTestdata ?? []).filter((item) => {
- 
+
         if ((item?.availableInCenters ?? []).some((value) => { return value.city === location })) {
           return item
         }
       })
- 
+
 
       const getTotalCount = await PackageTest.find(searchFilter).populate('availableInCenters');
- 
+
       let total_data = (getTotalCount ?? []).filter((item) => {
         if ((item?.availableInCenters ?? []).some((value) => { return value.city === location })) {
           return item
@@ -65,7 +86,7 @@ export const GET = async (request, { params }) => {
 
       var response = { data: data, total: (total_data ?? [])?.length }
 
-       return new Response(JSON.stringify(response), { status: 200 });
+      return new Response(JSON.stringify(response), { status: 200 });
     }
 
 
@@ -74,3 +95,14 @@ export const GET = async (request, { params }) => {
     return new Response("Error", { status: 500 });
   }
 };
+
+
+
+
+// const result = await Model.find()
+//   .populate({
+//     path: 'field1',
+//     populate: { path: 'nestedField1' } // Nested populate
+//   })
+//   .populate('field2')
+//   .exec();

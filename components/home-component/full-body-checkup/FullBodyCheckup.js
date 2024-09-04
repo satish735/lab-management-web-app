@@ -4,7 +4,6 @@ import "@/components/home-component/full-body-checkup/full-body-checkup.css";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
 import CarousalSlider from "@/components/CarousalSlider";
 import { useRouter } from "next/navigation";
-import apiRequest from "@/utils/apiRequest";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
@@ -28,7 +27,7 @@ const FullBodyCheckup = () => {
 
 
 
-console.log(locationSelected);
+  console.log(locationSelected);
 
   const [testResponse, testHandler] = useAPI(
     {
@@ -41,6 +40,7 @@ console.log(locationSelected);
         pageNo: 1,
         pageSize: 20,
         location: locationSelected ?? null
+
         // searchQuery: searchValue,
       },
     },
@@ -71,15 +71,17 @@ console.log(locationSelected);
   useEffect(() => {
 
     let data = JSON.parse(localStorage.getItem("selectedLocation"));
-    
-    
+
+
     setlocationSelected(data)
 
     testHandler({
       params: {
         pageNo: 1,
         pageSize: 20,
-        location: data?.selectedLocation ?? null
+        location: data?.selectedLocation ?? null,
+        bodyPartsIds: JSON.stringify([]),
+        conditionIds: JSON.stringify([]),
       }
     })
 

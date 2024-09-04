@@ -12,7 +12,7 @@ const page = ({searchParams}) => {
     <UserLayout >
       
 
-        <MedicalCondition searchParams={searchParams} />
+        <MedicalCondition searchParams={searchParams} type={'bodypart'} />
 
         <PopularTest />
 

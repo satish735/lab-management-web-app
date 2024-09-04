@@ -106,18 +106,18 @@ useEffect(() => {
       menu: [
         { label: "Packages", href: "/health-packages" },
 
-        { label: "Tests", href: "/home-collection" }
+        { label: "Tests", href: "/lab-tests" }
         // { label: "Corporate Report Panel", href: "#" },
       ],
     },
-    {
-      type: "parent",
-      label: "Our Team",
-      menu: [
-        { label: "Health bulitin", href: "/doctors/health-bulletin" },
-        // { label: "Corporate Report Panel", href: "#" },
-      ],
-    },
+    // {
+    //   type: "parent",
+    //   label: "Our Team",
+    //   menu: [
+    //     { label: "Health bulitin", href: "/doctors/health-bulletin" },
+    //     // { label: "Corporate Report Panel", href: "#" },
+    //   ],
+    // },
     {
       type: "parent",
       label: "About Us",
@@ -135,7 +135,7 @@ useEffect(() => {
         { label: "Blogs", href: "/blog" },
         { label: "Career", href: "/career" },
         { label: "Member ship", href: "/membership-card" },
-        { label: "Contact Us", href: "#" },
+        { label: "Contact Us", href: "/contact-us" },
         {
           label: "Partner With Us",
           href: "#",
@@ -193,7 +193,7 @@ useEffect(() => {
                     <li>
                       <FaMicroscope size={18} className="phone-icon" />
 
-                      <a href="/home-collection" className="header-tests">
+                      <a href="/lab-tests" className="header-tests">
                         Tests
                       </a>
                     </li>
