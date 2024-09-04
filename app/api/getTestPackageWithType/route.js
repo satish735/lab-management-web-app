@@ -9,31 +9,28 @@ export const GET = async (request, { params }) => {
         const urlParams = parse(request.url, true);
         const {
             type = null,
-            id = null
+            id = null,
+            sortColumn = "createdAt",
+            sortDirection = "desc",
         } = urlParams.query;
 
-
+        const sort = {};
+        if (sortColumn) {
+            sort[sortColumn] = sortDirection === "desc" ? -1 : 1;
+        }
         const searchFilter = {};
-        searchFilter[type] = id
-
-        // for tests
-        const TestInstance = await PackageTest
-            .find({ searchFilter, testType: 'Test' });
-
-        // const PackageInstance = await PackageTest
-        //     .find({ TestId: { $in: ttSchemaIds } });
-                // { searchFilter, testType: 'Package' }
-                const packageTests = await PackageTest.find()
-                .populate({
-                  path: 'itemId'
-                }) 
-
-                console.log(packageTests);
-                
 
 
+        // for tests and package
+        const TestPackageInstance = await PackageTest
+            .find()
+            .populate('itemId')
+            .sort(sort)
 
-        var response = { PackageTestInstanceListing: TestInstance,packageTests:packageTests };
+  
+
+
+        var response = { PackageTestInstanceListing: TestPackageInstance };
         return new Response(JSON.stringify(response), { status: 200 });
     } catch (error) {
         console.log(error);

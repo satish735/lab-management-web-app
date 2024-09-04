@@ -8,7 +8,7 @@ const TestsCard = ({ listing, type }) => {
 
   return (
     <div className="card-outer-layer-div " onClick={() => {
-      router.push(`/${type}/${listing?.name}?id=${listing?._id}`)
+      router.push(`/${type}/${listing?.name}?id=${listing?._id}&${(type==='body-part' ? 'part':'disease')}=${listing?.name}`)
     }} style={{height:'100%'}}>
       <div className="main-tests-card-box">
         <div className="mx-auto my-auto  gradient-background-shade" style={{paddingTop:'20px',borderRadius:'50%' ,width:'100px',height:'100px'}}>

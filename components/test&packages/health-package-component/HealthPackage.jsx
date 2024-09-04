@@ -5,12 +5,18 @@ import CheckboxInput from '../../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
-import toast from 'react-hot-toast'
+import toast, { ToastBar } from 'react-hot-toast'
 const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
     const [locationSelected, setlocationSelected] = useState();
+
+
+    const [bodyPartValue, setBodyPartValue] = useState([])
+    const [ConditionsValue, setConditionsValue] = useState([])
+
+
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -54,7 +60,7 @@ const HealthPackage = () => {
         {
             url: "/test/list",
             method: "get",
-             params: {
+            params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
@@ -64,6 +70,8 @@ const HealthPackage = () => {
         },
         (e) => {
 
+
+            console.log(e);
 
 
 
@@ -82,26 +90,52 @@ const HealthPackage = () => {
         }
     );
 
+    console.log(locationSelected)
     useEffect(() => {
 
-        let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
 
-        setlocationSelected(data)
+        if (!locationSelected) {
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
-        allPackageHandler({
-            params: {
-                pageNo: 1,
-                pageSize: 20,
-                location: data?.selectedLocation ?? null,
-                searchQuery: InputSearch,
+            setlocationSelected(data?.selectedLocation)
 
-            }
-        })
 
-    }, [])
+            allPackageHandler({
+                params: {
 
-    const [bodyPartValue, setBodyPartValue] = useState([])
+                    pageNo: 1,
+                    pageSize: 20,
+                    searchQuery: InputSearch,
+                    location: data?.selectedLocation ?? null,
+                    bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                }
+            })
+        }
+
+        else {
+            allPackageHandler({
+                params: {
+
+                    pageNo: 1,
+                    pageSize: 20,
+                    searchQuery: InputSearch,
+                    location: locationSelected ?? null,
+                    bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                }
+            })
+        }
+
+
+
+
+    }, [ConditionsValue, bodyPartValue])
+
+
 
 
     const changeSearchValue = (value) => {
@@ -111,7 +145,9 @@ const HealthPackage = () => {
 
                 pageNo: 1,
                 pageSize: 20,
-                searchQuery: value
+                searchQuery: value,
+                bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
             }
         })
     }
@@ -172,7 +208,7 @@ const HealthPackage = () => {
 
                                     <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
                                         {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
-                                            return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setConditionsValue} />
                                         })}
 
                                     </div>
