@@ -7,10 +7,7 @@ import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import useInputComponent from "@/hooks/useInputComponent";
-import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
-// import TextEditor from "@/components/text-editor/TextEditor";
-import moment from "moment";
-import { Spinner } from "reactstrap";
+ import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
@@ -155,7 +152,7 @@ export default function Home() {
     var descriptionIsValid = descriptionValidater(description.enteredValue);
     var image = imageFile?.filePath;
 
-    if (!nameIsValid || !validityIsValid || !priceIsValid || !discountIsValid || !discountOnPackagePercentageIsValid || !typeIsValid || !descriptionIsValid || !image) {
+    if (!nameIsValid || !validityIsValid || !priceIsValid  || !discountOnPackagePercentageIsValid || !typeIsValid || !descriptionIsValid || !image) {
       toast.error("Please check all validations before continuing!");
       return;
     }

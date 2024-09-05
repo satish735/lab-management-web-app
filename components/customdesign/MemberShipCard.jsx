@@ -9,12 +9,11 @@ const MemberShipCard = ({
     imgsrc = "",
     validity = "",
     price = "",
-    // authername = "",
-    createddate = "",
-    // minimgsrc = "",
-    extraprops = {},
+    
 
 }) => {
+    console.log(imgsrc,'imgsrc');
+    
     return (
         <div className="bg-white rounded shadow card_view  pt-0 pb-4" style={{ height: '100%' }}  >
 
