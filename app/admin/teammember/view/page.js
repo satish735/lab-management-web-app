@@ -43,7 +43,10 @@ const Member = ({ searchParams }) => {
             setDegree(e?.qualification)
             settype(e?.type)
             setGenderType(e?.gender)
-            setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
+            setImageFile({
+                filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image,
+                status: searchParams?.type === 'edit' ? 'original' : 'Original'
+            })
 
 
         },
@@ -65,8 +68,9 @@ const Member = ({ searchParams }) => {
 
         },
         (e) => {
-
             router.push("/admin/teammember")
+            toast.success("Team Member deleted successfully");
+
 
         },
         (e) => {
@@ -85,6 +89,7 @@ const Member = ({ searchParams }) => {
             method: "put",
         },
         (e) => {
+            router.push("/admin/teammember")
 
 
             toast.success("Team Member updated successfully");
@@ -492,7 +497,7 @@ const Member = ({ searchParams }) => {
 
 
                     <div>
-                        {teammeberResponse?.fetching ? <div style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <div className="my-3">
+                        <div className="my-3">
                             <button
                                 onClick={() => {
                                     submit()
@@ -500,9 +505,9 @@ const Member = ({ searchParams }) => {
                                 style={{ float: "right" }}
                                 className="btn btn-success px-4 mx-3"
                             >
-                                Update
+                                {teammeberResponse?.fetching ? <Spinner size={"sm"} /> : "Update"}
                             </button>
-                        </div>}
+                        </div>
 
 
                         <button
@@ -515,8 +520,7 @@ const Member = ({ searchParams }) => {
                             Cancel
                         </button>
 
-
-                        {deleteteammeberResponse?.fetching ? <div style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <button
+                        <button
                             style={{ float: "right" }}
 
                             className="btn btn-danger px-4 mx-3 "
@@ -524,8 +528,8 @@ const Member = ({ searchParams }) => {
                                 deleteteammeberHandler()
                             }}
                         >
-                            Delete
-                        </button>}
+                            {deleteteammeberResponse?.fetching ? <Spinner size={"sm"} /> : "Delete"}
+                        </button>
                     </div>
 
                 </div>
