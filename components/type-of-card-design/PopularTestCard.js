@@ -20,8 +20,11 @@ const PopularTestCard = ({ listing }) => {
   const setitem = async (listing) => {
 
 
-    const storedData = localStorage.getItem('testpackage');
-    const parsedData = storedData ? JSON.parse(storedData) : [];
+
+    const storedData = localStorage?.getItem?.('testpackage');
+    
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+
     const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
 
     if ((filterdata ?? [])?.length > 0) {

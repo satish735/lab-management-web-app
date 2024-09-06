@@ -12,21 +12,28 @@ import {
     Button
 } from "reactstrap";
 
-const Usercart = ({ isopencart, setisopencart  }) => {
+const Usercart = ({ isopencart, setisopencart }) => {
 
 
 
 
-
+  
 
 
 
     const [cartitem, setcartitem] = useState()
 
     useEffect(() => {
-        const storedData = localStorage.getItem('testpackage');
-        const parsedData = storedData ? JSON.parse(storedData) : [];
-        setcartitem(parsedData?.item ?? [])
+        const storedData = localStorage?.getItem?.('testpackage');
+
+        try {
+            const parsedData = storedData ? JSON.parse(storedData) : null;
+
+            setcartitem(parsedData?.item ?? []);
+        } catch (error) {
+            console.error('Failed to parse stored data:', error);
+            setcartitem([])
+        }
     }, [isopencart])
 
     const deleteitem = (data) => {
@@ -34,9 +41,14 @@ const Usercart = ({ isopencart, setisopencart  }) => {
 
         let updatecart = (cartitem ?? []).filter((key) => key?._id !== data?._id);
         setcartitem(updatecart)
+
+        if(updatecart?.length == 0){
+            setisopencart(false)
+        }
         localStorage.setItem('testpackage', JSON.stringify({ item: updatecart }));
     }
 
+  
 
     return (
         <div className="midbox-inner " style={{ backgroundColor: "#dee2db" }}>
@@ -70,7 +82,7 @@ const Usercart = ({ isopencart, setisopencart  }) => {
                                 </div>
                                 <div className="col-7 mt-1" style={{ fontSize: "0.7rem" }}>
                                     <span style={{ fontWeight: "600" }}>{item?.name}</span>
-                                    <p className="small pt-1">₹ {item?.testType =="Test"? item?.rate : item?.totalMrp}</p>
+                                    <p className="small pt-1">₹ {item?.testType == "Test" ? item?.rate : item?.totalMrp}</p>
 
                                 </div>
                                 <div className="col-3" >
@@ -96,7 +108,7 @@ const Usercart = ({ isopencart, setisopencart  }) => {
                                 <span className="px-2 small" >Price</span>
                             </div>
                             <div className="col-6 " style={{ float: "right" }} >
-                                <span className="px-2 small" >₹ {(cartitem ?? []).reduce((totalprice, item) => totalprice + (item?.testType =="Test"? item?.rate : item?.totalMrp ?? 0), 0)
+                                <span className="px-2 small" >₹ {(cartitem ?? []).reduce((totalprice, item) => totalprice + (item?.testType == "Test" ? item?.rate : item?.totalMrp ?? 0), 0)
                                 }</span>
                             </div>
 
@@ -104,7 +116,7 @@ const Usercart = ({ isopencart, setisopencart  }) => {
                     </div>
 
 
-                    <div className="my-4 ">
+                    {(cartitem ?? [])?.length && <div className="my-4 ">
                         <a href="/cart" className="text-white card-button-2 " style={{
                             display: "block",
                             width: "100%",
@@ -115,7 +127,7 @@ const Usercart = ({ isopencart, setisopencart  }) => {
                         }}>
                             Book Now
                         </a>
-                    </div>
+                    </div>}
 
                 </OffcanvasBody>
             </Offcanvas>

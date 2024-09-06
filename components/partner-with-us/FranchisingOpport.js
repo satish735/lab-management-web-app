@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 
-const FranchisingOpport = () => {
+const FranchisingOpport = ({content}) => {
 
     return (
         <div className='row'>
 
 
 
-            <div className='col-lg-8 col-md-8 col-sm-12 px-2'>
-                <div>
+            <div className='col-lg-8 col-md-8 col-sm-12 px-2'  >
+                <div dangerouslySetInnerHTML={{ __html: content?.text }} >
 
                 </div>
             </div>

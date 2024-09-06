@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 
 
     const storedData = localStorage.getItem('testpackage');
-    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const parsedData = storedData ? JSON?.parse?.(storedData) : [];
     const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
 
     if ((filterdata ?? [])?.length > 0) {

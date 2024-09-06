@@ -15,7 +15,6 @@ const UserMembershipCardSchema = new Schema({
   transactionId: { type: String },
   paymentType: { type: String },
   is_delete: { type: Boolean, default: false },
- 
 });
 
 

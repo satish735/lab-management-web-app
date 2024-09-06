@@ -278,14 +278,14 @@ input[type="checkbox"] {
   
 
   .continue_button{
-    padding: 12px;
-    background: #46bb00;
+    padding: 8px  12px;
+    background: #003747;
     width: 100%;
     /* display: block; */
     border-radius: 5px;
     color: white;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
 

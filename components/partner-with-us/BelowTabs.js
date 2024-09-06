@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import FranchisingOpport from './FranchisingOpport';
 import LabAcquistion from './LabAcquistion';
 import HospitalManagement from './HospitalManagement';
@@ -10,41 +10,44 @@ import transformErrorDefault from '@/utils/transformErrorDefault';
 
 const BelowTabs = () => {
 
-    const [tab, setTab] = useState('franchising-opportunity');
+    const [tab, setTab] = useState('franchising');
 
-    // const [getdata, setdata]= useState({})
+    const [partbersResponse, partbersHandler] = useAPI(
+        {
+            url: `/partnerwithus/list`,
+            method: "get",
+            sendImmediately: true
+        },
+        (e) => {
+            return e?.data
+        },
+        (e) => {
 
-    // const [partbersResponse, partbersHandler] = useAPI(
-    //     {
-    //         url: `/partnerwithus`,
-    //         method: "get",
-    //         sendImmediately: true
-    //     },
-    //     (e) => {
-    //         setdata(e)
-    //         return e
-    //     },
-    //     (e) => {
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating blog!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
 
-    //         toast.error(
-    //             transformErrorDefault(
-    //                 "Something went wrong while creating blog!",
-    //                 e
-    //             )
-    //         );
-    //         return e;
-    //     }
-    // );
 
-    // console.log(getdata);
-    
+    const [content, setcontent] = useState()
+    useEffect(() => {
+        let getpartnertext = partbersResponse?.data?.filter((item) => item?.type == tab)
+        setcontent(getpartnertext?.[0] ?? {})
+    }, [tab, partbersResponse?.data])
+
+
     return (
         <div>
             <div className='my-5'>
                 <div className='row mx-auto middle-tabs' style={{ border: '1px solid #dee2db', width: '75%', borderRadius: '8px' }}>
 
                     <div className='col-lg-3 col-md-6 col-sm-12 px-2 '>
-                        <button onClick={() => { setTab('franchising-opportunity') }} className={`${tab === 'franchising-opportunity' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
+                        <button onClick={() => { setTab('franchising') }} className={`${tab === 'franchising' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
                             Franchising Opportunity
                         </button>
 
@@ -52,7 +55,7 @@ const BelowTabs = () => {
 
 
                     <div className='col-lg-3 col-md-6 col-sm-12 px-2 '>
-                        <button onClick={() => { setTab('lab-acquisition') }} className={`${tab === 'lab-acquisition' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
+                        <button onClick={() => { setTab('lab') }} className={`${tab === 'lab' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
                             Lab Acquisition
                         </button>
 
@@ -60,7 +63,7 @@ const BelowTabs = () => {
 
 
                     <div className='col-lg-3 col-md-6 col-sm-12 px-2 '>
-                        <button onClick={() => { setTab('hospital-lab-management') }} className={`${tab === 'hospital-lab-management' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
+                        <button onClick={() => { setTab('hospital') }} className={`${tab === 'hospital' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
                             Hospital Lab Management
                         </button>
 
@@ -69,7 +72,7 @@ const BelowTabs = () => {
 
 
                     <div className='col-lg-3 col-md-6 col-sm-12 px-2 '>
-                        <button onClick={() => { setTab('corporate-wellness') }} className={`${tab === 'corporate-wellness' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
+                        <button onClick={() => { setTab('corporate') }} className={`${tab === 'corporate' ? 'card-button-2' : ''} px-2 py-2`} style={{ borderRadius: '12px' }}>
                             Corporate Wellness
                         </button>
 
@@ -77,12 +80,12 @@ const BelowTabs = () => {
                 </div>
             </div>
 
-            <div className='midbox-inner py-5' style={{backgroundColor:'#f1f6ee'}}>
+            <div className='midbox-inner py-5' style={{ backgroundColor: '#f1f6ee' }}>
 
-                {(tab==='franchising-opportunity') && <FranchisingOpport />}
-                {(tab==='lab-acquisition') && <LabAcquistion />}
-                {(tab==='hospital-lab-management') && <HospitalManagement />}
-                {(tab==='corporate-wellness') && <CorporateWellness />}
+                {(tab === 'franchising') && <FranchisingOpport content={content} />}
+                {(tab === 'lab') && <LabAcquistion content={content} />}
+                {(tab === 'hospital') && <HospitalManagement content={content} />}
+                {(tab === 'corporate') && <CorporateWellness content={content} />}
 
             </div>
         </div>

@@ -15,7 +15,7 @@ const PackageCardDesign = ({ listing, lg = 6, md = 6 }) => {
 
 
     const storedData = localStorage.getItem('testpackage');
-    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const parsedData = storedData ? JSON?.parse?.(storedData) : null;
     const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
 
     if ((filterdata ?? [])?.length > 0) {

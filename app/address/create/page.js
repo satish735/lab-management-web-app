@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import useInputComponent from '@/hooks/useInputComponent';
@@ -8,7 +8,7 @@ import InputSelect from "@/components/formInput/select/InputSelect";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
-const Address = ({ toggle, modal }) => {
+const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) => {
 
 
 
@@ -63,7 +63,7 @@ const Address = ({ toggle, modal }) => {
     const SaveASoption = [
         { label: "Home", value: "home" },
         { label: "Office", value: "office" },
-        { label: "Others", value: "others" }
+        { label: "Others", value: "other" }
     ];
 
 
@@ -141,21 +141,57 @@ const Address = ({ toggle, modal }) => {
             Pincode.reset()
             City.reset()
 
+            AddressHandler()
+
             return toast.success("Address has been added successfully");
         },
         (e) => {
 
-            return toast.error(
-                transformErrorDefault(
-                    "Something went wrong while creating Member!",
-                    e
-                )
+            return toast.error("Something went wrong while creating Address!"
             );
             return e;
         }
     );
 
 
+
+    useEffect(() => {
+        if (update) {
+            HouseNO?.setEnteredValue(update?.houseNo)
+            Address.setEnteredValue(update?.addressLine1)
+            State.setEnteredValue(update?.state)
+            Phone.setEnteredValue(update?.phone)
+            City.setEnteredValue(update?.city)
+            Pincode.setEnteredValue(update?.pincode)
+            setSaveASType(update?.addressType)
+
+        }
+    }, [update])
+
+
+    const [UpdateAddressResponse, UpdateAddressHandler] = useAPI(
+        {
+            url: `/address/${update?._id}`,
+            method: "put",
+        },
+        (e) => {
+
+            toggle()
+            toast.success("Address updated successfully");
+
+
+        },
+        (e) => {
+
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating Body Part!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
 
 
 
@@ -175,25 +211,39 @@ const Address = ({ toggle, modal }) => {
                 "Fill Required fields!"
             );
         } else {
-            addressHandler({
-                body: {
-                    houseNo: HouseNO.enteredValue,
-                    addressLine1: Address.enteredValue,
-                    SaveAS: SaveASType,
-                    state: State.enteredValue,
-                    addressType:SaveASType,
-                    phone: Phone?.enteredValue,
-                    pincode: Pincode?.enteredValue,
-                    city: City?.enteredValue ?? "",
+            if (isupdate) {
+                UpdateAddressHandler({
+                    body: {
+                        houseNo: HouseNO.enteredValue,
+                        addressLine1: Address.enteredValue,
+                        state: State.enteredValue,
+                        addressType: SaveASType,
+                        phone: Phone?.enteredValue,
+                        pincode: Pincode?.enteredValue,
+                        city: City?.enteredValue ?? "",
+                    }
+                })
+            } else {
+                addressHandler({
+                    body: {
+                        houseNo: HouseNO.enteredValue,
+                        addressLine1: Address.enteredValue,
+                        state: State.enteredValue,
+                        addressType: SaveASType,
+                        phone: Phone?.enteredValue,
+                        pincode: Pincode?.enteredValue,
+                        city: City?.enteredValue ?? "",
 
-                }
-            })
+                    }
+                })
+            }
+
         }
     }
 
 
 
-   
+
 
     return (
         <div>
@@ -340,10 +390,10 @@ const Address = ({ toggle, modal }) => {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="success" onClick={submit}>
-                        {false ? (
+                        {(addressResponse?.fetching || UpdateAddressResponse?.fetching) ? (
                             <Spinner size={"sm"} />
                         ) : (
-                            "Save Details"
+                            isupdate ? "Update Details" : "Save Details"
                         )}
                     </Button>{' '}
                     <Button color="secondary" onClick={toggle}>

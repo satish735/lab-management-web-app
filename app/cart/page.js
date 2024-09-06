@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 
+
+
 const Cart = ({ params: { _id } }) => {
 
 
@@ -57,7 +59,7 @@ const Cart = ({ params: { _id } }) => {
         (e) => {
 
             const storedData = localStorage.getItem('testpackage');
-            const addtestandpackage = storedData ? JSON.parse(storedData) : [];
+            const addtestandpackage = storedData ? JSON?.parse?.(storedData) : [];
             let testPackagedata = addtestandpackage?.item?.map((item) => { return { ...item, isselect: false } })
             let add = e?.data?.map((item) => {
                 return { ...item, istest: testPackagedata }
@@ -74,6 +76,9 @@ const Cart = ({ params: { _id } }) => {
             return e
         }
     );
+
+
+    console.log("ssssssssssssss", addtestandpackage)
 
 
     const [rate, setrate] = useState(0)
@@ -158,7 +163,7 @@ const Cart = ({ params: { _id } }) => {
             } else {
                 setisselectaddresoptions(true)
             }
-        }else{
+        } else {
             if (selectaddress == null) {
                 setisselectaddresoptions(false)
             } else {
@@ -314,7 +319,7 @@ const Cart = ({ params: { _id } }) => {
                 center_id: "66d2f3a4ec819eaf2ac4bcfc",
                 payment_type: ispayonline ? "cash" : "cash",
                 collection_type: islab ? "lab" : "lab",
-                slot_id:selectedSlotId ?? "66d43539f993be8ad9766010",
+                slot_id: selectedSlotId ?? "66d43539f993be8ad9766010",
                 discoun: 0,
                 home_collection_charge: 0,
                 total: rate,
@@ -330,9 +335,9 @@ const Cart = ({ params: { _id } }) => {
 
     const [selectedSlotId, setSelectedSlotId] = useState(null)
 
-    const[slotdata, setslotdata]= useState([])
+    const [slotdata, setslotdata] = useState([])
     return (
-        <div className="midbox-inner" style={{ backgroundColor: "white" }}>
+        <div className="midbox-inner m_title" style={{ backgroundColor: "white", textTransform:"capitalize" }}>
             <div className="text-center py-3" style={{ fontWeight: "bold", borderBottom: "1px solid #ccc" }}>
                 <span className="px-2">
                     Home {">"}
@@ -342,7 +347,11 @@ const Cart = ({ params: { _id } }) => {
                 </span>
             </div>
 
-            {userinfoResponse?.fetching ? <div className="text-center" ><Spinner size={"xl"} /> </div> :
+            {userinfoResponse?.fetching ? <div className="text-center my-4" ><Spinner style={{
+                height: "3rem",
+                width: "3rem",
+                color: "#00265c",
+            }} /> </div> :
 
                 <div>
 
@@ -351,7 +360,7 @@ const Cart = ({ params: { _id } }) => {
                         <h2 className="p-4 " style={{ fontWeight: "700", fontSize: "1.2rem" }}> Add Patients</h2>
                         <div className="row">
                             <div className=" col-sm-8 col-12 ">
-                                {userinfoResponse?.data?.map((item, index) => {
+                                {addtestandpackage?.map((item, index) => {
                                     return (
                                         <div className=" py-1" key={index} >
                                             <Accordion open={open} toggle={accordiontoggle}>
@@ -367,39 +376,42 @@ const Cart = ({ params: { _id } }) => {
                                                     <AccordionBody accordionId={index}>
                                                         <h6 className="py-2" >Tests & Packages</h6>
                                                         <div className="row" >
-                                                            {initialProducts?.map((key, index) => {
+                                                            {item?.istest?.map((key, index) => {
                                                                 return (
                                                                     <div key={index} className="col-sm-6 col-12" >
                                                                         <div className="checkbox-tests-packages-item w-100 ">
                                                                             <div className="filter-boxleft">
                                                                                 <label className="container-checkbox" >
-                                                                                    <input type="checkbox" className="p-2" onClick={() => {
-                                                                                        const testdata = addtestandpackage.map((testnew) => {
-                                                                                            if (item._id == testnew?._id) {
-                                                                                                const changepermission = testnew.istest?.map((changecheckbox) => {
-                                                                                                    if (changecheckbox?._id == key?._id) {
-                                                                                                        return { ...changecheckbox, isselect: !changecheckbox?.isselect }
-                                                                                                    } else {
-                                                                                                        return changecheckbox;
-                                                                                                    }
-                                                                                                })
+                                                                                    {/* <input type="checkbox" className="p-2" onClick={ } /> */}
 
 
-                                                                                                return { ...testnew, istest: changepermission }
+                                                                                    <CheckboxInput
+                                                                                        check={key?.isselect}
+                                                                                        setChecked={() => {
+                                                                                            const testdata = addtestandpackage.map((testnew) => {
+                                                                                                if (item._id == testnew?._id) {
+                                                                                                    const changepermission = testnew.istest?.map((changecheckbox) => {
+                                                                                                        if (changecheckbox?._id == key?._id) {
+                                                                                                            return { ...changecheckbox, isselect: !changecheckbox?.isselect }
+                                                                                                        } else {
+                                                                                                            return changecheckbox;
+                                                                                                        }
+                                                                                                    })
 
-                                                                                            } else {
-                                                                                                return testnew
-                                                                                            }
-                                                                                        })
 
+                                                                                                    return { ...testnew, istest: changepermission }
 
+                                                                                                } else {
+                                                                                                    return testnew
+                                                                                                }
+                                                                                            })
+                                                                                            console.log("tttttttttttt", testdata)
 
+                                                                                            settestandpackage(testdata);
 
-                                                                                        settestandpackage(testdata);
-
-
-
-                                                                                    }} />
+                                                                                        }}
+                                                                                    // label={'Home Collection'}
+                                                                                    />
                                                                                     <span className="checkmark" ></span>
 
                                                                                 </label>
@@ -407,7 +419,6 @@ const Cart = ({ params: { _id } }) => {
                                                                             </div>
                                                                             <img
                                                                                 src="/assets/images/test-icon.png"
-
                                                                             />
                                                                             <div className="checkbox-tests-name">{key?.name} <span>₹ {key?.testType == "Test" ? key?.rate : key?.totalMrp}</span></div>
 
@@ -611,15 +622,22 @@ const Cart = ({ params: { _id } }) => {
                                     </div><div className="checkout-rate-total my-2 py-2" style={{ borderTop: "1px solid #dee2db" }}>Total <span style={{ float: "right" }} >₹ {rate}</span>
                                     </div>
                                 </div>
+
+
                                 <div className="checkout-proceed">
                                     {isselectaddresoptions && <div className="filter-boxleft text-center">
 
                                         <button onClick={() => {
                                             setstep(3)
+
                                         }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
                                     </div>}
 
-
+                                    <div>
+                                        <button onClick={() => {
+                                            setstep(1)
+                                        }} className="btn btn-outline-success block py-2 " style={{ textDecoration: "none", display: 'block', width: "100%" }} >Back</button>
+                                    </div>
 
                                 </div>
                             </div>}
@@ -631,9 +649,13 @@ const Cart = ({ params: { _id } }) => {
                         <Address
                             modal={modal2}
                             toggle={toggle2}
+                            AddressHandler={AddressHandler}
                         />
 
                     </div>}
+
+
+
                     {step == 3 && <div>
                         <div className="row" >
                             <div className="col-sm-8 col-12" >
@@ -667,27 +689,60 @@ const Cart = ({ params: { _id } }) => {
                                     </div><div className="checkout-rate-total my-2 py-2" style={{ borderTop: "1px solid #dee2db" }}>Total <span style={{ float: "right" }} >₹ {rate}</span>
                                     </div>
                                 </div>
-                                {selectedSlotId !=null && <div className="checkout-proceed">
-                                    <div className="filter-boxleft text-center">
+                                {selectedSlotId != null && <div className=" ">
+                                    <div className="filter- text-center">
 
                                         <button onClick={() => {
                                             setstep(4)
                                         }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
+
                                     </div>
 
 
 
                                 </div>}
+
+                                <div className=" my-2">
+                                    <button onClick={() => {
+                                        setstep(2)
+                                    }} className="btn btn-outline-success block py-2 " style={{ textDecoration: "none", display: 'block', width: "100%" }} >Back</button>
+                                </div>
                             </div>}
                         </div>
                     </div>}
 
                     {step == 4 && <div>
-                        <h5 className="my-2 " style={{ fontSize: "1.2rem", fontWeight: "600" }}>Review your order</h5>
 
                         <div className="row my-3" >
 
-                            <div className="col-sm-8 col-12 rounded " style={{ background: "#f1f6ee" }} >
+                            <div className="col-sm-8 col-12 rounded "  >
+
+                                <div>
+                                    <h5 className="my-2 " style={{ fontSize: "1.2rem", fontWeight: "600" }}>Order Summary                                    </h5>
+
+                                    {(addtestandpackage ?? [])?.filter((check) => check?.istest?.some((key) => key?.isselect == true) == true)?.map((item, index) => {
+                                        return <div key={index} className="my-3 border border-2 p-2 rounded" >
+                                            <h6 className="px-2 " style={{fontWeight:"600"}} >{item?.name}</h6>
+                                            <div className="row">
+                                            {item?.istest?.filter((test)=> test?.isselect == true)?.map((item, index)=>{
+                                                return<div key={index} className="col-sm-6 col-12" >
+                                                <div className="checkbox-tests-packages-item w-100 ">
+                                           
+                                                    <img
+                                                        src="/assets/images/test-icon.png"
+
+                                                    />
+                                                    <div className="checkbox-tests-name">{item?.name} <span>₹ {item?.testType == "Test" ? item?.rate : item?.totalMrp}</span></div>
+
+                                                </div>
+                                            </div>
+                                            })}
+                                            </div>
+
+                                        </div>
+                                    })}
+
+                                </div>
 
                                 <div className="bg-white p-3 my-4 mx-2 rounded" >
                                     {(addtestandpackage?.cart ?? [])?.map((item, index) => {
@@ -715,8 +770,8 @@ const Cart = ({ params: { _id } }) => {
                                 </div>
 
 
-                                <div className="bg-white p-3 my-4 mx-2 rounded">
-                                    <h5 style={{ borderBottom: "2px solid #f1f6ee", fontSize: "1.0rem" }}>Sample payonline</h5>
+                                <div className="bg-white  my-4  rounded">
+                                    <h5 style={{ borderBottom: "2px solid #f1f6ee", fontSize: "1.0rem", fontWeight: "600" }}>Sample payonline</h5>
                                     <div className="row  py-2 mt-3 rounded" style={{ background: "#f1f6ee" }} >
                                         <div className="col-2 text-center" >
                                             <img src="/assets/images/locationicon.png" className="p-2 mt-2 rounded-circle" style={{ height: "40px", background: "#f1f6ee" }} />
@@ -745,24 +800,7 @@ const Cart = ({ params: { _id } }) => {
                             </div>
 
                             <div className="col-sm-4 col-12  " >
-                                <div className="bg-white py-3 my-4 rounded" style={{ border: "2px solid #f1f6ee" }}>
-                                    <h5 className="p-2" style={{ borderBottom: "2px solid #f1f6ee", fontSize: "1.0rem" }}>Memberships</h5>
-                                    <div className="row  py-2 mt-3 mx-2 rounded" style={{ border: "2px solid #f1f6ee" }}>
-                                        <div className="col-2 text-center" >
-                                            <img src="/assets/images/test-icon.png" className="p-2 mt-2 rounded-circle" style={{ height: "40px", background: "#f1f6ee" }} />
-                                        </div>
-                                        <div className="col-10" >
-                                            <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >Purchase a membership card for even greater discounts!</h6>
-                                            <p style={{ fontSize: "0.7rem" }}>Click View All to explore the latest membership cards.</p>
-                                        </div>
 
-                                    </div>
-
-
-
-
-
-                                </div>
 
 
 
@@ -785,7 +823,7 @@ const Cart = ({ params: { _id } }) => {
 
                                     <div className="row px-3 py-2" style={{ borderTop: "2px solid #f1f6ee" }}>
                                         <h5 className="col-6 " style={{ fontSize: "1.1rem", fontWeight: "700" }}>Total</h5>
-                                        <h5 className="col-6" style={{ fontSize: "1.1rem", fontWeight: "700", color: "#46bb00", textAlign: "right" }}>₹ 13580</h5>
+                                        <h5 className="col-6" style={{ fontSize: "1.1rem", fontWeight: "700", color: "#46bb00", textAlign: "right" }}>₹ {rate}</h5>
                                     </div>
 
                                 </div>
@@ -813,7 +851,12 @@ const Cart = ({ params: { _id } }) => {
 
                                         </div>
                                     </div>
-                                    <button onClick={submit} className="continue_button" >Pay Now</button>
+                                    <button onClick={submit} className="continue_button" >{(BookingResponse?.fetching || PaymentResponse?.fetching) ? <Spinner size="sm" /> : "Pay Now"}</button>
+                                    <div className=" my-2">
+                                        <button onClick={() => {
+                                            setstep(3)
+                                        }} className="btn btn-outline-success block py-2 " style={{ textDecoration: "none", display: 'block', width: "100%" }} >Back</button>
+                                    </div>
                                 </div>
                             </div>
 

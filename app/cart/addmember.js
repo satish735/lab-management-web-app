@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import useInputComponent from '@/hooks/useInputComponent';
@@ -8,7 +8,9 @@ import InputSelect from "@/components/formInput/select/InputSelect";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
-const Addmember = ({ toggle, modal }) => {
+import moment from "moment";
+
+const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
 
 
 
@@ -150,7 +152,39 @@ const Addmember = ({ toggle, modal }) => {
     );
 
 
+    useEffect(() => {
+        if (isupdate) {
+            Name.setEnteredValue(update?.name ?? "")
+            DOB?.setEnteredValue(moment(update?.dob)?.format("YYYY-MM-DD") ?? "")
+            setGenderType(update?.gender)
+            Email?.setEnteredValue(update?.email ?? "")
+            setrelationType(update?.relation)
+        }
+    }, [update])
 
+    const [UpdateMemberResponse, UpdateMemberHandler] = useAPI(
+        {
+            url: `/member/${update?._id}`,
+            method: "put",
+        },
+        (e) => {
+
+            toggle()
+            toast.success("Member updated successfully");
+
+
+        },
+        (e) => {
+
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating Body Part!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
 
 
     const submit = () => {
@@ -165,15 +199,28 @@ const Addmember = ({ toggle, modal }) => {
                 "Fill required fields!"
             );
         } else {
-            addmemberHandler({
-                body: {
-                    name: Name.enteredValue,
-                    dob: DOB.enteredValue,
-                    gender: GenderType,
-                    email: Email.enteredValue,
-                    relation: relationType
-                }
-            })
+            if (isupdate) {
+                UpdateMemberHandler({
+                    body: {
+                        name: Name.enteredValue,
+                        dob: DOB.enteredValue,
+                        gender: GenderType,
+                        email: Email.enteredValue,
+                        relation: relationType
+                    }
+                })
+            } else {
+
+                addmemberHandler({
+                    body: {
+                        name: Name.enteredValue,
+                        dob: DOB.enteredValue,
+                        gender: GenderType,
+                        email: Email.enteredValue,
+                        relation: relationType
+                    }
+                })
+            }
         }
     }
 
@@ -280,7 +327,7 @@ const Addmember = ({ toggle, modal }) => {
                         {false ? (
                             <Spinner size={"sm"} />
                         ) : (
-                            "Save Details"
+                           isupdate ? "Update Deatils": "Save Details"
                         )}
                     </Button>{' '}
                     <Button color="secondary" onClick={toggle}>

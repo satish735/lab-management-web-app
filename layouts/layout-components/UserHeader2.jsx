@@ -32,7 +32,7 @@ const UserHeader2 = () => {
   const [localStorageData, setLocalStorageData] = useState();
   useEffect(() => {
     const checkLocalStorage = () => {
-      const storedData = localStorage.getItem('testpackage');
+      const storedData = localStorage?.getItem('testpackage');
       if (storedData !== localStorageData) {
         setLocalStorageData(storedData);
       }
@@ -42,8 +42,20 @@ const UserHeader2 = () => {
   }, [localStorageData]);
 
   useEffect(() => {
-    const parsedData = localStorageData ? JSON.parse(localStorageData) : [];
-    setCartItemCount((parsedData.item ?? []).length);
+    const storedData = localStorage?.getItem?.('testpackage');
+    let parsedData = null;
+
+    try {
+        // Attempt to parse the stored JSON data
+        parsedData = storedData ? JSON?.parse?.(storedData) : null;
+    } catch (error) {
+        // Log the error if parsing fails
+        console.error('Failed to parse stored data:', error);
+        parsedData = null;
+    }
+
+    // Set the cart item count based on parsed data
+    setCartItemCount((parsedData?.item ?? []).length);
   }, [localStorageData]);
 
 
