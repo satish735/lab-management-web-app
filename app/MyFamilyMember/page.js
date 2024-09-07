@@ -3,7 +3,8 @@ import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
 import UserLayout from '@/layouts/UserLayout'
 import React from 'react'
 import '@/components/profile-side-bar/side-bar-css.css'
-import MyAddress from '@/components/profile-side-bar/side-bar-items/MyAddress'
+import MyBooking from '@/components/profile-side-bar/side-bar-items/MyBooking'
+import MyFamilyMember from '@/components/profile-side-bar/side-bar-items/MyFamilyMember'
 import PhoneViewSlide from '@/components/bottom-phone-design/PhoneViewSlide'
 const page = () => {
     return (
@@ -18,14 +19,15 @@ const page = () => {
                     </div>
 
                     <div className='item-page-section'>
-                        <MyAddress />
+                        <MyFamilyMember />
                     </div>
                 </div>
-                <PhoneViewSlide />
 
+                <PhoneViewSlide />
 
             </UserLayout>
         </div>
+
     )
 }
 

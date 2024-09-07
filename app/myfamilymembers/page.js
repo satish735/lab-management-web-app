@@ -1,6 +1,4 @@
 "use client"
-import { FaMapMarkerAlt } from "react-icons/fa";
-
 import Addmember from "@/app/cart/addmember"
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
@@ -75,8 +73,8 @@ const Mymember = () => {
 
             <div className="row my-2  px-3" style={{ textTransform: "capitalize" }} >
 
-                {membersResponse?.data?.map((item) => {
-                    return <div className="col-sm-4 col-12 px-3 py-3 my-2 shadow " style={{ border: "1px solid #97979" }} >
+                {(membersResponse?.data ?? [])?.map((item, key) => {
+                    return <div key={key} className="col-sm-4 col-12 px-3 py-3 my-2 shadow " style={{ border: "1px solid #97979" }} >
 
                         <div className="px-2" >
                             <img src="/assets/images/male.png" style={{ width: "35px", heigit: "35px", marginRight: "18px" }} alt="" />

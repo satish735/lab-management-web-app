@@ -1,32 +1,37 @@
 .midbox-inner {
-  margin:0 auto;
+  margin: 0 auto;
   max-width: 90rem;
   width: 100%;
 }
+
 .header {
   box-shadow: 0px 5px 83px 0px rgba(9, 29, 62, 0.1);
   z-index: 1000;
   position: sticky;
   top: 0;
 }
+
 .header-topbar {
   height: 60px;
   display: flex;
   align-items: center;
-  
+
   background-color: #003747;
   /* background-color: #00226c; */
 }
+
 @media (min-width: 1200px) {
   .header-topbar {
     display: block;
   }
-  .navbar > .container-fluid,
-  .header-topbar > .container-fluid {
+
+  .navbar>.container-fluid,
+  .header-topbar>.container-fluid {
     padding-left: 30px;
     padding-right: 30px;
   }
 }
+
 .header-topbar .contact-list li {
   position: relative;
   display: flex;
@@ -35,6 +40,7 @@
   margin-right: 30px;
   margin-bottom: 0;
 }
+
 .contact-list li {
   font-size: 14px;
   margin-bottom: 5px;
@@ -44,44 +50,55 @@
   text-decoration: none;
   color: #f4f4f4;
 }
+
 .header-topbar .contact-list li a:not(.btn):hover {
   text-decoration: none;
   color: var(--color-primary);
   transition: color 0.35s ease-out;
 }
+
 .contact-list li a {
   color: #828599;
 }
+
 .contact-list .phone-icon {
   color: var(--color-primary);
   margin-right: 4px;
 }
+
 .mr-10 {
   margin-right: 10px !important;
 }
+
 .header-topbar .header-topbar-links li {
   margin-right: 10px;
 }
+
 .header-topbar .header-topbar-links li a {
   text-decoration: none;
   font-size: 13px;
   color: #ffffff;
 }
+
 .header-topbar .header-topbar-links li a:hover {
   color: var(--color-primary);
 }
+
 .header-topbar-links .phone-icon {
   color: var(--color-primary);
   margin-right: 4px;
 }
+
 a {
   color: #21cdad;
   text-decoration: none;
   transition: color 0.3s ease;
 }
+
 .miniPopup-language-area {
   position: relative;
 }
+
 .miniPopup-language-trigger {
   position: relative;
   z-index: 151;
@@ -97,11 +114,13 @@ a {
   text-overflow: ellipsis;
   min-width: 143px !important;
 }
+
 button {
   padding: 0;
   border: none;
   background-color: transparent;
 }
+
 .miniPopup-language-trigger .btn-shape {
   position: absolute;
   width: 38px;
@@ -114,10 +133,12 @@ button {
   background-color: #ffffff;
   transition: 0.3s ease;
 }
-.miniPopup-language-trigger > .dropdonw-arrow {
+
+.miniPopup-language-trigger>.dropdonw-arrow {
   /* position: absolute; */
   margin-left: 5px;
 }
+
 .miniPopup-language-trigger::after {
   /* content: "\f078"; */
   font-family: "Font Awesome 5 Free";
@@ -128,10 +149,12 @@ button {
   left: calc(50% - 10px);
   transform: translateX(-50%);
 }
+
 .miniPopup-language {
   width: 176px;
   padding: 5px;
 }
+
 .miniPopup {
   position: absolute;
   top: 100%;
@@ -147,16 +170,20 @@ button {
   transition: 0.3s ease;
   transform: translateY(20px);
 }
+
 .miniPopup-language li {
   padding: 10px 8px;
 }
+
 .miniPopup-language-area:hover .miniPopup-language-trigger {
   color: #ffffff;
   background-color: #21cdad;
 }
+
 .miniPopup-language-area:hover .miniPopup-language-trigger .btn-shape {
   background-color: #21cdad;
 }
+
 .header-bottombar {
   min-height: 80px;
 }
@@ -176,6 +203,7 @@ button {
   background: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
 }
+
 .header-bottombar .login-button:hover {
   border-color: var(--color-secondary) !important;
   background-color: var(--color-secondary) !important;
@@ -186,15 +214,19 @@ button {
   cursor: pointer;
   position: relative;
 }
+
 .header-bottombar .cart-button .cart-icon {
   color: var(--color-secondary);
 }
+
 .header-bottombar .cart-button:hover .cart-icon {
   color: var(--color-primary);
 }
+
 .header-bottombar .cart-button:hover .cart-badge {
   background: var(--color-secondary);
 }
+
 .header-bottombar .cart-button .cart-badge {
   top: -10px;
   right: -10px;
@@ -209,6 +241,7 @@ button {
   background: var(--color-primary);
   color: var(--color-white);
 }
+
 .header-bottombar .call-button {
   font-size: 15px;
   font-weight: 700;
@@ -223,14 +256,67 @@ button {
   background: var(--color-white) !important;
   border-color: var(--color-primary) !important;
 }
+
 .header-bottombar .call-button:hover {
   border-color: var(--color-secondary) !important;
   background-color: var(--color-white) !important;
   color: var(--color-secondary) !important;
 }
+
 .header-bottombar .call-button .call-icon {
   color: var(--color-primary);
 }
+
 .header-bottombar .call-button:hover .call-icon {
   color: var(--color-secondary);
 }
+
+.profile-div {
+  display: none;
+  background-color: white;
+  position: absolute;
+  border-radius: 9px;
+  padding: 10px 10px;
+  color: black;
+  right: 0px;
+  width: 280px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px 0px, rgba(0, 0, 0, 0.4) 0px 0px 1px 0px;
+
+}
+
+.user-button:hover .profile-div {
+  display: block;
+
+}
+.profile-div:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  border-radius: 9px;
+
+}
+ 
+.location-divs {
+  display: none;
+  background-color: white;
+  position: absolute;
+  border-radius: 0 0 9px 9px;
+  padding: 10px 5px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px 0px, rgba(0, 0, 0, 0.4) 0px 0px 1px 0px;
+  color: black;
+  right: 0px;
+  /* top: 0; */
+  width: 180px;
+  z-index: 999;
+}
+
+.location-buttons:hover .location-divs {
+  display: block;
+
+}
+.location-divs:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  border-radius: 9px;
+
+}
+ 

@@ -90,8 +90,7 @@ const HealthPackage = () => {
         }
     );
 
-    console.log(locationSelected)
-    useEffect(() => {
+     useEffect(() => {
 
 
 

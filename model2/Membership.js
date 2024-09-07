@@ -18,7 +18,7 @@ const MembershipSchema = new Schema({
     age: { type: String },
     dependent: { type: String },
     diabetes: { type: Boolean }
-  },
+  },//age crtria , no of dependednt
   is_delete: { type: Boolean, default: false },
   slug: { type: String, unique: true },
 });

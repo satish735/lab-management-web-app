@@ -2,10 +2,11 @@
 import haversine from "haversine";
 import { useEffect, useState } from "react";
 import "./UserHeader2.css";
+import "./AdminHeader.css"
 import { Navbar, NavbarBrand, Button, Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 import MultiLevelDropDown from "@/components/multilevel-dropdown/MultiLevelDropDown";
-import { Navigation, Phone } from "lucide-react";
 import Usercart from "@/layouts/layout-components/cart"
+
 import {
   FaPhone,
   FaClock,
@@ -15,19 +16,26 @@ import {
   FaChevronDown,
   FaCartShopping,
   FaBell,
+  FaBook, FaLocationDot,
+  FaUserGroup
 } from "react-icons/fa6";
 import useAPI from "@/hooks/useAPI";
+import { MdAccountCircle } from "react-icons/md";
+import { useRouter } from "next/navigation";
 // const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
 //   window.dispatchEvent(new Event('storageChange')); // Dispatch a custom event
 // };
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null);
   //  const updateLocalStorage = (key, value) => {
   //   localStorage.setItem(key, value);
 
   //   setLocalStorageData(localStorage.getItem(key));
   // };
+  const router = useRouter();
+
 
   const [localStorageData, setLocalStorageData] = useState();
   useEffect(() => {
@@ -80,7 +88,13 @@ const UserHeader2 = () => {
       return e
     }
   );
+
+
   useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+    setCurrentLocation(data?.selectedLocation)
+
     const findNearestCity = (currentLat, currentLon) => {
       let nearestCity = null;
       let shortestDistance = Infinity;
@@ -204,29 +218,52 @@ const UserHeader2 = () => {
                     </li>
                     <li>
                       <FaMicroscope size={18} className="phone-icon" />
+                      
 
                       <a href="/lab-tests" className="header-tests">
                         Tests
                       </a>
                     </li>
                   </ul>
-                  <div className="miniPopup-language-area">
+                  <div className="miniPopup-language-area location-buttons" style={{ position: 'relative' }}>
+
                     <button
                       className="miniPopup-language-trigger"
                       type="button"
                     >
 
-                      <span className="btn-text" onClick={() => { localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: 'Jaipur' })) }}>
-                        {cityList.find(
-                          (item) => item?.QueryCityName == currentCity
-                        )?.CityName ?? "Select Location"}
+                      <span className="btn-text" >
+                        {currentLocation ?? "Select Location"}
                       </span>
-
+                      {/* currentLocation, setCurrentLocation */}
                       <FaChevronDown size={14} className="dropdonw-arrow" />
                       <span className="btn-shape"></span>
                     </button>
+                    <div className="location-divs"   >
 
-                    <ul className="miniPopup miniPopup-language list-unstyled">
+
+                      {(testResponse?.data?.cityArray ?? []).map((item) => {
+                        return (
+                          <>
+                            <div onClick={() => {
+                              localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
+                              setCurrentLocation(item)
+                              router.push(`/${item}`)
+                            }} className=" text-start ps-3 m-0" style={{ fonSize: '10px', fonWeight: '200' }}>
+
+                              {item}
+
+
+                            </div>
+                            <hr />
+                          </>
+
+                        )
+                      })}
+
+
+
+                    </div>                    {/* <ul className="miniPopup miniPopup-language list-unstyled">
                       <li>
                         <button>
                           <img src="/assets/icons/en.png" alt="en" />
@@ -239,7 +276,7 @@ const UserHeader2 = () => {
                           <span>Germany</span>
                         </button>
                       </li>
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -288,7 +325,7 @@ const UserHeader2 = () => {
                   width: "max-content",
                   display: "flex",
                   gap: "10px",
-                  alignItems: "center",
+                  alignItems: "center"
                 }}
               >
                 <a onClick={() => {
@@ -315,9 +352,69 @@ const UserHeader2 = () => {
                   <FaPhone size={18} className="call-icon" />
                   +91 9739923174
                 </a>
-                <a type="button" className="btn login-button" href="/login">
+                <a type="button" className="btn login-button user-button" href="/login" style={{
+                  position: 'relative'
+                }}>
                   Login
+                  <div className="profile-div"  >
+                    <div className="d-flex pt-2" style={{ border: '1px solid green', borderRadius: '6px' }}>
+                      <div style={{ width: '30%' }} >
+                        <img src="/assets/icons/MEN.png" style={{ height: '60px', width: '60px' }} />
+                      </div>
+                      <div style={{ width: '70%', textAlign: 'start' }} className="ps-2" >
+                        <h1 className=" text-capitalize m-0 p-0" style={{ fontSize: '17px', fontWeight: '400' }}>{'name'}</h1>
+                        <p className="text-capitalize  m-0 p-0" style={{ fontSize: '13px', fontWeight: '400', color: 'green' }}>{'role , 5 years'}</p>
+                      </div>
+                    </div>
+
+
+                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+
+                      <span style={{ marginRight: '5px', color: '#003747' }}>
+                        <FaBook />
+
+                      </span>
+                      <span>My Bookings</span>
+
+
+                    </div>
+
+                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+
+                      <span style={{ marginRight: '5px', color: '#003747' }}>
+                        <FaLocationDot />
+
+
+                      </span>
+                      <span>My Address</span>
+
+
+                    </div>
+
+                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+
+                      <span style={{ marginRight: '5px', color: '#003747' }}>
+                        <FaUserGroup />
+
+                      </span>
+                      <span>My Family Members</span>
+
+
+                    </div>
+                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+
+                      <span style={{ marginRight: '5px', color: '#003747' }}>
+                        <MdAccountCircle />
+
+                      </span>
+                      <span>My Profile</span>
+
+
+                    </div>
+                  </div>
                 </a>
+
+
               </div>
 
 

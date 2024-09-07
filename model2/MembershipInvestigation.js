@@ -12,3 +12,6 @@ const MembershipInvestigationSchema = new Schema({
 
 
 export default mongoose.models.MembershipInvestigation || mongoose.model('MembershipInvestigation', MembershipInvestigationSchema);
+
+
+// age crtria  ,
