@@ -1,0 +1,16 @@
+/* styles/nprogress-custom.css */
+
+/* Change the color of the progress bar */
+#nprogress .bar {
+    background: var(--color-secondary);
+    height: 2px;
+    /* Replace with your desired color */
+}
+
+/* Change the color of the spinner (optional) */
+#nprogress .spinner-icon {
+    border-top-color: #3498db;
+    /* Replace with your desired color */
+    border-left-color: #3498db;
+    /* Replace with your desired color */
+}

@@ -10,10 +10,14 @@ export const metadata = {
 import { Toaster } from "react-hot-toast";
 import TooltipComponent from "@/components/TooltipComponent";
 
+import dynamic from "next/dynamic";
+import TopProgressBar from "@/components/TopProgressBar";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <TopProgressBar />
         <StoreProvider>
           {children}
           <Toaster position="bottom-left" />
