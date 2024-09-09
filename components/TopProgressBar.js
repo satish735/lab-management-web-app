@@ -60,6 +60,8 @@ if (window) {
     };
 }
 
-export default function () {
+const TopProgressBar = () => {
     return null;
-}
+};
+
+export default TopProgressBar;

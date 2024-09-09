@@ -10,7 +10,10 @@ import {
     Button
 } from "reactstrap";
 import './bottom-slider.css'
+import { useRouter } from "next/navigation";
+
 const ProfileSlider = ({ isopencart, setisopencart  }) => {
+  const router = useRouter()
   return (
     <div>
             <Offcanvas
@@ -35,7 +38,7 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
                     </div>
 
 
-                    <div className=" text-start ps-3 my-booking" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{ router.push("/mybookings")}} className=" text-start ps-3 my-booking" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <FaBook />
@@ -46,7 +49,7 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
 
                     </div>
 
-                    <div className=" text-start ps-3 my-address" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{ router.push("/myaddress")}} className=" text-start ps-3 my-address" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <FaLocationDot />
@@ -58,7 +61,7 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
 
                     </div>
 
-                    <div className=" text-start ps-3 my-family" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{ router.push("/myfamilymembers")}} className=" text-start ps-3 my-family" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <FaUserGroup />
@@ -68,7 +71,7 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
 
 
                     </div>
-                    <div className=" text-start ps-3 my-profile" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{ router.push("/my-profile")}} className=" text-start ps-3 my-profile" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <MdAccountCircle />

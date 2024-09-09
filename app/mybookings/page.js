@@ -149,14 +149,73 @@ const MyBooking = () => {
             </div>
 
 
-            <div className="my-2" >
+            <div  className="shadow   mx-3 my-2" style={{fontSize:"0.9rem"}} >
+                <div className="my-2" >
 
-                <div>
-                    <div>
-                        <span className="" style={{background:"#97979a"}}> KAP | 20 DAYS | Female</span>
+                    <div className="row" >
+                        <div className="col-sm-7 col-12" >
+                            <div className="row">
+                                <div className="col-sm-7 col-12 my-2">
+                                    <span className="px-4 py-2 mx-4 rounded" style={{ background: "#dee2db" }}> <dpan style={{ fontWeight: "700" }} >KAP </dpan>  |  20 DAYS  |  Female</span>
+
+
+                                </div>
+                                <div className="col-sm-5 col-12 my-2" >
+                                    <span className="px-4 py-2 mx-4 rounded" style={{ background: "#dee2db" }}> Booking ID: <span style={{ fontWeight: "700" }} >74816</span> </span>
+
+                                </div>
+                            </div>
+                        </div  >
+
+                        <div className="col-sm-5 col-12 my-2" >
+                            <span className="px-4 py-2 mx-4 rounded" style={{ background: "#dee2db" }}> Booking Date & Time:   <dpan style={{ fontWeight: "700" }} >31-08-2024 03:40 PM </dpan> </span>
+
+                        </div>
                     </div>
+
                 </div>
 
+
+                <div className="m-2 p-3" >
+                    <div className="row" >
+                        <div className="col-sm-7 col-12"  >
+                            <div className="row" >
+                                <div className="col-6 " style={{ color: "#97979" }} >
+                                    <p>Collection Type</p>
+                                    <h4 className="small bold" >Lab</h4>
+
+                                </div>
+                                <div className="col-6 " style={{ color: "#97979" }} >
+                                    <p>Appoinment Date & Time</p>
+                                    <h4 className="small bold">02-09-2024 08:00 AM</h4>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-sm-5 col-12 px-3 bold" style={{ textAlign: "right", color: "rgb(1, 7, 63)" }} >
+                            ₹ 1160
+                        </div>
+
+                    </div>
+
+                    <ul className=" px-3  my-3 " >
+                        <li style={{ color: "#97979" }} >GLUCOSE (FASTING) </li>
+                        <li style={{ color: "#97979" }} >THYROID PROFILE  </li>
+                        <li style={{ color: "#97979" }} >KFT-KIDNEY FUNCTION TEST  </li>
+                    </ul>
+
+
+                    <div className="row my-4">
+                        <div className="col-6" >
+                            <span className="px-4 py-2 mx-4 rounded" style={{ background: "#dee2db" }}>Cancelled</span>
+
+                        </div>
+                        <div className="col-6 text-end" >
+                            <button className="card-button-2" > View More</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
