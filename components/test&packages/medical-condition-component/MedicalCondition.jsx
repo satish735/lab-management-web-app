@@ -7,7 +7,7 @@ import PackageCardDesign from '@/components/package-details/package-card/Package
 import toast from 'react-hot-toast';
 import transformErrorDefault from '@/utils/transformErrorDefault';
 import TestCardDesign from '@/components/test-details/test-card/TestCardDesign';
-
+import './medical-condition.css'
 const MedicalCondition = ({ searchParams, type }) => {
 
 
@@ -92,9 +92,9 @@ const MedicalCondition = ({ searchParams, type }) => {
     return (
         <div>
 
-            <div className=' m-0 ps-5 global-background-gradient' style={{ padding: '80px 15px', color: '#fff', fontWeight: '600' }}>
+            <div className=' m-0  global-background-gradient banner-body-part-page' >
 
-                <h2 style={{ fontSize: '40px' }}>
+                <h2  >
                     {(type === 'testcondition') ? capitalizeFirstLetter(searchParams?.disease) : capitalizeFirstLetter(searchParams?.part)} Test & Package
                 </h2>
                 <p className='my-3 mb-4' style={{ fontSize: '16px', color: 'hsla(0, 0%, 100%, .6)', fontWeight: '400' }}>
@@ -102,7 +102,7 @@ const MedicalCondition = ({ searchParams, type }) => {
                 </p>
 
                 <div className='row mb-4'>
-                    <div className='d-flex col-lg-2 col-md-3 col-sm-12 gap-3'>
+                    <div className='d-flex col-lg-2 col-md-3 col-sm-12 gap-3 my-2'>
                         <span className='' style={{ padding: '10px 8px', backgroundColor: '#ffffff36', borderRadius: '8px' }}>
                             <Award fill='white' />
 
@@ -120,7 +120,7 @@ const MedicalCondition = ({ searchParams, type }) => {
                     </div>
 
 
-                    <div className='d-flex col-lg-2 col-md-3 col-sm-12 gap-3'>
+                    <div className='d-flex col-lg-2 col-md-3 col-sm-12 gap-3 my-2'>
                         <span className='' style={{ padding: '10px 8px', backgroundColor: '#ffffff36', borderRadius: '8px' }}>
                             <Award fill='white' />
 
@@ -140,7 +140,7 @@ const MedicalCondition = ({ searchParams, type }) => {
                     </div>
 
 
-                    <div className='d-flex col-lg-3 col-md-4 col-sm-12 gap-3'>
+                    <div className='d-flex col-lg-3 col-md-4 col-sm-12 gap-3 my-2'>
                         <span className='' style={{ padding: '10px 8px', backgroundColor: '#ffffff36', borderRadius: '8px' }}>
                             <Award fill='white' />
 

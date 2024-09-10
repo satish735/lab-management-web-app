@@ -5,52 +5,53 @@ import PackageCardDesign from '@/components/package-details/package-card/Package
 import TotalTestInclude from '@/components/package-details/total-test-include/TotalTestInclude'
 import useAPI from '@/hooks/useAPI'
 import UserLayout from '@/layouts/UserLayout'
-import React from 'react'
+import transformErrorDefault from '@/utils/transformErrorDefault'
+import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 const Home = ({ searchParams }) => {
 
 
-    
-  const [allPackageResponse, allPackageHandler] = useAPI(
-    {
-      url: "/test/list",
-      method: "get",
-      sendImmediately: true,
-      params: {
-        // sortColumn: sort?.column,
-        // sortDirection: sort?.direction,
-        pageNo: 1,
-        pageSize: 20,
-        // searchQuery: searchValue,
-      },
-    },
-    (e) => {
+
+    const [allPackageResponse, allPackageHandler] = useAPI(
+        {
+            url: "/test/list",
+            method: "get",
+            sendImmediately: true,
+            params: {
+                // sortColumn: sort?.column,
+                // sortDirection: sort?.direction,
+                pageNo: 1,
+                pageSize: 20,
+                // searchQuery: searchValue,
+            },
+        },
+        (e) => {
 
 
- 
-      let packageList = (e?.data ?? []).filter((item) => {
-        return item.testType === 'Package' && searchParams.id !==item?._id
-      });
 
-      return { packageList: packageList }
-    },
-    (e) => {
-      toast.error(transformErrorDefault(
-        "Something went wrong while Getting packages!",
-        e
-      ));
-      return e
-    }
-  );
+            let packageList = (e?.data ?? []).filter((item) => {
+                return item.testType === 'Package' && searchParams.id !== item?._id
+            });
 
- 
+            return { packageList: packageList }
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting packages!",
+                e
+            ));
+            return e
+        }
+    );
+
+
 
     const [packageResponse, packageHandler] = useAPI(
         {
             url: `/getSinglePackageDetails/${searchParams?.id} `,
             method: "get",
-            sendImmediately: true,
+            // sendImmediately: true,
 
         },
         (e) => {
@@ -67,6 +68,14 @@ const Home = ({ searchParams }) => {
             return e
         }
     );
+
+
+    useEffect(() => {
+        if (searchParams?.id) {
+            packageHandler()
+        }
+
+    }, [searchParams])
     return (
         <UserLayout>
             <div className='py-3' style={{ backgroundColor: '#f2f4f8' }}>
@@ -109,7 +118,7 @@ const Home = ({ searchParams }) => {
                                     <div className='row pt-4'>
 
 
-                                       
+
                                         {
                                             (allPackageResponse?.data?.packageList ?? []).map((listing, index) => {
                                                 return <PackageCardDesign listing={listing} key={index} />

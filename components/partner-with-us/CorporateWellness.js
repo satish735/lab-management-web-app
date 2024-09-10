@@ -14,7 +14,7 @@ const CorporateWellness = () => {
             </div>
 
             <div className='col-lg-4 col-md-4 col-sm-12 px-2 pt-5'>
-                <EnquireForm />
+                <EnquireForm  enquireType={'corporate-wellness'}   />
             </div>
 
             </div>

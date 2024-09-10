@@ -1,4 +1,8 @@
+import useAPI from '@/hooks/useAPI'
+import transformErrorDefault from '@/utils/transformErrorDefault'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+import { Spinner } from 'reactstrap'
 
 const LabAcquistion = () => {
 
@@ -28,6 +32,112 @@ const LabAcquistion = () => {
     const [isstate, setisstate] = useState()
     const [isremark, setisremark] = useState()
 
+    const [isexperienced, setisexperienced] = useState(false)
+
+
+    const [getPartnerWithUsResponse, getPartnerWithUsHandler] = useAPI(
+        {
+            url: "/addPartnersEnquire",
+            method: "post",
+
+        },
+        (e) => {
+            toast.success(
+                "Details added successfully.",
+                e
+            )
+
+            setName()
+            setemail()
+            setphone()
+            setcurrentLabName()
+            setalternativeNumber()
+            setage()
+
+            setcity()
+            setstate()
+            setremark()
+
+        },
+        (e) => {
+
+            toast.error(transformErrorDefault(
+                "Something went wrong while saving details!",
+                e
+            ));
+        }
+    );
+
+
+
+
+    const submitHandler = () => {
+
+
+        let flag = true;
+
+        if (!ownerName) {
+            flag = false
+            setisownerName(true)
+        }
+        if (!email) {
+            flag = false
+            setisemail(true)
+
+        }
+        if (!phone) {
+            flag = false
+            setisphone(true)
+
+        }
+        if (!currentLabName) {
+            flag = false
+            setiscurrentLabName(true)
+
+        }
+
+        if (!age) {
+            flag = false
+            setisage(true)
+
+        }
+        if (!city) {
+            flag = false
+            setiscity(true)
+
+        }
+        if (!state) {
+            flag = false
+            setisstate(true)
+
+        }
+
+
+
+
+        if (flag) {
+            getPartnerWithUsHandler({
+                body: {
+                    name: ownerName ?? "",
+                    labName: currentLabName ?? "",
+                    number: phone ?? "",
+                    alternateNumber: alternativeNumber ?? "",
+                    emailAddress: email ?? "",
+                    enquireType: 'lab_acquistion' ?? '',
+                    city: city ?? "",
+                    state: state ?? "",
+                    isExperienced: isexperienced,
+                    otherDetails: remark || "",
+
+                }
+            })
+
+        }
+
+
+
+
+    }
 
 
 
@@ -61,8 +171,22 @@ const LabAcquistion = () => {
                                         placeholder="Current Lab Name"
                                         label=""
                                         type="string"
-                                        value={currentLabName}
+                                        value={currentLabName ?? ''}
                                         onChange={(e) => {
+                                            if (e?.target?.value) {
+
+                                                if (iscurrentLabName === true) {
+                                                    setiscurrentLabName(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (iscurrentLabName === false) {
+                                                    setiscurrentLabName(true)
+
+                                                }
+                                            }
                                             setcurrentLabName(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
@@ -78,8 +202,22 @@ const LabAcquistion = () => {
                                         className="input"
                                         placeholder="Owner's Name"
                                         label=""
-                                        value={ownerName}
+                                        value={ownerName ?? ''}
                                         onChange={(e) => {
+                                            if (e?.target?.value) {
+
+                                                if (isownerName === true) {
+                                                    setisownerName(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (isownerName === false) {
+                                                    setisownerName(true)
+
+                                                }
+                                            }
                                             setName(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
@@ -98,8 +236,22 @@ const LabAcquistion = () => {
                                         placeholder="Number"
                                         label=""
                                         type="number"
-                                        value={phone}
+                                        value={phone ?? ''}
                                         onChange={(e) => {
+                                            if (e?.target?.value) {
+
+                                                if (isphone === true) {
+                                                    setisphone(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (isphone === false) {
+                                                    setisphone(true)
+
+                                                }
+                                            }
                                             setphone(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
@@ -114,7 +266,7 @@ const LabAcquistion = () => {
                                         placeholder="Alternative Number"
                                         label=""
                                         type="string"
-                                        value={alternativeNumber}
+                                        value={alternativeNumber ?? ''}
                                         onChange={(e) => {
                                             setalternativeNumber(e.target.value)
                                         }}
@@ -130,8 +282,22 @@ const LabAcquistion = () => {
                                         placeholder="Age"
                                         label=""
                                         type="string"
-                                        value={age}
+                                        value={age ?? ''}
                                         onChange={(e) => {
+                                            if (e?.target?.value) {
+
+                                                if (isage === true) {
+                                                    setisage(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (isage === false) {
+                                                    setisage(true)
+
+                                                }
+                                            }
                                             setage(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
@@ -147,8 +313,22 @@ const LabAcquistion = () => {
                                         placeholder="Email Id"
                                         label=""
                                         type="email"
-                                        value={email}
+                                        value={email ?? ''}
                                         onChange={(e) => {
+                                            if (e?.target?.value) {
+
+                                                if (isemail === true) {
+                                                    setisemail(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (isemail === false) {
+                                                    setisemail(true)
+
+                                                }
+                                            }
                                             setemail(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
@@ -172,8 +352,22 @@ const LabAcquistion = () => {
                                         placeholder="City"
                                         label=""
                                         type="string"
-                                        value={city}
+                                        value={city ?? ''}
                                         onChange={(e) => {
+                                            if (e?.target?.value) {
+
+                                                if (iscity === true) {
+                                                    setiscity(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (iscity === false) {
+                                                    setiscity(true)
+
+                                                }
+                                            }
                                             setcity(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
@@ -189,9 +383,23 @@ const LabAcquistion = () => {
                                         placeholder="State"
                                         label=""
                                         type="string"
-                                        value={state}
+                                        value={state ?? ''}
                                         onChange={(e) => {
-                                            setemail(e.target.value)
+                                            if (e?.target?.value) {
+
+                                                if (isstate === true) {
+                                                    setisstate(false)
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (isstate === false) {
+                                                    setisstate(true)
+
+                                                }
+                                            }
+                                            setstate(e.target.value)
                                         }}
                                         style={{ borderRadius: '8px' }}
                                     />
@@ -208,14 +416,14 @@ const LabAcquistion = () => {
 
                                 <div className='d-flex gap-3'>
                                     <div className='d-flex gap-3'>
-                                        <input  type="radio" id="yes" name="fav_language" value="HTML" /><div style={{paddingTop:'10px',boxSizing:'border-box'}}><label for="yes">Yes</label>
+                                        <input type="radio" id="yes" name="fav_language" value={isexperienced} onChange={(e) => { setisexperienced(true) }} /><div style={{ paddingTop: '10px', boxSizing: 'border-box' }}><label for="yes">Yes</label>
                                         </div>
 
 
                                     </div>
                                     <div className='d-flex gap-3'>
-                                        <input type="radio" id="no" name="fav_language" value="No" />
-                                        <div style={{paddingTop:'10px',boxSizing:'border-box'}}>
+                                        <input type="radio" id="no" name="fav_language" value={!isexperienced} onChange={(e) => { setisexperienced(false) }} />
+                                        <div style={{ paddingTop: '10px', boxSizing: 'border-box' }}>
                                             <label for="no">No</label>
                                         </div>
                                     </div>
@@ -233,29 +441,30 @@ const LabAcquistion = () => {
                                         label=""
                                         type="textarea"
                                         autoComplete="off"
-                                        value={remark}
+                                        value={remark ?? ''}
                                         name="textarea"
                                         rows="7"
                                         cols="15"
                                         onChange={(e) => {
                                             setremark(e.target.value)
                                         }}
-                                        style={{ borderRadius: '8px',height:'100px' }}
+                                        style={{ borderRadius: '8px', height: '100px' }}
                                     />
 
 
 
                                 </div>
 
-                                <div className="call-button slide-item" >
-                                    <button type="button  " className=" py-2  px-3    card-button-2" style={{ width: '100%', fontSize: '19px', fontWeight: '500' }}>Submit Now </button>
 
-                                </div>
 
                             </div>
                         </form>
 
+                        <div className="call-button slide-item" >
 
+                            <button type="button" onClick={() => { submitHandler() }} className=" py-2  px-3    card-button-2" style={{ width: '100%', fontSize: '19px', fontWeight: '500' }}> {(getPartnerWithUsResponse?.fetching) ? <Spinner size={"sm"} /> : 'Submit Now '}</button>
+
+                        </div>
 
 
 

@@ -63,7 +63,7 @@ import { useEffect, useState } from "react";
                 width: "100%",
                 border: "none",
                 borderRadius: "12px 12px 0 0 ",
-                backgroundImage:`Url('/assets/images/PackagesBanner.jpg')`,
+                backgroundImage:`Url('${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}')`,
                 backgroundRepeat:'no-repeat',
                 backgroundSize:'cover',
                  

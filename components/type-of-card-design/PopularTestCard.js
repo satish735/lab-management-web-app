@@ -63,7 +63,7 @@ const PopularTestCard = ({ listing }) => {
 
 
             <div
-              // src={process.env.NEXT_PUBLIC_BUCKET_URL + 'public/3bdf5e58-47ce-d0fa-526d-1859ea3e77f7.png'}
+               
               alt=""
               className=""
               style={{
@@ -71,7 +71,7 @@ const PopularTestCard = ({ listing }) => {
                 width: "100%",
                 border: "none",
                 borderRadius: "10px 10px 0 0 ",
-                backgroundImage: `Url('/assets/images/TestBanner.jpg')`,
+                backgroundImage: `Url('${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}')`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize:'cover',
               }}

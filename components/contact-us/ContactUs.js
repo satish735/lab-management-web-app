@@ -69,10 +69,9 @@ const ContactUs = () => {
             <div className='midbox-inner'>
 
 
-                <h1 style={{
+                <h1 className='header-contact-us' style={{
                     color: '#fff',
-                    width: '70%',
-                    textAlign: 'center',
+                     textAlign: 'center',
                     margin: '0 auto'
                 }}>
                     SSDBSHYAM Diagnostic LLP team would love to hear

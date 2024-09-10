@@ -8,6 +8,7 @@ import useAPI from '@/hooks/useAPI'
 import TestCardDesign from '../test-details/test-card/TestCardDesign'
 import toast from 'react-hot-toast'
 import transformErrorDefault from '@/utils/transformErrorDefault'
+import '@/components/test&packages/health-package-component/health-package.css'
 const HomeCollection = () => {
 
 
@@ -269,7 +270,7 @@ const HomeCollection = () => {
                         </div>
                     </div>
 
-                    <div className='col-lg-9 col-md-9 col-sm-12 ps-4'>
+                    <div className='col-lg-9 col-md-9 col-sm-12 main-health-package'>
                         <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
                             Packages and Tests
                         </div>

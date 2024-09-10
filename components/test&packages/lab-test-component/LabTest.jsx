@@ -8,6 +8,7 @@ import PackageCardDesign from '../../package-details/package-card/PackageCardDes
 import useAPI from '@/hooks/useAPI'
 import toast from 'react-hot-toast'
 import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
+import '@/components/test&packages/health-package-component/health-package.css'
 const LabTest = () => {
 
     const [ListingFields, setListingFields] = useState();
@@ -219,7 +220,7 @@ const LabTest = () => {
                         </div>
                     </div>
 
-                    <div className='col-lg-9 col-md-9 col-sm-12 ps-4 pt-3'>
+                    <div className='col-lg-9 col-md-9 col-sm-12   pt-3 main-health-package'>
                         <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
                             Lab Tests
                         </div>

@@ -1,3 +1,4 @@
+
 import PhoneViewSlide from "@/components/bottom-phone-design/PhoneViewSlide";
 import CarousalSlider from "@/components/CarousalSlider";
 import FullBodyCheckup from "@/components/home-component/full-body-checkup/FullBodyCheckup";
@@ -24,7 +25,7 @@ const Home = async () => {
           <TestsComponent />
         </div>
 
-        <PhoneViewSlide />
+        {/* <PhoneViewSlide /> */}
 
       </UserLayout>
     </div>

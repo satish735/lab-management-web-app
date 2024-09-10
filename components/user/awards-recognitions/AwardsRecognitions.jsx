@@ -7,31 +7,32 @@ import moment from 'moment'
 const AwardsRecognitions = () => {
     const [awardaccreditationResponse, awardaccreditationHandler] = useAPI(
         {
-          url: "/awardaccreditation/list",
-          method: "get",
-          sendImmediately: true,
-          params: {
- 
-          },
+            url: "/awardaccreditation/list",
+            method: "get",
+            sendImmediately: true,
+            params: {
+
+            },
         },
         (e) => {
-          return e.data
+            return e.data
         },
         (e) => {
-          
-          return e
+
+            return e
         }
-      );
+    );
     return (
         <div>
 
             <div>
-                <Banner heading={' Awards and Accreditations'} 
-                paragraph={' A Legacy of Healthcare Excellence Recognised with Truth, Trust and Care'} />
+                <Banner heading={' Awards and Accreditations'}
+                    paragraph={' A Legacy of Healthcare Excellence Recognised with Truth, Trust and Care'} />
             </div>
 
 
             <div className=" midbox-inner" style={{ margin: '0 auto' }}>
+                
                 <div className='row px-3 m-2'>
 
 

@@ -10,12 +10,12 @@ export const GET = async (request, { params }) => {
       sortDirection = "desc",
       searchQuery = "",
       location = null,
-      bodyPartsIds = null,
-      conditionIds = null
+      bodyPartsIds = '',
+      conditionIds = ''
     } = urlParams.query;
 
-    let bodyPartsIdsArray=JSON.parse(bodyPartsIds ?? [])
-    let conditionIdsArray=JSON.parse(conditionIds ?? [])
+    let bodyPartsIdsArray = bodyPartsIds ? JSON.parse(bodyPartsIds ) : []
+    let conditionIdsArray = conditionIds ? JSON.parse(conditionIds ) : []
 
     const skip = (pageNo - 1) * pageSize;
     const sort = {};

@@ -7,10 +7,8 @@ import MyAddress from '@/components/profile-side-bar/side-bar-items/MyAddress'
 import PhoneViewSlide from '@/components/bottom-phone-design/PhoneViewSlide'
 const page = () => {
     return (
-        <div className='position-relative'>
-
-            <UserLayout>
-                <div className='main-parent-bar-div'>
+ 
+                 <div className='main-parent-bar-div'>
 
                     <div className='side-bar-main' style={{ backgroundColor: 'white' }}>
 
@@ -21,12 +19,9 @@ const page = () => {
                         <MyAddress />
                     </div>
                 </div>
-                <PhoneViewSlide />
+ 
 
-
-            </UserLayout>
-        </div>
-    )
+      )
 }
 
 export default page

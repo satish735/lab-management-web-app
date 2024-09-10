@@ -6,6 +6,7 @@ import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
 import toast, { ToastBar } from 'react-hot-toast'
+import './health-package.css'
 const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
@@ -157,8 +158,10 @@ const HealthPackage = () => {
 
                 <div className='row '>
                     <div className='col-lg-3 col-md-3 col-sm-12  py-3' style={{ backgroundColor: 'white', border: '1px solid #dee2db', borderRadius: "10px" }}>
+                   
 
                         <div style={{ fontSize: '20px', color: '#1e1e2f' }}>
+                            
                             Filters
                         </div>
                         <div className='mb-2 mt-3'>
@@ -217,7 +220,7 @@ const HealthPackage = () => {
                         </div>
                     </div>
 
-                    <div className='col-lg-9 col-md-9 col-sm-12 ps-4 pt-3'>
+                    <div className='col-lg-9 col-md-9 col-sm-12  pt-3 main-health-package'>
                         <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
                             Health Packages
                         </div>

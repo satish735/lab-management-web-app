@@ -56,3 +56,10 @@
     margin-bottom: 5px;
     font-family: Inter Medium;
 }
+
+.input_isrequired {
+    color: red;
+    font-size: 0.9rem;
+    display: block;
+    padding-top: 8px;
+}
