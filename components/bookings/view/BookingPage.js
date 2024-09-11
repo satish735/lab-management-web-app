@@ -7,6 +7,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import "./BookingPage.css";
 import moment from "moment";
+import BookingTimeLineOne from "./BookingTimeLineOne";
 const BookingPage = ({ bookingNumber = null }) => {
   const [getBookingResponse, getBookingHandler] = useAPI(
     {
@@ -45,8 +46,9 @@ const BookingPage = ({ bookingNumber = null }) => {
         !getBookingResponse?.error &&
         getBookingResponse?.data && (
           <div className="row p-0 m-0">
-            <div className="col-3 status-tracking">
+            <div className="col-3 booking-timeline-one">
               <p className="order-tracking">Order tracking</p>
+              <BookingTimeLineOne></BookingTimeLineOne>
             </div>
             <div className="col-9">
               <div className="general-details row m-0 py-0">
@@ -73,8 +75,20 @@ const BookingPage = ({ bookingNumber = null }) => {
                   </span>
                 </div>
                 <hr className="m-0" />
-                <div className="col-12 py-2 m-0">
-                  <span>dfg</span> <span>dfg</span> <span>dfg</span>
+                <div className="col-12 py-2 m-0 general-details-2">
+                  <div className="section">
+                    <p className="heading">Test Included</p>
+                    {getBookingResponse?.data?.packages?.map?.((item) => {
+                      return <p className="values">{item?.name}</p>;
+                    })}
+                  </div>
+                  <div className="section">
+                    <p className="heading">Preperation</p>
+                  </div>
+                  <div className="section">
+                    <p className="heading">Price</p>
+                    <p className="values">${getBookingResponse?.data?.total}</p>
+                  </div>
                 </div>
               </div>
             </div>

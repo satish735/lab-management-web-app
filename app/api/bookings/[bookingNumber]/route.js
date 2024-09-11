@@ -1,14 +1,31 @@
 import Booking from "@/model2/Booking";
+import SlotTime from "@/model2/SlotTime";
+import UserDetails from "@/model2/UserDetails";
+import SlotDate from "@/model2/SlotDate";
+import PackageTest from "@/model2/PackageTest";
 export const GET = async (request, { params }) => {
-    try {
-        const { bookingNumber = null } = params;
-        const bookingDetails = await Booking
-            .findOne({ bookingId: bookingNumber }).populate({ path: "slotId", select: "slotStartTime slotDate", populate: { path: "slotDate", select: "date" } }).populate({ path: "teamMemberId", select: "name email gender relation dob" })
-        return new Response(JSON.stringify(bookingDetails), { status: 200 });
-    } catch (error) {
-        console.log(error);
-        return new Response(error?.message, { status: 500 });
-    }
+  try {
+    const { bookingNumber = null } = params;
+    const bookingDetails = await Booking.findOne({ bookingId: bookingNumber })
+      .populate({
+        path: "packages",
+        select: "name itemId testType",
+        populate: { path: "itemId", select: "testType name" },
+      })
+      .populate({
+        path: "slotId",
+        select: "slotStartTime slotDate",
+        populate: { path: "slotDate", select: "date" },
+      })
+      .populate({
+        path: "teamMemberId",
+        select: "name email gender relation dob",
+      });
+    return new Response(JSON.stringify(bookingDetails), { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return new Response(error?.message, { status: 500 });
+  }
 };
 // export const PUT = async (request, { params }) => {
 //   try {
