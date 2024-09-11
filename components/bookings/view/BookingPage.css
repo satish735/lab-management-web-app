@@ -1,6 +1,48 @@
 .booking-details-section{
 
 }
-.booking-details-section .genaral-details{
+.booking-details-section .status-tracking{
+    border: 0.5px solid #3939392c;
+    border-radius: 8px;
+    padding: 10px;
+}
+.booking-details-section .status-tracking .order-tracking{
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+    text-transform: capitalize;
+    border-bottom: 1px solid #3939392c;
+    padding-bottom: 8px;
+}
+.booking-details-section .general-details{
+    border: 0.5px solid #3939392c;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.booking-details-section .general-details .full-name{
+    font-size: 20px;
+    color: black;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-right: 30px;
 
 }
+.booking-details-section .general-details .gender{
+    font-size: 16px;
+    color: gray;
+    text-transform: capitalize;
+}
+
+.booking-details-section .general-details .relation{
+    font-size: 16px;
+    color: gray;
+    text-transform: capitalize;
+}
+
+.booking-details-section .general-details .dob{
+    font-size: 16px;
+    color: gray;
+    text-transform: capitalize;
+}
+

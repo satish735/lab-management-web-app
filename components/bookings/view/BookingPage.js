@@ -30,8 +30,7 @@ const BookingPage = ({ bookingNumber = null }) => {
   const toploaderhook = useTopLoader(getBookingResponse?.fetching);
   return (
     <div className="w-100 booking-details-section">
-      {" "}
-      {JSON.stringify(getBookingResponse?.data)}
+      {/* {JSON.stringify(getBookingResponse?.data)} */}
       <LoaderAndNoContent
         noContentMessage="Booking details not found"
         state={
@@ -45,27 +44,38 @@ const BookingPage = ({ bookingNumber = null }) => {
       {!getBookingResponse?.fetching &&
         !getBookingResponse?.error &&
         getBookingResponse?.data && (
-          <div className="w-100 booking-page">
-            <div className="genaral-details row">
-              <div className="col-12">
-                <span>{getBookingResponse?.data?.teamMemberId?.name}</span>
-                <span className="text-capitalize">
-                  {getBookingResponse?.data?.teamMemberId?.gender}
-                </span>
-                <span>
-                  {getBookingResponse?.data?.teamMemberId?.dob
-                    ? moment().diff(
-                        getBookingResponse?.data?.teamMemberId?.dob,
-                        "years",
-                        false
-                      )
-                    : ""}
-                </span>
-                <span>{getBookingResponse?.data?.teamMemberId?.relation}</span>
-              </div>
-              <hr />
-              <div className="col-12">
-                <span>dfg</span> <span>dfg</span> <span>dfg</span>
+          <div className="row p-0 m-0">
+            <div className="col-3 status-tracking">
+              <p className="order-tracking">Order tracking</p>
+            </div>
+            <div className="col-9">
+              <div className="general-details row m-0 py-0">
+                <div className="col-12 py-2 m-0">
+                  <span className="full-name">
+                    {getBookingResponse?.data?.teamMemberId?.name}
+                  </span>{" "}
+                  <span className="gender">
+                    {getBookingResponse?.data?.teamMemberId?.gender},
+                  </span>{" "}
+                  <span className="dob">
+                    Age :{" "}
+                    {getBookingResponse?.data?.teamMemberId?.dob
+                      ? moment().diff(
+                          getBookingResponse?.data?.teamMemberId?.dob,
+                          "years",
+                          false
+                        )
+                      : ""}
+                    ,
+                  </span>{" "}
+                  <span className="gender">
+                    {getBookingResponse?.data?.teamMemberId?.relation}
+                  </span>
+                </div>
+                <hr className="m-0" />
+                <div className="col-12 py-2 m-0">
+                  <span>dfg</span> <span>dfg</span> <span>dfg</span>
+                </div>
               </div>
             </div>
           </div>
