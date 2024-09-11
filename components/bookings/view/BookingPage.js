@@ -78,8 +78,8 @@ const BookingPage = ({ bookingNumber = null }) => {
                 <div className="col-12 py-2 m-0 general-details-2">
                   <div className="section">
                     <p className="heading">Test Included</p>
-                    {getBookingResponse?.data?.packages?.map?.((item) => {
-                      return <p className="values">{item?.name}</p>;
+                    {getBookingResponse?.data?.packages?.map?.((item,index) => {
+                      return <p className="values" key={index}>{item?.name}</p>;
                     })}
                   </div>
                   <div className="section">

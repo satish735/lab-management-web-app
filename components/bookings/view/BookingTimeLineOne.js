@@ -28,7 +28,7 @@ const BookingTimeLineOne = ({
         if (isCancelled != true) {
           return null;
         }
-        return <li className={className}>{item?.label}</li>;
+        return <li className={className} key={item?.sequence}>{item?.label}</li>;
       })}
     </ul>
   );
