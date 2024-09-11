@@ -16,8 +16,7 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
 
 const ViewEdit = ({ searchParams }) => {
-    // console.log(searchParams,'searchParams');
-    const router = useRouter();
+     const router = useRouter();
 
     const [isSubmit, setisSubmit] = useState(false)
 
@@ -53,7 +52,7 @@ const ViewEdit = ({ searchParams }) => {
 
 
     ]
-
+    
     const [createTestResponse, createTestHandler] = useAPI(
         {
             url: `/test/${searchParams?.id}`,
@@ -84,6 +83,37 @@ const ViewEdit = ({ searchParams }) => {
         }
     );
 
+    
+
+    const [deleteTestResponse, deleteTestHandler] = useAPI(
+        {
+            url: `/test/${searchParams?.id}`,
+            method: "delete",
+
+        },
+        (e) => {
+
+            router.push('/admin/tests')
+
+            if (TestOrPackage === 'Test') {
+                toast.success("Test deleted successfully.");
+
+            }
+            if (TestOrPackage === 'Package') {
+                toast.success("Package deleted successfully.");
+
+            }
+
+            return e
+        },
+        (e) => {
+            // setisSubmit(false)
+            toast.error(transformErrorDefault(
+                "Something went wrong while deleting!",
+                e
+            ))
+        }
+    );
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -1640,12 +1670,31 @@ const ViewEdit = ({ searchParams }) => {
 
             }
             <div className=" my-3  text-end  ">
-                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-5">
+
+                <button onClick={() => { deleteTestHandler({params:searchParams?.id}) }} className="btn btn-danger px-4 mx-3">
+
+                    {deleteTestResponse?.fetching ? (
+                        <Spinner size={"sm"} />
+                    ) : (
+                        "Delete"
+                    )}
+                </button>
+
+
+                <button onClick={() => { router.push("/admin/tests") }} className="btn btn-dark px-4 mx-3 ">
 
                     {createTestResponse?.fetching ? (
                         <Spinner size={"sm"} />
                     ) : (
-                        "Create"
+                        "Cancel"
+                    )}
+                </button>
+                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-3">
+
+                    {createTestResponse?.fetching ? (
+                        <Spinner size={"sm"} />
+                    ) : (
+                        "Update"
                     )}
                 </button>
             </div>

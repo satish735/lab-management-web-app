@@ -1,0 +1,16 @@
+.input-heading{
+    user-select: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: #0F0F0F;
+}
+
+.call-button{
+    background-color: #003747;
+    color: white;
+}
+
+.call-button:hover{
+    background-color: #21cdad;
+    color: white;
+}

@@ -50,7 +50,8 @@ export default function Home() {
     "name",
     'rate',
     'testType',
-    'gender', 'fromAge', 'toAge', 'reportGenerationHours','discountPercentage',"preparation","homeCollection", "sampleCollection"
+    'gender', 'fromAge', 'toAge', 
+    // 'reportGenerationHours','discountPercentage',"preparation","homeCollection", "sampleCollection"
 
   ]);
   const changePageAndRows = (page, rows) => {
@@ -335,11 +336,11 @@ export default function Home() {
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Tests", link: "/admin/tests", active: true },
+          { label: "Tests & Packages", link: "/admin/tests", active: true },
         ]}
       />
       <div className="admin-content-box">
-        <h1 className="main-heading">Tests</h1>
+        <h1 className="main-heading">Tests & Packages</h1>
         <p className="sub-heading">Listing page for tests.</p>
         <div className="text-end my-2">
           <button
