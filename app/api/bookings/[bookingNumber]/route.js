@@ -3,7 +3,7 @@ export const GET = async (request, { params }) => {
     try {
         const { bookingNumber = null } = params;
         const bookingDetails = await Booking
-            .findOne({ bookingId: bookingNumber }).populate({ path: "slotId", select: "slotStartTime slotDate", populate: { path: "slotDate", select: "date" } }).populate({ path: "teamMemberId", select: "name email" })
+            .findOne({ bookingId: bookingNumber }).populate({ path: "slotId", select: "slotStartTime slotDate", populate: { path: "slotDate", select: "date" } }).populate({ path: "teamMemberId", select: "name email gender relation dob" })
         return new Response(JSON.stringify(bookingDetails), { status: 200 });
     } catch (error) {
         console.log(error);
