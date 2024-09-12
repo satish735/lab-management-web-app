@@ -125,6 +125,7 @@ const defaultSideMenus = [
           {
             type: "sub",
             label: "Job Posts",
+            link: "/admin/job-posts"
           },
           {
             type: "sub",

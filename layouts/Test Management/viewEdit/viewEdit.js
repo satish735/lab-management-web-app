@@ -762,49 +762,9 @@ const ViewEdit = ({ searchParams }) => {
 
         },
         (e) => {
-            console.log(e);
+          
 
-
-            // {
-            //     "_id": "66d43d52346908503591b193",
-            //         "itemId": [],
-            //             "name": "CREATININE",
-            //                 "rate": 1200,
-            //                     "desc": "",
-            //                         "bodyParts": [
-            //                             "66c624710de4e1b1d62e7b29"
-            //                         ],
-            //                             "conditions": [
-            //                                 "66c76a05b7d422211b927962"
-            //                             ],
-            //                                 "totalMrp": null,
-            //                                     "gender": "both",
-            //                                         "fromAge": 20,
-            //                                             "toAge": 55,
-            //                                                 "observation": [
-            //                                                     "Creatinine",
-            //                                                     "Creatinine eGFR"
-            //                                                 ],
-            //                                                     "discountPercentage": 10,
-            //                                                         "reportGenerationHours": 8,
-            //                                                             "image": "public/b1c9e446-91da-e3e5-86b0-a77d87f194a1.jpg",
-            //                                                                 "testType": "Test",
-            //                                                                     "isBestSeller": false,
-            //                                                                         "homeCollection": true,
-            //                                                                             "isTrigger": false,
-            //                                                                                 "nearMe": false,
-            //                                                                                     "sampleCollection": "Serum",
-            //                                                                                         "preparation": "No specific preparation required.",
-            //                                                                                             "packageTestList": [],
-            //                                                                                                 "is_delete": false,
-            //                                                                                                     "slug": "creatinine",
-            //                                                                                                         "__v": 0
-            // }
-
-
-
-
-
+ 
             setTestOrPackage(e?.testType)
 
 
@@ -941,8 +901,7 @@ const ViewEdit = ({ searchParams }) => {
 
 
     useEffect(() => {
-        console.log(testResponse?.data, getTestsPackagesResponse?.data?.centerListing, '//////');
-
+ 
         if (testResponse?.data && getTestsPackagesResponse?.data) {
 
 

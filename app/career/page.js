@@ -16,10 +16,13 @@ import InputMultipleSelect from "@/components/formInput/select/InputMultipleSele
 import { Placeholder } from "reactstrap";
 import './career.css'
 import uuid from "react-uuid";
+import InputSelect from "@/components/project-main-component/input-component/InputSelect";
 const Blog = ({ params: { id } }) => {
 
 
 
+    const [jobRoles, setjobRoles] = useState([])
+    const [jobPositions, setjobPositions] = useState([])
 
     const [getCareerResponse, getCareerHandler] = useAPI(
         {
@@ -29,11 +32,6 @@ const Blog = ({ params: { id } }) => {
 
         },
         (e) => {
-
-
-
-
-
         },
         (e) => {
 
@@ -43,6 +41,31 @@ const Blog = ({ params: { id } }) => {
             ));
         }
     );
+
+
+    const [getJobsResponse, getJobsHandler] = useAPI(
+        {
+            url: "/getJobs",
+            method: "get",
+            sendImmediately: true,
+
+        },
+        (e) => {
+            let data = (e ?? []).map((item) => { return { label: item?.jobRole, value: item?._id } })
+            setjobRoles([{ label: 'Select Role', value: '' }, ...data])
+        },
+        (e) => {
+
+            toast.error(transformErrorDefault(
+                "Something went wrong while fetching jobs!",
+                e
+            ));
+        }
+    );
+
+
+
+
 
     const [ExperienceData, setExperienceData] = useState([]);
 
@@ -93,6 +116,47 @@ const Blog = ({ params: { id } }) => {
     };
 
 
+    const [JobRole, setJobRole] = useState();
+    const [JobRoleIsTouch, setJobRoleIsTouch] = useState(false);
+
+    const [JobRoleMessage, setJobRoleMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const JobRoleSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setJobRoleMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setJobRoleMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+    const [Position, setPosition] = useState();
+    const [PositionIsTouch, setPositionIsTouch] = useState(false);
+
+    const [PositionMessage, setPositionMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const PositionSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setPositionMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setPositionMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+    useEffect(() => {
+
+        if (JobRole) {
+            getJobsPositionHandler()
+        }
+
+    }, [JobRole])
 
     const Email = useInputComponent();
     const EmailValidater = (value) => {
@@ -240,6 +304,28 @@ const Blog = ({ params: { id } }) => {
     };
 
 
+
+    const [getJobsPositionResponse, getJobsPositionHandler] = useAPI(
+        {
+            url: `/getJobs/${JobRole}`,
+            method: "get",
+            // sendImmediately: true,
+
+        },
+        (e) => {
+            console.log(e);
+            let data = (e.position ?? []).map((item) => { return { label: item, value: item } })
+            setjobPositions([{ label: 'Select Role', value: '' }, ...data])
+        },
+        (e) => {
+
+            toast.error(transformErrorDefault(
+                "Something went wrong while fetching positions!",
+                e
+            ));
+        }
+    );
+
     const submitHandler = (e) => {
 
         let FirstNameValidate = FirstNameValidater(FirstName?.enteredValue ?? '')
@@ -255,10 +341,12 @@ const Blog = ({ params: { id } }) => {
         let CurrentLocationValidate = CurrentLocationValidater(CurrentLocation?.enteredValue ?? '')
         let SkillValidate = SkillValidater(Skill?.enteredValue ?? '')
         let GenderValidate = GenderSelectValidater(Gender ?? '')
+        let JobRoleValidate = JobRoleSelectValidater(JobRole ?? '')
+        let PositionValidate = PositionSelectValidater(Position ?? '')
 
         console.log(FirstName?.enteredValue, LastName?.enteredValue, Phone?.enteredValue, Email?.enteredValue, DateOfBirth?.enteredValue, ExperienceYear?.enteredValue, CurrentSalary?.enteredValue, ExpectedSalary?.enteredValue, AvailableToJoin?.enteredValue, CurrentLocation?.enteredValue, Skill?.enteredValue, Gender)
 
-        if (!FirstNameValidate || !LastNameValidate || !PhoneValidate || !EmailValidate || !DateOfBirthValidate || !ExperienceYearValidate || !ExperienceMonthValidate || !CurrentSalaryValidate || !ExpectedSalaryValidate || !ExpectedSalaryValidate || !AvailableToJoinValidate || !CurrentLocationValidate || !SkillValidate || !GenderValidate) {
+        if (!FirstNameValidate || !LastNameValidate || !PhoneValidate || !EmailValidate || !DateOfBirthValidate || !ExperienceYearValidate || !ExperienceMonthValidate || !CurrentSalaryValidate || !ExpectedSalaryValidate || !ExpectedSalaryValidate || !AvailableToJoinValidate || !CurrentLocationValidate || !SkillValidate || !GenderValidate || !JobRoleValidate || !PositionValidate) {
 
         }
 
@@ -310,6 +398,40 @@ const Blog = ({ params: { id } }) => {
                                     <MultipleDropZone dropZoneMessage={'Upload Resume'} files={addResume} setFiles={setAddResume} />
 
                                 </div>
+
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <InputSelect
+                                        setValue={setJobRole}
+                                        value={JobRole}
+                                        options={jobRoles ?? []}
+                                        isTouched={JobRoleIsTouch}
+                                        setIsTouched={setJobRoleIsTouch}
+                                        className="py-1"
+                                        label={"Job Role"}
+                                        isRequired={true}
+                                        feedbackMessage={JobRoleMessage?.message}
+                                        feedbackType={JobRoleMessage?.type}
+                                        validateHandler={JobRoleSelectValidater}
+                                    />
+                                </div>
+
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <InputSelect
+                                        setValue={setPosition}
+                                        value={Position}
+                                        options={jobPositions ?? []}
+                                        isTouched={PositionIsTouch}
+                                        setIsTouched={setPositionIsTouch}
+                                        className="py-1"
+                                        label={"Position"}
+                                        isRequired={true}
+                                        feedbackMessage={PositionMessage?.message}
+                                        feedbackType={PositionMessage?.type}
+                                        validateHandler={PositionSelectValidater}
+                                        disabled={(jobPositions ?? []).length == 0}
+                                    />
+                                </div>
+
                                 <div className="col-lg-6 col-md-6 col-sm-12">
 
                                     <InputWithAddOn
@@ -353,10 +475,10 @@ const Blog = ({ params: { id } }) => {
 
 
                                 <div className="col-lg-6 col-md-6 col-sm-12">
-                                    <InputMultipleSelect
+                                    <InputSelect
                                         setValue={setGender}
                                         value={Gender}
-                                        options={[] ?? []}
+                                        options={[{ label: 'Select Role', value: '' }, { label: "Male", value: 'male' }, { label: "Women", value: 'women' }, { label: "Other", value: 'other' }] ?? []}
                                         isTouched={GenderIsTouch}
                                         setIsTouched={setGenderIsTouch}
                                         className="py-1"
