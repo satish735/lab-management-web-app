@@ -101,13 +101,13 @@ const Test = () => {
                 return { label: item?.name, value: item?._id }
             })
 
-             
+
             let TestListing = (e?.PackageTestInstanceListing ?? []).map((item) => {
 
- 
-                 return { label: item?.name, value: item?._id, price: item?.rate }
+
+                return { label: item?.name, value: item?._id, price: item?.rate }
             })
-             setListingFields({
+            setListingFields({
                 TestConditionListing: TestConditionListing, BodyPartListing: BodyPartListing, TestListing: TestListing
             })
 

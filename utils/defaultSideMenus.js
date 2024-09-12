@@ -67,15 +67,10 @@ const defaultSideMenus = [
         icon: <Book />,
 
         menu: [
+          
           {
             type: "sub",
-            label: "Packages",
-            link: "/admin/blogs"
-
-          },
-          {
-            type: "sub",
-            label: "Tests",
+            label: "Packages & Tests",
             link: "/admin/tests"
 
           },
@@ -83,6 +78,12 @@ const defaultSideMenus = [
             type: "sub",
             label: "Test Conditions",
             link: "/admin/test-condition"
+
+          },
+          {
+            type: "sub",
+            label: "Coupens",
+            link: "/admin/coupens"
 
           },
         ],
