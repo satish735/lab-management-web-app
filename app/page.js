@@ -9,10 +9,6 @@ import UserLayout from "@/layouts/UserLayout";
 import { getSession } from "next-auth/react";
 
 const Home = async () => {
-  const session = await getSession();
-  console.log(session);
-
-
   return (
     <div className='position-relative'>
 

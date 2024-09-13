@@ -93,5 +93,3 @@ export default mongoose.models.Coupon || mongoose.model('Coupon', CouponSchema);
 // HealthCondition : array of selected HealthCondition || "*"
 // BodyPart : array of selected body parts || "*"
 // Packages : array of selected packaes || "*" 
-
-selectedCenters

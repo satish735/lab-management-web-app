@@ -1,6 +1,6 @@
 import AdminLayout from "@/layouts/AdminLayout";
+async function RootLayout({ children }) {
 
-function RootLayout({ children }) {
   return <AdminLayout>{children}</AdminLayout>;
 }
 

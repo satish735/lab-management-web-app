@@ -2,7 +2,7 @@
 import { makeStore } from "@/lib/store/store";
 import { useRef } from "react";
 import { Provider } from "react-redux";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
 export default function StoreProvider({ children }) {
   const storeRef = useRef();

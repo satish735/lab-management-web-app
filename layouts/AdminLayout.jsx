@@ -1,6 +1,6 @@
 "use client";
 import "./AdminLayout.css"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Switch from "./layout-components/sidemenu-components/Switch";
 import SidebarHeader from "./layout-components/sidemenu-components/SidebarHeader";
@@ -19,6 +19,10 @@ import PackageBadges from "./layout-components/sidemenu-components/PackageBadges
 import AdminHeader from "./layout-components/AdminHeader";
 import AdminFooter from "./layout-components/AdminFooter";
 import defaultSideMenus from "@/utils/defaultSideMenus";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import matchDynamicPaths from "@/utils/matchDynamicPaths";
 
 const themes = {
   light: {
@@ -129,6 +133,28 @@ const AdminLayout = ({ children }) => {
     }),
   };
 
+
+
+  const session = useSession()
+  const pathname = usePathname()
+  const router = useRouter()
+  const onlyAdminPaths = []
+  useEffect(() => {
+    switch (session?.status) {
+      case "authenticated":
+        var userRole = session?.data?.user?.role
+        if (userRole != "admin") {
+          var checkIfRouteMatch = onlyAdminPaths.some(onlyAdminPathsItem => matchDynamicPaths(onlyAdminPathsItem, pathname))
+          if (checkIfRouteMatch) {
+            router.push("/admin")
+          }
+        }
+        break;
+      case "unauthenticated":
+        router.push("/login/admin")
+        break;
+    }
+  }, [session?.status, pathname])
   return (
     <div
       style={{
@@ -158,7 +184,7 @@ const AdminLayout = ({ children }) => {
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
-        
+
         >
           <SidebarHeader
             collapsed={collapsed}

@@ -103,10 +103,11 @@ const AdminHeader = ({
 export default AdminHeader;
 const ProfileComponent = () => {
   const session = useSession()
-  console.log(session)
+  const userDetails = session?.data?.user
+  console.log(userDetails)
   const router = useRouter();
-  var name = "Anil Puri"
-  var role = "admin-user"
+  var name = userDetails?.name
+  var role = userDetails?.role
   var center_name = "Anith Path Lab"
   var city = "jaipur"
   var image_div_styling = {
