@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import matchDynamicPaths from "@/utils/matchDynamicPaths";
+import Link from "next/link";
 
 const themes = {
   light: {
@@ -40,6 +41,14 @@ const themes = {
       disabled: {
         color: "#9fb6cf",
       },
+      [`&.active`]: {
+        backgroundColor: 'black',
+        color: '#b6c8d9',
+      },
+      active: {
+        backgroundColor: "black",
+        color: "#44596e",
+      }
     },
   },
   dark: {
@@ -127,6 +136,14 @@ const AdminLayout = ({ children }) => {
         ),
         color: themes[theme].menu.hover.color,
       },
+      "&.ps-active": {
+        backgroundColor: hexToRgba(
+          themes[theme].menu.hover.backgroundColor,
+          hasImage ? 0.8 : 1
+        ),
+        color: themes[theme].menu.hover.color,
+      },
+
     },
     label: ({ open }) => ({
       fontWeight: open ? 600 : undefined,
@@ -139,10 +156,10 @@ const AdminLayout = ({ children }) => {
   const pathname = usePathname()
   const router = useRouter()
   const onlyAdminPaths = []
+  var userRole = session?.data?.user?.role
   useEffect(() => {
     switch (session?.status) {
       case "authenticated":
-        var userRole = session?.data?.user?.role
         if (userRole != "admin") {
           var checkIfRouteMatch = onlyAdminPaths.some(onlyAdminPathsItem => matchDynamicPaths(onlyAdminPathsItem, pathname))
           if (checkIfRouteMatch) {
@@ -192,7 +209,7 @@ const AdminLayout = ({ children }) => {
             style={{ marginBottom: "24px", marginTop: "5px" }}
           />
           <div style={{ flex: 1, marginBottom: "24px" }}>
-            {defaultSideMenus.map((parentItem, index) => {
+            {defaultSideMenus.filter(subItem => !subItem?.roles || subItem?.roles == "*" || (subItem?.roles?.includes?.(userRole))).map((parentItem, index) => {
               return {
                 head: (
                   <div
@@ -265,12 +282,27 @@ const AdminLayout = ({ children }) => {
 };
 
 const RecursiveMenuCreaterList = ({ list }) => {
+  const session = useSession()
+  const pathname = usePathname()
+  var userRole = session?.data?.user?.role
+  const getAllLinks = (obj) =>
+    obj?.menu?.flatMap(item =>
+      item.type === 'sub' ? [item.link] : item.menu ? getAllLinks({ menu: item.menu }) : []
+    ) || [];
+  const checkAllObjectRecursive = (obj) => {
+    var traversedlinks = getAllLinks(obj)
+    return Array.isArray(traversedlinks) ? traversedlinks.includes(pathname) : false
+  }
   return (
     <>
-      {list.map((subItem, index) => {
+      {list.filter(subItem => !subItem?.roles || subItem?.roles == "*" || (subItem?.roles?.includes?.(userRole))).map((subItem, index) => {
+        var isOpenOrActive = subItem?.type == "main" ? checkAllObjectRecursive(subItem) : pathname == subItem?.link
+
         return {
           main: (
             <SubMenu
+              active={isOpenOrActive}
+              defaultOpen={isOpenOrActive}
               key={index}
               icon={subItem?.icon}
               disabled={subItem?.disabled}
@@ -282,11 +314,14 @@ const RecursiveMenuCreaterList = ({ list }) => {
           ),
           sub: (
             <MenuItem
+              active={isOpenOrActive}
               href={subItem?.link}
               key={index}
               icon={subItem?.icon}
               disabled={subItem?.disabled}
               suffix={subItem?.suffix}
+              component={<Link />}
+
             >
               {/* <a  style={{ color: "inherit", textDecoration: "none" }}> */}
               {subItem?.label}
@@ -298,7 +333,5 @@ const RecursiveMenuCreaterList = ({ list }) => {
     </>
   );
 };
-
-const RecursiveMenuCreaterListItem = () => { };
 
 export default AdminLayout;
