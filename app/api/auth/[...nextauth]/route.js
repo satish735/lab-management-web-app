@@ -19,7 +19,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const User = await AdminLogin.findOne({ email: credentials?.email });
+          const User = await AdminLogin.findOne({ email: credentials?.email }).populate({ path: "currentCenter" });
           if (!User) {
             throw new Error("User not found!");
           }
@@ -27,25 +27,36 @@ export const authOptions = {
           if (credentials.password !== User.bcryptPassword) {
             throw new Error("Incorrect password!");
           }
-          var centers = []
-          if (User.role == "admin") {
-            var newCenters = await Center.find({ publishedAt: { $ne: null } }).select("centre city state")
-            centers = newCenters
+
+          var getCentersFilter = {}
+          var currentCenter = User?.currentCenter
+          if (Array.isArray(User?.iscenter) && (User?.iscenter?.includes?.("*") || User.role == "admin")) {
+            getCentersFilter = { publishedAt: { $ne: null } }
           }
-          else if (User.role == "adminuser" && Array.isArray(User.iscenter) && User.iscenter.length > 0) {
-            var newCenters = await Center.find({ _id: { $in: User.iscenter } }).select("centre city state")
-            centers = newCenters
+          else if (Array.isArray(User?.iscenter) && User.iscenter.length > 0) {
+            getCentersFilter = { id: { $in: User.iscenter }, publishedAt: { $ne: null } }
           }
           else {
-            throw new Error("Not authorized!");
+            throw new Error("Centers are not assigned to user. Not Allowed to login!");
+          }
+          var centers = await Center.find(getCentersFilter).select("centre city state")
+          if (centers.some(item => item?.id == User?.currentCenter?.id) && User?.currentCenter) {
+            currentCenter = User?.currentCenter
+          }
+          else {
+            currentCenter = centers[0]
+            User.currentCenter = currentCenter?.id
+            await User.save();
           }
           return {
-            id: User._id,
+            id: User.id,
             name: User.name,
             email: User.email,
             role: User.role,
             phone: User.phone,
-            centers: centers
+            centers: centers,
+            currentCenter: centers[0],
+            image: User?.image
           };
         } catch (err) {
           throw new Error(err.message);
@@ -73,7 +84,7 @@ export const authOptions = {
           }
 
           return {
-            id: User._id,
+            id: User.id,
             name: User.name,
             email: User.email,
             role: User.role,
@@ -94,14 +105,20 @@ export const authOptions = {
     maxAge: 10 * 24 * 60 * 60, // JWT expiration time (24 hours)
   },
   callbacks: {
-    async jwt({ token, user: User }) {
+    async jwt({ token, user: User, trigger, session }) {
+      if (trigger === "update" && session) {
+        token = { ...token, ...session }
+        return token;
+      };
       if (User) {
         token.id = User.id;
         token.email = User.email;
         token.name = User.name;
         token.role = User.role;
         token.phone = User.phone;
-        token.centers = User?.centers ?? []
+        token.centers = User?.centers ?? [],
+          token.currentCenter = User?.currentCenter,
+          token.image = User?.image
       }
       return token;
     },
@@ -113,7 +130,9 @@ export const authOptions = {
           name: token.name,
           role: token.role,
           phone: token.phone,
-          centers: token?.centers
+          centers: token?.centers,
+          currentCenter: token?.currentCenter,
+          image: token?.image
         };
       }
       return session;

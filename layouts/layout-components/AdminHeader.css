@@ -179,7 +179,8 @@
 }
 
 .profile-center-section .change-center-icon:hover,
-.profile-center-section:hover .change-center-icon {
+.profile-center-section:hover .change-center-icon,
+.profile-center-section .change-center-icon.selected {
     fill: var(--color-primary)
 }
 

@@ -20,8 +20,12 @@ const AdminLoginSchema = new Schema({
       },
       message: props => `${props.value} is not a valid ObjectId or "*" for full access.`
     },
-    ref: "CenterSchema" // Adding reference for ObjectId type values
+    ref: "Center" // Adding reference for ObjectId type values
   }],
+  currentCenter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Center"
+  },
   is_delete: { type: Boolean, default: false }
 });
 
