@@ -7,7 +7,7 @@ import PreviewFilters from "@/components/table/PreviewFilters";
 import { useState, useEffect } from "react";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { Badge } from "reactstrap";
@@ -42,8 +42,8 @@ export default function Home() {
   ]);
   const [selectedViewOptions, setSelectedViewOptions] = useState([
     "action",
-    "name"
-    
+    "couponName", "couponCode", "status", "maxUsage"
+
   ]);
   const changePageAndRows = (page, rows) => {
     // coupenHandler({
@@ -75,9 +75,9 @@ export default function Home() {
 
   const [coupenResponse, coupenHandler] = useAPI(
     {
-      url: "/coupen/list",
+      url: "/addCoupon/list",
       method: "get",
-      // sendImmediately: true,
+      sendImmediately: true,
       params: {
         sortColumn: sort?.column,
         sortDirection: sort?.direction,
@@ -91,7 +91,7 @@ export default function Home() {
       setTotalRows(e?.total);
     },
     (e) => {
-      toast.error( transformErrorDefault(
+      toast.error(transformErrorDefault(
         "Something went wrong while Getting coupens!",
         e
       ));
@@ -110,7 +110,7 @@ export default function Home() {
               name="View"
               onClick={() => {
                 router.push(`/admin/coupen/view?id=${row?._id}&type=view`);
-                 
+
 
               }}
             />
@@ -130,19 +130,135 @@ export default function Home() {
       className: "mnw-12",
     },
     {
-      key: "name",
-      label: "Name",
+      key: "couponName",
+      label: "Coupon Name",
       value: (row) => {
-        return row?.name;
+        return row?.couponName;
       },
       sortable: true,
       isDefault: true,
       isSelectRequired: true,
       hasTooltip: true,
       className: "mnw-12",
-    } 
+    }
 
-     ,
+    ,
+
+    {
+      key: "couponCode",
+      label: "Coupon Code",
+      value: (row) => {
+        return row?.couponCode;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+    {
+      key: "startDate",
+      label: "Start Date",
+      value: (row) => {
+        return row?.startDate;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
+
+    {
+      key: "expirationDate",
+      label: "Expiration Date",
+      value: (row) => {
+        return row?.expirationDate;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+    {
+      key: "discountType",
+      label: "Discount Type",
+      value: (row) => {
+        return row?.discountType;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+    {
+      key: "discountValue",
+      label: "Discount Value",
+      value: (row) => {
+        return row?.discountValue;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+    {
+      key: "maxUsage",
+      label: "Max Usage",
+      value: (row) => {
+        return row?.maxUsage;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+    ,
+    {
+      key: "maxUsagePerUser",
+      label: "Max Usage Per User",
+      value: (row) => {
+        return row?.maxUsagePerUser;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+    {
+      key: "status",
+      label: "Status",
+      value: (row) => {
+        return row?.status;
+      },
+      sortable: true,
+      isDefault: true,
+      isSelectRequired: true,
+      hasTooltip: true,
+      className: "mnw-12",
+    }
+
+    ,
+
     {
       label: "Created At",
       value: (row) => {
@@ -170,22 +286,22 @@ export default function Home() {
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Coupen", link: "/admin/coupen", active: true },
+          { label: "Coupon", link: "/admin/coupen", active: true },
         ]}
       />
       <div className="admin-content-box">
-        <h1 className="main-heading">Discount Coupen</h1>
-        <p className="sub-heading">Listing page for coupen.</p>
+        <h1 className="main-heading">Discount Coupon</h1>
+        <p className="sub-heading">Listing page for coupon.</p>
         <div className="text-end my-2">
           <button
             className=" btn btn-outline-dark"
             onClick={() => {
-              router.push("/admin/coupens/create");
+              router.push("/admin/coupen/create");
             }}
             type="button"
           >
             {" "}
-            Create Coupen
+            Create Coupon
           </button>
         </div>
 
@@ -205,7 +321,7 @@ export default function Home() {
         <CustomTable
           loading={coupenResponse?.fetching}
           columns={columns}
-          data={getlistingdata ?? [1,2]}
+          data={getlistingdata ?? [1, 2]}
           sort={sort}
           sortAction={sortAction}
           selectedColumns={selectedViewOptions}

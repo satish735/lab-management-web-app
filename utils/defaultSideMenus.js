@@ -105,7 +105,7 @@ const defaultSideMenus = [
         type: "sub",
         label: "Coupons",
         icon: <Book />,
-        link: "/admin/coupons"
+        link: "/admin/coupon"
       },
     ]
   },

@@ -23,14 +23,7 @@ const CouponSchema = new Schema({
   },
   selectedUsers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserDetails',
-    validate: {
-      validator: function (v) {
-        // Ensure that selectedUsers is only used if userType is 'individual'
-        return this.userType !== 'individual' || (Array.isArray(v) && v.length > 0);
-      },
-      message: 'Selected users must be specified if userType is "individual".'
-    }
+    ref: 'UserDetails'
   }],
   expirationDate: {
     type: Date,
@@ -60,6 +53,10 @@ const CouponSchema = new Schema({
     min: 0.01,
     required: true,
   },
+  criteriaFields: [{
+    type: String ,
+    default: '',
+  }],
   selectedCriteria: {
     type: Schema.Types.Mixed, // Allows for storing JSON-like structures
     default: {},
@@ -68,6 +65,10 @@ const CouponSchema = new Schema({
     type: String,
     required: true,
   },
+  termsCondition: [{
+    type: String,
+    required: true,
+  }],
   descriptionLong: {
     type: String,
     default: '',
@@ -81,6 +82,7 @@ const CouponSchema = new Schema({
 }, {
   timestamps: true, // Adds createdAt and updatedAt fields
 });
+
 
 CouponSchema.pre("save", function (next) {
   next();
