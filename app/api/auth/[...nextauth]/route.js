@@ -34,7 +34,7 @@ export const authOptions = {
             getCentersFilter = { publishedAt: { $ne: null } }
           }
           else if (Array.isArray(User?.iscenter) && User.iscenter.length > 0) {
-            getCentersFilter = { id: { $in: User.iscenter }, publishedAt: { $ne: null } }
+            getCentersFilter = { _id: { $in: User.iscenter }, publishedAt: { $ne: null } }
           }
           else {
             throw new Error("Centers are not assigned to user. Not Allowed to login!");

@@ -3,6 +3,7 @@ import SlotTime from "@/model2/SlotTime";
 import UserDetails from "@/model2/UserDetails";
 import SlotDate from "@/model2/SlotDate";
 import PackageTest from "@/model2/PackageTest";
+import Address from "@/model2/Address";
 export const GET = async (request, { params }) => {
   try {
     const { bookingNumber = null } = params;
@@ -20,6 +21,8 @@ export const GET = async (request, { params }) => {
       .populate({
         path: "teamMemberId",
         select: "name email gender relation dob",
+      }).populate({
+        path:"addressId"
       });
     return new Response(JSON.stringify(bookingDetails), { status: 200 });
   } catch (error) {

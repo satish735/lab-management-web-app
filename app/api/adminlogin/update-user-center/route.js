@@ -21,12 +21,12 @@ export const GET = async (request, { params }) => {
             getCentersFilter = { publishedAt: { $ne: null } }
         }
         else if (Array.isArray(User?.iscenter) && User.iscenter.length > 0) {
-            getCentersFilter = { id: { $in: User.iscenter }, publishedAt: { $ne: null } }
+            getCentersFilter = { _id: { $in: User.iscenter }, publishedAt: { $ne: null } }
         }
         else {
             throw new Error("Centers are not assigned to user. Ask Admin to add centers to user!");
         }
-
+console.log(getCentersFilter)
         var centers = await Center.find(getCentersFilter).select("centre city state")
         if (centers.some(item => item?.id == User?.currentCenter?.id) && User?.currentCenter) {
             currentCenter = User?.currentCenter

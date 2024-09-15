@@ -1,5 +1,5 @@
+"use client"
 const BookingTimeLineOne = ({
-  currentStatus = null,
   selected = "process_assigned",
   isCancelled = true,
 }) => {

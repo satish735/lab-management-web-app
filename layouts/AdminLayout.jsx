@@ -157,6 +157,7 @@ const AdminLayout = ({ children }) => {
   const router = useRouter()
   const onlyAdminPaths = []
   var userRole = session?.data?.user?.role
+  console.log(session)
   useEffect(() => {
     switch (session?.status) {
       case "authenticated":

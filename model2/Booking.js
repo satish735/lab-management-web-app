@@ -52,8 +52,8 @@ const bookingSchema = new Schema({
   // },
   discount: {
     type: Number,
-    min: 0,
-    max: 100,
+    // min: 0,
+    // max: 100,
     default: 0
   },
   homeCollectionCharge: {
@@ -62,7 +62,13 @@ const bookingSchema = new Schema({
   },
   total: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
+  },
+  testAmount: {
+    type: Number,
+    required: true,
+    default: 0
   },
   addressId: {
     type: Schema.Types.ObjectId,
