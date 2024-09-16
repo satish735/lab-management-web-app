@@ -451,3 +451,9 @@ body::-webkit-scrollbar-thumb {
   color: white;
   border-color: transparent;
 }
+
+
+.admin-left-menu-icon{
+  font-size: 20px;
+  color:#46bb00;
+}

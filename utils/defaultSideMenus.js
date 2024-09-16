@@ -1,5 +1,10 @@
 import Book from "@/layouts/layout-components/sidemenu-icons/Book";
 import Icon from "@/layouts/layout-components/sidemenu-icons/Icon";
+
+import { FaSquarePollVertical, FaCalendarDay, FaTicket, FaCoins, FaUsers, FaBuilding, FaBriefcase, FaFlaskVial, FaHandHoldingMedical, FaLungs, FaBlogger } from "react-icons/fa6";
+import { FaHouseUser, FaHospitalUser, FaUser, FaQuestion ,FaTags} from "react-icons/fa"
+import { TbLayoutDashboardFilled, TbReportSearch,TbPackages  } from "react-icons/tb";
+
 const defaultSideMenus = [
   { type: "head", label: "Analytics", },
   {
@@ -8,14 +13,14 @@ const defaultSideMenus = [
       {
         type: "sub",
         label: "Dashboard",
-        icon: <Book />,
+        icon: <TbLayoutDashboardFilled className="admin-left-menu-icon" />,
         link: "/admin",
-      
+
       },
       {
         type: "sub",
         label: "Analytics",
-        icon: <Book />,
+        icon: <FaSquarePollVertical className="admin-left-menu-icon" />,
         link: "/admin/analytics",
         roles: ["admin"],
       },
@@ -28,25 +33,25 @@ const defaultSideMenus = [
       {
         type: "sub",
         label: "Slots",
-        icon: <Book />,
+        icon: <FaCalendarDay className="admin-left-menu-icon" />,
         link: "/admin/slots"
       },
       {
         type: "sub",
         label: "Bookings",
-        icon: <Book />,
+        icon: <FaTags className="admin-left-menu-icon" />,
         link: "/admin/bookings"
       },
       {
         type: "sub",
         label: "Home Collections",
-        icon: <Book />,
+        icon: <FaHouseUser className="admin-left-menu-icon" />,
         link: "/admin/home-collections"
       },
       {
         type: "sub",
         label: "Transactions",
-        icon: <Book />,
+        icon: <FaCoins className="admin-left-menu-icon" />,
         link: "/admin/transactions"
       },]
   },
@@ -57,25 +62,25 @@ const defaultSideMenus = [
       {
         type: "sub",
         label: "Package & Tests",
-        icon: <Book />,
+        icon: <FaFlaskVial className="admin-left-menu-icon" />,
         link: "/admin/tests"
       },
       {
         type: "sub",
         label: "Test Conditions",
-        icon: <Book />,
+        icon: <TbReportSearch className="admin-left-menu-icon" />,
         link: "/admin/test-condition"
       },
       {
         type: "sub",
         label: "Body Parts",
-        icon: <Book />,
+        icon: <FaLungs className="admin-left-menu-icon" />,
         link: "/admin/body-parts"
       },
       {
         type: "sub",
         label: "Package Categories",
-        icon: <Book />,
+        icon: <TbPackages  className="admin-left-menu-icon" />,
         link: "/admin/package-category"
       },]
   },
@@ -86,25 +91,25 @@ const defaultSideMenus = [
       {
         type: "sub",
         label: "Blogs",
-        icon: <Book />,
+        icon: <FaBlogger className="admin-left-menu-icon" />,
         link: "/admin/blogs"
       },
       {
         type: "sub",
         label: "Health Bulletins",
-        icon: <Book />,
+        icon: <FaHandHoldingMedical className="admin-left-menu-icon" />,
         link: "/admin/healthbulletin"
       },
       {
         type: "sub",
         label: "FAQ's",
-        icon: <Book />,
+        icon: <FaQuestion className="admin-left-menu-icon" />,
         link: "/admin/faq"
       },
       {
         type: "sub",
         label: "Coupons",
-        icon: <Book />,
+        icon: <FaTicket className="admin-left-menu-icon" />,
         link: "/admin/coupon"
       },
     ]
@@ -116,7 +121,7 @@ const defaultSideMenus = [
       {
         type: "main",
         label: "Openings",
-        icon: <Book />,
+        icon: <FaBriefcase className="admin-left-menu-icon" />,
 
         menu: [
           {
@@ -134,7 +139,7 @@ const defaultSideMenus = [
       {
         type: "main",
         label: "Company Details",
-        icon: <Book />,
+        icon: <FaBuilding className="admin-left-menu-icon" />,
 
         menu: [
           {
@@ -152,7 +157,7 @@ const defaultSideMenus = [
       {
         type: "main",
         label: "Users",
-        icon: <Book />,
+        icon: <FaUsers className="admin-left-menu-icon" />,
         menu: [
           {
             type: "sub",
@@ -174,7 +179,7 @@ const defaultSideMenus = [
       {
         type: "main",
         label: "Centers & Locations",
-        icon: <Book />,
+        icon: <FaHospitalUser className="admin-left-menu-icon" />,
         menu: [
           {
             type: "sub",
@@ -187,7 +192,7 @@ const defaultSideMenus = [
       {
         type: "sub",
         label: "User Profile",
-        icon: <Book />,
+        icon: <FaUser className="admin-left-menu-icon" />,
         link: "/admin/profile"
       },
     ]
