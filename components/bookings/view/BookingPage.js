@@ -10,7 +10,13 @@ import moment from "moment";
 import BookingTimeLineOne from "./BookingTimeLineOne";
 import { Accordion, AccordionBody, AccordionItem, AccordionHeader } from "reactstrap";
 import ActivityTimeLine from "./ActivityTimeLine";
+import BookingConfirmModal from "./BookingConfirmModal";
+import { useRouter } from "next/navigation";
+import MarkPaymentModal from "./MarkPaymentModal";
+import UpdateBookingStatusModal from "./UpdateBookingStatusModal";
+
 const BookingPage = ({ bookingNumber = null }) => {
+  const router = useRouter();
   const [getBookingResponse, getBookingHandler] = useAPI(
     {
       url: `/bookings/${bookingNumber}`,
@@ -34,7 +40,7 @@ const BookingPage = ({ bookingNumber = null }) => {
   var bookingDetails = getBookingResponse?.data
   var SlotDetails = getBookingResponse?.data?.slotId
   var AddressDetails = getBookingResponse?.data?.addressId
-
+  var homeCollection = getBookingResponse?.data?.homeCollection
 
   const [activityAccordionOpen, setActivityAccordionOpen] = useState('1');
   const toggleActivityAccordion = (id) => {
@@ -45,6 +51,22 @@ const BookingPage = ({ bookingNumber = null }) => {
     }
   };
 
+
+  const [confirmBookingOpen, setConfirmBookingOpen] = useState(false)
+  const confirmBookingSuccessHandler = async () => {
+    await getBookingHandler()
+    setConfirmBookingOpen(false)
+  }
+  const [markPaymentOpen, setMarkPaymentOpen] = useState(false)
+  const markPaymentSuccessHandler = async () => {
+    await getBookingHandler()
+    setMarkPaymentOpen(false)
+  }
+  const [updateBookingStatusOpen, setUpdateBookingStatusOpen] = useState(false)
+  const updateBookingStatusSuccessHandler = async () => {
+    await getBookingHandler()
+    setUpdateBookingStatusOpen(false)
+  }
   return (
     <div className="w-100 booking-details-section">
       <LoaderAndNoContent
@@ -65,18 +87,22 @@ const BookingPage = ({ bookingNumber = null }) => {
               {bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && ["pending", "failed"].includes(bookingDetails?.paymentStatus) && <button
                 className=" btn btn-theme primary-outline ms-2"
                 type="button"
+                onClick={() => { setMarkPaymentOpen(true) }}
+                style={{ minWidth: "130px" }}
               >
-                Mark Payment
+                Mark Payment as Paid
               </button>}
               {['confirmed', 'process_assigned', 'started', 'collection_done', "sample_reached", "report_approved"].includes(bookingDetails?.status) && <button
                 className=" btn btn-theme secondary ms-2"
                 type="button"
+                onClick={() => { setUpdateBookingStatusOpen(true) }}
               >
                 Update Booking Status
               </button>}
               {bookingDetails?.status == "created" && <button
                 className=" btn btn-theme secondary ms-2"
                 type="button"
+                onClick={() => { setConfirmBookingOpen(true) }}
               >
                 Confirm Booking
               </button>}
@@ -186,18 +212,18 @@ const BookingPage = ({ bookingNumber = null }) => {
             </div>
             {/* Home Collection Section */}
             <div className="col-12 mb-2 text-end">
-              <button
+              {homeCollection && bookingDetails?.collectionType == "home" && <button
                 className=" btn btn-theme secondary"
                 type="button"
-              >Update Home Collection</button>
-              <button
+              >Update Home Collection</button>}
+              {!homeCollection && bookingDetails?.collectionType == "home" && bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && <button
                 className=" btn btn-theme secondary ms-2"
                 type="button"
               >Create Home Collection
-              </button>
+              </button>}
 
             </div>
-            <div className="col-12 p-0">
+            {homeCollection && <div className="col-12 p-0">
               <div className="general-details row m-0 p-0 mb-2">
                 <div className="col-12 py-2 m-0">
                   <span className="full-name">
@@ -258,83 +284,71 @@ const BookingPage = ({ bookingNumber = null }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>}
             <div className="col-12 p-0">
               <Accordion open={activityAccordionOpen} toggle={toggleActivityAccordion}>
-                <AccordionItem>
+                {Array.isArray(bookingDetails?.activities) && bookingDetails?.activities.length > 0 && < AccordionItem >
                   <AccordionHeader targetId="1">Booking Activity</AccordionHeader>
                   <AccordionBody accordionId="1" className="booking-activity-timeline">
-                    <ActivityTimeLine timelineList={timeLineRecords1} />
+                    <ActivityTimeLine timelineList={bookingDetails?.activities} />
                   </AccordionBody>
-                </AccordionItem>
-                <AccordionItem>
+                </AccordionItem>}
+                {homeCollection && Array.isArray(homeCollection?.activities) && homeCollection?.activities.length > 0 && <AccordionItem>
                   <AccordionHeader targetId="2">Home Collection Activity</AccordionHeader>
                   <AccordionBody accordionId="2" className="booking-activity-timeline">
-                    <ActivityTimeLine timelineList={timeLineRecords1} />
+                    <ActivityTimeLine timelineList={homeCollection?.activities} />
                   </AccordionBody>
-                </AccordionItem>
+                </AccordionItem>}
+                {Array.isArray(bookingDetails?.transactions) && bookingDetails?.transactions.length > 0 && < AccordionItem >
+                  <AccordionHeader targetId="1">Transactions</AccordionHeader>
+                  <AccordionBody accordionId="1" className="booking-activity-timeline">
+                    {bookingDetails?.transactions.map((tItem => {
+                      return <div className="general-details row m-0 py-0 mb-2">
+                        <div className="col-12 py-2 m-0">
+                          <span className="full-name">
+                            {tItem?.transactionId}
+                          </span>{" "}
+                          <span className="gender">
+                            Status : {tItem?.status},
+                          </span>{" "}<span className="gender">
+                            Method : {tItem?.paymentMethod}
+                          </span>,
+                          {" "}<span className="gender">
+                            Amount : ₹{tItem?.amount}
+                          </span>
+                        </div>
+                        <hr className="m-0" />
+                        <div className="col-12 py-2 m-0 general-details-2">
+                          <div className="section">
+                            <p className="heading">Time & Date</p>
+                            <p className="values" >{moment(tItem?.transactionDate).format("DD MMMM YYYY hh:mm A")}</p>
+                          </div>
+                          <div className="section">
+                            <p className="heading">Reference TId</p>
+                            <p className="values" >{tItem?.referenceTransactionId}</p>
+                          </div>
+                          <div className="section">
+                            <p className="heading">Description</p>
+                            <p className="values" >{tItem?.description}</p>
+                          </div>
+                        </div>
+                      </div>
+                    }))}
+                  </AccordionBody>
+                </AccordionItem>}
               </Accordion>
             </div>
           </div>
-        )}
+        )
+      }
       <pre>
         {JSON.stringify(getBookingResponse?.data ?? "", null, 2)}
       </pre>
-    </div>
+      {confirmBookingOpen && <BookingConfirmModal isOpen={confirmBookingOpen} setIsOpen={setConfirmBookingOpen} successHandler={confirmBookingSuccessHandler} bookingDetails={bookingDetails} />}
+      {markPaymentOpen && <MarkPaymentModal isOpen={markPaymentOpen} setIsOpen={setMarkPaymentOpen} successHandler={markPaymentSuccessHandler} bookingDetails={bookingDetails} />}
+      {updateBookingStatusOpen && <UpdateBookingStatusModal isOpen={updateBookingStatusOpen} setIsOpen={setUpdateBookingStatusOpen} successHandler={updateBookingStatusSuccessHandler} bookingDetails={bookingDetails} />}
+    </div >
   );
 };
 
 export default BookingPage;
-
-var timeLineRecords1 = [
-  {
-    "activityDate": "2024-09-16T08:00:00Z",
-    "activityType": "Workout",
-    "description": "<p>Morning jog in the <strong>park</strong></p>"
-  },
-  {
-    "activityDate": "2024-09-16T09:30:00Z",
-    "activityType": "Meeting",
-    "description": "<p><em>Project team meeting</em> in the conference room</p>"
-  },
-  {
-    "activityDate": "2024-09-16T12:00:00Z",
-    "activityType": "Lunch",
-    "description": "<p>Lunch with colleagues at a <a href='http://example.com'>cafe</a></p>"
-  },
-  {
-    "activityDate": "2024-09-16T14:00:00Z",
-    "activityType": "Conference",
-    "description": "<p>Tech conference on <strong>AI advancements</strong></p>"
-  },
-  {
-    "activityDate": "2024-09-16T16:00:00Z",
-    "activityType": "Study",
-    "description": "<p><span style='color:blue;'>Study session</span> for upcoming exams</p>"
-  },
-  {
-    "activityDate": "2024-09-16T18:00:00Z",
-    "activityType": "Exercise",
-    "description": "<p>Evening gym <b>workout</b> session</p>"
-  },
-  {
-    "activityDate": "2024-09-17T08:00:00Z",
-    "activityType": "Workshop",
-    "description": "<p>Workshop on <i>leadership skills</i></p>"
-  },
-  {
-    "activityDate": "2024-09-17T10:00:00Z",
-    "activityType": "Call",
-    "description": "<p>Phone call with a <u>client</u></p>"
-  },
-  {
-    "activityDate": "2024-09-17T13:00:00Z",
-    "activityType": "Shopping",
-    "description": "<p>Grocery <strike>shopping</strike> at the local market</p>"
-  },
-  {
-    "activityDate": "2024-09-17T19:00:00Z",
-    "activityType": "Dinner",
-    "description": "<p>Dinner at a new <mark>restaurant</mark></p>"
-  }
-]
