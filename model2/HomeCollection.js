@@ -48,5 +48,17 @@ const homeCollectionSchema = new Schema({
   timestamps: true // Automatically adds createdAt and updatedAt fields
 });
 
+// Define a virtual field for the HomeCollectionActivity
+homeCollectionSchema.virtual('activities', {
+  ref: 'HomeCollectionActivity', // The model to use
+  localField: '_id', // Field in the HomeCollection model
+  foreignField: 'homeCollectionId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
+// Ensure virtual fields are included in toJSON output
+homeCollectionSchema.set('toJSON', { virtuals: true });
+homeCollectionSchema.set('toObject', { virtuals: true });
+
 // Create the HomeCollection model
 export default mongoose.models.HomeCollection || mongoose.model('HomeCollection', homeCollectionSchema);

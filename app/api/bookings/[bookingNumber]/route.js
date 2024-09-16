@@ -1,9 +1,13 @@
 import Booking from "@/model2/Booking";
+import BookingActivity from "@/model2/BookingActivity";
 import SlotTime from "@/model2/SlotTime";
 import UserDetails from "@/model2/UserDetails";
 import SlotDate from "@/model2/SlotDate";
 import PackageTest from "@/model2/PackageTest";
 import Address from "@/model2/Address";
+import HomeCollection from "@/model2/HomeCollection";
+import HomeCollectionActivity from "@/model2/HomeCollectionActivity";
+import Transaction from "@/model2/Transaction";
 export const GET = async (request, { params }) => {
   try {
     const { bookingNumber = null } = params;
@@ -22,8 +26,11 @@ export const GET = async (request, { params }) => {
         path: "teamMemberId",
         select: "name email gender relation dob",
       }).populate({
-        path:"addressId"
-      });
+        path: "addressId"
+      }).populate({ path: "homeCollection", populate: { path: "activities" } })
+      .populate({ path: "activities" }).populate({ path: "transactions" })
+
+      ;
     return new Response(JSON.stringify(bookingDetails), { status: 200 });
   } catch (error) {
     console.log(error);

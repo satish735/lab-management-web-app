@@ -1,6 +1,6 @@
 "use client"
 const BookingTimeLineOne = ({
-  selected = "process_assigned",
+  selected = null,
   isCancelled = true,
 }) => {
   var options = [
@@ -11,7 +11,8 @@ const BookingTimeLineOne = ({
     { label: "Collection Done", value: "collection_done", sequence: 5 },
     { label: "Sample Reached", value: "sample_reached", sequence: 6 },
     { label: "Report Approved", value: "report_approved", sequence: 7 },
-    { label: "Cancelled", value: "cancelled", sequence: 8 },
+    { label: "Completed", value: "completed", sequence: 8 },
+    { label: "Cancelled", value: "cancelled", sequence: 9 },
   ];
   var sSequence = options.find((item) => item?.value == selected)?.sequence;
   return (
@@ -25,7 +26,7 @@ const BookingTimeLineOne = ({
         } else {
           className = "pending";
         }
-        if (isCancelled != true) {
+        if (isCancelled != true && item.value == "cancelled") {
           return null;
         }
         return <li className={className} key={item?.sequence}>{item?.label}</li>;

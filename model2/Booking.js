@@ -19,7 +19,7 @@ const bookingSchema = new Schema({
   }],
   status: {
     type: String,
-    enum: ['upcoming', 'completed', 'cancelled', 'rescheduled', 'no-show', "created"],
+    enum: ['created', 'confirmed', 'process_assigned', 'started', 'collection_done', "sample_reached", "report_approved", "completed"],
     default: 'upcoming'
   },
   paymentStatus: {
@@ -82,6 +82,11 @@ const bookingSchema = new Schema({
   membershipUsed: {
     type: Schema.Types.ObjectId,
     ref: 'Membership'
+  },
+  isCancelled: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, {
   timestamps: true // Mongoose will automatically add createdAt and updatedAt fields
@@ -112,6 +117,38 @@ bookingSchema.pre('save', async function (next) {
     next();
   }
 });
+
+
+
+// Define a virtual field for homeCollection
+bookingSchema.virtual('homeCollection', {
+  ref: 'HomeCollection',         // The model to use
+  localField: '_id',       // Field in HomeCollection
+  foreignField: 'bookingId', // Field in HomeCollection that references Booking
+  justOne: true
+});
+
+// Define a virtual field for the BookingActivity
+bookingSchema.virtual('activities', {
+  ref: 'BookingActivity', // The model to use
+  localField: '_id', // Field in the Booking model
+  foreignField: 'bookingId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
+// Define a virtual field for the BookingActivity
+bookingSchema.virtual('transactions', {
+  ref: 'Transaction', // The model to use
+  localField: '_id', // Field in the Booking model
+  foreignField: 'bookingId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
+// Ensure virtual fields are included in toJSON output
+bookingSchema.set('toJSON', { virtuals: true });
+bookingSchema.set('toObject', { virtuals: true });
+
+
 
 // Create the Booking model
 export default mongoose.models.Booking || mongoose.model('Booking', bookingSchema);
