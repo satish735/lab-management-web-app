@@ -352,7 +352,7 @@ const UserHeader2 = () => {
                   <FaPhone size={18} className="call-icon" />
                   +91 9739923174
                 </a>
-                <a type="button" className="btn login-button user-button" href="/login" style={{
+                <a type="button" className="btn login-button user-button" href="#" style={{
                   position: 'relative'
                 }}>
                   Login
@@ -368,7 +368,9 @@ const UserHeader2 = () => {
                     </div>
 
 
-                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{
+                      router.push("/mybookings")
+                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747' }}>
                         <FaBook />
@@ -379,7 +381,9 @@ const UserHeader2 = () => {
 
                     </div>
 
-                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{
+                      router.push("/my-address")
+                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747' }}>
                         <FaLocationDot />
@@ -391,7 +395,9 @@ const UserHeader2 = () => {
 
                     </div>
 
-                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{
+                      router.push("/myfamilymembers")
+                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747' }}>
                         <FaUserGroup />
@@ -401,7 +407,9 @@ const UserHeader2 = () => {
 
 
                     </div>
-                    <div className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{
+                      router.push("/my-profile")
+                    }}  className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747' }}>
                         <MdAccountCircle />

@@ -4,6 +4,8 @@ import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import React, { useEffect, useState } from "react";
 import { Input, Spinner } from 'reactstrap'
+import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
+
 import useInputComponent from '@/hooks/useInputComponent';
 import InputWithAddOn from '@/components/formInput/InputWithAddOn';
 import InputSelect from "@/components/formInput/select/InputSelect";
@@ -85,15 +87,26 @@ const MyProfile = () => {
 
 
     return <>
-        <div className="my-3">
-            <h4 className="px-5 mx-5" style={{fontWeight:"1.orem", fontWeight:"700"}}> My Profile
-            </h4>
 
-            <div className="text-center">
-                <img src="/assets/images/male.png" style={{ marginRight: "18px" }} alt="" />
+
+        <div className='main-parent-bar-div'>
+
+            <div className='side-bar-main' style={{ backgroundColor: 'white' }}>
+
+                <SideBarProfile />
             </div>
 
-            <div className='row px-5 mx-5 my-2'>
+            <div className='item-page-section'>
+
+                <div className="my-3">
+                    <h4 className="px-5 mx-5" style={{ fontWeight: "1.orem", fontWeight: "700" }}> My Profile
+                    </h4>
+
+                    <div className="text-center">
+                        <img src="/assets/images/male.png" style={{ marginRight: "18px" }} alt="" />
+                    </div>
+
+                    <div className='row px-5 mx-5 my-2'>
                         <div className=" my-1 col-12">
                             <InputWithAddOn
                                 placeholder="Full Name"
@@ -162,9 +175,13 @@ const MyProfile = () => {
                             />
                         </div>
 
- 
+
                     </div>
+                </div>
+            </div>
         </div>
+
+
     </>
 }
 
