@@ -5,7 +5,7 @@ import React from 'react'
 const ActivityTimeLine = ({ timelineList = [] }) => {
     return <ul class={`timeline`}>
         {
-            timelineList?.sort?.((b, a) => new Date(b?.activityDate) - new Date(a?.activityDate))?.map?.((item, index) => {
+            timelineList?.sort?.((a, b) => new Date(b?.activityDate) - new Date(a?.activityDate))?.map?.((item, index) => {
                 return <li className="completed w-100" key={index}>
                     <div style={{ display: "inline-block" }} dangerouslySetInnerHTML={{ __html: item?.activityType }}>
                     </div>
