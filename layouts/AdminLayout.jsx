@@ -88,6 +88,10 @@ const AdminLayout = ({ children }) => {
   const [hasImage, setHasImage] = useState(false);
   const [theme, setTheme] = useState("light");
 
+  useEffect(() => {
+    require('bootstrap/dist/js/bootstrap.bundle.min.js');
+  }, []);
+
   // handle on RTL change event
   const handleRTLChange = (e) => {
     setRtl(e.target.checked);
