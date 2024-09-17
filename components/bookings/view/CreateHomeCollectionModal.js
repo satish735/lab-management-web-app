@@ -4,7 +4,6 @@ import InputWithAddOn from '@/components/formInput/InputWithAddOn'
 import InputSelect from '@/components/formInput/select/InputSelect'
 import useAPI from '@/hooks/useAPI'
 import useInputComponent from '@/hooks/useInputComponent'
-import UserDetails from '@/model2/UserDetails'
 import transformErrorDefault from '@/utils/transformErrorDefault'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -58,8 +57,8 @@ const CreateHomeCollectionModal = ({ isOpen = false, setIsOpen = () => { }, succ
             var userDetails = getUserResponse.data.find(item => item?._id == selectedUserId)
             Name.setEnteredValue(userDetails?.name)
             Phone.setEnteredValue(userDetails?.phone)
-            PhoneValidater(UserDetails?.phone)
-            NameValidater(UserDetails?.name)
+            PhoneValidater(userDetails?.phone)
+            NameValidater(userDetails?.name)
 
         }
     }, [selectedUserId])

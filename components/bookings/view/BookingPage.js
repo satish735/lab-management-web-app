@@ -233,7 +233,7 @@ const BookingPage = ({ bookingNumber = null }) => {
             </div>
             {/* Home Collection Section */}
             <div className="col-12 mb-2 text-end">
-              {homeCollection && bookingDetails?.collectionType == "home" && <button
+              {homeCollection && bookingDetails?.collectionType == "home" && bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && <button
                 className=" btn btn-theme secondary"
                 type="button"
                 onClick={() => { setUpdateHomeCollectionOpen(true) }}
@@ -253,42 +253,42 @@ const BookingPage = ({ bookingNumber = null }) => {
                     Home Collection
                   </span>{" "}
                   <span className="gender">
-                    Status : picked,
+                    Status : {homeCollection?.collectionStatus},
                   </span>{" "}
                   <span className="dob">
                     Date :{" "}
-                    {moment("2024-09-09").format("DD MMMM YYYY")} {"10:00 PM"}
+                    {moment(homeCollection?.selectedCollectionDate).format("DD MMMM YYYY")} {homeCollection?.selectedCollectionTime}
                   </span>{" "}
                 </div>
                 <hr className="m-0" />
                 <div className="col-12 py-2 m-0 general-details-2">
                   <div className="section">
                     <p className="heading">Sample To be Collected</p>
-                    {["Urine", "Sliva"]?.map?.((item, index) => {
+                    {homeCollection?.samplesToBeCollected?.map?.((item, index) => {
                       return <p className="values" key={index}>{item}</p>;
                     })}
                   </div>
                   <div className="section">
                     <p className="heading">Samples Collected</p>
-                    {["Urine", "Sliva"]?.map?.((item, index) => {
+                    {homeCollection?.samplesToBeCollected?.map?.((item, index) => {
                       return <p className="values" key={index}>{item}</p>;
                     })}
                   </div>
-                  <div className="section">
+                  {homeCollection?.originalCollectionDate && <div className="section">
                     <p className="heading">Original Pickup</p>
-                    <p className="values">{moment("2024-09-09").format("DD MMMM YYYY")} {"10:00 PM"}</p>
-                  </div>
+                    <p className="values">{moment(homeCollection?.originalCollectionDate).format("DD MMMM YYYY")} {homeCollection?.originalCollectionTime}</p>
+                  </div>}
                 </div>
                 <hr className="m-0" />
                 <div className="col-12 py-2 m-0 general-details-2">
                   <div className="section">
-                    <p className="heading">Sample Picked Up By</p>
-                    <p className="values" >Jai Soni</p>
+                    <p className="heading">Collection By Name</p>
+                    <p className="values" >{homeCollection?.collectedByName}</p>
 
                   </div>
                   <div className="section">
-                    <p className="heading">Picked Up By Contact</p>
-                    <p className="values" >998122387</p>
+                    <p className="heading">Collection By Contact</p>
+                    <p className="values" >{homeCollection?.collectedByContact}</p>
                   </div>
                 </div>
                 <hr className="m-0" />
@@ -333,8 +333,8 @@ const BookingPage = ({ bookingNumber = null }) => {
                   </AccordionBody>
                 </AccordionItem>}
                 {Array.isArray(bookingDetails?.transactions) && bookingDetails?.transactions.length > 0 && < AccordionItem >
-                  <AccordionHeader targetId="1">Transactions</AccordionHeader>
-                  <AccordionBody accordionId="1" className="booking-activity-timeline">
+                  <AccordionHeader targetId="3">Transactions</AccordionHeader>
+                  <AccordionBody accordionId="3" className="booking-activity-timeline">
                     {bookingDetails?.transactions.map(((tItem, index) => {
                       return <div className="general-details row m-0 py-0 mb-2" key={index}>
                         <div className="col-12 py-2 m-0">
@@ -375,7 +375,7 @@ const BookingPage = ({ bookingNumber = null }) => {
         )
       }
       <pre>
-        {JSON.stringify(getBookingResponse?.data ?? "", null, 2)}
+        {/* {JSON.stringify(getBookingResponse?.data ?? "", null, 2)} */}
       </pre>
       {confirmBookingOpen && <BookingConfirmModal isOpen={confirmBookingOpen} setIsOpen={setConfirmBookingOpen} successHandler={confirmBookingSuccessHandler} bookingDetails={bookingDetails} />}
       {markPaymentOpen && <MarkPaymentModal isOpen={markPaymentOpen} setIsOpen={setMarkPaymentOpen} successHandler={markPaymentSuccessHandler} bookingDetails={bookingDetails} />}

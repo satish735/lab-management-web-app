@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import HomeCollectionActivity from "@/model2/HomeCollectionActivity";
 import SlotDate from "@/model2/SlotDate";
 import SlotTime from "@/model2/SlotTime";
+import Booking from "@/model2/Booking";
 export const GET = async (request, { params }) => {
     try {
         var response = {}
@@ -58,7 +59,7 @@ export const POST = async (request, { params }) => {
         if (!booking_id || !collectedByName || !collectedByContact) {
             return new Response("Booking and collection person details cannot be null!", { status: 400 });
         }
-        const bookingDetails = await Booking.findById(bookingNumber).populate({
+        const bookingDetails = await Booking.findById(booking_id).populate({
             path: "slotId",
             select: "slotStartTime slotDate",
             populate: { path: "slotDate", select: "date" },
@@ -77,12 +78,12 @@ export const POST = async (request, { params }) => {
             collectedByName: collectedByName ?? "",
             collectedByContact: collectedByContact ?? ""
         })
-        await newActivity.save()
+        await homeCollection.save()
         var newActivity = new HomeCollectionActivity({
             userId,
             homeCollectionId: homeCollection?.id,
             activityType: "Home Collection created",
-            description: restBody?.description ?? "Home Collection has been created in system."
+            description:  "Home Collection has been created in system."
         })
         await newActivity.save()
         return new Response({ message: 'Home Collection has been created successfully!' }, { status: 200 });
