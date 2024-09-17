@@ -302,8 +302,8 @@ const BookingPage = ({ bookingNumber = null }) => {
                 {Array.isArray(bookingDetails?.transactions) && bookingDetails?.transactions.length > 0 && < AccordionItem >
                   <AccordionHeader targetId="1">Transactions</AccordionHeader>
                   <AccordionBody accordionId="1" className="booking-activity-timeline">
-                    {bookingDetails?.transactions.map((tItem => {
-                      return <div className="general-details row m-0 py-0 mb-2">
+                    {bookingDetails?.transactions.map(((tItem,index) => {
+                      return <div className="general-details row m-0 py-0 mb-2" key={index}>
                         <div className="col-12 py-2 m-0">
                           <span className="full-name">
                             {tItem?.transactionId}
