@@ -2,7 +2,6 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 import StoreProvider from "./StoreProvider";
-import "bootstrap/dist/css/bootstrap.min.css";
 export const metadata = {
   title: "Path labs",
   description: "For you health",

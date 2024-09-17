@@ -1,5 +1,6 @@
 "use client";
 import "./AdminLayout.css"
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Switch from "./layout-components/sidemenu-components/Switch";
