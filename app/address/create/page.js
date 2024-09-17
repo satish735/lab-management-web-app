@@ -175,6 +175,7 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
             method: "put",
         },
         (e) => {
+            AddressHandler()
 
             toggle()
             toast.success("Address updated successfully");
@@ -221,6 +222,8 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                         phone: Phone?.enteredValue,
                         pincode: Pincode?.enteredValue,
                         city: City?.enteredValue ?? "",
+                        userId:'66cf404ac1f2412ff270857f'
+
                     }
                 })
             } else {
@@ -233,6 +236,7 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                         phone: Phone?.enteredValue,
                         pincode: Pincode?.enteredValue,
                         city: City?.enteredValue ?? "",
+                        userId:'66cf404ac1f2412ff270857f'
 
                     }
                 })

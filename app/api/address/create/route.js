@@ -15,6 +15,9 @@ export const POST = async (request, { params }) => {
       userId:'66cf404ac1f2412ff270857f'
     });
 
+
+
+
     await AddressDetailsnew.save();
 
 

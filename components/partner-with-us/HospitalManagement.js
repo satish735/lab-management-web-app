@@ -1,16 +1,18 @@
 import React from 'react'
 import { EnquireForm } from './FranchisingOpport'
 
-const HospitalManagement = () => {
+const HospitalManagement = ({content}) => {
   return (
     <div className='row'>
 
 
 
       <div className='col-lg-8 col-md-8 col-sm-12 px-2'>
-        <div>
-
-        </div>
+      {content?.text ? (
+                    <div dangerouslySetInnerHTML={{ __html: content.text }} />
+                ) : (
+                    <p>Loading content...</p> // Fallback or placeholder while content is loading
+                )}
       </div>
 
       <div className='col-lg-4 col-md-4 col-sm-12 px-2 pt-5'>

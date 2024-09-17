@@ -121,7 +121,14 @@ const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
         return true;
     };
 
-
+const reset = ()=> {
+    toggle()
+    Name.reset()
+    DOB.reset()
+    Email.reset()
+    setGenderType()
+    setrelationType()
+}
 
 
     const [addmemberResponse, addmemberHandler] = useAPI(
@@ -130,13 +137,9 @@ const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
             method: "post",
         },
         (e) => {
-            toggle()
+            refresh()
+            reset()
 
-            Name.reset()
-            DOB.reset()
-            Email.reset()
-            setGenderType()
-            setrelationType()
             return toast.success("Member has been add successfully");
         },
         (e) => {
@@ -168,8 +171,8 @@ const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
             method: "put",
         },
         (e) => {
-
-            toggle()
+            refresh()
+            reset()
             toast.success("Member updated successfully");
 
 
@@ -231,11 +234,11 @@ const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
 
             <Modal
                 isOpen={modal}
-                toggle={toggle}
+                toggle={reset}
                 size="xl"
 
             >
-                <ModalHeader toggle={toggle}>Add Member</ModalHeader>
+                <ModalHeader toggle={reset}>Add Member</ModalHeader>
                 <ModalBody>
                     <div className='row'>
                         <div className="col-sm-6 col-12">
@@ -324,13 +327,13 @@ const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="success" onClick={submit}>
-                        {false ? (
+                        {(UpdateMemberResponse?.fetching || addmemberResponse?.fetching) ? (
                             <Spinner size={"sm"} />
                         ) : (
                            isupdate ? "Update Deatils": "Save Details"
                         )}
                     </Button>{' '}
-                    <Button color="secondary" onClick={toggle}>
+                    <Button color="secondary" onClick={reset}>
                         Cancel
                     </Button>
                 </ModalFooter>

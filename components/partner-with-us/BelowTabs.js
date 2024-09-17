@@ -12,6 +12,8 @@ const BelowTabs = () => {
 
     const [tab, setTab] = useState('franchising');
 
+    const[getdata, setdata] = useState([])
+
     const [partbersResponse, partbersHandler] = useAPI(
         {
             url: `/partnerwithus/list`,
@@ -19,6 +21,7 @@ const BelowTabs = () => {
             sendImmediately: true
         },
         (e) => {
+            setdata(e?.data)
             return e?.data
         },
         (e) => {
@@ -36,9 +39,10 @@ const BelowTabs = () => {
 
     const [content, setcontent] = useState()
     useEffect(() => {
-        let getpartnertext = partbersResponse?.data?.filter((item) => item?.type == tab)
-        setcontent(getpartnertext?.[0] ?? {})
-    }, [tab, partbersResponse?.data])
+        let getpartnertext = getdata?.filter((item) => item?.type == tab)
+        console.log("getpartnertext",getpartnertext[0])
+        setcontent(getpartnertext[0] ?? {})
+    }, [tab])
 
 
     return (

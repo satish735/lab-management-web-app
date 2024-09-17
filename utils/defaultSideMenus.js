@@ -152,6 +152,11 @@ const defaultSideMenus = [
             label: "Milestones",
             link: "/admin/milestones"
           },
+          {
+            type: "sub",
+            label:"Partner with Us",
+            link:"/admin/partnerwithus"
+          }
         ],
       },
       {
@@ -185,7 +190,8 @@ const defaultSideMenus = [
             type: "sub",
             label: "Centers",
             link: "/admin/centers"
-          },
+          }
+   
 
         ],
       },

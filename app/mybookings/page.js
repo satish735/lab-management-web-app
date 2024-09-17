@@ -232,25 +232,24 @@ const MyBooking = () => {
 
                     {bookingdataResponse?.fetching ? <div className="text-center" > <Spinner size="lg" /> </div> : (getBookingdata ?? [])?.map((item) => {
                         return (<>
-                            <div className="shadow   mx-3 my-2" style={{ fontSize: "0.9rem" }} >
+                            <div className="shadow  rounded  mx-3 my-2" style={{ fontSize: "0.9rem" }} >
                                 <div className="p-2 py-3 mt-2" >
 
                                     <div className="row" >
-                                        <div className="col-sm-6 col-12" >
+                                        <div className="col-md-6 col-sm-12 col-12" >
                                             <div className="row">
                                                 <div className="col-sm-7 col-12 my-2">
-                                                    <span className="px-2 py-2  rounded small" style={{ background: "#dee2db" }}> <dpan style={{ fontWeight: "700" }} >{item?.teamMemberId?.name} </dpan>
+                                                    <span className="p-2  rounded small" style={{ background: "#dee2db" }}> <dpan style={{ fontWeight: "700" }} >{item?.teamMemberId?.name} </dpan>
                                                        |  {item?.teamMemberId?.gender}</span>
                                                 </div>
                                                 <div className="col-sm-5 col-12 my-2 small" >
-                                                    <span className="px-4 py-2  rounded" style={{ background: "#dee2db" }}> Booking ID: <span style={{ fontWeight: "700" }} >{item?.bookingId}</span> </span>
-
+                                                    <span className=" p-2  rounded" style={{ background: "#dee2db" }}> Booking ID: <span style={{ fontWeight: "700" }} >{item?.bookingId}</span> </span>
                                                 </div>
                                             </div>
-                                        </div  >
+                                        </div>
 
-                                        <div className="col-sm-6 col-12 my-2 small" >
-                                            <span className="px-4 py-2  rounded" style={{ background: "#dee2db" }}> Booking Date & Time:   <dpan style={{ fontWeight: "700" }} >{moment(item?.createdAt)?.format("LLL")}</dpan> </span>
+                                        <div className="col-md-6 col-sm-12 col-12 my-2 small" >
+                                            <span className=" p-2  rounded" style={{ background: "#dee2db" }}> Booking Date & Time:   <dpan style={{ fontWeight: "700" }} >{moment(item?.createdAt)?.format("LLL")}</dpan> </span>
 
                                         </div>
                                     </div>

@@ -14,6 +14,7 @@ export const POST = async (request, { params }) => {
     }
     const User = await user.findOne({ phone });
     // var otp = Math.floor(100000 + Math.random() * 900000).toString();
+
     var otp = 123456;
     const body = `Your OTP code is ${otp}. It is valid for 1 minutes.`;
     // let data = {
@@ -32,6 +33,9 @@ export const POST = async (request, { params }) => {
         email: null,
         password: null,
       });
+
+      console.log(newUser)
+
 
       await newUser.save();
       return new Response("OTP for login sent to mobile no.", {

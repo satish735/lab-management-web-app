@@ -58,7 +58,7 @@ const Page = () => {
         }
     );
 
-
+    const [deleteid, setdeleteid] = useState()
     return <>
 
         <div className='main-parent-bar-div'>
@@ -108,11 +108,12 @@ const Page = () => {
                                         Edit Address
                                     </button>
                                     <button onClick={() => {
+                                        setdeleteid(item?._id)
                                         deleteaddressHandler({
                                             url: `/address/${item?._id}`
                                         })
                                     }} className="btn btn-danger mx-2" >
-                                        {deleteaddressResponse?.fetching ? <Spinner size='sm' /> : 'Delete'}
+                                        {(deleteaddressResponse?.fetching && deleteid == item?._id) ? <Spinner size='sm' /> : 'Delete'}
                                     </button>
                                 </div>
                             </div>
@@ -122,7 +123,7 @@ const Page = () => {
                     <Address
                         modal={modal2}
                         toggle={toggle2}
-                        refresh={addresssHandler}
+                        AddressHandler={addresssHandler}
                         isupdate={isaddress}
                         update={updateaddress}
                     />

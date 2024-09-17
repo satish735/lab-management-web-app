@@ -697,9 +697,6 @@ const Cart = ({ params: { _id } }) => {
                                         }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
 
                                     </div>
-
-
-
                                 </div>}
 
                                 <div className=" my-2">

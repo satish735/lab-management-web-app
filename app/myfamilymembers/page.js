@@ -58,7 +58,7 @@ const Mymember = () => {
         }
     );
 
-
+    const [deleteid, setdeleteid] = useState()
     return <>
 
         <div className='main-parent-bar-div'>
@@ -108,11 +108,12 @@ const Mymember = () => {
                                         Edit member
                                     </button>
                                     <button onClick={() => {
+                                        setdeleteid(item?._id)
                                         deletememberHandler({
                                             url: `/member/${item?._id}`
                                         })
                                     }} className="btn btn-danger mx-2" >
-                                        Delete
+                                        {(deletememberResponse?.fetching && deleteid == item?._id) ? <Spinner size="sm" /> : "Delete"}
                                     </button>
                                 </div>
                             </div>

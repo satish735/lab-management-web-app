@@ -17,9 +17,9 @@ export const PUT = async (request, { params }) => {
     const toUpdateBody = await request.json();
     const { id = null } = params;
     const getfindbyid = await Address.findById(id);
-    if (!existinguser) {
-      return new Response("No user found with given id!", { status: 404 });
-    }
+    // if (!existinguser) {
+    //   return new Response("No user found with given id!", { status: 404 });
+    // }
     for (const key in toUpdateBody) {
       if (key in getfindbyid) {
         getfindbyid[key] = toUpdateBody[key];
