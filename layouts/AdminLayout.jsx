@@ -1,6 +1,5 @@
 "use client";
 import "./AdminLayout.css"
-import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Switch from "./layout-components/sidemenu-components/Switch";
@@ -88,9 +87,7 @@ const AdminLayout = ({ children }) => {
   const [hasImage, setHasImage] = useState(false);
   const [theme, setTheme] = useState("light");
 
-  useEffect(() => {
-    require('bootstrap/dist/js/bootstrap.bundle.min.js');
-  }, []);
+
 
   // handle on RTL change event
   const handleRTLChange = (e) => {

@@ -29,7 +29,7 @@ const homeCollectionSchema = new Schema({
   },
   samplesToBeCollected: {
     type: [String], // Array of sample names or IDs
-    required: true
+    // required: true
   },
   samplesCollected: {
     type: [String] // Array of collected sample names or IDs

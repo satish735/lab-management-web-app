@@ -1,3 +1,5 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
 :root {
   --max-width: 1100px;
   /* --border-radius: 12px; */
@@ -278,8 +280,8 @@ a {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(263deg,
-  #003747 5.26%,
-  #003747 104.79%);
+      #003747 5.26%,
+      #003747 104.79%);
   /* Linear gradient for the thumb */
   border-radius: 12px;
   /* Rounded corners for the thumb */
@@ -289,8 +291,8 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(263deg,
-  #21cdad 5.26%,
-  #21cdad 104.79%);
+      #21cdad 5.26%,
+      #21cdad 104.79%);
   /* Different gradient for the thumb when hovered */
   border: 3px solid #f1f1f100;
   /* Adds space around thumb */
@@ -453,7 +455,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-.admin-left-menu-icon{
+.admin-left-menu-icon {
   font-size: 20px;
-  color:#46bb00;
+  color: #46bb00;
 }

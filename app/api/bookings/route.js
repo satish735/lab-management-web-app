@@ -1,7 +1,9 @@
 import Booking from "@/model2/Booking";
 import SlotTime from "@/model2/SlotTime";
+import SlotDate from "@/model2/SlotDate";
 import { parse } from "url";
 import mongoose from "mongoose";
+import UserDetails from "@/model2/UserDetails";
 
 export const GET = async (request) => {
   try {

@@ -18,7 +18,6 @@ export default function Home({ params }) {
                 <h1 className="main-heading">Booking - {params?.bookingNumber}</h1>
                 <p className="sub-heading">Boking Details.</p>
                 <BookingPage bookingNumber={params?.bookingNumber} />
-
             </div>
         </div>
     );

@@ -1,3 +1,4 @@
+"use client"
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaLocationPin, FaPhone, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import "./UserFooter.css";
 const UserFooter = () => {

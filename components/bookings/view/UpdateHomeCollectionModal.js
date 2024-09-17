@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from 'reactstrap'
 
-const UpdateBookingStatusModal = ({ isOpen = false, setIsOpen = () => { }, successHandler = () => { }, bookingDetails = null }) => {
+const UpdateHomeCollectionModal = ({ isOpen = false, setIsOpen = () => { }, successHandler = () => { }, bookingDetails = null }) => {
     const toggle = () => {
         setIsOpen(!isOpen)
     }
@@ -124,4 +124,4 @@ const UpdateBookingStatusModal = ({ isOpen = false, setIsOpen = () => { }, succe
     )
 }
 
-export default UpdateBookingStatusModal
+export default UpdateHomeCollectionModal

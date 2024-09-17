@@ -14,6 +14,9 @@ import BookingConfirmModal from "./BookingConfirmModal";
 import { useRouter } from "next/navigation";
 import MarkPaymentModal from "./MarkPaymentModal";
 import UpdateBookingStatusModal from "./UpdateBookingStatusModal";
+import CreateHomeCollectionModal from "./CreateHomeCollectionModal";
+import UpdateHomeCollectionModal from "./UpdateHomeCollectionModal";
+import CreateActivityModal from "./CreateActivityModal";
 
 const BookingPage = ({ bookingNumber = null }) => {
   const router = useRouter();
@@ -67,6 +70,24 @@ const BookingPage = ({ bookingNumber = null }) => {
     await getBookingHandler()
     setUpdateBookingStatusOpen(false)
   }
+
+  const [createHomeCollectionOpen, setCreateHomeCollectionOpen] = useState(false)
+  const createHomeCollectionSuccessHandler = async () => {
+    await getBookingHandler()
+    setCreateHomeCollectionOpen(false)
+  }
+
+  const [updateHomeCollectionOpen, setUpdateHomeCollectionOpen] = useState(false)
+  const UpdateHomeCollectionSuccessHandler = async () => {
+    await getBookingHandler()
+    setUpdateHomeCollectionOpen(false)
+  }
+
+  const [createActivityOpen, setCreateActivityOpen] = useState(false)
+  const createActivitySuccessHandler = async () => {
+    await getBookingHandler()
+    setCreateActivityOpen(false)
+  }
   return (
     <div className="w-100 booking-details-section">
       <LoaderAndNoContent
@@ -92,7 +113,7 @@ const BookingPage = ({ bookingNumber = null }) => {
               >
                 Mark Payment as Paid
               </button>}
-              {['confirmed', 'process_assigned', 'started', 'collection_done', "sample_reached", "report_approved"].includes(bookingDetails?.status) && <button
+              {bookingDetails?.isCancelled != true && ['confirmed', 'process_assigned', 'started', 'collection_done', "sample_reached", "report_approved"].includes(bookingDetails?.status) && <button
                 className=" btn btn-theme secondary ms-2"
                 type="button"
                 onClick={() => { setUpdateBookingStatusOpen(true) }}
@@ -215,10 +236,12 @@ const BookingPage = ({ bookingNumber = null }) => {
               {homeCollection && bookingDetails?.collectionType == "home" && <button
                 className=" btn btn-theme secondary"
                 type="button"
+                onClick={() => { setUpdateHomeCollectionOpen(true) }}
               >Update Home Collection</button>}
               {!homeCollection && bookingDetails?.collectionType == "home" && bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && <button
                 className=" btn btn-theme secondary ms-2"
                 type="button"
+                onClick={() => { setCreateHomeCollectionOpen(true) }}
               >Create Home Collection
               </button>}
 
@@ -285,6 +308,16 @@ const BookingPage = ({ bookingNumber = null }) => {
                 </div>
               </div>
             </div>}
+            {/* Accordion Section */}
+            <div className="col-12 mb-2 text-end">
+              {bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && <button
+                className=" btn btn-theme secondary ms-2"
+                type="button"
+                onClick={() => { setCreateActivityOpen(true) }}
+              >Create Activity
+              </button>}
+
+            </div>
             <div className="col-12 p-0">
               <Accordion open={activityAccordionOpen} toggle={toggleActivityAccordion}>
                 {Array.isArray(bookingDetails?.activities) && bookingDetails?.activities.length > 0 && < AccordionItem >
@@ -302,7 +335,7 @@ const BookingPage = ({ bookingNumber = null }) => {
                 {Array.isArray(bookingDetails?.transactions) && bookingDetails?.transactions.length > 0 && < AccordionItem >
                   <AccordionHeader targetId="1">Transactions</AccordionHeader>
                   <AccordionBody accordionId="1" className="booking-activity-timeline">
-                    {bookingDetails?.transactions.map(((tItem,index) => {
+                    {bookingDetails?.transactions.map(((tItem, index) => {
                       return <div className="general-details row m-0 py-0 mb-2" key={index}>
                         <div className="col-12 py-2 m-0">
                           <span className="full-name">
@@ -347,6 +380,10 @@ const BookingPage = ({ bookingNumber = null }) => {
       {confirmBookingOpen && <BookingConfirmModal isOpen={confirmBookingOpen} setIsOpen={setConfirmBookingOpen} successHandler={confirmBookingSuccessHandler} bookingDetails={bookingDetails} />}
       {markPaymentOpen && <MarkPaymentModal isOpen={markPaymentOpen} setIsOpen={setMarkPaymentOpen} successHandler={markPaymentSuccessHandler} bookingDetails={bookingDetails} />}
       {updateBookingStatusOpen && <UpdateBookingStatusModal isOpen={updateBookingStatusOpen} setIsOpen={setUpdateBookingStatusOpen} successHandler={updateBookingStatusSuccessHandler} bookingDetails={bookingDetails} />}
+      {createHomeCollectionOpen && <CreateHomeCollectionModal isOpen={createHomeCollectionOpen} setIsOpen={setCreateHomeCollectionOpen} successHandler={createHomeCollectionSuccessHandler} bookingDetails={bookingDetails} />}
+      {updateHomeCollectionOpen && <UpdateHomeCollectionModal isOpen={updateHomeCollectionOpen} setIsOpen={setUpdateHomeCollectionOpen} successHandler={UpdateHomeCollectionSuccessHandler} bookingDetails={bookingDetails} />}
+      {createActivityOpen && <CreateActivityModal isOpen={createActivityOpen} setIsOpen={setCreateActivityOpen} successHandler={createActivitySuccessHandler} bookingDetails={bookingDetails} />}
+
     </div >
   );
 };

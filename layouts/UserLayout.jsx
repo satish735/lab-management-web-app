@@ -1,5 +1,4 @@
 "use client"
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import UserFooter from "./layout-components/UserFooter";
 import UserHeader2 from "./layout-components/UserHeader2";
