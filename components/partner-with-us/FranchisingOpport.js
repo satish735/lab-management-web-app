@@ -6,7 +6,6 @@ import { Spinner } from 'reactstrap';
 
 const FranchisingOpport = ({ content }) => {
 
-console.log("content", content)
 
 
 
@@ -16,16 +15,16 @@ console.log("content", content)
 
 
             <div className='col-lg-8 col-md-8 col-sm-12 px-2'  >
-            {content?.text ? (
-  <div dangerouslySetInnerHTML={{ __html: content.text }} />
-) : (
-  <p>Loading content...</p> // Fallback or placeholder while content is loading
-)}
+                {content?.text ? (
+                    <div dangerouslySetInnerHTML={{ __html: content.text }} />
+                ) : (
+                    <p>Loading content...</p> // Fallback or placeholder while content is loading
+                )}
 
             </div>
 
             <div className='col-lg-4 col-md-4 col-sm-12 px-2 pt-5'>
-                <EnquireForm enquireType={'frachising-opportunities'}  />
+                <EnquireForm enquireType={'frachising-opportunities'} />
             </div>
 
         </div>
@@ -64,7 +63,7 @@ export const EnquireForm = ({ enquireType }) => {
 
         },
         (e) => {
- 
+
             toast.success(
                 "Details added successfully.",
                 e
@@ -86,7 +85,7 @@ export const EnquireForm = ({ enquireType }) => {
 
 
 
- 
+
 
 
 

@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs"; // For password hashing
 
-import user from "@/models/user";
+import Login from "@/model2/Login";
 import moment from "moment";
 import AdminLogin from "@/model2/AdminLogin";
 import Center from "@/model2/Center";
@@ -72,7 +72,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const User = await user.findOne({ phone: credentials?.phone });
+          const User = await Login.findOne({ phone: credentials?.phone });
           if (!User) {
             throw new Error("User not found!");
           }
@@ -85,9 +85,6 @@ export const authOptions = {
 
           return {
             id: User.id,
-            name: User.name,
-            email: User.email,
-            role: User.role,
             phone: User.phone,
           };
         } catch (err) {

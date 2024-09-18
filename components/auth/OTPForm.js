@@ -66,6 +66,8 @@ const OTPForm = ({ searchParams }) => {
     }
     setOTPVerifyIsLoading(false);
   };
+
+  
   const resendingOTPHandler = async () => {
     if (otpResendResponse?.fetching) {
       toast("Resending OTP Please wait...!");

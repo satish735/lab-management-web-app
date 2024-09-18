@@ -7,13 +7,13 @@ import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import useInputComponent from "@/hooks/useInputComponent";
+import { Spinner } from "reactstrap";
 const View = ({ searchParams }) => {
 
     const router = useRouter();
 
-    const [name, setname] = useState();
-    const [desc, setdesc] = useState();
-    const [time, settime] = useState();
+
 
     const [awardaccreditationResponse, awardaccreditationHandler] = useAPI(
         {
@@ -22,10 +22,7 @@ const View = ({ searchParams }) => {
         },
         (e) => {
 
-            setname();
-            setdesc();
-            settime()
-
+    
             toast.success("award accreditation update successfully");
             router.push("/admin/awardaccreditation");
 
@@ -54,6 +51,50 @@ const View = ({ searchParams }) => {
     };
 
 
+    const TitleInput = useInputComponent('');
+    const TitleInputValidater = (value) => {
+        if (value === "" || !value) {
+            TitleInput.setFeedbackMessage(
+                "Field required!"
+            );
+            TitleInput.setMessageType("error");
+            return false;
+        }
+        TitleInput.setFeedbackMessage("");
+        TitleInput.setMessageType("none");
+        return true;
+    };
+
+
+
+    const DescriptionnInput = useInputComponent('');
+    const DescriptionnInputValidater = (value) => {
+        if (value === "" || !value) {
+            DescriptionnInput.setFeedbackMessage(
+                "Field required!"
+            );
+            DescriptionnInput.setMessageType("error");
+            return false;
+        }
+        DescriptionnInput.setFeedbackMessage("");
+        DescriptionnInput.setMessageType("none");
+        return true;
+    };
+
+    const DateInput = useInputComponent('');
+    const DateInputValidater = (value) => {
+        if (value === "" || !value) {
+            DateInput.setFeedbackMessage(
+                "Field required!"
+            );
+            DateInput.setMessageType("error");
+            return false;
+        }
+        DateInput.setFeedbackMessage("");
+        DateInput.setMessageType("none");
+        return true;
+    };
+
 
 
     const [getawardaccreditationResponse, getawardaccreditationHandler] = useAPI(
@@ -65,9 +106,9 @@ const View = ({ searchParams }) => {
         },
         (e) => {
 
-            setname(e?.name)
-            setdesc(e?.desc)
-            settime(moment(e?.time)?.format("YYYY-MM-DD"))
+            TitleInput?.setEnteredValue(e?.name)
+            DescriptionnInput?.setEnteredValue(e?.desc)
+            DateInput?.setEnteredValue(moment(e?.time)?.format("YYYY-MM-DD"))
         },
         (e) => {
 
@@ -82,14 +123,22 @@ const View = ({ searchParams }) => {
 
     return (
         <div className="my-2">
-            <h6> Awards and Accreditations</h6>
+            <h4> Awards and Accreditations</h4>
 
             <div className="row">
                 <div className="col-sm-6 col-12" >
                     <InputWithAddOn
                         label="Name"
-                        value={name}
-                        setValue={setname}
+                        setValue={TitleInput.setEnteredValue}
+                        value={TitleInput.enteredValue}
+                        feedbackMessage={TitleInput.feedbackMessage}
+                        feedbackType={TitleInput.messageType}
+                        isTouched={TitleInput.isTouched}
+                        setIsTouched={TitleInput.setIsTouched}
+                        isRequired={true}
+
+                        validateHandler={TitleInputValidater}
+                        reset={TitleInput.reset}
                         disabled={searchParams.type == "view" ? true : false}
                     />
                 </div>
@@ -97,17 +146,32 @@ const View = ({ searchParams }) => {
                 <div className="col-sm-6 col-12" >
                     <InputWithAddOn
                         label="Description"
-                        value={desc}
-                        setValue={setdesc}
+                        value={DescriptionnInput.enteredValue}
+                        feedbackMessage={DescriptionnInput.feedbackMessage}
+                        feedbackType={DescriptionnInput.messageType}
+                        isTouched={DescriptionnInput.isTouched}
+                        setIsTouched={DescriptionnInput.setIsTouched}
+                        isRequired={true}
+
+                        validateHandler={DescriptionnInputValidater}
+                        reset={DescriptionnInput.reset}
                         disabled={searchParams.type == "view" ? true : false}
                     />
                 </div>
                 <div className="col-sm-6 col-12" >
                     <InputWithAddOn
                         label="Date"
+                        setValue={DateInput.setEnteredValue}
+                        value={DateInput.enteredValue}
+                        feedbackMessage={DateInput.feedbackMessage}
+                        feedbackType={DateInput.messageType}
+                        isTouched={DateInput.isTouched}
+                        setIsTouched={DateInput.setIsTouched}
+
+                        validateHandler={DateInputValidater}
+                        reset={DateInput.reset}
+                        isRequired={true}
                         type="date"
-                        value={time}
-                        setValue={settime}
                         disabled={searchParams.type == "view" ? true : false}
                     />
                 </div>
@@ -131,7 +195,7 @@ const View = ({ searchParams }) => {
                         className="btn btn-success px-3"
                         onClick={submit}
                     >
-                        Update
+                       {awardaccreditationResponse?.fetching ? <Spinner size={"sm"} /> : "Update"} 
                     </button>}
 
                 </div>

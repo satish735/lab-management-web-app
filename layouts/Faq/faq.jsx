@@ -7,7 +7,8 @@ import useAPI from "@/hooks/useAPI";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+import useInputComponent from "@/hooks/useInputComponent";
+import { Spinner } from "reactstrap";
 const Faq = ({ searchParams }) => {
 
 
@@ -21,10 +22,12 @@ const Faq = ({ searchParams }) => {
       method: "post",
     },
     (e) => {
-      setquestions();
-      setanswers();
-      toast.success("FAQ added successfully");
-      // setisSubmit(false)
+
+      toast.success("FAQ has been created successfully");
+      questionsInput?.reset()
+      answersInput?.reset()
+      router.push("/admin/faq");
+
     },
     (e) => {
       // setisSubmit(false)
@@ -41,20 +44,52 @@ const Faq = ({ searchParams }) => {
 
 
 
-  const [questions, setquestions] = useState();
 
-  const [answers, setanswers] = useState();
+
+
+  const questionsInput = useInputComponent('');
+  const questionsInputValidater = (value) => {
+    if (value === "" || !value) {
+      questionsInput.setFeedbackMessage(
+        "Field required!"
+      );
+      questionsInput.setMessageType("error");
+      return false;
+    }
+    questionsInput.setFeedbackMessage("");
+    questionsInput.setMessageType("none");
+    return true;
+  };
+
+
+
+  const answersInput = useInputComponent('');
+  const answersInputValidater = (value) => {
+    if (value === "" || !value) {
+      answersInput.setFeedbackMessage(
+        "Field required!"
+      );
+      answersInput.setMessageType("error");
+      return false;
+    }
+    answersInput.setFeedbackMessage("");
+    answersInput.setMessageType("none");
+    return true;
+  };
 
   const submit = () => {
-    if (questions != "" && answers != "") {
+    let isquestionsInputValidater = questionsInputValidater(questionsInput?.enteredValue)
+    let isanswersInputValidater = answersInputValidater(answersInput?.enteredValue)
+    if (!isquestionsInputValidater || !isanswersInputValidater) {
+      toast.error("Fill complete form.");
+
+    } else {
       faqHandler({
         body: {
-          question: questions,
-          answer: answers,
+          question: questionsInput?.enteredValue,
+          answer: answersInput?.enteredValue,
         },
       });
-    } else {
-      toast.error("Fill complete form.");
     }
   };
 
@@ -70,16 +105,31 @@ const Faq = ({ searchParams }) => {
           <div>
             <InputWithAddOn
               label="Questions"
-              value={questions}
-              setValue={setquestions}
+              setValue={questionsInput.setEnteredValue}
+              value={questionsInput.enteredValue}
+              feedbackMessage={questionsInput.feedbackMessage}
+              feedbackType={questionsInput.messageType}
+              isTouched={questionsInput.isTouched}
+              setIsTouched={questionsInput.setIsTouched}
+              isRequired={true}
+
+              validateHandler={questionsInputValidater}
+              reset={questionsInput.reset}
             />
           </div>
 
           <div>
             <InputTextArea
               label="Answer"
-              value={answers}
-              setValue={setanswers}
+              value={answersInput.enteredValue}
+              feedbackMessage={answersInput.feedbackMessage}
+              feedbackType={answersInput.messageType}
+              isTouched={answersInput.isTouched}
+              setIsTouched={answersInput.setIsTouched}
+              isRequired={true}
+
+              validateHandler={answersInputValidater}
+              reset={answersInput.reset}
             />
           </div>
 
@@ -100,7 +150,7 @@ const Faq = ({ searchParams }) => {
               className="btn btn-success px-3"
               onClick={submit}
             >
-              Submit
+              {faqResponse?.fetching ? <Spinner size={"sm"} /> : "Submit"}
             </button>
           </div>
         </div>

@@ -159,14 +159,14 @@ const Partnerwithusupdate = ({ searchParams }) => {
 
                         <div className="my-3 ">
 
-                            {partnerwithusResponse?.fetching ? <div style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <button
+                            <button
                                 style={{ float: "right" }}
 
                                 className="btn btn-success px-5 "
                                 onClick={submit}
                             >
-                                Update Psrtner
-                            </button>}
+                                {partnerwithusResponse?.fetching ? <Spinner size={"sm"} /> : "Update Psrtner"}
+                            </button>
 
                             <button
                                 style={{ float: "right" }}
@@ -180,7 +180,7 @@ const Partnerwithusupdate = ({ searchParams }) => {
                             </button>
 
 
-                            {deletepartnerwithusResponse?.fetching ? <div style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <button
+                            <button
                                 style={{ float: "right" }}
 
                                 className="btn btn-danger px-4 mx-3 "
@@ -188,8 +188,8 @@ const Partnerwithusupdate = ({ searchParams }) => {
                                     deletepartnerwithusHandler()
                                 }}
                             >
-                                Delete
-                            </button>}
+                               {deletepartnerwithusResponse?.fetching ?  <Spinner size={"sm"} /> : 'Delete'} 
+                            </button>
 
                         </div>
 

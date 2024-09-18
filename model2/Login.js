@@ -3,9 +3,31 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const LoginSchema = new Schema({
-  phone: { type: String, required: true },
-  otp: { type: String, required: false },
-  otpExpire: { type: Date, required: false },
+  password: {
+    type: String,
+    default: null,
+  },
+  phone: {
+    type: Number,
+    required: false,
+    unique: true,
+  },
+  otp: {
+    type: Number,
+    default: null,
+  },
+  otpExpire: {
+    type: Date,
+    default: Date.now,
+  },
+  token: {
+    type: String,
+    default: null,
+  },
+  tokenGenDate: {
+    type: Date,
+    default: null,
+  },
   is_delete: { type: Boolean, default: false }
 });
 
