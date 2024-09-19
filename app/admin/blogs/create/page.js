@@ -56,7 +56,8 @@ export default function Home() {
   };
 
   const [selectedTags, setSelectedTags] = useState([]);
-  const [blogDescription, setBlogDescription] = useState("");
+
+
   const [publish, setPublish] = useState(false);
   const [blogSubmitResponse, blogSubmitHandler] = useAPI(
     {

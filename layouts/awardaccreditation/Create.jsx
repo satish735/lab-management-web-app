@@ -16,8 +16,7 @@ const Create = ({ searchParams }) => {
 
 
     const [imageFile, setImageFile] = useState({
-        url: "",
-        status: "original",
+
     });
 
     const [awardaccreditationResponse, awardaccreditationHandler] = useAPI(
@@ -145,10 +144,12 @@ const Create = ({ searchParams }) => {
                         <InputWithAddOn
                             label="Description"
                             value={DescriptionnInput.enteredValue}
+                            setValue={DescriptionnInput?.setEnteredValue}
                             feedbackMessage={DescriptionnInput.feedbackMessage}
                             feedbackType={DescriptionnInput.messageType}
                             isTouched={DescriptionnInput.isTouched}
                             setIsTouched={DescriptionnInput.setIsTouched}
+                            isRequired={true}
 
                             validateHandler={DescriptionnInputValidater}
                             reset={DescriptionnInput.reset}

@@ -5,43 +5,11 @@ import UserLayout from '@/layouts/UserLayout'
 import "./Milestones.css"
 import Banner from "@/components/customdesign/Banner.jsx";
 import useAPI from "@/hooks/useAPI";
+import LoaderGeneral from '@/components/loaders/LoaderGeneral';
 
-export default function Page(){
+export default function Page() {
 
 
-    const data = [
-        {
-            title: "Foundation Year",
-            year: '1991',
-            description: "Establishment of the 1st specialized center at Panch Batti, Jaipur for performing special investigations by ELISA technique along with all other routine pathology labs."
-        },
-        {
-            title: "Foundation Year",
-            year: '1997',
-            description: "Establishment of the 1st specialized center at Panch Batti, Jaipur for performing special investigations by ELISA technique along with all other routine pathology labs."
-        },
-        {
-            title: "Foundation Year",
-            year: '1998',
-            description: "Establishment of the 1st specialized center at Panch Batti, Jaipur for performing special investigations by ELISA technique along with all other routine pathology labs."
-        },
-        {
-            title: "Foundation Year",
-            year: '1999',
-            description: "Establishment of the 1st specialized center at Panch Batti, Jaipur for performing special investigations by ELISA technique along with all other routine pathology labs."
-        },
-        {
-            title: "Foundation Year",
-            year: '2001',
-            description: "Establishment of the 1st specialized center at Panch Batti, Jaipur for performing special investigations by ELISA technique along with all other routine pathology labs."
-        },
-        {
-            title: "Foundation Year",
-            year: '2007',
-            description: "Establishment of the 1st specialized center at Panch Batti, Jaipur for performing special investigations by ELISA technique along with all other routine pathology labs."
-        },
-
-    ]
 
 
 
@@ -51,11 +19,7 @@ export default function Page(){
             method: "get",
             sendImmediately: true,
             params: {
-                // sortColumn: sort?.column,
-                // sortDirection: sort?.direction,
-                // pageNo: pageNo,
-                // pageSize: pageSize,
-                // searchQuery: searchValue,
+
             },
         },
         (e) => {
@@ -77,12 +41,26 @@ export default function Page(){
 
     return (
         <UserLayout>
-            <div className='Milestones_main '>
+
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    milestonesResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(milestonesResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+            {!milestonesResponse?.fetching && <div className='Milestones_main '>
                 <Banner
                     heading="Milestones"
                     paragraph="A success story “Truth, Trust and Care for more than 30 Years”"
                 />
                 <div className="timeline ">
+
 
 
 
@@ -98,7 +76,7 @@ export default function Page(){
                     })}
 
                 </div>
-            </div>
+            </div>}
         </UserLayout>
     )
 }
