@@ -49,13 +49,23 @@ const HealthBulletin = ({ searchParams }) => {
 
 
         if (name != "" && imageFile?.status == "uploaded") {
-            HealthBulletinHandler({
-                body: {
-                    name: name,
-                    backgroundLink: imageFile?.filePath,
-                    broucherLink: filesMultiple ?? []
-                },
-            });
+            console.log(
+                
+                        {
+                            name: name,
+                            backgroundLink: imageFile?.filePath,
+                            broucherLink: filesMultiple ?? []
+                        }
+                  
+            );
+            
+            // HealthBulletinHandler({
+            //     body: {
+            //         name: name,
+            //         backgroundLink: imageFile?.filePath,
+            //         broucherLink: filesMultiple ?? []
+            //     },
+            // });
         }
     };
 

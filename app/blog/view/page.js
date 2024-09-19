@@ -5,7 +5,7 @@ import useAPI from "@/hooks/useAPI";
 import '@/components/home-component/frequently-asked-question/question-ans.css'
 const Blog = ({ searchParams }) => {
 
-const [getdata, setdata]= useState({})
+    const [getdata, setdata] = useState({})
 
     const [blogResponse, blogHandler] = useAPI(
         {
@@ -75,22 +75,51 @@ const [getdata, setdata]= useState({})
                                 src={process.env.NEXT_PUBLIC_BUCKET_URL + getdata?.image} alt="post image" loading="lazy" />
                         </div>
                     </div>
-          
+
 
                 </div>
             </div>
 
-            <div className="bg-white p-4">
-            <div className="small" >
+            <div className="bg-white p-4 row ">
+                <div className="col-lg-8 col-md-8 col-sm-12">
+                    <div className="small" >
                         {getdata?.description ?? ""}
                     </div>
 
                     <div dangerouslySetInnerHTML={{ __html: getdata?.ckdescription }} >
                         {/* {getdata?.ckdescription ?? ""} */}
                     </div>
+                </div>
+
+                <div className="col-lg-4 col-md-4 col-sm-12" >
+                    <div className="mx-2" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px', borderRadius: '10px', padding: '20px 10px 20px 20px' }}>
+                        <h2 className="mb-3" style={{ fontWeight: "800", fontSize: "1.3rem" }}>Popular Blogs</h2>
+
+                        {populerblog?.map((item, index) =>
+                            <div className="row py-1 popular-blog-item" key={index} style={{ cursor: 'pointer' }}>
+
+
+                                <div className="col-3 mt-2">
+                                    <img className=" rounded pt-3" style={{ height: "60px", width: "100%" }} src="/assets/images/blog1.jpg" alt="post image" loading="lazy" />
+                                </div>
+
+                                <div className="col-9">
+
+                                    <span className="" style={{
+                                        fontSize: "0.7rem",
+                                        color: "#828599", marginRight: "8px"
+                                    }} >{item?.createddate}</span>
+                                    <h5 className="py-2 blog_heading_content">{item?.title?.split(' ').slice(0, 5).join(' ')}</h5>
+                                </div>
+
+                            </div>
+                        )}
+                    </div>
+                </div>
+
             </div>
 
-            <div className="row midbox-inner" >
+            {/* <div className="row midbox-inner" >
                 <div className="col-md-9  col-sm-9 col-12" >
 
                     <div className="py-3" >
@@ -120,33 +149,11 @@ const [getdata, setdata]= useState({})
                 </div>
 
                 <div className="col-md-3  col-sm-3 col-12 p-3" >
-                    <div className="mx-2">
-                        <h2 style={{ fontWeight: "800", fontSize: "1.3rem" }}>Popular Blogs</h2>
-
-                        {populerblog?.map((item, index) =>
-                            <div className="row py-2" key={index}>
-
-
-                                <div className="col-3 mt-2">
-                                    <img className=" rounded pt-3" style={{ height: "60px", width: "100%" }} src="/assets/images/blog1.jpg" alt="post image" loading="lazy" />
-                                </div>
-
-                                <div className="col-9">
-
-                                    <span className="" style={{
-                                        fontSize: "0.7rem",
-                                        color: "#828599", marginRight: "8px"
-                                    }} >{item?.createddate}</span>
-                                    <h5 className="py-2 blog_heading_content">{item?.title?.split(' ').slice(0, 5).join(' ')}</h5>
-                                </div>
-
-                            </div>
-                        )}
-                    </div>
+                   
 
                 </div>
 
-            </div>
+            </div> */}
 
 
         </div>

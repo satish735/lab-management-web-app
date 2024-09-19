@@ -78,8 +78,7 @@ const Cart = ({ params: { _id } }) => {
     );
 
 
-    console.log("ssssssssssssss", addtestandpackage)
-
+ 
 
     const [rate, setrate] = useState(0)
 

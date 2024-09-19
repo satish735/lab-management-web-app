@@ -14,7 +14,7 @@ import { Badge } from "reactstrap";
 import { Eye, Pencil } from "lucide-react";
 import moment from "moment";
 import ActionOption from "@/components/ActionOption";
- 
+
 export default function Home() {
     const router = useRouter();
     const [pageNo, setPageNo] = useState(1);
@@ -23,7 +23,7 @@ export default function Home() {
     const [sort, setSort] = useState({ direction: "desc", column: "createdAt" });
     const [searchValue, setSearchValue] = useState("");
     const sortAction = (c, d) => {
-        JobPostsHandler({
+        JobRoleHandler({
             params: {
                 sortColumn: c,
                 sortDirection: d,
@@ -35,16 +35,17 @@ export default function Home() {
         setSort({ column: c, direction: d });
     };
     const [selectedFilters, setSelectedFilterOptions] = useState([
-
+       
     ]);
-
+ 
     const [selectedViewOptions, setSelectedViewOptions] = useState([
         "action",
-        "name", "department", "jobType"
+        "jobRole"
+         
 
     ]);
     const changePageAndRows = (page, rows) => {
-        JobPostsHandler({
+        JobRoleHandler({
             params: {
                 sortColumn: sort?.column,
                 sortDirection: sort?.direction,
@@ -57,7 +58,7 @@ export default function Home() {
         setPageSize(rows);
     };
     const changeSearchValue = (e) => {
-        JobPostsHandler({
+        JobRoleHandler({
             params: {
                 sortColumn: sort?.column,
                 sortDirection: sort?.direction,
@@ -71,7 +72,7 @@ export default function Home() {
 
     const [getlistingdata, setlistingdata] = useState([]);
 
-    const [JobPostsResponse, JobPostsHandler] = useAPI(
+    const [JobRoleResponse, JobRoleHandler] = useAPI(
         {
             url: "/jobPosts/list",
             method: "get",
@@ -125,12 +126,12 @@ export default function Home() {
             isSelectRequired: true,
             className: "mnw-12",
         },
-
+       
         {
-            key: "name",
-            label: "Job Name",
+            key: "jobRole",
+            label: "Job Role",
             value: (row) => {
-                return row?.name;
+                return row?.jobRole;
             },
             sortable: true,
             isDefault: true,
@@ -139,60 +140,19 @@ export default function Home() {
             className: "mnw-12",
         }
         ,
-        {
-            key: "department",
-            label: "Department",
-            value: (row) => {
-                return row?.department;
-            },
-            sortable: true,
-            isDefault: true,
-            // isSelectRequired: true,
-            hasTooltip: true,
-            className: "mnw-12",
-        }
-        ,
-        {
-            key: "jobType",
-            label: "Job Type",
-            value: (row) => {
-                return row?.jobType;
-            },
-            sortable: true,
-            isDefault: true,
-            // isSelectRequired: true,
-            hasTooltip: true,
-            className: "mnw-12",
-        }
-        ,
-        {
-            key: "publishedAt",
-            label: "Published At",
-            value: (row) => {
-                return (row?.publishedAt) ? moment(row?.publishedAt).format('DD/MM/YYYY') :''
-            },
-            sortable: true,
-            isDefault: true,
-            // isSelectRequired: true,
-            hasTooltip: true,
-            className: "mnw-12",
-        }
-        ,
-        {
-            key: "closedAt",
-            label: "Closed At",
-            value: (row) => {
-                return (row?.closedAt) ? moment(row?.closedAt).format('DD/MM/YYYY') :''
-
-             },
-            sortable: true,
-            isDefault: true,
-            // isSelectRequired: true,
-            hasTooltip: true,
-            className: "mnw-12",
-        }
-        ,
-
+        // {
+        //     key: "position",
+        //     label: "Position",
+        //     value: (row) => {
+        //         return row?.position;
+        //     },
+        //     sortable: true,
+        //     isDefault: true,
+        //     // isSelectRequired: true,
+        //     hasTooltip: true,
+        //     className: "mnw-12",
+        // }
+        //  ,
         {
             label: "Created At",
             value: (row) => {
@@ -224,8 +184,8 @@ export default function Home() {
                 ]}
             />
             <div className="admin-content-box">
-                <h1 className="main-heading">Job Posts</h1>
-                <p className="sub-heading">Listing page for Job Posts.</p>
+                <h1 className="main-heading">JobRoles</h1>
+                <p className="sub-heading">Listing page for Job Roles.</p>
                 <div className="text-end my-2">
                     <button
                         className=" btn btn-outline-dark"
@@ -235,7 +195,7 @@ export default function Home() {
                         type="button"
                     >
                         {" "}
-                        Add Job Posts
+                        Add Job Vacancies
                     </button>
                 </div>
 
@@ -253,7 +213,7 @@ export default function Home() {
 
                 <br />
                 <CustomTable
-                    loading={JobPostsResponse?.fetching}
+                    loading={JobRoleResponse?.fetching}
                     columns={columns}
                     data={getlistingdata ?? []}
                     sort={sort}

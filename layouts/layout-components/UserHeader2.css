@@ -281,20 +281,20 @@ button {
   right: 0px;
   width: 280px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px 0px, rgba(0, 0, 0, 0.4) 0px 0px 1px 0px;
-
 }
 
 .user-button:hover .profile-div {
   display: block;
-
 }
+
 .profile-div:hover {
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   border-radius: 9px;
 
 }
- 
+
+
 .location-divs {
   display: none;
   background-color: white;
@@ -313,10 +313,10 @@ button {
   display: block;
 
 }
+
 .location-divs:hover {
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   border-radius: 9px;
 
 }
- 

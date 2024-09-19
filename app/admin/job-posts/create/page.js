@@ -14,8 +14,16 @@ import useInputComponent from "@/hooks/useInputComponent";
 import uuid from "react-uuid";
 import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import dynamic from "next/dynamic";
+
+const TextEditor = dynamic(
+    () => import("@/components/text-editor/TextEditor"),
+    { ssr: false }
+  );
 const CreateJobRole = () => {
     const router = useRouter();
+
+    const [content, setContent] = useState("");
 
     const [JobRoleResponse, JobRoleHandler] = useAPI(
         {
@@ -23,8 +31,7 @@ const CreateJobRole = () => {
             method: "post",
         },
         (e) => {
-            JobRole.setEnteredValue();
-            setJobRoleData([{ job_position: '', id: uuid() }])
+
 
             toast.success("Job Post added successfully");
 
@@ -41,20 +48,153 @@ const CreateJobRole = () => {
         }
     );
 
-    const [JobRoleData, setJobRoleData] = useState([{ job_position: '', id: uuid() }]);
+
+    const [testResponse, testHandler] = useAPI(
+        {
+            url: "/getCentersLocation",
+            method: "get",
+            sendImmediately: true,
+
+        },
+        (e) => {
+
+            return e
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting centers!",
+                e
+            ));
+            return e
+        }
+    );
 
 
-    const JobRole = useInputComponent('');
-    const JobRoleValidater = (value) => {
+    const JobName = useInputComponent('');
+    const JobNameValidater = (value) => {
         if (value === "" || !value) {
-            JobRole.setFeedbackMessage(
+            JobName.setFeedbackMessage(
                 "Field required!"
             );
-            JobRole.setMessageType("error");
+            JobName.setMessageType("error");
             return false;
         }
-        JobRole.setFeedbackMessage("");
-        JobRole.setMessageType("none");
+        JobName.setFeedbackMessage("");
+        JobName.setMessageType("none");
+        return true;
+    };
+
+
+    const Department = useInputComponent('');
+    const DepartmentValidater = (value) => {
+        if (value === "" || !value) {
+            Department.setFeedbackMessage(
+                "Field required!"
+            );
+            Department.setMessageType("error");
+            return false;
+        }
+        Department.setFeedbackMessage("");
+        Department.setMessageType("none");
+        return true;
+    };
+
+
+    const [JobType, setJobType] = useState();
+    const [JobTypeIsTouch, setJobTypeIsTouch] = useState(false);
+
+    const [JobTypeMessage, setJobTypeMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const JobTypeSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setJobTypeMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setJobTypeMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+    const Experience = useInputComponent('');
+    const ExperienceValidater = (value) => {
+        if (value === "" || !value) {
+            Experience.setFeedbackMessage(
+                "Field required!"
+            );
+            Experience.setMessageType("error");
+            return false;
+        }
+        Experience.setFeedbackMessage("");
+        Experience.setMessageType("none");
+        return true;
+    };
+
+
+
+    const ClosedAt = useInputComponent();
+    const ClosedAtValidater = (value) => {
+        if (!value || value == "") {
+            ClosedAt.setFeedbackMessage("Required Field!");
+            ClosedAt.setMessageType("error");
+            return false;
+        }
+        ClosedAt.setFeedbackMessage(null);
+        ClosedAt.setMessageType("none");
+        return true;
+    };
+
+
+
+
+
+
+
+    const Description = useInputComponent('');
+    const DescriptionValidater = (value) => {
+        if (value === "" || !value) {
+            Description.setFeedbackMessage(
+                "Field required!"
+            );
+            Description.setMessageType("error");
+            return false;
+        }
+        Description.setFeedbackMessage("");
+        Description.setMessageType("none");
+        return true;
+    };
+
+
+
+    const PublishedAt = useInputComponent();
+    const PublishedAtValidater = (value) => {
+        if (!value || value == "") {
+            PublishedAt.setFeedbackMessage("Required Field!");
+            PublishedAt.setMessageType("error");
+            return false;
+        }
+        PublishedAt.setFeedbackMessage(null);
+        PublishedAt.setMessageType("none");
+        return true;
+    };
+
+
+
+    const [SelectCenters, setSelectCenters] = useState([]);
+    const [SelectCentersIsTouch, setSelectCentersIsTouch] = useState(false);
+
+    const [SelectCentersMessage, setSelectCentersMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const SelectCentersSelectValidater = (value) => {
+        if (value === '' || !value) {
+            setSelectCentersMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setSelectCentersMessage({ type: "info", message: "" });
+
         return true;
     };
 
@@ -64,28 +204,50 @@ const CreateJobRole = () => {
 
     const submit = () => {
 
-        let titleValidate = JobRoleValidater(JobRole.enteredValue);
 
-        let flag = false
-        let data = (JobRoleData ?? []).map((item) => {
-            if (!item.job_position || item.job_position === '') {
-                flag = true
-            }
-            return item
-        })
+        let JobNameValidate = JobNameValidater(JobName?.enteredValue);
+        let DepartmentValidate = DepartmentValidater(Department?.enteredValue);
+        let ExperienceValidate = content ? true :false;
+        let ClosedAtValidate = ClosedAtValidater(ClosedAt?.enteredValue);
+        let DescriptionValidate = DescriptionValidater(Description?.enteredValue);
+        let PublishedAtValidate = PublishedAtValidater(PublishedAt?.enteredValue);
+        let JobTypeValidate = JobTypeSelectValidater(JobType);
+        let SelectCentersValidate = (SelectCenters ?? [])?.length > 0
 
-        if (!titleValidate) {
+        console.log(!JobNameValidate || !DepartmentValidate || !ExperienceValidate || !ClosedAtValidate || !DescriptionValidate || !PublishedAtValidate || !JobTypeValidate || !SelectCentersValidate);
+
+        console.log({
+
+            center: SelectCenters ? (SelectCenters ?? []).map((item) => item.value) : [],
+            department: Department?.enteredValue ?? '',
+            jobType: JobType ?? '',
+            experience: content ?? '',
+            name: JobName?.enteredValue ?? '',
+            createdBy: '66d9d07fb968d9ac8d97d963',
+            closedAt: ClosedAt?.enteredValue ?? null,
+            description: Description?.enteredValue ?? '',
+            publishedAt: PublishedAt?.enteredValue ?? null,
+
+        });
+
+
+        if (!JobNameValidate || !DepartmentValidate || !ExperienceValidate || !ClosedAtValidate || !DescriptionValidate || !PublishedAtValidate || !JobTypeValidate || !SelectCentersValidate) {
             toast.error('Fill all the fields.')
         }
-        else if (flag) {
-            toast.error('Fill all the fields for positions.')
 
-        }
         else {
             JobRoleHandler({
                 body: {
-                    jobRole: JobRole.enteredValue ?? '',
-                    position: JobRoleData ?? [],
+
+                    center: SelectCenters ? (SelectCenters ?? []).map((item) => item.value) : [],
+                    department: Department?.enteredValue ?? '',
+                    jobType: JobType ?? '',
+                    experience: content ?? '',
+                    name: JobName?.enteredValue ?? '',
+                    createdBy: '66d9d07fb968d9ac8d97d963',
+                    closedAt: ClosedAt?.enteredValue ?? null,
+                    description: Description?.enteredValue ?? '',
+                    publishedAt: PublishedAt?.enteredValue ?? null,
 
                 }
             })
@@ -99,7 +261,7 @@ const CreateJobRole = () => {
                 options={[
                     { label: "Home", link: "/admin" },
                     { label: "Job Posts", link: "/admin/job-posts" },
-                    { label: "Add Job Vacancies", link: "/admin/job-posts/create", active: true },
+                    { label: "Add Job Posts", link: "/admin/job-posts/create", active: true },
                 ]}
             />
             <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
@@ -108,63 +270,183 @@ const CreateJobRole = () => {
 
                 <h3 className="mb-4 px-3 py-2 mt-2  " >
 
-                    Add Job Vacancies</h3>
+                    Add Job Posts</h3>
 
                 <div className=" my-3  py-4 px-3"  >
 
 
                     <div className="row">
-                        <div className="col-lg-6 col-md-6 col-sm-12">
+                        <div className="col-lg-4 col-md-4 col-sm-12 ">
 
                             <InputWithAddOn
-                                label="Job Role"
+                                label="Job Name"
                                 className="loginInputs"
 
-                                setValue={JobRole.setEnteredValue}
-                                value={JobRole.enteredValue}
-                                feedbackMessage={JobRole.feedbackMessage}
-                                feedbackType={JobRole.messageType}
-                                isTouched={JobRole.isTouched}
-                                setIsTouched={JobRole.setIsTouched}
+                                setValue={JobName.setEnteredValue}
+                                value={JobName.enteredValue}
+                                feedbackMessage={JobName.feedbackMessage}
+                                feedbackType={JobName.messageType}
+                                isTouched={JobName.isTouched}
+                                setIsTouched={JobName.setIsTouched}
 
-                                validateHandler={JobRoleValidater}
-                                reset={JobRole.reset}
+                                validateHandler={JobNameValidater}
+                                reset={JobName.reset}
+                                isRequired={true}
+                            />
+
+
+                        </div>
+                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                            <InputWithAddOn
+                                label="Department"
+                                className="loginInputs"
+
+                                setValue={Department.setEnteredValue}
+                                value={Department.enteredValue}
+                                feedbackMessage={Department.feedbackMessage}
+                                feedbackType={Department.messageType}
+                                isTouched={Department.isTouched}
+                                setIsTouched={Department.setIsTouched}
+
+                                validateHandler={DepartmentValidater}
+                                reset={Department.reset}
+                                isRequired={true}
+                            />
+                        </div>
+
+
+                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+                            <InputSelect
+                                setValue={setJobType}
+                                value={JobType}
+                                options={[{ label: 'Full Time', value: 'full time' }, { label: 'Part Time', value: 'part time' }] ?? []}
+                                isTouched={JobTypeIsTouch}
+                                setIsTouched={setJobTypeIsTouch}
+                                className=""
+                                label={"Select Job Type"}
+                                isRequired={true}
+                                feedbackMessage={JobTypeMessage?.message}
+                                feedbackType={JobTypeMessage?.type}
+                                validateHandler={JobTypeSelectValidater}
+                            />
+                        </div>
+
+
+
+                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+                            <InputMultipleSelect
+                                setValue={setSelectCenters}
+                                value={SelectCenters}
+                                options={testResponse?.data?.centerListing ?? []}
+                                isTouched={SelectCentersIsTouch}
+                                setIsTouched={setSelectCentersIsTouch}
+                                className=""
+                                label={"Select Centers To Include"}
+                                isRequired={true}
+                                feedbackMessage={SelectCentersMessage?.message}
+                                feedbackType={SelectCentersMessage?.type}
+                                validateHandler={SelectCentersSelectValidater}
+                            />
+                        </div>
+
+                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                            <InputWithAddOn
+                                label="Published At"
+                                className="loginInputs"
+                                rest={{ Placeholder: 'DD/MM/YYYY' }}
+                                setValue={PublishedAt.setEnteredValue}
+                                value={PublishedAt.enteredValue}
+                                feedbackMessage={PublishedAt.feedbackMessage}
+                                feedbackType={PublishedAt.messageType}
+                                isTouched={PublishedAt.isTouched}
+                                setIsTouched={PublishedAt.setIsTouched}
+                                type={'date'}
+                                validateHandler={PublishedAtValidater}
+                                reset={PublishedAt.reset}
+                                isRequired={true}
+                            // disabled={searchParams?.type === 'view'}
+                            />
+                        </div>
+
+
+
+
+
+                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                            <InputWithAddOn
+                                label="Close Date"
+                                className="loginInputs"
+                                rest={{ Placeholder: 'DD/MM/YYYY' }}
+                                setValue={ClosedAt.setEnteredValue}
+                                value={ClosedAt.enteredValue}
+                                feedbackMessage={ClosedAt.feedbackMessage}
+                                feedbackType={ClosedAt.messageType}
+                                isTouched={ClosedAt.isTouched}
+                                setIsTouched={ClosedAt.setIsTouched}
+                                type={'date'}
+                                validateHandler={ClosedAtValidater}
+                                reset={ClosedAt.reset}
+                                isRequired={true}
+                            // disabled={searchParams?.type === 'view'}
+                            />
+                        </div>
+
+
+
+                        <div className="col-12 ">
+
+                            <InputTextArea
+                                label="Job Description"
+                                className="loginInputs"
+
+                                setValue={Description.setEnteredValue}
+                                value={Description.enteredValue}
+                                feedbackMessage={Description.feedbackMessage}
+                                feedbackType={Description.messageType}
+                                isTouched={Description.isTouched}
+                                setIsTouched={Description.setIsTouched}
+                                validateHandler={DescriptionValidater}
+                                reset={Description.reset}
                                 isRequired={true}
                             />
 
 
                         </div>
 
+                        {/* <div className="col-12 ">
 
-                        <div className="my-3">
-                            <p style={{ fontSize: '17px', fontWeight: '700' }}>
-                                Add Job Positions
-                            </p>
+                            <InputTextArea
+                                label="Experience"
+                                className="loginInputs"
 
-                            {(JobRoleData ?? []).map((positionItem, index) => {
-                                return <ExperienceBlog positionItem={positionItem} key={index} setJobRoleData={setJobRoleData} length={(JobRoleData ?? []).length} />
-                            })}
-
-                            <div className='my-2 '>
-                                <p>
-                                    <span style={{ cursor: 'pointer' }} onClick={() => { setJobRoleData(prev => { return [...prev, { company_name: '', job_title: '', date_of_joining: '', location: '', id: uuid() }] }) }}>
-                                        <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span><span style={{ color: 'blue', fontSize: '18px', fontWeight: '500', cursor: 'pointer' }}> Add more Position for this role.</span>
-                                    </span>
-
-                                </p>
-                            </div>
-
-                            <div>
+                                setValue={Experience.setEnteredValue}
+                                value={Experience.enteredValue}
+                                feedbackMessage={Experience.feedbackMessage}
+                                feedbackType={Experience.messageType}
+                                isTouched={Experience.isTouched}
+                                setIsTouched={Experience.setIsTouched}
+                                validateHandler={ExperienceValidater}
+                                reset={Experience.reset}
+                                isRequired={true}
+                            />
 
 
-                            </div>
+                        </div> */}
+
+                        <div style={{ minHeight: "300px" }}>
+                            <TextEditor content={content} setContent={setContent} />
                         </div>
 
 
 
 
 
-                        <div className="my-3 text-end">
+
+
+                        <div className="mt-5 text-end">
                             <button
                                 className="mx-2 btn btn-outline-dark"
                                 onClick={() => {
@@ -186,7 +468,7 @@ const CreateJobRole = () => {
                                 ) : (
                                     "Add"
                                 )}
-                                
+
                             </button>
                         </div>
                     </div>
@@ -200,122 +482,3 @@ export default CreateJobRole;
 
 
 
-
-
-const ExperienceBlog = ({ positionItem, key, setJobRoleData, length }) => {
-    const JobPosition = useInputComponent('');
-    const JobPositionValidater = (value) => {
-        if (value === "" || !value) {
-            JobPosition.setFeedbackMessage(
-                "Field required!"
-            );
-            JobPosition.setMessageType("error");
-            return false;
-        }
-        JobPosition.setFeedbackMessage("");
-        JobPosition.setMessageType("none");
-        return true;
-    };
-
-
-
-
-    const insertposition = (value, type) => {
-
-
-        setJobRoleData(prev => {
-
-            let positionListing = (prev ?? []).map((positionObject) => {
-                if (positionObject?.id == positionItem?.id) {
-                    return { ...positionObject, [type]: value }
-                }
-                else {
-                    return { ...positionObject }
-
-                }
-            })
-            return positionListing
-
-        })
-    }
-
-
-    const deleteposition = () => {
-
-        setJobRoleData(prev => {
-
-
-
-            let positionListing = (prev ?? []).filter((positionObject) => {
-
-
-                if (positionObject?.id === positionItem?.id) {
-
-                }
-                else {
-                    return positionObject
-                }
-            })
-            return positionListing
-
-
-        })
-    }
-
-
-    useEffect(() => {
-        if (positionItem) {
-            JobPosition.setEnteredValue(positionItem.job_position ?? '')
-        }
-    }, [positionItem])
-
-
-    return (
-        <>
-            <div className="col-12   py-3 my-3" key={key}>
-
-
-
-                <div className='row'>
-                    <div className='col-lg-6 col-md-6 col-sm-12'>
-                        <InputWithAddOn
-                            label="Position"
-                            className="loginInputs"
-
-                            setValue={JobPosition.setEnteredValue}
-                            value={JobPosition.enteredValue}
-                            feedbackMessage={JobPosition.feedbackMessage}
-                            feedbackType={JobPosition.messageType}
-                            isTouched={JobPosition.isTouched}
-                            setIsTouched={JobPosition.setIsTouched}
-
-                            validateHandler={JobPositionValidater}
-                            reset={JobPosition.reset}
-                            isRequired={true}
-                            onBlurAction={(e) => {
-                                insertposition(e, 'job_position')
-                            }}
-                        />
-                    </div>
-
-
-
-
-
-
-                    {
-                        (length > 1) &&
-                        <div className='col-3 ' style={{ paddingTop: '29px', boxSizing: 'border-box' }}>
-                            <button onClick={() => { deleteposition() }} className='' style={{ border: '2px solid red', borderRadius: '10px', color: 'red', fontSize: '15px', fontWeight: '500', backgroundColor: 'white', padding: '2px 10px' }}>X <span>Remove</span></button>
-
-
-                        </div>
-                    }
-
-
-                </div>
-
-            </div>
-        </>
-    )
-}

@@ -4,7 +4,7 @@ import slugify from 'slugify';
 const { Schema } = mongoose;
 
 const OpeningSchema = new Schema({
-  center: { type: String },
+  center: [{ type: Schema.Types.ObjectId, ref: 'Center' }],
   department: { type: String },
   jobType: { type: String, enum: ['full time', 'part time'] },
   experience: { type: String },

@@ -2,8 +2,8 @@ import Book from "@/layouts/layout-components/sidemenu-icons/Book";
 import Icon from "@/layouts/layout-components/sidemenu-icons/Icon";
 
 import { FaSquarePollVertical, FaCalendarDay, FaTicket, FaCoins, FaUsers, FaBuilding, FaBriefcase, FaFlaskVial, FaHandHoldingMedical, FaLungs, FaBlogger } from "react-icons/fa6";
-import { FaHouseUser, FaHospitalUser, FaUser, FaQuestion ,FaTags} from "react-icons/fa"
-import { TbLayoutDashboardFilled, TbReportSearch,TbPackages  } from "react-icons/tb";
+import { FaHouseUser, FaHospitalUser, FaUser, FaQuestion, FaTags } from "react-icons/fa"
+import { TbLayoutDashboardFilled, TbReportSearch, TbPackages } from "react-icons/tb";
 
 const defaultSideMenus = [
   { type: "head", label: "Analytics", },
@@ -80,7 +80,7 @@ const defaultSideMenus = [
       {
         type: "sub",
         label: "Package Categories",
-        icon: <TbPackages  className="admin-left-menu-icon" />,
+        icon: <TbPackages className="admin-left-menu-icon" />,
         link: "/admin/package-category"
       },]
   },
@@ -110,7 +110,7 @@ const defaultSideMenus = [
         type: "sub",
         label: "Coupons",
         icon: <FaTicket className="admin-left-menu-icon" />,
-        link: "/admin/coupon"
+        link: "/admin/coupen"
       },
     ]
   },
@@ -129,11 +129,11 @@ const defaultSideMenus = [
             label: "Job Posts",
             link: "/admin/job-posts"
           },
-          {
-            type: "sub",
-            label: "Job Roles",
-            link: "/admin/job-roles"
-          },
+          // {
+          //   type: "sub",
+          //   label: "Job Roles",
+          //   link: "/admin/job-roles"
+          // },
         ],
       },
       {

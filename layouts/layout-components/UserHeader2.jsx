@@ -22,6 +22,7 @@ import {
 import useAPI from "@/hooks/useAPI";
 import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 // const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
 //   window.dispatchEvent(new Event('storageChange')); // Dispatch a custom event
@@ -36,6 +37,9 @@ const UserHeader2 = () => {
   // };
   const router = useRouter();
 
+  const session = useSession()
+
+  console.log(session)
 
   const [localStorageData, setLocalStorageData] = useState();
   useEffect(() => {
@@ -54,12 +58,12 @@ const UserHeader2 = () => {
     let parsedData = null;
 
     try {
-        // Attempt to parse the stored JSON data
-        parsedData = storedData ? JSON?.parse?.(storedData) : null;
+      // Attempt to parse the stored JSON data
+      parsedData = storedData ? JSON?.parse?.(storedData) : null;
     } catch (error) {
-        // Log the error if parsing fails
-        console.error('Failed to parse stored data:', error);
-        parsedData = null;
+      // Log the error if parsing fails
+      console.error('Failed to parse stored data:', error);
+      parsedData = null;
     }
 
     // Set the cart item count based on parsed data
@@ -218,7 +222,7 @@ const UserHeader2 = () => {
                     </li>
                     <li>
                       <FaMicroscope size={18} className="phone-icon" />
-                      
+
 
                       <a href="/lab-tests" className="header-tests">
                         Tests
@@ -249,7 +253,7 @@ const UserHeader2 = () => {
                               localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
                               setCurrentLocation(item)
                               router.push(`/${item}`)
-                            }} className=" text-start ps-3 m-0" style={{ fonSize: '10px', fonWeight: '200' }}>
+                            }} className="center-selection-item text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200' }}>
 
                               {item}
 

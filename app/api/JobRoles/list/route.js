@@ -1,4 +1,4 @@
-import Opening from "@/model2/Opening";
+import JobRoles from "@/model2/JobRoles";
  
 
 import { parse } from "url";
@@ -21,13 +21,13 @@ export const GET = async (request, { params }) => {
     if (searchQuery) {
       searchFilter.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
-    const Openings = await Opening
+    const JobRoless = await JobRoles
       .find(searchFilter)
       .sort(sort)
       .skip(skip)
       .limit(pageSize);
-    const totalCount = await Opening.find(searchFilter).countDocuments();
-    var response = { data: Openings, total: totalCount };
+    const totalCount = await JobRoles.find(searchFilter).countDocuments();
+    var response = { data: JobRoless, total: totalCount };
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.log(error);

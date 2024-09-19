@@ -124,3 +124,9 @@
     display: block;
     width: 100%;
 }
+
+.popular-blog-item:hover{
+ 
+    background-color: #efefef;
+    border-radius: 10px;
+}

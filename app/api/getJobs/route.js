@@ -1,10 +1,10 @@
 
-import JobRoles from "@/model2/JobRoles";
+ import Opening from "@/model2/Opening";
 
 export const GET = async (request, { params }) => {
     try {
 
-        const JobRolesInstance = await JobRoles.find() ;
+        const JobRolesInstance = await Opening.find() ;
         return new Response(JSON.stringify(JobRolesInstance), { status: 200 });
     } catch (error) {
         console.log(error);
