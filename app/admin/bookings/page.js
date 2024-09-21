@@ -273,7 +273,7 @@ export default function Home() {
         <h1 className="main-heading">Bookings</h1>
         <p className="sub-heading">Listing page for bookings.</p>
         <div className="text-end my-2">
-          <button
+          {/* <button
             className=" btn btn-outline-dark"
             onClick={() => {
               router.push("/admin/bookings/create");
@@ -282,7 +282,7 @@ export default function Home() {
           >
             {" "}
             Create Booking
-          </button>
+          </button> */}
         </div>
 
         <CustomFilter
