@@ -28,7 +28,7 @@ const EditBodyPartMainPage = ({ searchParams }) => {
             method: "put",
         },
         (e) => {
-
+            router.push("/admin/body-parts");
 
             toast.success("Body part updated successfully");
             setImageFile({
@@ -38,6 +38,35 @@ const EditBodyPartMainPage = ({ searchParams }) => {
             bodypart.setEnteredValue()
 
 
+        },
+        (e) => {
+
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while updating Body Part!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
+
+
+
+
+    const [DeletebodypartResponse, DeletebodypartHandler] = useAPI(
+        {
+            url: `/body-parts/${searchParams?.id}`,
+            method: "DELETE",
+        },
+        (e) => {
+            router.push("/admin/body-parts")
+            toast.success("Body part deleted successfully");
+            setImageFile({
+                url: "",
+                status: "",
+            })
+            bodypart.setEnteredValue()
         },
         (e) => {
 
@@ -95,7 +124,6 @@ const EditBodyPartMainPage = ({ searchParams }) => {
 
 
             bodypart.setEnteredValue(e?.name)
-
             setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
         },
         (e) => {
@@ -160,28 +188,39 @@ const EditBodyPartMainPage = ({ searchParams }) => {
 
 
                         <div className="my-3 text-end">
-                            {searchParams?.type === 'view'
+
+                            {searchParams?.type != 'view'
 
                                 &&
                                 <button
-                                className="mx-2 btn btn-outline-dark"
-                                onClick={() => {
-                                    router.push("/admin/body-parts");
-                                }}
-                                type="button"
-                            >
-                                {" "}
-                                Done
-                            </button>
+                                    className="mx-2 btn btn-danger"
+                                    onClick={() => { DeletebodypartHandler()   }}
+                                    type="button"
+                                >
+                                    {DeletebodypartResponse?.fetching ? <Spinner size="sm" /> :"Delete"}
+                                </button>
                             }
-                            
+                            {searchParams?.type != 'view'
 
-                            {searchParams?.type === 'view'
+                                &&
+                                <button
+                                    className="mx-2 btn btn-dark"
+                                    onClick={() => {
+                                        router.push("/admin/body-parts");
+                                    }}
+                                    type="button"
+                                >
+                                    {" "}
+                                    Cancel
+                                </button>
+                            }
+
+
+                            {searchParams?.type != 'view'
 
                                 &&
                                 <button
                                     style={{ float: "right" }}
-
                                     className="btn btn-success px-3"
                                     onClick={submit}
                                     type="button"
@@ -189,7 +228,7 @@ const EditBodyPartMainPage = ({ searchParams }) => {
                                     {bodypartResponse?.fetching ? (
                                         <Spinner size={"sm"} />
                                     ) : (
-                                        "Submit"
+                                        "Update"
                                     )}
                                 </button>
                             }

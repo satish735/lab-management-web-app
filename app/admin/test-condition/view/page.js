@@ -29,8 +29,38 @@ const EditTestConditionPage = ({ searchParams }) => {
         },
         (e) => {
 
-
+            router.push("/admin/test-condition");
             toast.success("Test condition updated successfully");
+            setImageFile({
+                url: "",
+                status: "",
+            })
+            testcondition.setEnteredValue()
+
+        },
+        (e) => {
+
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating Body Part!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
+
+
+
+    const [DeletetestconditionResponse, DeletetestconditionHandler] = useAPI(
+        {
+            url: `/testcondition/${searchParams?.id}`,
+            method: "DELETE",
+        },
+        (e) => {
+
+            router.push("/admin/test-condition");
+            toast.success("Test condition deleted successfully");
             setImageFile({
                 url: "",
                 status: "",
@@ -92,7 +122,6 @@ const EditTestConditionPage = ({ searchParams }) => {
         },
         (e) => {
 
-
             testcondition.setEnteredValue(e?.name)
 
             setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
@@ -117,12 +146,13 @@ const EditTestConditionPage = ({ searchParams }) => {
                     { label: "Add Test Condition", link: "/admin/test-condition/create", active: true },
                 ]}
             />
-            <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
+
+            {getTestConditionResponse?.fetching ? <div className="text-center my-5">  <Spinner size={"lg"} /></div> : <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
 
                 <h3 className="mb-4 px-3 py-2 mt-2  " >
-                {searchParams?.type === 'view' ? 'View Test Condition' :'Edit Test Condition'}
+                    {searchParams?.type === 'view' ? 'View Test Condition' : 'Edit Test Condition'}
 
-                    </h3>
+                </h3>
 
                 <div className=" my-3  py-4 px-3"  >
 
@@ -153,17 +183,27 @@ const EditTestConditionPage = ({ searchParams }) => {
                                 validateHandler={testconditionValidater}
                                 reset={testcondition.reset}
                                 isRequired={true}
-                            disabled={searchParams?.type === 'view'}
+                                disabled={searchParams?.type === 'view'}
                             />
                         </div>
 
 
 
                         <div className="my-3 text-end">
+
                             <button
-                                className="mx-2 btn btn-outline-dark"
+                                className="mx-2 btn btn-danger"
                                 onClick={() => {
-                                    router.push("/admin/body-parts");
+                                    DeletetestconditionHandler()
+                                }}
+                                type="button"
+                            >
+                                {DeletetestconditionResponse?.fetching ? <Spinner size={"sm"} /> : "Delete"}
+                            </button>
+                            <button
+                                className="mx-2 btn btn-dark"
+                                onClick={() => {
+                                    router.push("/admin/test-condition");
                                 }}
                                 type="button"
                             >
@@ -181,14 +221,16 @@ const EditTestConditionPage = ({ searchParams }) => {
                                 {testconditionResponse?.fetching ? (
                                     <Spinner size={"sm"} />
                                 ) : (
-                                    "Submit"
+                                    "Update"
                                 )}
                             </button>
 
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
+
+
         </>
     );
 };

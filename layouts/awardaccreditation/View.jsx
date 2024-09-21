@@ -150,6 +150,10 @@ const View = ({ searchParams }) => {
     return (
 
         <>
+
+
+
+        
             <LoaderGeneral
                 noContentMessage="records are not found"
                 state={
@@ -237,7 +241,7 @@ const View = ({ searchParams }) => {
                         </button>
 
 
-                        {searchParams?.type == "edit" &&<button
+                        {searchParams?.type == "edit" && <button
                             style={{ float: "right" }}
                             className="btn btn-success px-3"
                             onClick={submit}

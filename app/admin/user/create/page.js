@@ -289,9 +289,7 @@ const Home = () => {
 
   const submit = () => {
 
-    console.log("vvv", center?.map((item) => {
-      return item?.value
-    }))
+    
 
     let EmailValidate = EmailInputValidater(EmailInput.enteredValue);
     let NameValidate = NameInputValidater(NameInput.enteredValue);

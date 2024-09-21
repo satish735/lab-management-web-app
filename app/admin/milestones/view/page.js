@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
+import BreadcrumbDiv from '@/components/BreadcrumbDiv'
+
 const Page = ({ searchParams }) => {
 
     const router = useRouter();
@@ -163,6 +165,15 @@ console.log("eeeeeeeeeeeee",e)
 
     return (
         <>
+
+<BreadcrumbDiv
+                    options={[
+                        { label: "Home", link: "/admin" },
+                        { label: "Milestones", link: "/admin/milestones" },
+                        { label: "Update Milestone", link: "/admin/milestones/view", active: true },
+                    ]}
+                />
+
             {getteammeberResponse?.fetching ? <div className="my-4 text-center" > <Spinner size={"xl"} /></div> : <div className="bg-white p-3">
                 <h3 className="mb-4 mt-2">Update Milestone Details</h3>
 

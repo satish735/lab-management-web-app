@@ -29,6 +29,7 @@ const CreateBodyPartMainPage = () => {
         },
         (e) => {
 
+            router.push("/admin/body-parts");
 
             toast.success("Body part added successfully");
             setImageFile({

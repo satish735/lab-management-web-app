@@ -32,6 +32,7 @@ const CreateJobRole = () => {
         },
         (e) => {
 
+            router.push("/admin/job-posts");
 
             toast.success("Job Post added successfully");
 
@@ -450,7 +451,7 @@ const CreateJobRole = () => {
                             <button
                                 className="mx-2 btn btn-outline-dark"
                                 onClick={() => {
-                                    router.push("/admin/body-parts");
+                                    router.push("/admin/job-posts")
                                 }}
                                 type="button"
                             >

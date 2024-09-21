@@ -17,10 +17,11 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import moment from "moment";
 import dynamic from "next/dynamic";
 
+
 const TextEditor = dynamic(
     () => import("@/components/text-editor/TextEditor"),
     { ssr: false }
-  );
+);
 const CreateJobRole = ({ searchParams }) => {
     const router = useRouter();
     const [content, setContent] = useState("");
@@ -31,7 +32,7 @@ const CreateJobRole = ({ searchParams }) => {
             method: "put",
         },
         (e) => {
-
+            router.push("/admin/job-posts");
 
             toast.success("Job Post updated successfully");
 
@@ -232,28 +233,28 @@ const CreateJobRole = ({ searchParams }) => {
 
         let JobNameValidate = JobNameValidater(JobName?.enteredValue);
         let DepartmentValidate = DepartmentValidater(Department?.enteredValue);
-        let ExperienceValidate = content ? true :false;
+        let ExperienceValidate = content ? true : false;
         let ClosedAtValidate = ClosedAtValidater(ClosedAt?.enteredValue);
         let DescriptionValidate = DescriptionValidater(Description?.enteredValue);
         let PublishedAtValidate = PublishedAtValidater(PublishedAt?.enteredValue);
         let JobTypeValidate = JobTypeSelectValidater(JobType);
         let SelectCentersValidate = (SelectCenters ?? [])?.length > 0
 
-        console.log(!JobNameValidate || !DepartmentValidate || !ExperienceValidate || !ClosedAtValidate || !DescriptionValidate || !PublishedAtValidate || !JobTypeValidate || !SelectCentersValidate);
+        // console.log(!JobNameValidate || !DepartmentValidate || !ExperienceValidate || !ClosedAtValidate || !DescriptionValidate || !PublishedAtValidate || !JobTypeValidate || !SelectCentersValidate);
 
-        console.log({
+        // console.log({
 
-            center: SelectCenters ? (SelectCenters ?? []).map((item) => item.value) : [],
-            department: Department?.enteredValue ?? '',
-            jobType: JobType ?? '',
-            experience: content ?? '',
-            name: JobName?.enteredValue ?? '',
-            createdBy: '66d9d07fb968d9ac8d97d963',
-            closedAt: ClosedAt?.enteredValue ?? null,
-            description: Description?.enteredValue ?? '',
-            publishedAt: PublishedAt?.enteredValue ?? null,
+        //     center: SelectCenters ? (SelectCenters ?? []).map((item) => item.value) : [],
+        //     department: Department?.enteredValue ?? '',
+        //     jobType: JobType ?? '',
+        //     experience: content ?? '',
+        //     name: JobName?.enteredValue ?? '',
+        //     createdBy: '66d9d07fb968d9ac8d97d963',
+        //     closedAt: ClosedAt?.enteredValue ?? null,
+        //     description: Description?.enteredValue ?? '',
+        //     publishedAt: PublishedAt?.enteredValue ?? null,
 
-        });
+        // });
 
 
         if (!JobNameValidate || !DepartmentValidate || !ExperienceValidate || !ClosedAtValidate || !DescriptionValidate || !PublishedAtValidate || !JobTypeValidate || !SelectCentersValidate) {
@@ -280,7 +281,6 @@ const CreateJobRole = ({ searchParams }) => {
 
     };
 
-    console.log(searchParams?.id);
 
     const [getJobRoleResponse, getJobRoleHandler] = useAPI(
         {
@@ -333,16 +333,13 @@ const CreateJobRole = ({ searchParams }) => {
             })
 
             setSelectCenters(data)
-
-
-
-
         }
 
     }, [testResponse?.data, getJobRoleResponse?.data])
 
     return (
         <>
+          
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
@@ -506,7 +503,7 @@ const CreateJobRole = ({ searchParams }) => {
 
 
                         </div>
-{/* 
+                        {/* 
                         <div className="col-12 ">
 
                             <InputTextArea
@@ -542,7 +539,7 @@ const CreateJobRole = ({ searchParams }) => {
 
 
                         <div className="my-5 text-end">
-                        {
+                            {
                                 (searchParams?.type !== 'view') &&
                                 <button onClick={() => { deleteJobHandler({ params: searchParams?.id }) }} className="btn btn-danger px-4 mx-2">
 
@@ -557,7 +554,7 @@ const CreateJobRole = ({ searchParams }) => {
                             <button
                                 className="mx-2 btn btn-outline-dark mx-2"
                                 onClick={() => {
-                                    router.push("/admin/body-parts");
+                                    router.push("/admin/job-posts")
                                 }}
                                 type="button"
                             >
@@ -567,20 +564,20 @@ const CreateJobRole = ({ searchParams }) => {
                             {
                                 (searchParams?.type !== 'view') &&
                                 <button
-                                style={{ float: "right" }}
+                                    style={{ float: "right" }}
 
-                                className="btn btn-success px-3 mx-2"
-                                onClick={submit}
-                            >
-                                {JobRoleResponse?.fetching ? (
-                                    <Spinner size={"sm"} />
-                                ) : (
-                                    "Update"
-                                )}
+                                    className="btn btn-success px-3 mx-2"
+                                    onClick={submit}
+                                >
+                                    {JobRoleResponse?.fetching ? (
+                                        <Spinner size={"sm"} />
+                                    ) : (
+                                        "Update"
+                                    )}
 
-                            </button>
+                                </button>
                             }
-                           
+
                         </div>
                     </div>
                 </div>

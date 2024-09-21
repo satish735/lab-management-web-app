@@ -11,7 +11,7 @@ export const GET = async (request, { params }) => {
     return new Response(error?.message, { status: 500 });
   }
 };
-export const PATCH = async (request, { params }) => {
+export const PUT = async (request, { params }) => {
   try {
     const toUpdateBody = await request.json();
     const { id = null } = params;

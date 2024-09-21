@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "reactstrap";
 import InputSelect from "@/components/formInput/select/InputSelect";
 import dynamic from "next/dynamic";
+import BreadcrumbDiv from '@/components/BreadcrumbDiv'
+
 const TextEditor = dynamic(
     () => import("@/components/text-editor/TextEditor"),
     { ssr: false }
@@ -73,6 +75,7 @@ const Partnerwithusupdate = ({ searchParams }) => {
         },
         (e) => {
 
+            router.push("/admin/partnerwithus")
 
             toast.success("Partner With Us updated successfully");
 
@@ -141,6 +144,14 @@ const Partnerwithusupdate = ({ searchParams }) => {
 
     return (
         <>
+
+<BreadcrumbDiv
+        options={[
+          { label: "Home", link: "/admin" },
+          { label: "Partner with us", link: "/admin/partnerwithus" },
+          { label: "Update Partner with us", link: "/admin/partnerwithus/view", active: true },
+        ]}
+      />
             {getpartnerwithusResponse?.fetching ? <div className="my-4 text-center" ><Spinner size={"xl"} /></div> : <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
 
 

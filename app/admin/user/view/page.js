@@ -20,7 +20,7 @@ const Userupdate = ({ searchParams }) => {
         status: "",
     });
 
-
+    const [centerdata, setcenterdata] = useState([])
 
     const [centerResponse, centerHandler] = useAPI(
         {
@@ -32,9 +32,11 @@ const Userupdate = ({ searchParams }) => {
             },
         },
         (e) => {
-            return e?.data?.map((item) => {
+            let data = e?.data?.map((item) => {
                 return { label: item?.centre, value: item?._id }
             })
+            setcenterdata(data)
+            return data
         },
         (e) => {
             toast.error(
@@ -45,12 +47,19 @@ const Userupdate = ({ searchParams }) => {
     );
 
 
+    useEffect(() => {
+
+        if (centerdata) {
+            getuserHandler()
+        }
+
+    }, [centerdata])
+
+
     const [getuserResponse, getuserHandler] = useAPI(
         {
             url: `/adminlogin/${searchParams?.id}`,
             method: "get",
-            sendImmediately: true,
-
         },
         (e) => {
             EmailInput.setEnteredValue(e?.email)
@@ -59,13 +68,11 @@ const Userupdate = ({ searchParams }) => {
             setrole(e?.role)
             setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
             setGenderType(e?.gender)
-            dobDate?.setEnteredValue(moment(e?.dob).format("YYYY-MM-DD") )
+            dobDate?.setEnteredValue(moment(e?.dob).format("YYYY-MM-DD"))
             PasswordInput.setEnteredValue(e?.bcryptPassword)
             NameInput.setEnteredValue(e?.name)
-
-            let getcenter = centerResponse?.data?.filter((item) => e?.iscenter?.find((key) => key == item?.value) == true)
-
-            setcenter(getcenter ?? [])
+            const filteredData = centerdata.filter(item => e?.iscenter.includes(item.value))
+            setcenter(filteredData ?? [])
 
         },
         (e) => {
@@ -106,14 +113,13 @@ const Userupdate = ({ searchParams }) => {
             method: "put",
         },
         (e) => {
-
+            router.push("/admin/user")
 
             toast.success("Test condition updated successfully");
             setImageFile({
                 url: "",
                 status: "",
             })
-            user.setEnteredValue()
 
         },
         (e) => {
@@ -374,7 +380,7 @@ const Userupdate = ({ searchParams }) => {
                     name: NameInput?.enteredValue,
                     gender: GenderType ?? "",
                     dob: dobDate?.enteredValue ?? null,
-                    image: imageFile?.filePath ?? "",
+                    // image: imageFile?.filePath ?? "",
                     iscenter: center?.map((item) => {
                         return item?.value
                     }) ?? [],
@@ -391,7 +397,7 @@ const Userupdate = ({ searchParams }) => {
 
     return (
         <>
-            {getuserResponse?.fetching ? <div className="my-4 text-center" ><Spinner size={"xl"} /></div> : <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
+            {(getuserResponse?.fetching || centerResponse?.fetching) ? <div className="my-4 text-center" ><Spinner size={"xl"} /></div> : <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
 
 
 
@@ -589,14 +595,14 @@ const Userupdate = ({ searchParams }) => {
 
                         <div className="my-3 ">
 
-                            {userResponse?.fetching ?<div  style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <button
+                            <button
                                 style={{ float: "right" }}
 
                                 className="btn btn-success px-5 "
                                 onClick={submit}
                             >
-                                Update User
-                            </button>}
+                                {userResponse?.fetching ? <Spinner size={"sm"} /> : "Update User"}
+                            </button>
 
                             <button
                                 style={{ float: "right" }}
@@ -610,7 +616,7 @@ const Userupdate = ({ searchParams }) => {
                             </button>
 
 
-                            {deleteuserResponse?.fetching ? <div  style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <button
+                            {deleteuserResponse?.fetching ? <div style={{ float: "right" }} > <Spinner size={"sm"} /></div> : <button
                                 style={{ float: "right" }}
 
                                 className="btn btn-danger px-4 mx-3 "

@@ -6,6 +6,8 @@ import { Spinner } from "reactstrap";
 import { useState } from "react";
 import InputSelect from "@/components/formInput/select/InputSelect";
 import dynamic from "next/dynamic";
+import BreadcrumbDiv from '@/components/BreadcrumbDiv'
+
 const TextEditor = dynamic(
   () => import("@/components/text-editor/TextEditor"),
   { ssr: false }
@@ -40,36 +42,36 @@ const Home = () => {
 
   const [getpartnerResponse, getpartnerHandler] = useAPI(
     {
-        url: `/partnerwithus/list`,
-        method: "get",
-        sendImmediately: true,
-
-    },
-    (e) => {
-        
-      
-        const updatedItems = [
-            { label: "Franchising Opportunity", value: "franchising" },
-            { label: "Lab Acquisition", value: "lab" },
-            { label: "Hospital Lab Management", value: "hospital" },
-            { label: "Corporate Wellness", value: "corporate" }
-        ].map((item) => {
-            const isDisabled = e?.data?.some((key) => key?.type === item?.value);
-            return { ...item, disabled: isDisabled };
-        });
-        
-        return updatedItems
+      url: `/partnerwithus/list`,
+      method: "get",
+      sendImmediately: true,
 
     },
     (e) => {
 
-        toast.error(transformErrorDefault(
-            "Something went wrong while Getting partnerwithus!",
-            e
-        ));
-        return e
+
+      const updatedItems = [
+        { label: "Franchising Opportunity", value: "franchising" },
+        { label: "Lab Acquisition", value: "lab" },
+        { label: "Hospital Lab Management", value: "hospital" },
+        { label: "Corporate Wellness", value: "corporate" }
+      ].map((item) => {
+        const isDisabled = e?.data?.some((key) => key?.type === item?.value);
+        return { ...item, disabled: isDisabled };
+      });
+
+      return updatedItems
+
+    },
+    (e) => {
+
+      toast.error(transformErrorDefault(
+        "Something went wrong while Getting partnerwithus!",
+        e
+      ));
+      return e
     }
-);
+  );
 
   const [Partnertype, setPartnertype] = useState();
   const [PartnertypeIsTouch, setPartnertypeIsTouch] = useState(false);
@@ -102,7 +104,7 @@ const Home = () => {
       partnerHandler({
         body: {
           text: content,
-          type:Partnertype ?? ""
+          type: Partnertype ?? ""
         }
       })
     }
@@ -113,6 +115,13 @@ const Home = () => {
 
   return (
     <>
+      <BreadcrumbDiv
+        options={[
+          { label: "Home", link: "/admin" },
+          { label: "Partner with us", link: "/admin/partnerwithus" },
+          { label: "Create Partner with us", link: "/admin/partnerwithus/create", active: true },
+        ]}
+      />
       <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
 
 

@@ -32,7 +32,7 @@ const CreateTestConditionPage = () => {
     },
     (e) => {
 
-
+      router.push("/admin/test-condition");
       toast.success("Body part added successfully");
       setImageFile({
         url: "",
@@ -139,7 +139,7 @@ const CreateTestConditionPage = () => {
               <button
                 className="mx-2 btn btn-outline-dark"
                 onClick={() => {
-                  router.push("/admin/body-parts");
+                  router.push("/admin/test-condition");
                 }}
                 type="button"
               >

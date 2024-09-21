@@ -120,10 +120,20 @@ const Create = ({ searchParams }) => {
 
     return (
         <>
+
+           
             <div className="my-2">
                 <h4> Awards and Accreditations</h4>
 
-                <div className="row">
+
+               <div className="row my-3">
+               <div className="col-sm-3  col-12">
+                        <h5 className="py-2 small">Add Image</h5>
+                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                    </div>
+                <div className="row col-sm-9 col-12 my-3">
+                    
+               
                     <div className="col-sm-6 col-12" >
                         <InputWithAddOn
                             label="Title"
@@ -175,10 +185,6 @@ const Create = ({ searchParams }) => {
 
 
 
-                    <div className="col-12">
-                        <h5 className="py-2 small">Add Image</h5>
-                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-                    </div>
 
                     <div className="my-3 text-end">
                         <button
@@ -200,6 +206,7 @@ const Create = ({ searchParams }) => {
                         </button>
                     </div>
                 </div>
+               </div>
             </div>
         </>
     );

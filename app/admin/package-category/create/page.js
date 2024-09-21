@@ -35,7 +35,7 @@ export default function Home() {
       toast.success(
         `Package Category added successfully`
       );
-      router.push("/admin/blogs");
+      router.push("/admin/package-category");
     },
     (e) => {
       toast.error(
@@ -89,6 +89,16 @@ export default function Home() {
            
             
             <div className="col-12 text-end my-3">
+            <button
+                
+                className="btn  btn-dark  px-5 me-2"
+                onClick={()=> {
+                  router.push("/admin/package-category"); 
+                }}
+                type="button"
+              >
+                Cancel
+              </button>
               <button
                 
                 className="btn  btn-success  px-5 me-2"
