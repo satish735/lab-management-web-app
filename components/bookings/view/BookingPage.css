@@ -193,3 +193,27 @@
   z-index: 2;
   margin-top: 4px;
 }
+
+
+.test-report-section .top-right-box {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
+
+.test-report-section .top-right-box .action-icon {
+  font-size: 25px;
+  padding: 4px;
+  background: #b7b6b62a;
+  border-radius: 8px;
+  margin: 0 2px;
+  color: #44596e;
+}
+
+.test-report-section .top-right-box .action-icon:hover {
+  background: #1111112a;
+  color: var(--color-primary);
+  cursor: pointer;
+}

@@ -144,6 +144,14 @@ bookingSchema.virtual('transactions', {
   justOne: false // Return multiple documents
 });
 
+// Define a virtual field for the Reports
+bookingSchema.virtual('testReports', {
+  ref: 'TestReport', // The model to use
+  localField: '_id', // Field in the Booking model
+  foreignField: 'bookingId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
 // Ensure virtual fields are included in toJSON output
 bookingSchema.set('toJSON', { virtuals: true });
 bookingSchema.set('toObject', { virtuals: true });

@@ -40,13 +40,13 @@ const BookingConfirmModal = ({ isOpen = false, setIsOpen = () => { }, successHan
 
     }
     return (
-        <Modal size="md" isOpen={isOpen} toggle={toggle} className=''>
+        <Modal size="lg" isOpen={isOpen} toggle={toggle} className=''>
             <ModalHeader toggle={toggle} className='py-2'>
                 <h1 className="modal-main-heading">Confirm Booking</h1>
                 <p className="modal-sub-heading">Confirmation for confirming Booking {bookingDetails?.bookingId}</p>
             </ModalHeader>
             <ModalBody className='py-2'>
-                <p>Are you sure you want to Confirm booking for <br />Booking Id :{bookingDetails?.bookingId} !!!</p>
+                <p>Are you sure you want to Confirm booking for <br />Booking Id :<strong>{bookingDetails?.bookingId}</strong> !!!</p>
             </ModalBody>
             <ModalFooter className=''>
                 <button className="me-2 btn btn-theme secondary-outline" onClick={toggle} disabled={confirmBookingResponse?.fetching} >Cancel</button>

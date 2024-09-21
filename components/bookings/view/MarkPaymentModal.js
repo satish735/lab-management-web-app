@@ -39,13 +39,13 @@ const MarkPaymentModal = ({ isOpen = false, setIsOpen = () => { }, successHandle
         })
     }
     return (
-        <Modal size="md" isOpen={isOpen} toggle={toggle} className=''>
+        <Modal size="lg" isOpen={isOpen} toggle={toggle} className=''>
             <ModalHeader toggle={toggle} className='py-2'>
                 <h1 className="modal-main-heading">Mark Payment</h1>
                 <p className="modal-sub-heading">Marking Payment as paid for selected Booking</p>
             </ModalHeader>
             <ModalBody className='py-2'>
-                <p>Are you sure you want to Mark Payment as paid and make it paid as cash for <br />Booking Id :{bookingDetails?.bookingId} <br /> Amount :{bookingDetails?.amount} </p>
+                <p>Are you sure you want to Mark Payment as paid and make it paid as cash for <br />Booking Id :<strong>{bookingDetails?.bookingId}</strong> <br /> Amount :<strong>₹{bookingDetails?.total}</strong> </p>
             </ModalBody>
             <ModalFooter className=''>
                 <button className="me-2 btn btn-theme secondary-outline" onClick={toggle} disabled={markPaymentResponse?.fetching} >Cancel</button>

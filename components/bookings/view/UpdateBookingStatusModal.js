@@ -88,29 +88,35 @@ const UpdateBookingStatusModal = ({ isOpen = false, setIsOpen = () => { }, succe
         }
     }
     return (
-        <Modal size="md" isOpen={isOpen} toggle={toggle} className=''>
+        <Modal size="lg" isOpen={isOpen} toggle={toggle} className=''>
             <ModalHeader toggle={toggle} className='py-2'>
                 <h1 className="modal-main-heading">Update Booking Status</h1>
                 <p className="modal-sub-heading">Update booking status in system.</p>
             </ModalHeader>
             <ModalBody className='py-2'>
-                <InputSelect
-                    setValue={setSelectedStatus}
-                    value={selectedStatus}
-                    options={statusChangeOptions ?? []}
-                    isTouched={selectedStatusIsTouched}
-                    setIsTouched={setSelectedStatusIsTouched}
-                    className="py-1"
-                    label={"Select Status To update"}
-                    isRequired={true}
-                    feedbackMessage={statusFeedBack?.message}
-                    feedbackType={statusFeedBack?.type}
-                    validateHandler={statusValidator}
-                />
-                <InputTextArea
-                    label="Remarks"
-                    setValue={setDescription}
-                    value={description} />
+                <div className='row'>
+                    <div className='col-md-6 col-12'>
+                        <InputSelect
+                            setValue={setSelectedStatus}
+                            value={selectedStatus}
+                            options={statusChangeOptions ?? []}
+                            isTouched={selectedStatusIsTouched}
+                            setIsTouched={setSelectedStatusIsTouched}
+                            className="py-1"
+                            label={"Select Status To update"}
+                            isRequired={true}
+                            feedbackMessage={statusFeedBack?.message}
+                            feedbackType={statusFeedBack?.type}
+                            validateHandler={statusValidator}
+                        />
+                    </div>
+                    <div className=' col-12'>
+                        <InputTextArea
+                            label="Remarks"
+                            setValue={setDescription}
+                            value={description} />
+                    </div>
+                </div>
             </ModalBody>
             <ModalFooter className=''>
                 <button className="me-2 btn btn-theme secondary-outline" onClick={toggle} disabled={updateStatusResponse?.fetching} >Cancel</button>

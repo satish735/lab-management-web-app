@@ -16,6 +16,7 @@ import {
   FaRegEye,
   FaArrowRotateLeft,
 } from "react-icons/fa6";
+import "./DropZone.css"
 const MultipleDropZone = ({
   dropZoneMessage = "Drag files or Click here to upload",
   apiParams,
@@ -145,7 +146,7 @@ const MultipleDropZone = ({
     </>
   );
 };
-import "./DropZone.css";
+
 
 const DropZoneUploadFileItem = ({ fileItem, setAllFiles, disabled = false, }) => {
   const [progressNumber, setProgressNumber] = useState(0);

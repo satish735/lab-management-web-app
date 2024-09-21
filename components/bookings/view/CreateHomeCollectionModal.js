@@ -1,6 +1,7 @@
 "use client"
 import InputTextArea from '@/components/formInput/InputTextArea'
 import InputWithAddOn from '@/components/formInput/InputWithAddOn'
+import InputMultipleSelect from '@/components/formInput/select/InputMultipleSelect'
 import InputSelect from '@/components/formInput/select/InputSelect'
 import useAPI from '@/hooks/useAPI'
 import useInputComponent from '@/hooks/useInputComponent'
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from 'reactstrap'
 
-const CreateHomeCollectionModal = ({ isOpen = false, setIsOpen = () => { }, successHandler = () => { }, bookingDetails = null }) => {
+const CreateHomeCollectionModal = ({ samplesToCollect = [], isOpen = false, setIsOpen = () => { }, successHandler = () => { }, bookingDetails = null }) => {
     const toggle = () => {
         setIsOpen(!isOpen)
     }
@@ -97,7 +98,8 @@ const CreateHomeCollectionModal = ({ isOpen = false, setIsOpen = () => { }, succ
                 booking_id: bookingDetails?.id,
                 collectedBy: selectedUserId ?? null,
                 collectedByName: Name?.enteredValue,
-                collectedByContact: Phone?.enteredValue
+                collectedByContact: Phone?.enteredValue,
+                samples_for_pick: samplesToCollect
             }
         })
 
@@ -106,7 +108,7 @@ const CreateHomeCollectionModal = ({ isOpen = false, setIsOpen = () => { }, succ
         <Modal size="lg" isOpen={isOpen} toggle={toggle} className=''>
             <ModalHeader toggle={toggle} className='py-2'>
                 <h1 className="modal-main-heading">Create Home Collection</h1>
-                <p className="modal-sub-heading">Create Home collection for booking :- {bookingDetails?.bookingId}.</p>
+                <p className="modal-sub-heading">Create Home collection for booking :- <strong>{bookingDetails?.bookingId}</strong>.</p>
             </ModalHeader>
             <ModalBody className='py-2'>
                 <div className='row'>
@@ -120,7 +122,19 @@ const CreateHomeCollectionModal = ({ isOpen = false, setIsOpen = () => { }, succ
                         className="py-1"
                         label={"Select Collection Person from list (optional)"}
                     /></div>
-                    <div className='col-md-6 col-12'> </div>
+                    <div className='col-md-6 col-12'> <InputMultipleSelect
+                        isLoading={false}
+
+                        setValue={() => { }}
+                        value={Array.isArray(samplesToCollect) ? samplesToCollect.map(item => {
+                            return { label: item, value: item }
+                        }) : []}
+                        options={Array.isArray(samplesToCollect) ? samplesToCollect.map(item => {
+                            return { label: item, value: item }
+                        }) : []}
+                        className="py-1"
+                        label={"Samples to collect"}
+                    /></div>
                     <div className='col-md-6 col-12'> <InputWithAddOn
                         label="Collection Person Name"
                         placeholder="Name"

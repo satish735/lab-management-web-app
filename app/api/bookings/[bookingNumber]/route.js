@@ -10,6 +10,7 @@ import HomeCollectionActivity from "@/model2/HomeCollectionActivity";
 import Transaction from "@/model2/Transaction";
 import AdminLogin from "@/model2/AdminLogin";
 import { getSession } from "next-auth/react";
+import TestReport from "@/model2/TestReport";
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 export const GET = async (request, { params }) => {
@@ -18,8 +19,8 @@ export const GET = async (request, { params }) => {
     const bookingDetails = await Booking.findOne({ bookingId: bookingNumber })
       .populate({
         path: "packages",
-        select: "name itemId testType",
-        populate: { path: "itemId", select: "testType name" },
+        select: "name itemId testType preparation sampleCollection",
+        populate: { path: "itemId", select: "testType name preparation sampleCollection" },
       })
       .populate({
         path: "slotId",
@@ -33,7 +34,7 @@ export const GET = async (request, { params }) => {
         path: "addressId"
       }).populate({ path: "homeCollection", populate: { path: "activities", populate: { path: "userId", select: "name" } } })
       .populate({ path: "activities", populate: { path: "userId", select: "name" } }).populate({ path: "transactions" })
-
+      .populate({ path: "testReports", populate: { path: "testId", select: "name" } })
       ;
     return new Response(JSON.stringify(bookingDetails), { status: 200 });
   } catch (error) {

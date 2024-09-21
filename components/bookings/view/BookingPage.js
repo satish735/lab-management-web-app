@@ -17,6 +17,8 @@ import UpdateBookingStatusModal from "./UpdateBookingStatusModal";
 import CreateHomeCollectionModal from "./CreateHomeCollectionModal";
 import UpdateHomeCollectionModal from "./UpdateHomeCollectionModal";
 import CreateActivityModal from "./CreateActivityModal";
+import ReportListComponent from "./ReportListComponent";
+import AddReportsModal from "./AddReportsModal";
 
 const BookingPage = ({ bookingNumber = null }) => {
   const router = useRouter();
@@ -44,7 +46,9 @@ const BookingPage = ({ bookingNumber = null }) => {
   var SlotDetails = getBookingResponse?.data?.slotId
   var AddressDetails = getBookingResponse?.data?.addressId
   var homeCollection = getBookingResponse?.data?.homeCollection
-
+  var preparation = bookingDetails?.packages?.filter?.(item => typeof item?.preparation == "string" && item?.preparation != "No specific Preparation Required" && item?.preparation)?.map?.((item) => item?.preparation)?.join?.(',').split(',')
+  var samplesToCollect = bookingDetails?.packages?.filter?.(item => typeof item?.sampleCollection == "string" && item?.sampleCollection)?.map?.((item) => item?.sampleCollection)?.join?.(',').split(',')
+  var testReports = bookingDetails?.testReports ?? []
   const [activityAccordionOpen, setActivityAccordionOpen] = useState('1');
   const toggleActivityAccordion = (id) => {
     if (activityAccordionOpen === id) {
@@ -87,6 +91,17 @@ const BookingPage = ({ bookingNumber = null }) => {
   const createActivitySuccessHandler = async () => {
     await getBookingHandler()
     setCreateActivityOpen(false)
+  }
+
+
+  const [addReportIsOpen, setAddReportIsOpen] = useState(false)
+  const addReportSuccessHandler = async () => {
+    await getBookingHandler()
+    setAddReportIsOpen(false)
+  }
+
+  const removeReportHandler = async () => {
+    await getBookingHandler()
   }
   return (
     <div className="w-100 booking-details-section">
@@ -167,6 +182,10 @@ const BookingPage = ({ bookingNumber = null }) => {
                   </div>
                   <div className="section">
                     <p className="heading">Preparations</p>
+                    {Array.isArray(preparation) && preparation.length > 0 ? preparation?.map((item, index) => {
+                      return <p className="values" key={index}>{item}</p>;
+                    }) : <p className="values"></p>}
+                    {/* No specific Preparation Required */}
                   </div>
                   <div className="section">
                     <p className="heading">Price</p>
@@ -233,7 +252,7 @@ const BookingPage = ({ bookingNumber = null }) => {
             </div>
             {/* Home Collection Section */}
             <div className="col-12 mb-2 text-end">
-              {homeCollection && bookingDetails?.collectionType == "home" && bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && <button
+              {homeCollection && !["confirmed"].includes(homeCollection?.collectionStatus) && bookingDetails?.collectionType == "home" && bookingDetails?.isCancelled != true && !["created", "completed"].includes(bookingDetails?.status) && <button
                 className=" btn btn-theme secondary"
                 type="button"
                 onClick={() => { setUpdateHomeCollectionOpen(true) }}
@@ -270,7 +289,7 @@ const BookingPage = ({ bookingNumber = null }) => {
                   </div>
                   <div className="section">
                     <p className="heading">Samples Collected</p>
-                    {homeCollection?.samplesToBeCollected?.map?.((item, index) => {
+                    {homeCollection?.samplesCollected?.map?.((item, index) => {
                       return <p className="values" key={index}>{item}</p>;
                     })}
                   </div>
@@ -315,6 +334,12 @@ const BookingPage = ({ bookingNumber = null }) => {
                 type="button"
                 onClick={() => { setCreateActivityOpen(true) }}
               >Create Activity
+              </button>}
+              {bookingDetails?.isCancelled != true && ["report_approved"].includes(bookingDetails?.status) && <button
+                className=" btn btn-theme secondary ms-2"
+                type="button"
+                onClick={() => { setAddReportIsOpen(true) }}
+              >Add Reports
               </button>}
 
             </div>
@@ -369,21 +394,27 @@ const BookingPage = ({ bookingNumber = null }) => {
                     }))}
                   </AccordionBody>
                 </AccordionItem>}
+                {Array.isArray(testReports) && testReports.length > 0 && <AccordionItem>
+                  <AccordionHeader targetId="4">Test/Package Reports</AccordionHeader>
+                  <AccordionBody accordionId="4" >
+                    <ReportListComponent testReports={testReports} successHandler={removeReportHandler} />
+                  </AccordionBody>
+                </AccordionItem>}
               </Accordion>
             </div>
           </div>
         )
       }
       <pre>
-        {/* {JSON.stringify(getBookingResponse?.data ?? "", null, 2)} */}
+        {/* {JSON.stringify({ testReports }, null, 2)} */}
       </pre>
       {confirmBookingOpen && <BookingConfirmModal isOpen={confirmBookingOpen} setIsOpen={setConfirmBookingOpen} successHandler={confirmBookingSuccessHandler} bookingDetails={bookingDetails} />}
       {markPaymentOpen && <MarkPaymentModal isOpen={markPaymentOpen} setIsOpen={setMarkPaymentOpen} successHandler={markPaymentSuccessHandler} bookingDetails={bookingDetails} />}
       {updateBookingStatusOpen && <UpdateBookingStatusModal isOpen={updateBookingStatusOpen} setIsOpen={setUpdateBookingStatusOpen} successHandler={updateBookingStatusSuccessHandler} bookingDetails={bookingDetails} />}
-      {createHomeCollectionOpen && <CreateHomeCollectionModal isOpen={createHomeCollectionOpen} setIsOpen={setCreateHomeCollectionOpen} successHandler={createHomeCollectionSuccessHandler} bookingDetails={bookingDetails} />}
-      {updateHomeCollectionOpen && <UpdateHomeCollectionModal isOpen={updateHomeCollectionOpen} setIsOpen={setUpdateHomeCollectionOpen} successHandler={UpdateHomeCollectionSuccessHandler} bookingDetails={bookingDetails} />}
+      {createHomeCollectionOpen && <CreateHomeCollectionModal samplesToCollect={Array.isArray(samplesToCollect) ? samplesToCollect : []} F isOpen={createHomeCollectionOpen} setIsOpen={setCreateHomeCollectionOpen} successHandler={createHomeCollectionSuccessHandler} bookingDetails={bookingDetails} />}
+      {updateHomeCollectionOpen && <UpdateHomeCollectionModal samplesToCollect={Array.isArray(samplesToCollect) ? samplesToCollect : []} isOpen={updateHomeCollectionOpen} setIsOpen={setUpdateHomeCollectionOpen} successHandler={UpdateHomeCollectionSuccessHandler} homeCollectionDetails={homeCollection} />}
       {createActivityOpen && <CreateActivityModal isOpen={createActivityOpen} setIsOpen={setCreateActivityOpen} successHandler={createActivitySuccessHandler} bookingDetails={bookingDetails} />}
-
+      {addReportIsOpen && <AddReportsModal isOpen={addReportIsOpen} setIsOpen={setAddReportIsOpen} successHandler={addReportSuccessHandler} bookingDetails={bookingDetails} />}
     </div >
   );
 };

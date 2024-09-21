@@ -22,7 +22,7 @@ export const PUT = async (request, { params }) => {
         if (!userId) {
             return new Response("Unauthorized Access!", { status: 401 });
         }
-        const { homeCollectionId = null, type = null } = await request.json();
+        const { homeCollectionId = null, type = null, ...restBody } = await request.json();
         if (!homeCollectionId || !type) {
             return new Response("Home Collecation and type cannot be null!", { status: 400 });
         }
@@ -32,16 +32,46 @@ export const PUT = async (request, { params }) => {
             return new Response("No Home Collection found with given id!", { status: 404 });
         }
         switch (type) {
-
+            case "confirmed":
+                homeCollection.collectionStatus = "confirmed"
+                await homeCollection.save()
+                var newActivity = new HomeCollectionActivity({
+                    userId,
+                    homeCollectionId: homeCollectionId,
+                    activityType: "HomeCollection confirmed",
+                    description: restBody?.description ?? "HomeCollection has been received by center."
+                })
+                await newActivity.save()
+                break;
+            case "picked":
+                homeCollection.collectionStatus = "picked"
+                homeCollection.originalCollectionDate = restBody?.picked_date ?? null
+                homeCollection.originalCollectionTime = restBody?.picked_time ?? null
+                homeCollection.samplesCollected = Array.isArray(restBody?.samples_collected) ? restBody?.samples_collected : []
+                await homeCollection.save()
+                var newActivity = new HomeCollectionActivity({
+                    userId,
+                    homeCollectionId: homeCollectionId,
+                    activityType: "HomeCollection picked",
+                    description: restBody?.description ?? "HomeCollection has been picked."
+                })
+                await newActivity.save()
+                break;
+            case "cancelled":
+                homeCollection.collectionStatus = "cancelled"
+                await homeCollection.save()
+                var newActivity = new HomeCollectionActivity({
+                    userId,
+                    homeCollectionId: homeCollectionId,
+                    activityType: "HomeCollection cancelled",
+                    description: restBody?.description ?? "HomeCollection has been cancelled by admin user."
+                })
+                await newActivity.save()
+                break;
+            default:
+                break
         }
-        var newActivity = new HomeCollectionActivity({
-            userId,
-            bookingId: bookingNumber,
-            activityType: "Booking cancelled",
-            description: restBody?.description ?? "Booking has been cancelled by admin user."
-        })
-        await newActivity.save()
-        return new Response({ message: 'Home Collection updated Successfully.' }, { status: 200 });
+        return new Response({ message: 'Home Collection updated Successfully.', type }, { status: 200 });
     } catch (error) {
         console.log(error);
         return new Response(error?.message, { status: 500 });
@@ -55,7 +85,7 @@ export const POST = async (request, { params }) => {
             return new Response("Unauthorized Access!", { status: 401 });
         }
 
-        const { booking_id = null, collectedBy = null, collectedByName = null, collectedByContact = null } = await request.json();
+        const { booking_id = null, collectedBy = null, collectedByName = null, collectedByContact = null, samples_for_pick = [] } = await request.json();
         if (!booking_id || !collectedByName || !collectedByContact) {
             return new Response("Booking and collection person details cannot be null!", { status: 400 });
         }
@@ -73,8 +103,8 @@ export const POST = async (request, { params }) => {
             selectedCollectionDate: bookingDetails?.slotId?.slotDate?.date ?? null,
             selectedCollectionTime: bookingDetails?.slotId?.slotStartTime ?? "",
             collectionStatus: "pending",
-            samplesToBeCollected: [],
-            collectedBy: collectedBy ?? null,
+            samplesToBeCollected: Array.isArray(samples_for_pick) ? samples_for_pick : [],
+            collectedBy: (!collectedBy || collectedBy.trim() == "") ? null : collectedBy,
             collectedByName: collectedByName ?? "",
             collectedByContact: collectedByContact ?? ""
         })
@@ -83,7 +113,7 @@ export const POST = async (request, { params }) => {
             userId,
             homeCollectionId: homeCollection?.id,
             activityType: "Home Collection created",
-            description:  "Home Collection has been created in system."
+            description: "Home Collection has been created in system."
         })
         await newActivity.save()
         return new Response({ message: 'Home Collection has been created successfully!' }, { status: 200 });
