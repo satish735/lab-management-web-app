@@ -9,19 +9,15 @@ import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { File } from "lucide-react";
-import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 const EditBodyPartMainPage = ({ searchParams }) => {
     const router = useRouter();
 
 
 
-    const [imageFile, setImageFile] = useState({
-        url: "",
-        status: "",
-    });
     const [bodypartResponse, bodypartHandler] = useAPI(
         {
             url: `/body-parts/${searchParams?.id}`,
@@ -31,10 +27,7 @@ const EditBodyPartMainPage = ({ searchParams }) => {
             router.push("/admin/body-parts");
 
             toast.success("Body part updated successfully");
-            setImageFile({
-                url: "",
-                status: "",
-            })
+
             bodypart.setEnteredValue()
 
 
@@ -62,10 +55,7 @@ const EditBodyPartMainPage = ({ searchParams }) => {
         (e) => {
             router.push("/admin/body-parts")
             toast.success("Body part deleted successfully");
-            setImageFile({
-                url: "",
-                status: "",
-            })
+
             bodypart.setEnteredValue()
         },
         (e) => {
@@ -98,13 +88,12 @@ const EditBodyPartMainPage = ({ searchParams }) => {
 
     const submit = () => {
         let bodyPartIsValid = bodypartValidater(bodypart?.enteredValue);
-        if (bodyPartIsValid != "" && imageFile?.filePath) {
+        if (bodyPartIsValid != "") {
 
 
             bodypartHandler({
                 body: {
                     name: bodypart?.enteredValue ?? '',
-                    image: imageFile?.filePath
                 }
             });
         } else {
@@ -124,7 +113,7 @@ const EditBodyPartMainPage = ({ searchParams }) => {
 
 
             bodypart.setEnteredValue(e?.name)
-            setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
+
         },
         (e) => {
 
@@ -152,91 +141,102 @@ const EditBodyPartMainPage = ({ searchParams }) => {
                     {searchParams?.type === 'view' ? 'View Body Part' : 'Edit Body Part'}
                 </h3>
 
-                <div className=" my-3  py-4 px-3"  >
+                <LoaderGeneral
+                    noContentMessage="records are not found"
+                    state={
+                        getBodyPartResponse?.fetching
+                            ? "loading"
+                            : [null, undefined].includes(getBodyPartResponse?.data)
+                                ? "no-content"
+                                : "none"
+
+                    }
+                />
+
+                {
+                    (!getBodyPartResponse?.fetching) &&
 
 
-                    <div className="row">
-
-                        <div className="col-12">
-                            <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-
-                            <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                    <div className=" my-3  py-4 px-3"  >
 
 
+                        <div className="row">
 
-                        </div>
-                        <div className="col-12 mt-3">
 
-                            <InputWithAddOn
-                                label="Body Part Name"
-                                className="loginInputs"
+                            <div className="col-12 mt-3">
 
-                                setValue={bodypart.setEnteredValue}
-                                value={bodypart.enteredValue}
-                                feedbackMessage={bodypart.feedbackMessage}
-                                feedbackType={bodypart.messageType}
-                                isTouched={bodypart.isTouched}
-                                setIsTouched={bodypart.setIsTouched}
+                                <InputWithAddOn
+                                    label="Body Part Name"
+                                    className="loginInputs"
 
-                                validateHandler={bodypartValidater}
-                                reset={bodypart.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
+                                    setValue={bodypart.setEnteredValue}
+                                    value={bodypart.enteredValue}
+                                    feedbackMessage={bodypart.feedbackMessage}
+                                    feedbackType={bodypart.messageType}
+                                    isTouched={bodypart.isTouched}
+                                    setIsTouched={bodypart.setIsTouched}
+
+                                    validateHandler={bodypartValidater}
+                                    reset={bodypart.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
 
 
 
-                        <div className="my-3 text-end">
+                            <div className="my-3 text-end">
 
-                            {searchParams?.type != 'view'
+                                {searchParams?.type != 'view'
 
-                                &&
-                                <button
-                                    className="mx-2 btn btn-danger"
-                                    onClick={() => { DeletebodypartHandler()   }}
-                                    type="button"
-                                >
-                                    {DeletebodypartResponse?.fetching ? <Spinner size="sm" /> :"Delete"}
-                                </button>
-                            }
-                            {searchParams?.type != 'view'
+                                    &&
+                                    <button
+                                        className="mx-2 btn btn-danger"
+                                        onClick={() => { DeletebodypartHandler() }}
+                                        type="button"
+                                    >
+                                        {DeletebodypartResponse?.fetching ? <Spinner size="sm" /> : "Delete"}
+                                    </button>
+                                }
+                                {searchParams?.type != 'view'
 
-                                &&
-                                <button
-                                    className="mx-2 btn btn-dark"
-                                    onClick={() => {
-                                        router.push("/admin/body-parts");
-                                    }}
-                                    type="button"
-                                >
-                                    {" "}
-                                    Cancel
-                                </button>
-                            }
-
-
-                            {searchParams?.type != 'view'
-
-                                &&
-                                <button
-                                    style={{ float: "right" }}
-                                    className="btn btn-success px-3"
-                                    onClick={submit}
-                                    type="button"
-                                >
-                                    {bodypartResponse?.fetching ? (
-                                        <Spinner size={"sm"} />
-                                    ) : (
-                                        "Update"
-                                    )}
-                                </button>
-                            }
+                                    &&
+                                    <button
+                                        className="mx-2 btn btn-dark"
+                                        onClick={() => {
+                                            router.push("/admin/body-parts");
+                                        }}
+                                        type="button"
+                                    >
+                                        {" "}
+                                        Cancel
+                                    </button>
+                                }
 
 
+                                {searchParams?.type != 'view'
+
+                                    &&
+                                    <button
+                                        style={{ float: "right" }}
+                                        className="btn btn-success px-3"
+                                        onClick={submit}
+                                        type="button"
+                                    >
+                                        {bodypartResponse?.fetching ? (
+                                            <Spinner size={"sm"} />
+                                        ) : (
+                                            "Update"
+                                        )}
+                                    </button>
+                                }
+
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+
             </div>
         </>
     );

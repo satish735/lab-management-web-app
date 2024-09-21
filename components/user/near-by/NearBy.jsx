@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './nearby.css'
 import '@/styles/common-card-designs/card_designs.css'
 
@@ -11,7 +11,11 @@ import { Spinner } from 'reactstrap';
 const NearBy = () => {
 
     const [location, setLocation] = useState('');
-    const [coordinates, setCoordinates] = useState({ lat: 26.922070, lng: 75.778885 });
+    const [coordinates, setCoordinates] = useState({
+        latitude: null,
+        longitude: null
+    });
+    const [centerData, setCenterData] = useState([])
     const [state, setState] = useState('rajasthan');
     const [city, setCity] = useState('jaipur');
 
@@ -35,6 +39,27 @@ const NearBy = () => {
 
 
 
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+
+                        setCoordinates({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+
+                        })
+
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+
+
+
             console.log(e);
 
 
@@ -48,6 +73,27 @@ const NearBy = () => {
             return e
         }
     );
+
+
+    useEffect(() => {
+
+        if (coordinates?.latitude !== null && coordinates?.longitude !== null && allPackageResponse) {
+
+
+
+            let data = (allPackageResponse?.data?.data ?? []).map((item) => {
+
+                const distance = getDistanceFromLatLonInKm(Number(coordinates.latitude), Number(coordinates.longitude), Number(item?.latitude), Number(item?.longitude))
+
+
+                return { ...item, distanceFromLocation: distance }
+
+
+            })
+            setCenterData(data ?? [])
+
+        }
+    }, [coordinates])
 
     const inputChange = (e) => {
         setInputSearch(e.target.value)
@@ -100,7 +146,7 @@ const NearBy = () => {
 
 
                             {
-                                (allPackageResponse?.data?.data ?? []).map((itemValue, index) => {
+                                (centerData ?? []).map((itemValue, index) => {
                                     return <LocationCard itemValue={itemValue} key={index} />
                                 })
                             }
@@ -162,7 +208,7 @@ const LocationCard = ({ itemValue }) => {
 
                         </p>
                         <p className='col-4 text-end' style={{ color: '#46b902', fontSize: '13px', fontWeight: '500' }}>
-                            {itemValue?.distance ?? '4km'} Away
+                            {(itemValue?.distanceFromLocation)?.toFixed() ?? ''} Km Away
                         </p>
                     </div>
 
@@ -211,8 +257,9 @@ const LocationCard = ({ itemValue }) => {
 
                             </div>
                             <div className=' '>
-                                <button onClick={()=>{openGoogleMaps(37.7749, -122.4194)
-                                 
+                                <button onClick={() => {
+                                    openGoogleMaps(Number(itemValue?.latitude), Number(itemValue?.longitude))
+
                                 }} className='d-flex gap-1 py-1 px-2  card-button-2' style={{
                                     borderRadius: '10px', color: 'white', fontWeight: '600'
                                 }}>
@@ -247,6 +294,27 @@ let array = [
     { centername: 'Jaipur Diaganostics', distance: '145 KM', address: 'Chandra Colony Bengali Wale gali Near Nagar Palika Nadbai, Bharatpur ,Bharatpur', openAt: '07:30 AM', close: '07:30 PM', contact: '', direction: '' },
 ]
 
+
+
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = deg2rad(lat2 - lat1); // Difference in latitude
+    const dLon = deg2rad(lon2 - lon1); // Difference in longitude
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in kilometers
+    return distance;
+}
+
+// Helper function to convert degrees to radians
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
 
 
 

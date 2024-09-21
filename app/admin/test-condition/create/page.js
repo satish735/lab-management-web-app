@@ -18,11 +18,7 @@ const CreateTestConditionPage = () => {
 
 
 
-  const [imageFile, setImageFile] = useState({
-    url: "",
-    status: "",
-  });
-
+ 
 
   
   const [testconditionResponse, testconditionHandler] = useAPI(
@@ -34,10 +30,7 @@ const CreateTestConditionPage = () => {
 
       router.push("/admin/test-condition");
       toast.success("Body part added successfully");
-      setImageFile({
-        url: "",
-        status: "",
-      })
+       
       testcondition.setEnteredValue()
 
     },
@@ -71,13 +64,13 @@ const CreateTestConditionPage = () => {
 
   const submit = () => {
     let testconditionIsValid = testconditionValidater(testcondition?.enteredValue);
-    if (testconditionIsValid != "" && imageFile?.filePath) {
+    if (testconditionIsValid != ""  ) {
 
 
       testconditionHandler({
         body: {
           name: testcondition?.enteredValue ?? '',
-          image: imageFile?.filePath
+           
         }
       });
     } else {
@@ -105,14 +98,7 @@ const CreateTestConditionPage = () => {
 
           <div className="row">
 
-            <div className="col-12">
-              <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-
-              <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-
-
-
-            </div>
+             
             <div className="col-12 mt-3">
 
               <InputWithAddOn

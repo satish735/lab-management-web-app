@@ -14,9 +14,10 @@ import TestListing from "@/components/package-details/total-test-include/TestLis
 import { useRouter } from "next/navigation";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 
 const ViewEdit = ({ searchParams }) => {
-     const router = useRouter();
+    const router = useRouter();
 
     const [isSubmit, setisSubmit] = useState(false)
 
@@ -52,7 +53,7 @@ const ViewEdit = ({ searchParams }) => {
 
 
     ]
-    
+
     const [createTestResponse, createTestHandler] = useAPI(
         {
             url: `/test/${searchParams?.id}`,
@@ -83,7 +84,7 @@ const ViewEdit = ({ searchParams }) => {
         }
     );
 
-    
+
 
     const [deleteTestResponse, deleteTestHandler] = useAPI(
         {
@@ -549,31 +550,7 @@ const ViewEdit = ({ searchParams }) => {
                 console.log('Validation failed for one or more inputs.');
             } else {
 
-                // console.log({
-                //     body: {
-                //         name: TestNameInput.enteredValue ?? null,
-                //         description: DescriptionInput.enteredValue ?? null,
-                //         body_parts_type: BodyPartType ?? null,
-                //         observations: ObservationsData ?? null,
-                //         image: imageFile?.filePath ?? null,
-                //         medical_conditions: MedicalConditions ?? null,
-                //         price: Price.enteredValue ?? null,
-                //         gender: GenderType ?? null,
-                //         age_groupFrom: AgeGroupFrom.enteredValue ?? null,
 
-                //         age_groupTo: AgeGroupTo.enteredValue ?? null,
-                //         requirements: null,
-                //         DiscountPercentage: DiscountPercentage.enteredValue,
-
-                //         SampleRequiredValidate: SampleRequired.enteredValue ?? null,
-                //         PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
-
-                //         HomeCollectionSelectValidate: HomeCollection ?? null,
-                //         ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
-
-
-                //     }
-                // });
                 createTestHandler(
                     {
                         body: {
@@ -648,30 +625,6 @@ const ViewEdit = ({ searchParams }) => {
             }
 
             else {
-
-                // console.log({
-                //     name: PackageName.enteredValue ?? null,
-                //     itemId: Testlisting ?? [],
-                //     desc: DescriptionInput.enteredValue ?? null,
-
-                //     image: imageFile?.filePath ?? null,
-
-                //     rate: ActualCost.enteredValue ?? null,
-                //     totalMRP: FinalMRP.enteredValue ?? null,
-                //     gender: GenderType ?? null,
-                //     fromAge: AgeGroupFrom.enteredValue ?? null,
-                //     testType: TestOrPackage ?? null,
-                //     toAge: AgeGroupTo.enteredValue ?? null,
-                //     discountPercentage: DiscountPercentage.enteredValue,
-
-                //     sampleCollection: SampleRequired.enteredValue ?? null,
-                //     preparation: PreparationRequired.enteredValue ?? null,
-
-                //     homeCollection: HomeCollection ?? null,
-                //     reportGenerationHours: ResultWithinHours.enteredValue ?? null,
-
-
-                // });
 
                 createTestHandler(
                     {
@@ -754,6 +707,7 @@ const ViewEdit = ({ searchParams }) => {
 
 
 
+
     const [getTestsPackagesResponse, getTestsPackagesHandler] = useAPI(
         {
             url: `/test/${searchParams?.id}`,
@@ -762,9 +716,9 @@ const ViewEdit = ({ searchParams }) => {
 
         },
         (e) => {
-          
 
- 
+
+
             setTestOrPackage(e?.testType)
 
 
@@ -901,7 +855,7 @@ const ViewEdit = ({ searchParams }) => {
 
 
     useEffect(() => {
- 
+
         if (testResponse?.data && getTestsPackagesResponse?.data) {
 
 
@@ -933,263 +887,351 @@ const ViewEdit = ({ searchParams }) => {
                 Create Test
             </h3>
 
-            <div className=" mt-3  py-0 px-3"  >
 
 
-                <div>
-                    <InputSelect
-                        setValue={setTestOrPackage}
-                        value={TestOrPackage}
-                        options={TestOrPackageOption ?? []}
-                        isTouched={TestOrPackageIsTouch}
-                        setIsTouched={setTestOrPackageIsTouch}
-                        className="py-1"
-                        label={"Select Test Or Package"}
-                        isRequired={true}
-                        feedbackMessage={TestOrPackageMessage?.message}
-                        feedbackType={TestOrPackageMessage?.type}
-                        validateHandler={TestOrPackageSelectValidater}
-                        disabled={true}
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getTestsPackagesResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getTestsPackagesResponse?.data)
+                            ? "no-content"
+                            : "none"
 
-                    />
-                </div>
-            </div>
+                }
+            />
 
             {
-                TestOrPackage === 'Package' &&
+                (!getTestsPackagesResponse?.fetching) &&
+
 
                 <>
-                    <h5 className="mb-3 px-3 py-2 mt-2  " >
-
-                        Add Package Details
-                    </h5>
-                    <div className=" mb-3  py-0 px-3"  >
-                        <div className="row my-3">
-                            <div className="col-lg-3 col-md-4 col-sm-12">
-                                <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-                                <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-                            </div>
-
-                            <div className="col-lg-9 col-md-8 col-sm-12">
-
-                                <div className="row">
+                    <div className=" mt-3  py-0 px-3"  >
 
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                        <div>
+                            <InputSelect
+                                setValue={setTestOrPackage}
+                                value={TestOrPackage}
+                                options={TestOrPackageOption ?? []}
+                                isTouched={TestOrPackageIsTouch}
+                                setIsTouched={setTestOrPackageIsTouch}
+                                className="py-1"
+                                label={"Select Test Or Package"}
+                                isRequired={true}
+                                feedbackMessage={TestOrPackageMessage?.message}
+                                feedbackType={TestOrPackageMessage?.type}
+                                validateHandler={TestOrPackageSelectValidater}
+                                disabled={true}
 
-                                        <InputWithAddOn
-                                            label="Package Name"
+                            />
+                        </div>
+                    </div>
+
+                    {
+                        TestOrPackage === 'Package' &&
+
+                        <>
+                            <h5 className="mb-3 px-3 py-2 mt-2  " >
+
+                                Add Package Details
+                            </h5>
+                            <div className=" mb-3  py-0 px-3"  >
+                                <div className="row my-3">
+                                    <div className="col-lg-3 col-md-4 col-sm-12">
+                                        <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
+                                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                                    </div>
+
+                                    <div className="col-lg-9 col-md-8 col-sm-12">
+
+                                        <div className="row">
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Package Name"
+                                                    className="loginInputs"
+                                                    setValue={PackageName.setEnteredValue}
+                                                    value={PackageName.enteredValue}
+                                                    feedbackMessage={PackageName.feedbackMessage}
+                                                    feedbackType={PackageName.messageType}
+                                                    isTouched={PackageName.isTouched}
+                                                    setIsTouched={PackageName.setIsTouched}
+                                                    validateHandler={PackageNameValidater}
+                                                    reset={PackageName.reset}
+                                                    isRequired={true}
+                                                    disabled={searchParams?.type === 'view'}
+
+                                                />
+                                            </div>
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputMultipleSelect
+                                                    setValue={setSelectCenter}
+                                                    value={SelectCenter}
+                                                    options={testResponse?.data?.centerListing ?? []}
+                                                    isTouched={SelectCenterIsTouch}
+                                                    setIsTouched={setSelectCenterIsTouch}
+                                                    className="py-1"
+                                                    label={"Select Center To Include"}
+                                                    isRequired={true}
+                                                    feedbackMessage={SelectCenterMessage?.message}
+                                                    feedbackType={SelectCenterMessage?.type}
+                                                    validateHandler={SelectCenterSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputMultipleSelect
+                                                    setValue={setTestlisting}
+                                                    value={Testlisting}
+                                                    options={ListingFields?.TestListing ?? []}
+                                                    isTouched={TestlistingIsTouch}
+                                                    setIsTouched={setTestlistingIsTouch}
+                                                    className="py-1"
+                                                    label={"Select Tests To Include"}
+                                                    isRequired={true}
+                                                    feedbackMessage={TestlistingMessage?.message}
+                                                    feedbackType={TestlistingMessage?.type}
+                                                    validateHandler={TestlistingSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Actual Price"
+                                                    className="loginInputs"
+                                                    setValue={ActualCost.setEnteredValue}
+                                                    value={ActualCost.enteredValue}
+                                                    feedbackMessage={ActualCost.feedbackMessage}
+                                                    feedbackType={ActualCost.messageType}
+                                                    isTouched={ActualCost.isTouched}
+                                                    setIsTouched={ActualCost.setIsTouched}
+                                                    validateHandler={ActualCostValidater}
+                                                    reset={ActualCost.reset}
+                                                    isRequired={true}
+
+                                                    type="number"
+                                                    disabled={true}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Final Price"
+                                                    className="loginInputs"
+                                                    setValue={FinalMRP.setEnteredValue}
+                                                    value={FinalMRP.enteredValue}
+                                                    feedbackMessage={FinalMRP.feedbackMessage}
+                                                    feedbackType={FinalMRP.messageType}
+                                                    isTouched={FinalMRP.isTouched}
+                                                    setIsTouched={FinalMRP.setIsTouched}
+                                                    validateHandler={FinalMRPValidater}
+                                                    reset={FinalMRP.reset}
+                                                    isRequired={true}
+                                                    type="number"
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Discount Percentage"
+                                                    className="loginInputs"
+                                                    setValue={DiscountPercentage.setEnteredValue}
+                                                    value={DiscountPercentage.enteredValue}
+                                                    feedbackMessage={DiscountPercentage.feedbackMessage}
+                                                    feedbackType={DiscountPercentage.messageType}
+                                                    isTouched={DiscountPercentage.isTouched}
+                                                    setIsTouched={DiscountPercentage.setIsTouched}
+                                                    validateHandler={DiscountPercentageValidater}
+                                                    reset={DiscountPercentage.reset}
+                                                    isRequired={true}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputSelect
+                                                    setValue={setGenderType}
+                                                    value={GenderType}
+                                                    options={genderoption ?? []}
+                                                    isTouched={GenderTypeIsTouch}
+                                                    setIsTouched={setGenderTypeIsTouch}
+                                                    className="py-1"
+                                                    label={"Gender"}
+                                                    isRequired={true}
+                                                    feedbackMessage={GenderTypeMessage?.message}
+                                                    feedbackType={GenderTypeMessage?.type}
+                                                    validateHandler={GenderTypeSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputWithAddOn
+                                                    label="Age Group From"
+                                                    className="loginInputs"
+
+                                                    setValue={AgeGroupFrom.setEnteredValue}
+                                                    value={AgeGroupFrom.enteredValue}
+                                                    feedbackMessage={AgeGroupFrom.feedbackMessage}
+                                                    feedbackType={AgeGroupFrom.messageType}
+                                                    isTouched={AgeGroupFrom.isTouched}
+                                                    setIsTouched={AgeGroupFrom.setIsTouched}
+
+                                                    validateHandler={AgeGroupFromValidater}
+                                                    reset={AgeGroupFrom.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+                                            </div>
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputWithAddOn
+                                                    label="Age Group To"
+                                                    className="loginInputs"
+
+                                                    setValue={AgeGroupTo.setEnteredValue}
+                                                    value={AgeGroupTo.enteredValue}
+                                                    feedbackMessage={AgeGroupTo.feedbackMessage}
+                                                    feedbackType={AgeGroupTo.messageType}
+                                                    isTouched={AgeGroupTo.isTouched}
+                                                    setIsTouched={AgeGroupTo.setIsTouched}
+
+                                                    validateHandler={AgeGroupToValidater}
+                                                    reset={AgeGroupTo.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+                                            </div>
+
+
+
+
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputSelect
+                                                    setValue={setHomeCollection}
+                                                    value={HomeCollection}
+                                                    options={homeCollectionOption ?? []}
+                                                    isTouched={HomeCollectionIsTouch}
+                                                    setIsTouched={setHomeCollectionIsTouch}
+                                                    className="py-1"
+                                                    label={"Home Collection"}
+                                                    isRequired={true}
+                                                    feedbackMessage={HomeCollectionMessage?.message}
+                                                    feedbackType={HomeCollectionMessage?.type}
+                                                    validateHandler={HomeCollectionSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Result Within Hours"
+                                                    className="loginInputs"
+
+                                                    setValue={ResultWithinHours.setEnteredValue}
+                                                    value={ResultWithinHours.enteredValue}
+                                                    feedbackMessage={ResultWithinHours.feedbackMessage}
+                                                    feedbackType={ResultWithinHours.messageType}
+                                                    isTouched={ResultWithinHours.isTouched}
+                                                    setIsTouched={ResultWithinHours.setIsTouched}
+
+                                                    validateHandler={ResultWithinHoursValidater}
+                                                    reset={ResultWithinHours.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div className="col-lg-6 col-md-6 col-sm-12 ">
+
+                                        <InputTextArea
+                                            label="Sample Required"
                                             className="loginInputs"
-                                            setValue={PackageName.setEnteredValue}
-                                            value={PackageName.enteredValue}
-                                            feedbackMessage={PackageName.feedbackMessage}
-                                            feedbackType={PackageName.messageType}
-                                            isTouched={PackageName.isTouched}
-                                            setIsTouched={PackageName.setIsTouched}
-                                            validateHandler={PackageNameValidater}
-                                            reset={PackageName.reset}
-                                            isRequired={true}
-                                            disabled={searchParams?.type === 'view'}
 
-                                        />
-                                    </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputMultipleSelect
-                                            setValue={setSelectCenter}
-                                            value={SelectCenter}
-                                            options={testResponse?.data?.centerListing ?? []}
-                                            isTouched={SelectCenterIsTouch}
-                                            setIsTouched={setSelectCenterIsTouch}
-                                            className="py-1"
-                                            label={"Select Center To Include"}
-                                            isRequired={true}
-                                            feedbackMessage={SelectCenterMessage?.message}
-                                            feedbackType={SelectCenterMessage?.type}
-                                            validateHandler={SelectCenterSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputMultipleSelect
-                                            setValue={setTestlisting}
-                                            value={Testlisting}
-                                            options={ListingFields?.TestListing ?? []}
-                                            isTouched={TestlistingIsTouch}
-                                            setIsTouched={setTestlistingIsTouch}
-                                            className="py-1"
-                                            label={"Select Tests To Include"}
-                                            isRequired={true}
-                                            feedbackMessage={TestlistingMessage?.message}
-                                            feedbackType={TestlistingMessage?.type}
-                                            validateHandler={TestlistingSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
+                                            setValue={SampleRequired.setEnteredValue}
+                                            value={SampleRequired.enteredValue}
+                                            feedbackMessage={SampleRequired.feedbackMessage}
+                                            feedbackType={SampleRequired.messageType}
+                                            isTouched={SampleRequired.isTouched}
+                                            setIsTouched={SampleRequired.setIsTouched}
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
-                                            label="Actual Price"
-                                            className="loginInputs"
-                                            setValue={ActualCost.setEnteredValue}
-                                            value={ActualCost.enteredValue}
-                                            feedbackMessage={ActualCost.feedbackMessage}
-                                            feedbackType={ActualCost.messageType}
-                                            isTouched={ActualCost.isTouched}
-                                            setIsTouched={ActualCost.setIsTouched}
-                                            validateHandler={ActualCostValidater}
-                                            reset={ActualCost.reset}
-                                            isRequired={true}
-
-                                            type="number"
-                                            disabled={true}
-                                        />
-                                    </div>
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
-                                            label="Final Price"
-                                            className="loginInputs"
-                                            setValue={FinalMRP.setEnteredValue}
-                                            value={FinalMRP.enteredValue}
-                                            feedbackMessage={FinalMRP.feedbackMessage}
-                                            feedbackType={FinalMRP.messageType}
-                                            isTouched={FinalMRP.isTouched}
-                                            setIsTouched={FinalMRP.setIsTouched}
-                                            validateHandler={FinalMRPValidater}
-                                            reset={FinalMRP.reset}
-                                            isRequired={true}
-                                            type="number"
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
-                                            label="Discount Percentage"
-                                            className="loginInputs"
-                                            setValue={DiscountPercentage.setEnteredValue}
-                                            value={DiscountPercentage.enteredValue}
-                                            feedbackMessage={DiscountPercentage.feedbackMessage}
-                                            feedbackType={DiscountPercentage.messageType}
-                                            isTouched={DiscountPercentage.isTouched}
-                                            setIsTouched={DiscountPercentage.setIsTouched}
-                                            validateHandler={DiscountPercentageValidater}
-                                            reset={DiscountPercentage.reset}
+                                            validateHandler={SampleRequiredValidater}
+                                            reset={SampleRequired.reset}
                                             isRequired={true}
                                             disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputSelect
-                                            setValue={setGenderType}
-                                            value={GenderType}
-                                            options={genderoption ?? []}
-                                            isTouched={GenderTypeIsTouch}
-                                            setIsTouched={setGenderTypeIsTouch}
-                                            className="py-1"
-                                            label={"Gender"}
-                                            isRequired={true}
-                                            feedbackMessage={GenderTypeMessage?.message}
-                                            feedbackType={GenderTypeMessage?.type}
-                                            validateHandler={GenderTypeSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
 
+                                    <div className="col-lg-6 col-md-6 col-sm-12 ">
 
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputWithAddOn
-                                            label="Age Group From"
+                                        <InputTextArea
+                                            label="Preparation Required"
                                             className="loginInputs"
 
-                                            setValue={AgeGroupFrom.setEnteredValue}
-                                            value={AgeGroupFrom.enteredValue}
-                                            feedbackMessage={AgeGroupFrom.feedbackMessage}
-                                            feedbackType={AgeGroupFrom.messageType}
-                                            isTouched={AgeGroupFrom.isTouched}
-                                            setIsTouched={AgeGroupFrom.setIsTouched}
+                                            setValue={PreparationRequired.setEnteredValue}
+                                            value={PreparationRequired.enteredValue}
+                                            feedbackMessage={PreparationRequired.feedbackMessage}
+                                            feedbackType={PreparationRequired.messageType}
+                                            isTouched={PreparationRequired.isTouched}
+                                            setIsTouched={PreparationRequired.setIsTouched}
 
-                                            validateHandler={AgeGroupFromValidater}
-                                            reset={AgeGroupFrom.reset}
+                                            validateHandler={PreparationRequiredValidater}
+                                            reset={PreparationRequired.reset}
                                             isRequired={true}
-                                            type='number'
                                             disabled={searchParams?.type === 'view'}
                                         />
-
                                     </div>
 
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputWithAddOn
-                                            label="Age Group To"
+                                    <div className="col-lg-12 col-md-12 col-sm-12 ">
+                                        <InputTextArea
+                                            label="Description"
                                             className="loginInputs"
 
-                                            setValue={AgeGroupTo.setEnteredValue}
-                                            value={AgeGroupTo.enteredValue}
-                                            feedbackMessage={AgeGroupTo.feedbackMessage}
-                                            feedbackType={AgeGroupTo.messageType}
-                                            isTouched={AgeGroupTo.isTouched}
-                                            setIsTouched={AgeGroupTo.setIsTouched}
+                                            setValue={DescriptionInput.setEnteredValue}
+                                            value={DescriptionInput.enteredValue}
+                                            feedbackMessage={DescriptionInput.feedbackMessage}
+                                            feedbackType={DescriptionInput.messageType}
+                                            isTouched={DescriptionInput.isTouched}
+                                            setIsTouched={DescriptionInput.setIsTouched}
 
-                                            validateHandler={AgeGroupToValidater}
-                                            reset={AgeGroupTo.reset}
+                                            validateHandler={DescriptionInputValidater}
+                                            reset={DescriptionInput.reset}
                                             isRequired={true}
-                                            type='number'
                                             disabled={searchParams?.type === 'view'}
                                         />
-
-                                    </div>
-
-
-
-
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputSelect
-                                            setValue={setHomeCollection}
-                                            value={HomeCollection}
-                                            options={homeCollectionOption ?? []}
-                                            isTouched={HomeCollectionIsTouch}
-                                            setIsTouched={setHomeCollectionIsTouch}
-                                            className="py-1"
-                                            label={"Home Collection"}
-                                            isRequired={true}
-                                            feedbackMessage={HomeCollectionMessage?.message}
-                                            feedbackType={HomeCollectionMessage?.type}
-                                            validateHandler={HomeCollectionSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
-
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
-                                            label="Result Within Hours"
-                                            className="loginInputs"
-
-                                            setValue={ResultWithinHours.setEnteredValue}
-                                            value={ResultWithinHours.enteredValue}
-                                            feedbackMessage={ResultWithinHours.feedbackMessage}
-                                            feedbackType={ResultWithinHours.messageType}
-                                            isTouched={ResultWithinHours.isTouched}
-                                            setIsTouched={ResultWithinHours.setIsTouched}
-
-                                            validateHandler={ResultWithinHoursValidater}
-                                            reset={ResultWithinHours.reset}
-                                            isRequired={true}
-                                            type='number'
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-
 
                                     </div>
 
@@ -1197,467 +1239,399 @@ const ViewEdit = ({ searchParams }) => {
 
                                 </div>
 
-
-
                             </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12 ">
+                        </>
 
-                                <InputTextArea
-                                    label="Sample Required"
-                                    className="loginInputs"
-
-                                    setValue={SampleRequired.setEnteredValue}
-                                    value={SampleRequired.enteredValue}
-                                    feedbackMessage={SampleRequired.feedbackMessage}
-                                    feedbackType={SampleRequired.messageType}
-                                    isTouched={SampleRequired.isTouched}
-                                    setIsTouched={SampleRequired.setIsTouched}
-
-                                    validateHandler={SampleRequiredValidater}
-                                    reset={SampleRequired.reset}
-                                    isRequired={true}
-                                    disabled={searchParams?.type === 'view'}
-                                />
-                            </div>
+                    }
 
 
+                    {
+                        TestOrPackage === 'Test' &&
+                        <>
+                            <h5 className="mb-3 px-3 py-2 mt-2  " >
 
-                            <div className="col-lg-6 col-md-6 col-sm-12 ">
+                                Add Test Details
+                            </h5>
+                            <div className=" mb-3   py-0 px-3"  >
 
-                                <InputTextArea
-                                    label="Preparation Required"
-                                    className="loginInputs"
+                                <div className="row my-3">
 
-                                    setValue={PreparationRequired.setEnteredValue}
-                                    value={PreparationRequired.enteredValue}
-                                    feedbackMessage={PreparationRequired.feedbackMessage}
-                                    feedbackType={PreparationRequired.messageType}
-                                    isTouched={PreparationRequired.isTouched}
-                                    setIsTouched={PreparationRequired.setIsTouched}
+                                    <div className="col-lg-3 col-md-4 col-sm-12">
+                                        <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
+                                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                                    </div>
 
-                                    validateHandler={PreparationRequiredValidater}
-                                    reset={PreparationRequired.reset}
-                                    isRequired={true}
-                                    disabled={searchParams?.type === 'view'}
-                                />
-                            </div>
+                                    <div className="col-lg-9 col-md-8 col-sm-12">
+                                        <div className="row">
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 ">
-                                <InputTextArea
-                                    label="Description"
-                                    className="loginInputs"
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-                                    setValue={DescriptionInput.setEnteredValue}
-                                    value={DescriptionInput.enteredValue}
-                                    feedbackMessage={DescriptionInput.feedbackMessage}
-                                    feedbackType={DescriptionInput.messageType}
-                                    isTouched={DescriptionInput.isTouched}
-                                    setIsTouched={DescriptionInput.setIsTouched}
+                                                <InputWithAddOn
+                                                    label="Test Name"
+                                                    className="loginInputs"
 
-                                    validateHandler={DescriptionInputValidater}
-                                    reset={DescriptionInput.reset}
-                                    isRequired={true}
-                                    disabled={searchParams?.type === 'view'}
-                                />
+                                                    setValue={TestNameInput.setEnteredValue}
+                                                    value={TestNameInput.enteredValue}
+                                                    feedbackMessage={TestNameInput.feedbackMessage}
+                                                    feedbackType={TestNameInput.messageType}
+                                                    isTouched={TestNameInput.isTouched}
+                                                    setIsTouched={TestNameInput.setIsTouched}
 
-                            </div>
+                                                    validateHandler={TestNameInputValidater}
+                                                    reset={TestNameInput.reset}
+                                                    isRequired={true}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+
+                                            </div>
 
 
 
-                        </div>
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputMultipleSelect
+                                                    setValue={setMedicalConditions}
+                                                    value={MedicalConditions}
+                                                    options={ListingFields?.TestConditionListing ?? []}
+                                                    isTouched={MedicalConditionsIsTouch}
+                                                    setIsTouched={setMedicalConditionsIsTouch}
+                                                    className="py-1"
+                                                    label={"Health Condition"}
+                                                    isRequired={true}
+                                                    feedbackMessage={MedicalConditionsMessage?.message}
+                                                    feedbackType={MedicalConditionsMessage?.type}
+                                                    validateHandler={MedicalConditionsSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
 
-                    </div>
-                </>
 
-            }
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputMultipleSelect
+                                                    setValue={setBodyPartType}
+                                                    value={BodyPartType}
+                                                    options={ListingFields?.BodyPartListing ?? []}
+                                                    isTouched={BodyPartTypeIsTouch}
+                                                    setIsTouched={setBodyPartTypeIsTouch}
+                                                    className="py-1"
+                                                    label={"Body Part"}
+                                                    isRequired={true}
+                                                    feedbackMessage={BodyPartTypeMessage?.message}
+                                                    feedbackType={BodyPartTypeMessage?.type}
+                                                    validateHandler={BodyPartTypeSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputMultipleSelect
+                                                    setValue={setSelectCenter}
+                                                    value={SelectCenter}
+                                                    options={testResponse?.data?.centerListing ?? []}
+                                                    isTouched={SelectCenterIsTouch}
+                                                    setIsTouched={setSelectCenterIsTouch}
+                                                    className="py-1"
+                                                    label={"Select Center To Include"}
+                                                    isRequired={true}
+                                                    feedbackMessage={SelectCenterMessage?.message}
+                                                    feedbackType={SelectCenterMessage?.type}
+                                                    validateHandler={SelectCenterSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Price"
+                                                    className="loginInputs"
+
+                                                    setValue={Price.setEnteredValue}
+                                                    value={Price.enteredValue}
+                                                    feedbackMessage={Price.feedbackMessage}
+                                                    feedbackType={Price.messageType}
+                                                    isTouched={Price.isTouched}
+                                                    setIsTouched={Price.setIsTouched}
+
+                                                    validateHandler={PriceValidater}
+                                                    reset={Price.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
 
 
-            {
-                TestOrPackage === 'Test' &&
-                <>
-                    <h5 className="mb-3 px-3 py-2 mt-2  " >
+                                            </div>
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-                        Add Test Details
-                    </h5>
-                    <div className=" mb-3   py-0 px-3"  >
+                                                <InputWithAddOn
+                                                    label="Discount Percentage"
+                                                    className="loginInputs"
+                                                    setValue={DiscountPercentage.setEnteredValue}
+                                                    value={DiscountPercentage.enteredValue}
+                                                    feedbackMessage={DiscountPercentage.feedbackMessage}
+                                                    feedbackType={DiscountPercentage.messageType}
+                                                    isTouched={DiscountPercentage.isTouched}
+                                                    setIsTouched={DiscountPercentage.setIsTouched}
+                                                    validateHandler={DiscountPercentageValidater}
+                                                    reset={DiscountPercentage.reset}
+                                                    isRequired={true}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
 
-                        <div className="row my-3">
 
-                            <div className="col-lg-3 col-md-4 col-sm-12">
-                                <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-                                <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-                            </div>
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputSelect
+                                                    setValue={setGenderType}
+                                                    value={GenderType}
+                                                    options={genderoption ?? []}
+                                                    isTouched={GenderTypeIsTouch}
+                                                    setIsTouched={setGenderTypeIsTouch}
+                                                    className="py-1"
+                                                    label={"Gender"}
+                                                    isRequired={true}
+                                                    feedbackMessage={GenderTypeMessage?.message}
+                                                    feedbackType={GenderTypeMessage?.type}
+                                                    validateHandler={GenderTypeSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
 
-                            <div className="col-lg-9 col-md-8 col-sm-12">
-                                <div className="row">
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-                                        <InputWithAddOn
-                                            label="Test Name"
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputWithAddOn
+                                                    label="Age Group From"
+                                                    className="loginInputs"
+
+                                                    setValue={AgeGroupFrom.setEnteredValue}
+                                                    value={AgeGroupFrom.enteredValue}
+                                                    feedbackMessage={AgeGroupFrom.feedbackMessage}
+                                                    feedbackType={AgeGroupFrom.messageType}
+                                                    isTouched={AgeGroupFrom.isTouched}
+                                                    setIsTouched={AgeGroupFrom.setIsTouched}
+
+                                                    validateHandler={AgeGroupFromValidater}
+                                                    reset={AgeGroupFrom.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+                                            </div>
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputWithAddOn
+                                                    label="Age Group To"
+                                                    className="loginInputs"
+
+                                                    setValue={AgeGroupTo.setEnteredValue}
+                                                    value={AgeGroupTo.enteredValue}
+                                                    feedbackMessage={AgeGroupTo.feedbackMessage}
+                                                    feedbackType={AgeGroupTo.messageType}
+                                                    isTouched={AgeGroupTo.isTouched}
+                                                    setIsTouched={AgeGroupTo.setIsTouched}
+
+                                                    validateHandler={AgeGroupToValidater}
+                                                    reset={AgeGroupTo.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+                                            </div>
+
+
+
+
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputSelect
+                                                    setValue={setHomeCollection}
+                                                    value={HomeCollection}
+                                                    options={homeCollectionOption ?? []}
+                                                    isTouched={HomeCollectionIsTouch}
+                                                    setIsTouched={setHomeCollectionIsTouch}
+                                                    className="py-1"
+                                                    label={"Home Collection"}
+                                                    isRequired={true}
+                                                    feedbackMessage={HomeCollectionMessage?.message}
+                                                    feedbackType={HomeCollectionMessage?.type}
+                                                    validateHandler={HomeCollectionSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+                                            </div>
+
+
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Result Within Hours"
+                                                    className="loginInputs"
+
+                                                    setValue={ResultWithinHours.setEnteredValue}
+                                                    value={ResultWithinHours.enteredValue}
+                                                    feedbackMessage={ResultWithinHours.feedbackMessage}
+                                                    feedbackType={ResultWithinHours.messageType}
+                                                    isTouched={ResultWithinHours.isTouched}
+                                                    setIsTouched={ResultWithinHours.setIsTouched}
+
+                                                    validateHandler={ResultWithinHoursValidater}
+                                                    reset={ResultWithinHours.reset}
+                                                    isRequired={true}
+                                                    type='number'
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
+
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div className="col-lg-6 col-md-6  col-sm-12 ">
+
+                                        <InputTextArea
+                                            label="Sample Required"
                                             className="loginInputs"
 
-                                            setValue={TestNameInput.setEnteredValue}
-                                            value={TestNameInput.enteredValue}
-                                            feedbackMessage={TestNameInput.feedbackMessage}
-                                            feedbackType={TestNameInput.messageType}
-                                            isTouched={TestNameInput.isTouched}
-                                            setIsTouched={TestNameInput.setIsTouched}
+                                            setValue={SampleRequired.setEnteredValue}
+                                            value={SampleRequired.enteredValue}
+                                            feedbackMessage={SampleRequired.feedbackMessage}
+                                            feedbackType={SampleRequired.messageType}
+                                            isTouched={SampleRequired.isTouched}
+                                            setIsTouched={SampleRequired.setIsTouched}
 
-                                            validateHandler={TestNameInputValidater}
-                                            reset={TestNameInput.reset}
+                                            validateHandler={SampleRequiredValidater}
+                                            reset={SampleRequired.reset}
                                             isRequired={true}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-
-
-                                    </div>
-
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputMultipleSelect
-                                            setValue={setMedicalConditions}
-                                            value={MedicalConditions}
-                                            options={ListingFields?.TestConditionListing ?? []}
-                                            isTouched={MedicalConditionsIsTouch}
-                                            setIsTouched={setMedicalConditionsIsTouch}
-                                            className="py-1"
-                                            label={"Health Condition"}
-                                            isRequired={true}
-                                            feedbackMessage={MedicalConditionsMessage?.message}
-                                            feedbackType={MedicalConditionsMessage?.type}
-                                            validateHandler={MedicalConditionsSelectValidater}
                                             disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputMultipleSelect
-                                            setValue={setBodyPartType}
-                                            value={BodyPartType}
-                                            options={ListingFields?.BodyPartListing ?? []}
-                                            isTouched={BodyPartTypeIsTouch}
-                                            setIsTouched={setBodyPartTypeIsTouch}
-                                            className="py-1"
-                                            label={"Body Part"}
-                                            isRequired={true}
-                                            feedbackMessage={BodyPartTypeMessage?.message}
-                                            feedbackType={BodyPartTypeMessage?.type}
-                                            validateHandler={BodyPartTypeSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputMultipleSelect
-                                            setValue={setSelectCenter}
-                                            value={SelectCenter}
-                                            options={testResponse?.data?.centerListing ?? []}
-                                            isTouched={SelectCenterIsTouch}
-                                            setIsTouched={setSelectCenterIsTouch}
-                                            className="py-1"
-                                            label={"Select Center To Include"}
-                                            isRequired={true}
-                                            feedbackMessage={SelectCenterMessage?.message}
-                                            feedbackType={SelectCenterMessage?.type}
-                                            validateHandler={SelectCenterSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
 
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-                                        <InputWithAddOn
-                                            label="Price"
+
+
+
+                                    <div className="col-lg-6 col-md-6 col-sm-12 ">
+
+                                        <InputTextArea
+                                            label="Preparation Required"
                                             className="loginInputs"
 
-                                            setValue={Price.setEnteredValue}
-                                            value={Price.enteredValue}
-                                            feedbackMessage={Price.feedbackMessage}
-                                            feedbackType={Price.messageType}
-                                            isTouched={Price.isTouched}
-                                            setIsTouched={Price.setIsTouched}
+                                            setValue={PreparationRequired.setEnteredValue}
+                                            value={PreparationRequired.enteredValue}
+                                            feedbackMessage={PreparationRequired.feedbackMessage}
+                                            feedbackType={PreparationRequired.messageType}
+                                            isTouched={PreparationRequired.isTouched}
+                                            setIsTouched={PreparationRequired.setIsTouched}
 
-                                            validateHandler={PriceValidater}
-                                            reset={Price.reset}
-                                            isRequired={true}
-                                            type='number'
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-
-
-                                    </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
-                                            label="Discount Percentage"
-                                            className="loginInputs"
-                                            setValue={DiscountPercentage.setEnteredValue}
-                                            value={DiscountPercentage.enteredValue}
-                                            feedbackMessage={DiscountPercentage.feedbackMessage}
-                                            feedbackType={DiscountPercentage.messageType}
-                                            isTouched={DiscountPercentage.isTouched}
-                                            setIsTouched={DiscountPercentage.setIsTouched}
-                                            validateHandler={DiscountPercentageValidater}
-                                            reset={DiscountPercentage.reset}
+                                            validateHandler={PreparationRequiredValidater}
+                                            reset={PreparationRequired.reset}
                                             isRequired={true}
                                             disabled={searchParams?.type === 'view'}
                                         />
                                     </div>
 
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputSelect
-                                            setValue={setGenderType}
-                                            value={GenderType}
-                                            options={genderoption ?? []}
-                                            isTouched={GenderTypeIsTouch}
-                                            setIsTouched={setGenderTypeIsTouch}
-                                            className="py-1"
-                                            label={"Gender"}
-                                            isRequired={true}
-                                            feedbackMessage={GenderTypeMessage?.message}
-                                            feedbackType={GenderTypeMessage?.type}
-                                            validateHandler={GenderTypeSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
-
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputWithAddOn
-                                            label="Age Group From"
+                                    <div className="col-lg-12 col-md-12 col-sm-12 ">
+                                        <InputTextArea
+                                            label="Description"
                                             className="loginInputs"
 
-                                            setValue={AgeGroupFrom.setEnteredValue}
-                                            value={AgeGroupFrom.enteredValue}
-                                            feedbackMessage={AgeGroupFrom.feedbackMessage}
-                                            feedbackType={AgeGroupFrom.messageType}
-                                            isTouched={AgeGroupFrom.isTouched}
-                                            setIsTouched={AgeGroupFrom.setIsTouched}
+                                            setValue={DescriptionInput.setEnteredValue}
+                                            value={DescriptionInput.enteredValue}
+                                            feedbackMessage={DescriptionInput.feedbackMessage}
+                                            feedbackType={DescriptionInput.messageType}
+                                            isTouched={DescriptionInput.isTouched}
+                                            setIsTouched={DescriptionInput.setIsTouched}
 
-                                            validateHandler={AgeGroupFromValidater}
-                                            reset={AgeGroupFrom.reset}
+                                            validateHandler={DescriptionInputValidater}
+                                            reset={DescriptionInput.reset}
                                             isRequired={true}
-                                            type='number'
                                             disabled={searchParams?.type === 'view'}
                                         />
 
                                     </div>
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputWithAddOn
-                                            label="Age Group To"
-                                            className="loginInputs"
-
-                                            setValue={AgeGroupTo.setEnteredValue}
-                                            value={AgeGroupTo.enteredValue}
-                                            feedbackMessage={AgeGroupTo.feedbackMessage}
-                                            feedbackType={AgeGroupTo.messageType}
-                                            isTouched={AgeGroupTo.isTouched}
-                                            setIsTouched={AgeGroupTo.setIsTouched}
-
-                                            validateHandler={AgeGroupToValidater}
-                                            reset={AgeGroupTo.reset}
-                                            isRequired={true}
-                                            type='number'
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-
-                                    </div>
-
-
-
-
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                        <InputSelect
-                                            setValue={setHomeCollection}
-                                            value={HomeCollection}
-                                            options={homeCollectionOption ?? []}
-                                            isTouched={HomeCollectionIsTouch}
-                                            setIsTouched={setHomeCollectionIsTouch}
-                                            className="py-1"
-                                            label={"Home Collection"}
-                                            isRequired={true}
-                                            feedbackMessage={HomeCollectionMessage?.message}
-                                            feedbackType={HomeCollectionMessage?.type}
-                                            validateHandler={HomeCollectionSelectValidater}
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-                                    </div>
-
-
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
-                                            label="Result Within Hours"
-                                            className="loginInputs"
-
-                                            setValue={ResultWithinHours.setEnteredValue}
-                                            value={ResultWithinHours.enteredValue}
-                                            feedbackMessage={ResultWithinHours.feedbackMessage}
-                                            feedbackType={ResultWithinHours.messageType}
-                                            isTouched={ResultWithinHours.isTouched}
-                                            setIsTouched={ResultWithinHours.setIsTouched}
-
-                                            validateHandler={ResultWithinHoursValidater}
-                                            reset={ResultWithinHours.reset}
-                                            isRequired={true}
-                                            type='number'
-                                            disabled={searchParams?.type === 'view'}
-                                        />
-
-
-                                    </div>
-
 
 
 
                                 </div>
-                            </div>
+
+                                <hr />
+                                <h5 className="mb-4 mt-2">
+                                    Add Observations
+                                </h5>
 
 
+                                {(ObservationsData ?? []).map((observationsItem, index) => {
+                                    return <ObservationsSection searchParams={searchParams} observationsItem={observationsItem} key={index} setObservationsData={setObservationsData} length={(ObservationsData ?? []).length} />
+                                })}
 
+                                {
+                                    searchParams?.type !== 'view' &&
+                                    <div className='my-2 '>
+                                        <p>
+                                            <span style={{ cursor: 'pointer' }} onClick={() => {
 
+                                                setObservationsData(prev => { return [...prev, { observations: '', id: uuid() }] })
+                                            }}>
+                                                <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more observations</span>
+                                            </span>
 
-                            <div className="col-lg-6 col-md-6  col-sm-12 ">
-
-                                <InputTextArea
-                                    label="Sample Required"
-                                    className="loginInputs"
-
-                                    setValue={SampleRequired.setEnteredValue}
-                                    value={SampleRequired.enteredValue}
-                                    feedbackMessage={SampleRequired.feedbackMessage}
-                                    feedbackType={SampleRequired.messageType}
-                                    isTouched={SampleRequired.isTouched}
-                                    setIsTouched={SampleRequired.setIsTouched}
-
-                                    validateHandler={SampleRequiredValidater}
-                                    reset={SampleRequired.reset}
-                                    isRequired={true}
-                                    disabled={searchParams?.type === 'view'}
-                                />
-                            </div>
-
-
-
-
-
-
-
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 ">
-
-                                <InputTextArea
-                                    label="Preparation Required"
-                                    className="loginInputs"
-
-                                    setValue={PreparationRequired.setEnteredValue}
-                                    value={PreparationRequired.enteredValue}
-                                    feedbackMessage={PreparationRequired.feedbackMessage}
-                                    feedbackType={PreparationRequired.messageType}
-                                    isTouched={PreparationRequired.isTouched}
-                                    setIsTouched={PreparationRequired.setIsTouched}
-
-                                    validateHandler={PreparationRequiredValidater}
-                                    reset={PreparationRequired.reset}
-                                    isRequired={true}
-                                    disabled={searchParams?.type === 'view'}
-                                />
-                            </div>
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 ">
-                                <InputTextArea
-                                    label="Description"
-                                    className="loginInputs"
-
-                                    setValue={DescriptionInput.setEnteredValue}
-                                    value={DescriptionInput.enteredValue}
-                                    feedbackMessage={DescriptionInput.feedbackMessage}
-                                    feedbackType={DescriptionInput.messageType}
-                                    isTouched={DescriptionInput.isTouched}
-                                    setIsTouched={DescriptionInput.setIsTouched}
-
-                                    validateHandler={DescriptionInputValidater}
-                                    reset={DescriptionInput.reset}
-                                    isRequired={true}
-                                    disabled={searchParams?.type === 'view'}
-                                />
+                                        </p>
+                                    </div>
+                                }
 
                             </div>
+                        </>
 
 
+                    }
+                    <div className=" my-3  text-end  ">
 
-                        </div>
+                        <button onClick={() => { deleteTestHandler({ params: searchParams?.id }) }} className="btn btn-danger px-4 mx-3">
 
-                        <hr />
-                        <h5 className="mb-4 mt-2">
-                            Add Observations
-                        </h5>
+                            {deleteTestResponse?.fetching ? (
+                                <Spinner size={"sm"} />
+                            ) : (
+                                "Delete"
+                            )}
+                        </button>
 
 
-                        {(ObservationsData ?? []).map((observationsItem, index) => {
-                            return <ObservationsSection searchParams={searchParams} observationsItem={observationsItem} key={index} setObservationsData={setObservationsData} length={(ObservationsData ?? []).length} />
-                        })}
+                        <button onClick={() => { router.push("/admin/tests") }} className="btn btn-dark px-4 mx-3 ">
 
-                        {
-                            searchParams?.type !== 'view' &&
-                            <div className='my-2 '>
-                                <p>
-                                    <span style={{ cursor: 'pointer' }} onClick={() => {
+                            {createTestResponse?.fetching ? (
+                                <Spinner size={"sm"} />
+                            ) : (
+                                "Cancel"
+                            )}
+                        </button>
+                        <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-3">
 
-                                        setObservationsData(prev => { return [...prev, { observations: '', id: uuid() }] })
-                                    }}>
-                                        <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more observations</span>
-                                    </span>
-
-                                </p>
-                            </div>
-                        }
-
+                            {createTestResponse?.fetching ? (
+                                <Spinner size={"sm"} />
+                            ) : (
+                                "Update"
+                            )}
+                        </button>
                     </div>
                 </>
-
-
             }
-            <div className=" my-3  text-end  ">
-
-                <button onClick={() => { deleteTestHandler({params:searchParams?.id}) }} className="btn btn-danger px-4 mx-3">
-
-                    {deleteTestResponse?.fetching ? (
-                        <Spinner size={"sm"} />
-                    ) : (
-                        "Delete"
-                    )}
-                </button>
-
-
-                <button onClick={() => { router.push("/admin/tests") }} className="btn btn-dark px-4 mx-3 ">
-
-                    {createTestResponse?.fetching ? (
-                        <Spinner size={"sm"} />
-                    ) : (
-                        "Cancel"
-                    )}
-                </button>
-                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-3">
-
-                    {createTestResponse?.fetching ? (
-                        <Spinner size={"sm"} />
-                    ) : (
-                        "Update"
-                    )}
-                </button>
-            </div>
-
         </div>
 
     </>

@@ -16,6 +16,7 @@ import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import moment from "moment";
 import dynamic from "next/dynamic";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 
 
 const TextEditor = dynamic(
@@ -339,7 +340,7 @@ const CreateJobRole = ({ searchParams }) => {
 
     return (
         <>
-          
+
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
@@ -355,155 +356,173 @@ const CreateJobRole = ({ searchParams }) => {
 
                     {searchParams?.type === 'view' ? 'View' : 'Update'} Job Posts</h3>
 
-                <div className=" my-3  py-4 px-3"  >
 
+                <LoaderGeneral
+                    noContentMessage="records are not found"
+                    state={
+                        getJobRoleResponse?.fetching
+                            ? "loading"
+                            : [null, undefined].includes(getJobRoleResponse?.data)
+                                ? "no-content"
+                                : "none"
 
-                    <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+                    }
+                />
 
-                            <InputWithAddOn
-                                label="Job Name"
-                                className="loginInputs"
-
-                                setValue={JobName.setEnteredValue}
-                                value={JobName.enteredValue}
-                                feedbackMessage={JobName.feedbackMessage}
-                                feedbackType={JobName.messageType}
-                                isTouched={JobName.isTouched}
-                                setIsTouched={JobName.setIsTouched}
-
-                                validateHandler={JobNameValidater}
-                                reset={JobName.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-
-
-                        </div>
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Department"
-                                className="loginInputs"
-
-                                setValue={Department.setEnteredValue}
-                                value={Department.enteredValue}
-                                feedbackMessage={Department.feedbackMessage}
-                                feedbackType={Department.messageType}
-                                isTouched={Department.isTouched}
-                                setIsTouched={Department.setIsTouched}
-
-                                validateHandler={DepartmentValidater}
-                                reset={Department.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputSelect
-                                setValue={setJobType}
-                                value={JobType}
-                                options={[{ label: 'Full Time', value: 'full time' }, { label: 'Part Time', value: 'part time' }] ?? []}
-                                isTouched={JobTypeIsTouch}
-                                setIsTouched={setJobTypeIsTouch}
-                                className=""
-                                label={"Select Job Type"}
-                                isRequired={true}
-                                feedbackMessage={JobTypeMessage?.message}
-                                feedbackType={JobTypeMessage?.type}
-                                validateHandler={JobTypeSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
+                {
+                    (!getJobRoleResponse?.fetching) &&
 
 
 
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputMultipleSelect
-                                setValue={setSelectCenters}
-                                value={SelectCenters}
-                                options={testResponse?.data?.centerListing ?? []}
-                                isTouched={SelectCentersIsTouch}
-                                setIsTouched={setSelectCentersIsTouch}
-                                className=""
-                                label={"Select Centers To Include"}
-                                isRequired={true}
-                                feedbackMessage={SelectCentersMessage?.message}
-                                feedbackType={SelectCentersMessage?.type}
-                                validateHandler={SelectCentersSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Published At"
-                                className="loginInputs"
-                                rest={{ Placeholder: 'DD/MM/YYYY' }}
-                                setValue={PublishedAt.setEnteredValue}
-                                value={PublishedAt.enteredValue}
-                                feedbackMessage={PublishedAt.feedbackMessage}
-                                feedbackType={PublishedAt.messageType}
-                                isTouched={PublishedAt.isTouched}
-                                setIsTouched={PublishedAt.setIsTouched}
-                                type={'date'}
-                                validateHandler={PublishedAtValidater}
-                                reset={PublishedAt.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
+                    <div className=" my-3  py-4 px-3"  >
 
 
+                        <div className="row">
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="Job Name"
+                                    className="loginInputs"
+
+                                    setValue={JobName.setEnteredValue}
+                                    value={JobName.enteredValue}
+                                    feedbackMessage={JobName.feedbackMessage}
+                                    feedbackType={JobName.messageType}
+                                    isTouched={JobName.isTouched}
+                                    setIsTouched={JobName.setIsTouched}
+
+                                    validateHandler={JobNameValidater}
+                                    reset={JobName.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="Department"
+                                    className="loginInputs"
+
+                                    setValue={Department.setEnteredValue}
+                                    value={Department.enteredValue}
+                                    feedbackMessage={Department.feedbackMessage}
+                                    feedbackType={Department.messageType}
+                                    isTouched={Department.isTouched}
+                                    setIsTouched={Department.setIsTouched}
+
+                                    validateHandler={DepartmentValidater}
+                                    reset={Department.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
+
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputSelect
+                                    setValue={setJobType}
+                                    value={JobType}
+                                    options={[{ label: 'Full Time', value: 'full time' }, { label: 'Part Time', value: 'part time' }] ?? []}
+                                    isTouched={JobTypeIsTouch}
+                                    setIsTouched={setJobTypeIsTouch}
+                                    className=""
+                                    label={"Select Job Type"}
+                                    isRequired={true}
+                                    feedbackMessage={JobTypeMessage?.message}
+                                    feedbackType={JobTypeMessage?.type}
+                                    validateHandler={JobTypeSelectValidater}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
 
 
 
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputMultipleSelect
+                                    setValue={setSelectCenters}
+                                    value={SelectCenters}
+                                    options={testResponse?.data?.centerListing ?? []}
+                                    isTouched={SelectCentersIsTouch}
+                                    setIsTouched={setSelectCentersIsTouch}
+                                    className=""
+                                    label={"Select Centers To Include"}
+                                    isRequired={true}
+                                    feedbackMessage={SelectCentersMessage?.message}
+                                    feedbackType={SelectCentersMessage?.type}
+                                    validateHandler={SelectCentersSelectValidater}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
 
-                            <InputWithAddOn
-                                label="Close Date"
-                                className="loginInputs"
-                                rest={{ Placeholder: 'DD/MM/YYYY' }}
-                                setValue={ClosedAt.setEnteredValue}
-                                value={ClosedAt.enteredValue}
-                                feedbackMessage={ClosedAt.feedbackMessage}
-                                feedbackType={ClosedAt.messageType}
-                                isTouched={ClosedAt.isTouched}
-                                setIsTouched={ClosedAt.setIsTouched}
-                                type={'date'}
-                                validateHandler={ClosedAtValidater}
-                                reset={ClosedAt.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-
-
-                        <div className="col-12 ">
-
-                            <InputTextArea
-                                label="Job Description"
-                                className="loginInputs"
-
-                                setValue={Description.setEnteredValue}
-                                value={Description.enteredValue}
-                                feedbackMessage={Description.feedbackMessage}
-                                feedbackType={Description.messageType}
-                                isTouched={Description.isTouched}
-                                setIsTouched={Description.setIsTouched}
-                                validateHandler={DescriptionValidater}
-                                reset={Description.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
+                                <InputWithAddOn
+                                    label="Published At"
+                                    className="loginInputs"
+                                    rest={{ Placeholder: 'DD/MM/YYYY' }}
+                                    setValue={PublishedAt.setEnteredValue}
+                                    value={PublishedAt.enteredValue}
+                                    feedbackMessage={PublishedAt.feedbackMessage}
+                                    feedbackType={PublishedAt.messageType}
+                                    isTouched={PublishedAt.isTouched}
+                                    setIsTouched={PublishedAt.setIsTouched}
+                                    type={'date'}
+                                    validateHandler={PublishedAtValidater}
+                                    reset={PublishedAt.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
 
 
-                        </div>
-                        {/* 
+
+
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="Close Date"
+                                    className="loginInputs"
+                                    rest={{ Placeholder: 'DD/MM/YYYY' }}
+                                    setValue={ClosedAt.setEnteredValue}
+                                    value={ClosedAt.enteredValue}
+                                    feedbackMessage={ClosedAt.feedbackMessage}
+                                    feedbackType={ClosedAt.messageType}
+                                    isTouched={ClosedAt.isTouched}
+                                    setIsTouched={ClosedAt.setIsTouched}
+                                    type={'date'}
+                                    validateHandler={ClosedAtValidater}
+                                    reset={ClosedAt.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
+
+
+
+                            <div className="col-12 ">
+
+                                <InputTextArea
+                                    label="Job Description"
+                                    className="loginInputs"
+
+                                    setValue={Description.setEnteredValue}
+                                    value={Description.enteredValue}
+                                    feedbackMessage={Description.feedbackMessage}
+                                    feedbackType={Description.messageType}
+                                    isTouched={Description.isTouched}
+                                    setIsTouched={Description.setIsTouched}
+                                    validateHandler={DescriptionValidater}
+                                    reset={Description.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+                            {/* 
                         <div className="col-12 ">
 
                             <InputTextArea
@@ -527,9 +546,9 @@ const CreateJobRole = ({ searchParams }) => {
  */}
 
 
-                        <div style={{ minHeight: "300px" }}>
-                            <TextEditor content={content} setContent={setContent} />
-                        </div>
+                            <div style={{ minHeight: "300px" }}>
+                                <TextEditor content={content} setContent={setContent} />
+                            </div>
 
 
 
@@ -538,49 +557,50 @@ const CreateJobRole = ({ searchParams }) => {
 
 
 
-                        <div className="my-5 text-end">
-                            {
-                                (searchParams?.type !== 'view') &&
-                                <button onClick={() => { deleteJobHandler({ params: searchParams?.id }) }} className="btn btn-danger px-4 mx-2">
+                            <div className="my-5 text-end">
+                                {
+                                    (searchParams?.type !== 'view') &&
+                                    <button onClick={() => { deleteJobHandler({ params: searchParams?.id }) }} className="btn btn-danger px-4 mx-2">
 
-                                    {deleteJobResponse?.fetching ? (
-                                        <Spinner size={"sm"} />
-                                    ) : (
-                                        "Delete"
-                                    )}
-                                </button>
+                                        {deleteJobResponse?.fetching ? (
+                                            <Spinner size={"sm"} />
+                                        ) : (
+                                            "Delete"
+                                        )}
+                                    </button>
 
-                            }
-                            <button
-                                className="mx-2 btn btn-outline-dark mx-2"
-                                onClick={() => {
-                                    router.push("/admin/job-posts")
-                                }}
-                                type="button"
-                            >
-                                {" "}
-                                Cancel
-                            </button>
-                            {
-                                (searchParams?.type !== 'view') &&
+                                }
                                 <button
-                                    style={{ float: "right" }}
-
-                                    className="btn btn-success px-3 mx-2"
-                                    onClick={submit}
+                                    className="mx-2 btn btn-outline-dark mx-2"
+                                    onClick={() => {
+                                        router.push("/admin/job-posts")
+                                    }}
+                                    type="button"
                                 >
-                                    {JobRoleResponse?.fetching ? (
-                                        <Spinner size={"sm"} />
-                                    ) : (
-                                        "Update"
-                                    )}
-
+                                    {" "}
+                                    Cancel
                                 </button>
-                            }
+                                {
+                                    (searchParams?.type !== 'view') &&
+                                    <button
+                                        style={{ float: "right" }}
 
+                                        className="btn btn-success px-3 mx-2"
+                                        onClick={submit}
+                                    >
+                                        {JobRoleResponse?.fetching ? (
+                                            <Spinner size={"sm"} />
+                                        ) : (
+                                            "Update"
+                                        )}
+
+                                    </button>
+                                }
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </>
     );

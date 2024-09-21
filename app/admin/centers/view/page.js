@@ -11,6 +11,7 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import useInputComponent from "@/hooks/useInputComponent";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import InputSelect from "@/components/formInput/select/InputSelect";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 
 export default function Home({ searchParams }) {
   const router = useRouter();
@@ -259,7 +260,7 @@ export default function Home({ searchParams }) {
     let LabCloseTime_validate = LabCloseTimeValidater(LabCloseTime?.enteredValue)
     let PinCode_validate = PinCodeValidater(PinCode?.enteredValue)
 
-    console.log(CenterName_validate, LabOpenTime_validate, LongitudeInput_validate, LatitudeInput_validate, CityInput_validate, StateInput_validate, EmailInput_validate, ContactInput_validate, AddressLine1Input_validate, LabCloseTime_validate, PinCode_validate);
+
 
     if (!CenterName_validate || !LabOpenTime_validate || !LongitudeInput_validate || !LatitudeInput_validate || !CityInput_validate || !StateInput_validate || !EmailInput_validate || !ContactInput_validate || !AddressLine1Input_validate || !LabCloseTime_validate || !PinCode_validate) {
       toast.error("Please check all validations before continuing!");
@@ -320,7 +321,6 @@ export default function Home({ searchParams }) {
     }
   );
 
-
   return (
     <div>
       <BreadcrumbDiv
@@ -331,265 +331,283 @@ export default function Home({ searchParams }) {
         ]}
       />
       <div className="admin-content-box">
-        <h1 className="main-heading">Create Center</h1>
+        <h1 className="main-heading">Edit Center</h1>
         <p className="sub-heading mb-4">
           Easily Add and Configure a New Center to Application Database
         </p>
 
-        <form>
-          <div className="row mt-2">
-            <div className="col-lg-6 col-md-6 col-sm-12 ">
-              <InputWithAddOn
-                label="Center Name"
-                className="loginInputs"
-                setValue={CenterName.setEnteredValue}
-                value={CenterName.enteredValue}
-                feedbackMessage={CenterName.feedbackMessage}
-                feedbackType={CenterName.messageType}
-                isTouched={CenterName.isTouched}
-                setIsTouched={CenterName.setIsTouched}
-                validateHandler={CenterNameValidater}
-                reset={CenterName.reset}
-                isRequired={true}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 "></div>
-            <div className="col-lg-3 col-md-3 col-sm-6 ">
-              <InputWithAddOn
-                label="Lab Open Time"
-                className="loginInputs"
-                setValue={LabOpenTime.setEnteredValue}
-                value={LabOpenTime.enteredValue}
-                feedbackMessage={LabOpenTime.feedbackMessage}
-                feedbackType={LabOpenTime.messageType}
-                isTouched={LabOpenTime.isTouched}
-                setIsTouched={LabOpenTime.setIsTouched}
-                validateHandler={LabOpenTimeValidater}
-                reset={LabOpenTime.reset}
-                isRequired={true}
-                type="time"
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-3 col-md-3 col-sm-6 ">
-              <InputWithAddOn
-                label="Lab Close Time"
-                className="loginInputs"
-                setValue={LabCloseTime.setEnteredValue}
-                value={LabCloseTime.enteredValue}
-                feedbackMessage={LabCloseTime.feedbackMessage}
-                feedbackType={LabCloseTime.messageType}
-                isTouched={LabCloseTime.isTouched}
-                setIsTouched={LabCloseTime.setIsTouched}
-                validateHandler={LabCloseTimeValidater}
-                reset={LabCloseTime.reset}
-                isRequired={true}
-                type="time"
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            {/* <hr /> */}
-            <div className="col-lg-6 col-md-6 col-sm-12 "></div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 ">
-              <InputWithAddOn
-                label="Address Line 1"
-                className="loginInputs"
-                setValue={AddressLine1Input.setEnteredValue}
-                value={AddressLine1Input.enteredValue}
-                feedbackMessage={AddressLine1Input.feedbackMessage}
-                feedbackType={AddressLine1Input.messageType}
-                isTouched={AddressLine1Input.isTouched}
-                setIsTouched={AddressLine1Input.setIsTouched}
-                validateHandler={AddressLine1InputValidater}
-                reset={AddressLine1Input.reset}
-                isRequired={true}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
-              <InputWithAddOn
-                label="Address Line 2"
-                className="loginInputs"
-                setValue={AddressLine2Input.setEnteredValue}
-                value={AddressLine2Input.enteredValue}
-                feedbackMessage={AddressLine2Input.feedbackMessage}
-                feedbackType={AddressLine2Input.messageType}
-                isTouched={AddressLine2Input.isTouched}
-                setIsTouched={AddressLine2Input.setIsTouched}
-                validateHandler={AddressLine2InputValidater}
-                reset={AddressLine2Input.reset}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 ">
-              <InputWithAddOn
-                label="Contact No."
-                className="loginInputs"
-                setValue={ContactInput.setEnteredValue}
-                value={ContactInput.enteredValue}
-                feedbackMessage={ContactInput.feedbackMessage}
-                feedbackType={ContactInput.messageType}
-                isTouched={ContactInput.isTouched}
-                setIsTouched={ContactInput.setIsTouched}
-                validateHandler={ContactInputValidater}
-                reset={ContactInput.reset}
-                isRequired={true}
-                type={'number'}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 ">
-              <InputWithAddOn
-                label="Email"
-                className="loginInputs"
-                setValue={EmailInput.setEnteredValue}
-                value={EmailInput.enteredValue}
-                feedbackMessage={EmailInput.feedbackMessage}
-                feedbackType={EmailInput.messageType}
-                isTouched={EmailInput.isTouched}
-                setIsTouched={EmailInput.setIsTouched}
-                validateHandler={EmailInputValidater}
-                reset={EmailInput.reset}
-                isRequired={true}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 ">
-              <InputSelect
-                options={stateListResponse?.data ?? []}
-                label="State"
-                className="loginInputs"
-                setValue={StateInput.setEnteredValue}
-                value={StateInput.enteredValue}
-                feedbackMessage={StateInput.feedbackMessage}
-                feedbackType={StateInput.messageType}
-                isTouched={StateInput.isTouched}
-                setIsTouched={StateInput.setIsTouched}
-                validateHandler={StateInputValidater}
-                reset={StateInput.reset}
-                isRequired={true}
-                isLoading={stateListResponse?.fetching}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
-              <InputSelect
-                options={cityListResponse?.data ?? []}
-                label="City"
-                className="loginInputs"
-                setValue={CityInput.setEnteredValue}
-                value={CityInput.enteredValue}
-                feedbackMessage={CityInput.feedbackMessage}
-                feedbackType={CityInput.messageType}
-                isTouched={CityInput.isTouched}
-                setIsTouched={CityInput.setIsTouched}
-                validateHandler={CityInputValidater}
-                reset={CityInput.reset}
-                isRequired={true}
-                isLoading={cityListResponse?.fetching}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-4 col-md-4 col-sm-6 ">
-              <InputWithAddOn
-                label="Pin Code"
-                className="loginInputs"
-                setValue={PinCode.setEnteredValue}
-                value={PinCode.enteredValue}
-                feedbackMessage={PinCode.feedbackMessage}
-                feedbackType={PinCode.messageType}
-                isTouched={PinCode.isTouched}
-                setIsTouched={PinCode.setIsTouched}
-                validateHandler={PinCodeValidater}
-                reset={PinCode.reset}
-                isRequired={true}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-4 col-md-4 col-sm-6 ">
-              <InputWithAddOn
-                label="Latitude"
-                className="loginInputs"
-                setValue={LatitudeInput.setEnteredValue}
-                value={LatitudeInput.enteredValue}
-                feedbackMessage={LatitudeInput.feedbackMessage}
-                feedbackType={LatitudeInput.messageType}
-                isTouched={LatitudeInput.isTouched}
-                setIsTouched={LatitudeInput.setIsTouched}
-                validateHandler={LatitudeInputValidater}
-                reset={LatitudeInput.reset}
-                isRequired={true}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-lg-4 col-md-4 col-sm-6 ">
-              <InputWithAddOn
-                label="Longitude"
-                className="loginInputs"
-                setValue={LongitudeInput.setEnteredValue}
-                value={LongitudeInput.enteredValue}
-                feedbackMessage={LongitudeInput.feedbackMessage}
-                feedbackType={LongitudeInput.messageType}
-                isTouched={LongitudeInput.isTouched}
-                setIsTouched={LongitudeInput.setIsTouched}
-                validateHandler={LongitudeInputValidater}
-                reset={LongitudeInput.reset}
-                isRequired={true}
-                disabled={searchParams?.type === 'view'}
-              />
-            </div>
-            <div className="col-12 text-end my-3">
+        <LoaderGeneral
+          noContentMessage="records are not found"
+          state={
+            getCenterResponse?.fetching
+              ? "loading"
+              : [null, undefined].includes(getCenterResponse?.data)
+                ? "no-content"
+                : "none"
+
+          }
+        />
+
+        {
+          (!getCenterResponse?.fetching) &&
 
 
+          <form>
+            <div className="row mt-2">
+              <div className="col-lg-6 col-md-6 col-sm-12 ">
+                <InputWithAddOn
+                  label="Center Name"
+                  className="loginInputs"
+                  setValue={CenterName.setEnteredValue}
+                  value={CenterName.enteredValue}
+                  feedbackMessage={CenterName.feedbackMessage}
+                  feedbackType={CenterName.messageType}
+                  isTouched={CenterName.isTouched}
+                  setIsTouched={CenterName.setIsTouched}
+                  validateHandler={CenterNameValidater}
+                  reset={CenterName.reset}
+                  isRequired={true}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12 "></div>
+              <div className="col-lg-3 col-md-3 col-sm-6 ">
+                <InputWithAddOn
+                  label="Lab Open Time"
+                  className="loginInputs"
+                  setValue={LabOpenTime.setEnteredValue}
+                  value={LabOpenTime.enteredValue}
+                  feedbackMessage={LabOpenTime.feedbackMessage}
+                  feedbackType={LabOpenTime.messageType}
+                  isTouched={LabOpenTime.isTouched}
+                  setIsTouched={LabOpenTime.setIsTouched}
+                  validateHandler={LabOpenTimeValidater}
+                  reset={LabOpenTime.reset}
+                  isRequired={true}
+                  type="time"
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-3 col-md-3 col-sm-6 ">
+                <InputWithAddOn
+                  label="Lab Close Time"
+                  className="loginInputs"
+                  setValue={LabCloseTime.setEnteredValue}
+                  value={LabCloseTime.enteredValue}
+                  feedbackMessage={LabCloseTime.feedbackMessage}
+                  feedbackType={LabCloseTime.messageType}
+                  isTouched={LabCloseTime.isTouched}
+                  setIsTouched={LabCloseTime.setIsTouched}
+                  validateHandler={LabCloseTimeValidater}
+                  reset={LabCloseTime.reset}
+                  isRequired={true}
+                  type="time"
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              {/* <hr /> */}
+              <div className="col-lg-6 col-md-6 col-sm-12 "></div>
 
-              <button
+              <div className="col-lg-6 col-md-6 col-sm-12 ">
+                <InputWithAddOn
+                  label="Address Line 1"
+                  className="loginInputs"
+                  setValue={AddressLine1Input.setEnteredValue}
+                  value={AddressLine1Input.enteredValue}
+                  feedbackMessage={AddressLine1Input.feedbackMessage}
+                  feedbackType={AddressLine1Input.messageType}
+                  isTouched={AddressLine1Input.isTouched}
+                  setIsTouched={AddressLine1Input.setIsTouched}
+                  validateHandler={AddressLine1InputValidater}
+                  reset={AddressLine1Input.reset}
+                  isRequired={true}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <InputWithAddOn
+                  label="Address Line 2"
+                  className="loginInputs"
+                  setValue={AddressLine2Input.setEnteredValue}
+                  value={AddressLine2Input.enteredValue}
+                  feedbackMessage={AddressLine2Input.feedbackMessage}
+                  feedbackType={AddressLine2Input.messageType}
+                  isTouched={AddressLine2Input.isTouched}
+                  setIsTouched={AddressLine2Input.setIsTouched}
+                  validateHandler={AddressLine2InputValidater}
+                  reset={AddressLine2Input.reset}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12 ">
+                <InputWithAddOn
+                  label="Contact No."
+                  className="loginInputs"
+                  setValue={ContactInput.setEnteredValue}
+                  value={ContactInput.enteredValue}
+                  feedbackMessage={ContactInput.feedbackMessage}
+                  feedbackType={ContactInput.messageType}
+                  isTouched={ContactInput.isTouched}
+                  setIsTouched={ContactInput.setIsTouched}
+                  validateHandler={ContactInputValidater}
+                  reset={ContactInput.reset}
+                  isRequired={true}
+                  type={'number'}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12 ">
+                <InputWithAddOn
+                  label="Email"
+                  className="loginInputs"
+                  setValue={EmailInput.setEnteredValue}
+                  value={EmailInput.enteredValue}
+                  feedbackMessage={EmailInput.feedbackMessage}
+                  feedbackType={EmailInput.messageType}
+                  isTouched={EmailInput.isTouched}
+                  setIsTouched={EmailInput.setIsTouched}
+                  validateHandler={EmailInputValidater}
+                  reset={EmailInput.reset}
+                  isRequired={true}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12 ">
+                <InputSelect
+                  options={stateListResponse?.data ?? []}
+                  label="State"
+                  className="loginInputs"
+                  setValue={StateInput.setEnteredValue}
+                  value={StateInput.enteredValue}
+                  feedbackMessage={StateInput.feedbackMessage}
+                  feedbackType={StateInput.messageType}
+                  isTouched={StateInput.isTouched}
+                  setIsTouched={StateInput.setIsTouched}
+                  validateHandler={StateInputValidater}
+                  reset={StateInput.reset}
+                  isRequired={true}
+                  isLoading={stateListResponse?.fetching}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <InputSelect
+                  options={cityListResponse?.data ?? []}
+                  label="City"
+                  className="loginInputs"
+                  setValue={CityInput.setEnteredValue}
+                  value={CityInput.enteredValue}
+                  feedbackMessage={CityInput.feedbackMessage}
+                  feedbackType={CityInput.messageType}
+                  isTouched={CityInput.isTouched}
+                  setIsTouched={CityInput.setIsTouched}
+                  validateHandler={CityInputValidater}
+                  reset={CityInput.reset}
+                  isRequired={true}
+                  isLoading={cityListResponse?.fetching}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-6 ">
+                <InputWithAddOn
+                  label="Pin Code"
+                  className="loginInputs"
+                  setValue={PinCode.setEnteredValue}
+                  value={PinCode.enteredValue}
+                  feedbackMessage={PinCode.feedbackMessage}
+                  feedbackType={PinCode.messageType}
+                  isTouched={PinCode.isTouched}
+                  setIsTouched={PinCode.setIsTouched}
+                  validateHandler={PinCodeValidater}
+                  reset={PinCode.reset}
+                  isRequired={true}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-6 ">
+                <InputWithAddOn
+                  label="Latitude"
+                  className="loginInputs"
+                  setValue={LatitudeInput.setEnteredValue}
+                  value={LatitudeInput.enteredValue}
+                  feedbackMessage={LatitudeInput.feedbackMessage}
+                  feedbackType={LatitudeInput.messageType}
+                  isTouched={LatitudeInput.isTouched}
+                  setIsTouched={LatitudeInput.setIsTouched}
+                  validateHandler={LatitudeInputValidater}
+                  reset={LatitudeInput.reset}
+                  isRequired={true}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-6 ">
+                <InputWithAddOn
+                  label="Longitude"
+                  className="loginInputs"
+                  setValue={LongitudeInput.setEnteredValue}
+                  value={LongitudeInput.enteredValue}
+                  feedbackMessage={LongitudeInput.feedbackMessage}
+                  feedbackType={LongitudeInput.messageType}
+                  isTouched={LongitudeInput.isTouched}
+                  setIsTouched={LongitudeInput.setIsTouched}
+                  validateHandler={LongitudeInputValidater}
+                  reset={LongitudeInput.reset}
+                  isRequired={true}
+                  disabled={searchParams?.type === 'view'}
+                />
+              </div>
+              <div className="col-12 text-end my-3">
 
-                className={`btn ${(searchParams?.type === 'view') ? 'btn-success' : 'btn-outline-dark'}   px-3 me-2`}
-                onClick={() => {
-                  router.push("/admin/centers");
-
-                }}
-                type="button"
-              >
-                {searchParams?.type === 'view'
-
-                  ?
-                  'Done' : 'Cancel'
-                }
-
-              </button>
-
-
-              {searchParams?.type === 'edit'
-
-                &&
 
 
                 <button
-                  style={{ float: "right" }}
 
-                  className="btn btn-success px-3"
+                  className={`btn ${(searchParams?.type === 'view') ? 'btn-success' : 'btn-outline-dark'}   px-3 me-2`}
                   onClick={() => {
-                    createCenterSubmitHandler();
+                    router.push("/admin/centers");
+
                   }}
                   type="button"
                 >
-                  {centerSubmitResponse?.fetching ? (
-                    <Spinner size={"sm"} />
-                  ) : (
-                    "Update"
-                  )}
+                  {searchParams?.type === 'view'
+
+                    ?
+                    'Done' : 'Cancel'
+                  }
+
                 </button>
-              }
+
+
+                {searchParams?.type === 'edit'
+
+                  &&
+
+
+                  <button
+                    style={{ float: "right" }}
+
+                    className="btn btn-success px-3"
+                    onClick={() => {
+                      createCenterSubmitHandler();
+                    }}
+                    type="button"
+                  >
+                    {centerSubmitResponse?.fetching ? (
+                      <Spinner size={"sm"} />
+                    ) : (
+                      "Update"
+                    )}
+                  </button>
+                }
 
 
 
 
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        }
       </div>
     </div>
   );

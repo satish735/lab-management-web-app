@@ -16,6 +16,7 @@ import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import MenuItems from "@/components/multilevel-dropdown/MenuItems";
 import moment from "moment";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 const CreateDiscountCoupen = ({ searchParams }) => {
     const router = useRouter();
 
@@ -466,7 +467,6 @@ const CreateDiscountCoupen = ({ searchParams }) => {
 
         return true;
     };
-    console.log(selectBodyParts, selectHealthCondition, selectPackages);
 
     const submit = () => {
 
@@ -512,61 +512,6 @@ const CreateDiscountCoupen = ({ searchParams }) => {
                 message: "Field Required",
             })
         }
-
-        // console.log(!CouponNameValidate,
-        //     !CouponCodeValidate,
-        //     !ExpirationDateValidate,
-        //     !StartDateValidate,
-        //     !MaxUseValidate,
-        //     !DescriptionShortValidate,
-        //     !maxUsagePerUserValidate,
-        //     !DiscountValueValidate,
-        //     !StatusValidate,
-        //     !selectUserTypeValidate,
-        //     !SelectCenterValidate,
-        //     !DiscountTypeValidate,
-        //     !selectedCriteriaValidate,
-        //     !UsersListValidate);
-
-
-        // let datad = (SelectTests ?? []).find((item) => {
-        //     return item.value === '*'
-        //  })
-        console.log({
-            CouponName: CouponName?.enteredValue ?? '',
-            CouponCode: CouponCode?.enteredValue ?? '',
-            ExpirationDate: ExpirationDate?.enteredValue ?? '',
-            StartDate: StartDate?.enteredValue ?? '',
-            MaxUse: MaxUse?.enteredValue ?? '',
-            DescriptionShort: DescriptionShort?.enteredValue ?? '',
-            maxUsagePerUser: maxUsagePerUser?.enteredValue ?? '',
-            DiscountValue: DiscountValue?.enteredValue ?? '',
-            Status: Status ?? '',
-            selectUserType: selectUserType ?? '',
-            selectedUsers: (selectUserType === 'individual') ? (UsersList ? (UsersList ?? []).map((item) => item.value) : []) : [],
-            SelectCenter: SelectCenter ? (SelectCenter ?? []).map((item) => item.value) : [],
-            DiscountType: DiscountType ?? '',
-            selectedCriteria: {
-                testCondition: SelectTests ?
-                    ((SelectTests ?? []).find((item) => item.value === '*') ? '*' : (SelectTests ?? []).map((item) => item.value))
-                    : [],
-
-                HealthCondition: selectHealthCondition ?
-                    ((selectHealthCondition ?? []).find((item) => item.value === '*') ? '*' : (selectHealthCondition ?? []).map((item) => item.value))
-                    : [],
-
-                BodyPart: selectBodyParts ?
-                    ((selectBodyParts ?? []).find((item) => item.value === '*') ? '*' : (selectBodyParts ?? []).map((item) => item.value))
-                    : [],
-
-                Packages: selectPackages ?
-                    ((selectPackages ?? []).find((item) => item.value === '*') ? '*' : (selectPackages ?? []).map((item) => item.value))
-                    : [],
-            } ?? '',
-
-            termsCondition: TermsCondition ? (TermsCondition ?? []).map((item) => item.terms) : [],
-
-        });
 
 
 
@@ -720,6 +665,10 @@ const CreateDiscountCoupen = ({ searchParams }) => {
         }
 
     }, [selectedCriteria])
+
+
+
+
 
 
     const [getCouponResponse, getCouponHandler] = useAPI(
@@ -963,451 +912,470 @@ const CreateDiscountCoupen = ({ searchParams }) => {
                 <div className=" my-3  py-4 px-3"  >
 
 
-                    <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
 
-                            <InputWithAddOn
-                                label="Coupon Name"
-                                className="loginInputs"
+                    <LoaderGeneral
+                        noContentMessage="records are not found"
+                        state={
+                            getCouponResponse?.fetching
+                                ? "loading"
+                                : [null, undefined].includes(getCouponResponse?.data)
+                                    ? "no-content"
+                                    : "none"
 
-                                setValue={CouponName.setEnteredValue}
-                                value={CouponName.enteredValue}
-                                feedbackMessage={CouponName.feedbackMessage}
-                                feedbackType={CouponName.messageType}
-                                isTouched={CouponName.isTouched}
-                                setIsTouched={CouponName.setIsTouched}
+                        }
+                    />
 
-                                validateHandler={CouponNameValidater}
-                                reset={CouponName.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
+                    {
+                        (!getCouponResponse?.fetching) &&
 
 
-                        </div>
+                        <div className="row">
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="Coupon Name"
+                                    className="loginInputs"
+
+                                    setValue={CouponName.setEnteredValue}
+                                    value={CouponName.enteredValue}
+                                    feedbackMessage={CouponName.feedbackMessage}
+                                    feedbackType={CouponName.messageType}
+                                    isTouched={CouponName.isTouched}
+                                    setIsTouched={CouponName.setIsTouched}
+
+                                    validateHandler={CouponNameValidater}
+                                    reset={CouponName.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
 
 
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Coupon Code"
-                                className="loginInputs"
-
-                                setValue={CouponCode.setEnteredValue}
-                                value={CouponCode.enteredValue}
-                                feedbackMessage={CouponCode.feedbackMessage}
-                                feedbackType={CouponCode.messageType}
-                                isTouched={CouponCode.isTouched}
-                                setIsTouched={CouponCode.setIsTouched}
-
-                                validateHandler={CouponCodeValidater}
-                                reset={CouponCode.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
+                            </div>
 
 
-                        </div>
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Start Date"
-                                className="loginInputs"
-                                rest={{ Placeholder: 'DD/MM/YYYY' }}
-                                setValue={StartDate.setEnteredValue}
-                                value={StartDate.enteredValue}
-                                feedbackMessage={StartDate.feedbackMessage}
-                                feedbackType={StartDate.messageType}
-                                isTouched={StartDate.isTouched}
-                                setIsTouched={StartDate.setIsTouched}
-                                type={'date'}
-                                validateHandler={StartDateValidater}
-                                reset={StartDate.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Expiration Date"
-                                className="loginInputs"
-                                rest={{ Placeholder: 'DD/MM/YYYY' }}
-                                setValue={ExpirationDate.setEnteredValue}
-                                value={ExpirationDate.enteredValue}
-                                feedbackMessage={ExpirationDate.feedbackMessage}
-                                feedbackType={ExpirationDate.messageType}
-                                isTouched={ExpirationDate.isTouched}
-                                setIsTouched={ExpirationDate.setIsTouched}
-                                type={'date'}
-                                validateHandler={ExpirationDateValidater}
-                                reset={ExpirationDate.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputSelect
-                                setValue={setDiscountType}
-                                value={DiscountType}
-                                options={[{ label: 'Percentage', value: 'percentage' }, { label: 'Fixed', value: 'fixed' }] ?? []}
-                                isTouched={DiscountTypeIsTouch}
-                                setIsTouched={setDiscountTypeIsTouch}
-                                className=" "
-                                label={"Discount Type"}
-                                isRequired={true}
-                                feedbackMessage={DiscountTypeMessage?.message}
-                                feedbackType={DiscountTypeMessage?.type}
-                                validateHandler={DiscountTypeSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Discount Value"
-                                className="loginInputs"
-                                setValue={DiscountValue.setEnteredValue}
-                                value={DiscountValue.enteredValue}
-                                feedbackMessage={DiscountValue.feedbackMessage}
-                                feedbackType={DiscountValue.messageType}
-                                isTouched={DiscountValue.isTouched}
-                                setIsTouched={DiscountValue.setIsTouched}
-                                validateHandler={DiscountValueValidater}
-                                reset={DiscountValue.reset}
-                                isRequired={true}
-                                type='number'
-                                disabled={searchParams?.type === 'view'}
-                            />
-
-
-                        </div>
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="No Of Times Used"
-                                className="loginInputs"
-
-                                setValue={MaxUse.setEnteredValue}
-                                value={MaxUse.enteredValue}
-                                feedbackMessage={MaxUse.feedbackMessage}
-                                feedbackType={MaxUse.messageType}
-                                isTouched={MaxUse.isTouched}
-                                setIsTouched={MaxUse.setIsTouched}
-
-                                validateHandler={MaxUseValidater}
-                                reset={MaxUse.reset}
-                                isRequired={true}
-                                type='number'
-                                disabled={searchParams?.type === 'view'}
-                            />
-
-
-                        </div>
-
-
-
-
-
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                            <InputWithAddOn
-                                label="Max Usage Per User"
-                                className="loginInputs"
-
-                                setValue={maxUsagePerUser.setEnteredValue}
-                                value={maxUsagePerUser.enteredValue}
-                                feedbackMessage={maxUsagePerUser.feedbackMessage}
-                                feedbackType={maxUsagePerUser.messageType}
-                                isTouched={maxUsagePerUser.isTouched}
-                                setIsTouched={maxUsagePerUser.setIsTouched}
-
-                                validateHandler={maxUsagePerUserValidater}
-                                reset={maxUsagePerUser.reset}
-                                isRequired={true}
-                                type='number'
-                                disabled={searchParams?.type === 'view'}
-                            />
-
-
-                        </div>
-
-
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputSelect
-                                setValue={setselectUserType}
-                                value={selectUserType}
-                                options={[{ label: 'All', value: 'all' }, { label: 'Individual', value: 'individual' }, { label: 'New Members', value: 'new_members' }] ?? []}
-                                isTouched={selectUserTypeIsTouch}
-                                setIsTouched={setselectUserTypeIsTouch}
-                                className=""
-                                label={"Select User Type"}
-                                isRequired={true}
-                                feedbackMessage={selectUserTypeMessage?.message}
-                                feedbackType={selectUserTypeMessage?.type}
-                                validateHandler={selectUserTypeSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-
-                        {(selectUserType === 'individual') &&
 
                             <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputMultipleSelect
-                                    setValue={setUsersList}
-                                    value={UsersList}
-                                    options={userResponse?.data ?? []}
-                                    isTouched={UsersListIsTouch}
-                                    setIsTouched={setUsersListIsTouch}
-                                    className=""
-                                    label={"Select User To Include"}
+
+                                <InputWithAddOn
+                                    label="Coupon Code"
+                                    className="loginInputs"
+
+                                    setValue={CouponCode.setEnteredValue}
+                                    value={CouponCode.enteredValue}
+                                    feedbackMessage={CouponCode.feedbackMessage}
+                                    feedbackType={CouponCode.messageType}
+                                    isTouched={CouponCode.isTouched}
+                                    setIsTouched={CouponCode.setIsTouched}
+
+                                    validateHandler={CouponCodeValidater}
+                                    reset={CouponCode.reset}
                                     isRequired={true}
-                                    feedbackMessage={UsersListMessage?.message}
-                                    feedbackType={UsersListMessage?.type}
-                                    validateHandler={UsersListSelectValidater}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="Start Date"
+                                    className="loginInputs"
+                                    rest={{ Placeholder: 'DD/MM/YYYY' }}
+                                    setValue={StartDate.setEnteredValue}
+                                    value={StartDate.enteredValue}
+                                    feedbackMessage={StartDate.feedbackMessage}
+                                    feedbackType={StartDate.messageType}
+                                    isTouched={StartDate.isTouched}
+                                    setIsTouched={StartDate.setIsTouched}
+                                    type={'date'}
+                                    validateHandler={StartDateValidater}
+                                    reset={StartDate.reset}
+                                    isRequired={true}
                                     disabled={searchParams?.type === 'view'}
                                 />
                             </div>
-                        }
-
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputSelect
-                                setValue={setStatus}
-                                value={Status}
-                                options={[{ label: 'Active', value: 'active' }, { label: 'Draft', value: 'draft' }, { label: 'Expired', value: 'expired' }] ?? []}
-                                isTouched={StatusIsTouch}
-                                setIsTouched={setStatusIsTouch}
-                                className=""
-                                label={"Status"}
-                                isRequired={true}
-                                feedbackMessage={StatusMessage?.message}
-                                feedbackType={StatusMessage?.type}
-                                validateHandler={StatusSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputMultipleSelect
-                                setValue={setSelectCenter}
-                                value={SelectCenter}
-                                options={[{ label: 'All', value: '*' }, ...(testResponse?.data?.centerListing ?? [])] ?? []}
-                                isTouched={SelectCenterIsTouch}
-                                setIsTouched={setSelectCenterIsTouch}
-                                className=""
-                                label={"Select Center"}
-                                isRequired={true}
-                                feedbackMessage={SelectCenterMessage?.message}
-                                feedbackType={SelectCenterMessage?.type}
-                                validateHandler={SelectCenterSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-                        <div className="col-lg-4 col-md-4 col-sm-12 ">
-                            <InputMultipleSelect
-                                setValue={setselectedCriteria}
-                                value={selectedCriteria}
-                                options={[{ label: 'All', value: '*' }, { label: 'On Tests', value: 'tests' }, { label: 'On Packages', value: 'Packages' }, { label: 'On Health Condition', value: 'HealthCondition' }, { label: 'On Body Part', value: 'BodyPart' }] ?? []}
-                                isTouched={selectedCriteriaIsTouch}
-                                setIsTouched={setselectedCriteriaIsTouch}
-                                className=""
-                                label={"Applied On"}
-                                isRequired={true}
-                                feedbackMessage={selectedCriteriaMessage?.message}
-                                feedbackType={selectedCriteriaMessage?.type}
-                                validateHandler={selectedCriteriaSelectValidater}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
-
-
-
-                        {(FieldsToDisplay?.test && !FieldsToDisplay?.all) &&
-                            < div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputMultipleSelect
-                                    setValue={setSelectTests}
-                                    value={SelectTests}
-                                    options={[{ label: 'All', value: '*' }, ...(ListingFields?.TestListing) ?? []] ?? []}
-                                    isTouched={SelectTestsIsTouch}
-                                    setIsTouched={setSelectTestsIsTouch}
-                                    className=""
-                                    label={"Select Tests To Include"}
-                                    isRequired={true}
-                                    feedbackMessage={SelectTestsMessage?.message}
-                                    feedbackType={SelectTestsMessage?.type}
-                                    validateHandler={SelectTestsSelectValidater}
-                                    disabled={searchParams?.type === 'view'}
-                                />
-                            </div>}
-
-                        {(FieldsToDisplay?.package && !FieldsToDisplay?.all) &&
-
                             <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputMultipleSelect
-                                    setValue={setselectPackages}
-                                    value={selectPackages}
-                                    options={[{ label: 'All', value: '*' }, ...(ListingFields?.PackagesListing) ?? []] ?? []}
-                                    isTouched={selectPackagesIsTouch}
-                                    setIsTouched={setselectPackagesIsTouch}
-                                    className=""
-                                    label={"Select Packages To Include"}
+
+                                <InputWithAddOn
+                                    label="Expiration Date"
+                                    className="loginInputs"
+                                    rest={{ Placeholder: 'DD/MM/YYYY' }}
+                                    setValue={ExpirationDate.setEnteredValue}
+                                    value={ExpirationDate.enteredValue}
+                                    feedbackMessage={ExpirationDate.feedbackMessage}
+                                    feedbackType={ExpirationDate.messageType}
+                                    isTouched={ExpirationDate.isTouched}
+                                    setIsTouched={ExpirationDate.setIsTouched}
+                                    type={'date'}
+                                    validateHandler={ExpirationDateValidater}
+                                    reset={ExpirationDate.reset}
                                     isRequired={true}
-                                    feedbackMessage={selectPackagesMessage?.message}
-                                    feedbackType={selectPackagesMessage?.type}
-                                    validateHandler={selectPackagesSelectValidater}
                                     disabled={searchParams?.type === 'view'}
                                 />
                             </div>
-                        }
 
-
-                        {(FieldsToDisplay?.bodypart && !FieldsToDisplay?.all) &&
 
                             <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputMultipleSelect
-                                    setValue={setselectBodyParts}
-                                    value={selectBodyParts}
-                                    options={[{ label: 'All', value: '*' }, ...(ListingFields?.BodyPartListing) ?? []] ?? []}
-                                    isTouched={selectBodyPartsIsTouch}
-                                    setIsTouched={setselectBodyPartsIsTouch}
-                                    className=""
-                                    label={"Select Body Parts To Include"}
+                                <InputSelect
+                                    setValue={setDiscountType}
+                                    value={DiscountType}
+                                    options={[{ label: 'Percentage', value: 'percentage' }, { label: 'Fixed', value: 'fixed' }] ?? []}
+                                    isTouched={DiscountTypeIsTouch}
+                                    setIsTouched={setDiscountTypeIsTouch}
+                                    className=" "
+                                    label={"Discount Type"}
                                     isRequired={true}
-                                    feedbackMessage={selectBodyPartsMessage?.message}
-                                    feedbackType={selectBodyPartsMessage?.type}
-                                    validateHandler={selectBodyPartsSelectValidater}
+                                    feedbackMessage={DiscountTypeMessage?.message}
+                                    feedbackType={DiscountTypeMessage?.type}
+                                    validateHandler={DiscountTypeSelectValidater}
                                     disabled={searchParams?.type === 'view'}
                                 />
                             </div>
-                        }
-                        {(FieldsToDisplay?.healthcondition && !FieldsToDisplay?.all) &&
+
 
                             <div className="col-lg-4 col-md-4 col-sm-12 ">
-                                <InputMultipleSelect
-                                    setValue={setselectHealthCondition}
-                                    value={selectHealthCondition}
-                                    options={[{ label: 'All', value: '*' }, ...(ListingFields?.TestConditionListing) ?? []] ?? []}
-                                    isTouched={selectHealthConditionIsTouch}
-                                    setIsTouched={setselectHealthConditionIsTouch}
-                                    className=""
-                                    label={"Select Health Conditions To Include"}
+
+                                <InputWithAddOn
+                                    label="Discount Value"
+                                    className="loginInputs"
+                                    setValue={DiscountValue.setEnteredValue}
+                                    value={DiscountValue.enteredValue}
+                                    feedbackMessage={DiscountValue.feedbackMessage}
+                                    feedbackType={DiscountValue.messageType}
+                                    isTouched={DiscountValue.isTouched}
+                                    setIsTouched={DiscountValue.setIsTouched}
+                                    validateHandler={DiscountValueValidater}
+                                    reset={DiscountValue.reset}
                                     isRequired={true}
-                                    feedbackMessage={selectHealthConditionMessage?.message}
-                                    feedbackType={selectHealthConditionMessage?.type}
-                                    validateHandler={selectHealthConditionSelectValidater}
+                                    type='number'
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="No Of Times Used"
+                                    className="loginInputs"
+
+                                    setValue={MaxUse.setEnteredValue}
+                                    value={MaxUse.enteredValue}
+                                    feedbackMessage={MaxUse.feedbackMessage}
+                                    feedbackType={MaxUse.messageType}
+                                    isTouched={MaxUse.isTouched}
+                                    setIsTouched={MaxUse.setIsTouched}
+
+                                    validateHandler={MaxUseValidater}
+                                    reset={MaxUse.reset}
+                                    isRequired={true}
+                                    type='number'
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+
+
+
+
+
+
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                <InputWithAddOn
+                                    label="Max Usage Per User"
+                                    className="loginInputs"
+
+                                    setValue={maxUsagePerUser.setEnteredValue}
+                                    value={maxUsagePerUser.enteredValue}
+                                    feedbackMessage={maxUsagePerUser.feedbackMessage}
+                                    feedbackType={maxUsagePerUser.messageType}
+                                    isTouched={maxUsagePerUser.isTouched}
+                                    setIsTouched={maxUsagePerUser.setIsTouched}
+
+                                    validateHandler={maxUsagePerUserValidater}
+                                    reset={maxUsagePerUser.reset}
+                                    isRequired={true}
+                                    type='number'
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+
+
+
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputSelect
+                                    setValue={setselectUserType}
+                                    value={selectUserType}
+                                    options={[{ label: 'All', value: 'all' }, { label: 'Individual', value: 'individual' }, { label: 'New Members', value: 'new_members' }] ?? []}
+                                    isTouched={selectUserTypeIsTouch}
+                                    setIsTouched={setselectUserTypeIsTouch}
+                                    className=""
+                                    label={"Select User Type"}
+                                    isRequired={true}
+                                    feedbackMessage={selectUserTypeMessage?.message}
+                                    feedbackType={selectUserTypeMessage?.type}
+                                    validateHandler={selectUserTypeSelectValidater}
                                     disabled={searchParams?.type === 'view'}
                                 />
                             </div>
-                        }
-
-                        <div className="col-12 ">
-
-                            <InputTextArea
-                                label="Description"
-                                className="loginInputs"
-
-                                setValue={DescriptionShort.setEnteredValue}
-                                value={DescriptionShort.enteredValue}
-                                feedbackMessage={DescriptionShort.feedbackMessage}
-                                feedbackType={DescriptionShort.messageType}
-                                isTouched={DescriptionShort.isTouched}
-                                setIsTouched={DescriptionShort.setIsTouched}
-                                validateHandler={DescriptionShortValidater}
-                                reset={DescriptionShort.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
 
 
-                        </div>
+                            {(selectUserType === 'individual') &&
 
-                        <div className="my-3">
-                            <p style={{ fontSize: '17px', fontWeight: '700' }}>
-                                Add Terms & Conditions
-                            </p>
+                                <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                    <InputMultipleSelect
+                                        setValue={setUsersList}
+                                        value={UsersList}
+                                        options={userResponse?.data ?? []}
+                                        isTouched={UsersListIsTouch}
+                                        setIsTouched={setUsersListIsTouch}
+                                        className=""
+                                        label={"Select User To Include"}
+                                        isRequired={true}
+                                        feedbackMessage={UsersListMessage?.message}
+                                        feedbackType={UsersListMessage?.type}
+                                        validateHandler={UsersListSelectValidater}
+                                        disabled={searchParams?.type === 'view'}
+                                    />
+                                </div>
+                            }
 
-                            {(TermsCondition ?? []).map((positionItem, index) => {
-                                return <ExperienceBlog positionItem={positionItem} key={index} setTermsCondition={setTermsCondition} length={(TermsCondition ?? []).length} searchParams={searchParams} />
-                            })}
-                            {(searchParams?.type !== 'view') &&
-                                <div className='my-1 '>
-                                    <p>
-                                        <span style={{ cursor: 'pointer' }} onClick={() => { setTermsCondition(prev => { return [...prev, { company_name: '', job_title: '', date_of_joining: '', location: '', id: uuid() }] }) }}>
-                                            <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 4px 0px 4px' }}>+</span><span style={{ color: 'blue', fontSize: '15px', fontWeight: '500', cursor: 'pointer' }}> Add more Terms Condition for this role.</span>
-                                        </span>
 
-                                    </p>
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputSelect
+                                    setValue={setStatus}
+                                    value={Status}
+                                    options={[{ label: 'Active', value: 'active' }, { label: 'Draft', value: 'draft' }, { label: 'Expired', value: 'expired' }] ?? []}
+                                    isTouched={StatusIsTouch}
+                                    setIsTouched={setStatusIsTouch}
+                                    className=""
+                                    label={"Status"}
+                                    isRequired={true}
+                                    feedbackMessage={StatusMessage?.message}
+                                    feedbackType={StatusMessage?.type}
+                                    validateHandler={StatusSelectValidater}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputMultipleSelect
+                                    setValue={setSelectCenter}
+                                    value={SelectCenter}
+                                    options={[{ label: 'All', value: '*' }, ...(testResponse?.data?.centerListing ?? [])] ?? []}
+                                    isTouched={SelectCenterIsTouch}
+                                    setIsTouched={setSelectCenterIsTouch}
+                                    className=""
+                                    label={"Select Center"}
+                                    isRequired={true}
+                                    feedbackMessage={SelectCenterMessage?.message}
+                                    feedbackType={SelectCenterMessage?.type}
+                                    validateHandler={SelectCenterSelectValidater}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
+
+                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                <InputMultipleSelect
+                                    setValue={setselectedCriteria}
+                                    value={selectedCriteria}
+                                    options={[{ label: 'All', value: '*' }, { label: 'On Tests', value: 'tests' }, { label: 'On Packages', value: 'Packages' }, { label: 'On Health Condition', value: 'HealthCondition' }, { label: 'On Body Part', value: 'BodyPart' }] ?? []}
+                                    isTouched={selectedCriteriaIsTouch}
+                                    setIsTouched={setselectedCriteriaIsTouch}
+                                    className=""
+                                    label={"Applied On"}
+                                    isRequired={true}
+                                    feedbackMessage={selectedCriteriaMessage?.message}
+                                    feedbackType={selectedCriteriaMessage?.type}
+                                    validateHandler={selectedCriteriaSelectValidater}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
+
+
+
+                            {(FieldsToDisplay?.test && !FieldsToDisplay?.all) &&
+                                < div className="col-lg-4 col-md-4 col-sm-12 ">
+                                    <InputMultipleSelect
+                                        setValue={setSelectTests}
+                                        value={SelectTests}
+                                        options={[{ label: 'All', value: '*' }, ...(ListingFields?.TestListing) ?? []] ?? []}
+                                        isTouched={SelectTestsIsTouch}
+                                        setIsTouched={setSelectTestsIsTouch}
+                                        className=""
+                                        label={"Select Tests To Include"}
+                                        isRequired={true}
+                                        feedbackMessage={SelectTestsMessage?.message}
+                                        feedbackType={SelectTestsMessage?.type}
+                                        validateHandler={SelectTestsSelectValidater}
+                                        disabled={searchParams?.type === 'view'}
+                                    />
                                 </div>}
 
-                            <div>
+                            {(FieldsToDisplay?.package && !FieldsToDisplay?.all) &&
 
+                                <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                    <InputMultipleSelect
+                                        setValue={setselectPackages}
+                                        value={selectPackages}
+                                        options={[{ label: 'All', value: '*' }, ...(ListingFields?.PackagesListing) ?? []] ?? []}
+                                        isTouched={selectPackagesIsTouch}
+                                        setIsTouched={setselectPackagesIsTouch}
+                                        className=""
+                                        label={"Select Packages To Include"}
+                                        isRequired={true}
+                                        feedbackMessage={selectPackagesMessage?.message}
+                                        feedbackType={selectPackagesMessage?.type}
+                                        validateHandler={selectPackagesSelectValidater}
+                                        disabled={searchParams?.type === 'view'}
+                                    />
+                                </div>
+                            }
+
+
+                            {(FieldsToDisplay?.bodypart && !FieldsToDisplay?.all) &&
+
+                                <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                    <InputMultipleSelect
+                                        setValue={setselectBodyParts}
+                                        value={selectBodyParts}
+                                        options={[{ label: 'All', value: '*' }, ...(ListingFields?.BodyPartListing) ?? []] ?? []}
+                                        isTouched={selectBodyPartsIsTouch}
+                                        setIsTouched={setselectBodyPartsIsTouch}
+                                        className=""
+                                        label={"Select Body Parts To Include"}
+                                        isRequired={true}
+                                        feedbackMessage={selectBodyPartsMessage?.message}
+                                        feedbackType={selectBodyPartsMessage?.type}
+                                        validateHandler={selectBodyPartsSelectValidater}
+                                        disabled={searchParams?.type === 'view'}
+                                    />
+                                </div>
+                            }
+                            {(FieldsToDisplay?.healthcondition && !FieldsToDisplay?.all) &&
+
+                                <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                    <InputMultipleSelect
+                                        setValue={setselectHealthCondition}
+                                        value={selectHealthCondition}
+                                        options={[{ label: 'All', value: '*' }, ...(ListingFields?.TestConditionListing) ?? []] ?? []}
+                                        isTouched={selectHealthConditionIsTouch}
+                                        setIsTouched={setselectHealthConditionIsTouch}
+                                        className=""
+                                        label={"Select Health Conditions To Include"}
+                                        isRequired={true}
+                                        feedbackMessage={selectHealthConditionMessage?.message}
+                                        feedbackType={selectHealthConditionMessage?.type}
+                                        validateHandler={selectHealthConditionSelectValidater}
+                                        disabled={searchParams?.type === 'view'}
+                                    />
+                                </div>
+                            }
+
+                            <div className="col-12 ">
+
+                                <InputTextArea
+                                    label="Description"
+                                    className="loginInputs"
+
+                                    setValue={DescriptionShort.setEnteredValue}
+                                    value={DescriptionShort.enteredValue}
+                                    feedbackMessage={DescriptionShort.feedbackMessage}
+                                    feedbackType={DescriptionShort.messageType}
+                                    isTouched={DescriptionShort.isTouched}
+                                    setIsTouched={DescriptionShort.setIsTouched}
+                                    validateHandler={DescriptionShortValidater}
+                                    reset={DescriptionShort.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+
+
+                            </div>
+
+                            <div className="my-3">
+                                <p style={{ fontSize: '17px', fontWeight: '700' }}>
+                                    Add Terms & Conditions
+                                </p>
+
+                                {(TermsCondition ?? []).map((positionItem, index) => {
+                                    return <ExperienceBlog positionItem={positionItem} key={index} setTermsCondition={setTermsCondition} length={(TermsCondition ?? []).length} searchParams={searchParams} />
+                                })}
+                                {(searchParams?.type !== 'view') &&
+                                    <div className='my-1 '>
+                                        <p>
+                                            <span style={{ cursor: 'pointer' }} onClick={() => { setTermsCondition(prev => { return [...prev, { company_name: '', job_title: '', date_of_joining: '', location: '', id: uuid() }] }) }}>
+                                                <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 4px 0px 4px' }}>+</span><span style={{ color: 'blue', fontSize: '15px', fontWeight: '500', cursor: 'pointer' }}> Add more Terms Condition for this role.</span>
+                                            </span>
+
+                                        </p>
+                                    </div>}
+
+                                <div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div className="my-3 text-end">
+                                {
+                                    (searchParams?.type !== 'view') &&
+                                    <button onClick={() => { deleteCouponHandler({ params: searchParams?.id }) }} className="btn btn-danger px-4 mx-3">
+
+                                        {deleteCouponResponse?.fetching ? (
+                                            <Spinner size={"sm"} />
+                                        ) : (
+                                            "Delete"
+                                        )}
+                                    </button>
+
+                                }
+                                <button
+                                    className="mx-2 btn btn-outline-dark"
+                                    onClick={() => {
+                                        router.push("/admin/body-parts");
+                                    }}
+                                    type="button"
+                                >
+                                    {" "}
+                                    Cancel
+                                </button>
+                                {
+                                    (searchParams?.type !== 'view') &&
+                                    <button
+                                        style={{ float: "right" }}
+
+                                        className="btn btn-success px-3"
+                                        onClick={submit}
+                                    >
+                                        {DiscountCoupenResponse?.fetching ? (
+                                            <Spinner size={"sm"} />
+                                        ) : (
+                                            "Update"
+                                        )}
+
+                                    </button>
+                                }
 
                             </div>
                         </div>
 
-
-
-
-
-
-
-                        <div className="my-3 text-end">
-                            {
-                                (searchParams?.type !== 'view') &&
-                                <button onClick={() => { deleteCouponHandler({ params: searchParams?.id }) }} className="btn btn-danger px-4 mx-3">
-
-                                    {deleteCouponResponse?.fetching ? (
-                                        <Spinner size={"sm"} />
-                                    ) : (
-                                        "Delete"
-                                    )}
-                                </button>
-
-                            }
-                            <button
-                                className="mx-2 btn btn-outline-dark"
-                                onClick={() => {
-                                    router.push("/admin/body-parts");
-                                }}
-                                type="button"
-                            >
-                                {" "}
-                                Cancel
-                            </button>
-                            {
-                                (searchParams?.type !== 'view') &&
-                                <button
-                                    style={{ float: "right" }}
-
-                                    className="btn btn-success px-3"
-                                    onClick={submit}
-                                >
-                                    {DiscountCoupenResponse?.fetching ? (
-                                        <Spinner size={"sm"} />
-                                    ) : (
-                                        "Update"
-                                    )}
-
-                                </button>
-                            }
-
-                        </div>
-                    </div>
+                    }
                 </div>
             </div >
         </>

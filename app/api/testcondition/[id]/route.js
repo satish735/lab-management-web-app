@@ -3,10 +3,10 @@ import blog from "@/models/blog";
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
-    const TestConditions =await TestCondition
+    const TestConditions = await TestCondition
       .findById(id);
-      return new Response(JSON.stringify(TestConditions), { status: 200 });
-    } catch (error) {
+    return new Response(JSON.stringify(TestConditions), { status: 200 });
+  } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
   }
@@ -34,7 +34,7 @@ export const PUT = async (request, { params }) => {
 };
 export const DELETE = async (request, { params }) => {
   try {
-    const { id = null} = params;
+    const { id = null } = params;
     await TestCondition.findByIdAndDelete(id);
     return new Response("Test Condition deleted successfully.", { status: 200 });
   } catch (error) {

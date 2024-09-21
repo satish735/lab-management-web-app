@@ -13,15 +13,12 @@ import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 const EditTestConditionPage = ({ searchParams }) => {
     const router = useRouter();
 
 
 
-    const [imageFile, setImageFile] = useState({
-        url: "",
-        status: "",
-    });
     const [testconditionResponse, testconditionHandler] = useAPI(
         {
             url: `/testcondition/${searchParams?.id}`,
@@ -61,10 +58,7 @@ const EditTestConditionPage = ({ searchParams }) => {
 
             router.push("/admin/test-condition");
             toast.success("Test condition deleted successfully");
-            setImageFile({
-                url: "",
-                status: "",
-            })
+
             testcondition.setEnteredValue()
 
         },
@@ -98,13 +92,12 @@ const EditTestConditionPage = ({ searchParams }) => {
 
     const submit = () => {
         let testconditionIsValid = testconditionValidater(testcondition?.enteredValue);
-        if (testconditionIsValid != "" && imageFile?.filePath) {
+        if (testconditionIsValid != "") {
 
 
             testconditionHandler({
                 body: {
                     name: testcondition?.enteredValue ?? '',
-                    image: imageFile?.filePath
                 }
             });
         } else {
@@ -124,7 +117,6 @@ const EditTestConditionPage = ({ searchParams }) => {
 
             testcondition.setEnteredValue(e?.name)
 
-            setImageFile({ filePath: e?.image, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.image, status: searchParams?.type === 'edit' ? 'original' : 'Original' })
         },
         (e) => {
 
@@ -147,88 +139,101 @@ const EditTestConditionPage = ({ searchParams }) => {
                 ]}
             />
 
-            {getTestConditionResponse?.fetching ? <div className="text-center my-5">  <Spinner size={"lg"} /></div> : <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
+            <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
 
                 <h3 className="mb-4 px-3 py-2 mt-2  " >
                     {searchParams?.type === 'view' ? 'View Test Condition' : 'Edit Test Condition'}
 
                 </h3>
 
-                <div className=" my-3  py-4 px-3"  >
-
-
-                    <div className="row">
-
-                        <div className="col-12">
-                            <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-
-                            <SingleImageDropZone file={imageFile} setFile={setImageFile} />
 
 
 
-                        </div>
-                        <div className="col-12 mt-3">
+                <LoaderGeneral
+                    noContentMessage="records are not found"
+                    state={
+                        getTestConditionResponse?.fetching
+                            ? "loading"
+                            : [null, undefined].includes(getTestConditionResponse?.data)
+                                ? "no-content"
+                                : "none"
 
-                            <InputWithAddOn
-                                label="Test Condition Name"
-                                className="loginInputs"
+                    }
+                />
 
-                                setValue={testcondition.setEnteredValue}
-                                value={testcondition.enteredValue}
-                                feedbackMessage={testcondition.feedbackMessage}
-                                feedbackType={testcondition.messageType}
-                                isTouched={testcondition.isTouched}
-                                setIsTouched={testcondition.setIsTouched}
-
-                                validateHandler={testconditionValidater}
-                                reset={testcondition.reset}
-                                isRequired={true}
-                                disabled={searchParams?.type === 'view'}
-                            />
-                        </div>
+                {
+                    (!getTestConditionResponse?.fetching) &&
 
 
+                    <div className=" my-3  py-4 px-3"  >
 
-                        <div className="my-3 text-end">
 
-                            <button
-                                className="mx-2 btn btn-danger"
-                                onClick={() => {
-                                    DeletetestconditionHandler()
-                                }}
-                                type="button"
-                            >
-                                {DeletetestconditionResponse?.fetching ? <Spinner size={"sm"} /> : "Delete"}
-                            </button>
-                            <button
-                                className="mx-2 btn btn-dark"
-                                onClick={() => {
-                                    router.push("/admin/test-condition");
-                                }}
-                                type="button"
-                            >
-                                {" "}
-                                Cancel
-                            </button>
+                        <div className="row">
 
-                            <button
-                                style={{ float: "right" }}
 
-                                className="btn btn-success px-3"
-                                onClick={submit}
-                                type="button"
-                            >
-                                {testconditionResponse?.fetching ? (
-                                    <Spinner size={"sm"} />
-                                ) : (
-                                    "Update"
-                                )}
-                            </button>
+                            <div className="col-12 mt-3">
 
+                                <InputWithAddOn
+                                    label="Test Condition Name"
+                                    className="loginInputs"
+
+                                    setValue={testcondition.setEnteredValue}
+                                    value={testcondition.enteredValue}
+                                    feedbackMessage={testcondition.feedbackMessage}
+                                    feedbackType={testcondition.messageType}
+                                    isTouched={testcondition.isTouched}
+                                    setIsTouched={testcondition.setIsTouched}
+
+                                    validateHandler={testconditionValidater}
+                                    reset={testcondition.reset}
+                                    isRequired={true}
+                                    disabled={searchParams?.type === 'view'}
+                                />
+                            </div>
+
+
+
+                            <div className="my-3 text-end">
+
+                                <button
+                                    className="mx-2 btn btn-danger"
+                                    onClick={() => {
+                                        DeletetestconditionHandler()
+                                    }}
+                                    type="button"
+                                >
+                                    {DeletetestconditionResponse?.fetching ? <Spinner size={"sm"} /> : "Delete"}
+                                </button>
+                                <button
+                                    className="mx-2 btn btn-dark"
+                                    onClick={() => {
+                                        router.push("/admin/test-condition");
+                                    }}
+                                    type="button"
+                                >
+                                    {" "}
+                                    Cancel
+                                </button>
+
+                                <button
+                                    style={{ float: "right" }}
+
+                                    className="btn btn-success px-3"
+                                    onClick={submit}
+                                    type="button"
+                                >
+                                    {testconditionResponse?.fetching ? (
+                                        <Spinner size={"sm"} />
+                                    ) : (
+                                        "Update"
+                                    )}
+                                </button>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>}
+                }
+            </div>
 
 
         </>
