@@ -73,7 +73,7 @@ const UserHeader2 = () => {
 
 
 
-  const [testResponse, testHandler] = useAPI(
+  const [allCentersResponse, allCentersHandler] = useAPI(
     {
       url: "/getCentersLocation",
       method: "get",
@@ -93,11 +93,61 @@ const UserHeader2 = () => {
     }
   );
 
+   
+
+
+  const [getSelectedCenterResponse, getSelectedCenterHandler] = useAPI(
+    {
+      url: "/getSelectedLocation",
+      method: "get",
+      sendImmediately: true,
+
+    },
+    (e) => {
+      // const sessionData = session?.data?.user
+
+      // console.log(sessionData ?? {});
+
+      // session.update({ ...(sessionData?.user ?? {}), ...{ selectedLocation: (e?.[0].selectedLocation ?? '') } })
+
+
+      return e
+    },
+    (e) => {
+      toast.error(transformErrorDefault(
+        "Something went wrong while Getting selected location!",
+        e
+      ));
+      return e
+    }
+  );
+
+
+  
+  const [saveSelectedCenterResponse, saveSelectedCenterHandler] = useAPI(
+    {
+      url: "/getSelectedLocation",
+      method: "put",
+
+    },
+    (e) => {
+
+      return e
+    },
+    (e) => {
+      toast.error(transformErrorDefault(
+        "Something went wrong while Getting selected location!",
+        e
+      ));
+      return e
+    }
+  );
+
 
   useEffect(() => {
-    let data = JSON.parse(localStorage.getItem("selectedLocation"));
+    // let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
-    setCurrentLocation(data?.selectedLocation)
+    // setCurrentLocation(data?.selectedLocation)
 
     const findNearestCity = (currentLat, currentLon) => {
       let nearestCity = null;
@@ -237,7 +287,7 @@ const UserHeader2 = () => {
                     >
 
                       <span className="btn-text" >
-                        {currentLocation ?? "Select Location"}
+                        {'Select Location' ?? "Select Location"}
                       </span>
                       {/* currentLocation, setCurrentLocation */}
                       <FaChevronDown size={14} className="dropdonw-arrow" />
@@ -246,12 +296,17 @@ const UserHeader2 = () => {
                     <div className="location-divs"   >
 
 
-                      {(testResponse?.data?.cityArray ?? []).map((item) => {
+                      {(allCentersResponse?.data?.cityArray ?? []).map((item) => {
                         return (
                           <>
                             <div onClick={() => {
                               localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
                               setCurrentLocation(item)
+                              saveSelectedCenterHandler({
+                                body: {
+                                  selectedLocation: item
+                                }
+                              })
                               router.push(`/${item}`)
                             }} className="center-selection-item text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200' }}>
 
@@ -372,7 +427,7 @@ const UserHeader2 = () => {
                     </div>
 
 
-                    <div onClick={()=>{
+                    <div onClick={() => {
                       router.push("/mybookings")
                     }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
@@ -385,7 +440,7 @@ const UserHeader2 = () => {
 
                     </div>
 
-                    <div onClick={()=>{
+                    <div onClick={() => {
                       router.push("/my-address")
                     }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
@@ -399,7 +454,7 @@ const UserHeader2 = () => {
 
                     </div>
 
-                    <div onClick={()=>{
+                    <div onClick={() => {
                       router.push("/myfamilymembers")
                     }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
@@ -411,9 +466,9 @@ const UserHeader2 = () => {
 
 
                     </div>
-                    <div onClick={()=>{
+                    <div onClick={() => {
                       router.push("/my-profile")
-                    }}  className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
                       <span style={{ marginRight: '5px', color: '#003747' }}>
                         <MdAccountCircle />

@@ -42,6 +42,12 @@ const ContactUs = () => {
         }
     );
 
+
+
+
+
+
+
     const [name, setName] = useState()
     const [email, setemail] = useState()
     const [phone, setphone] = useState()
@@ -62,6 +68,93 @@ const ContactUs = () => {
 
 
 
+    const [getContactWithUsResponse, getContactWithUsHandler] = useAPI(
+        {
+            url: "/addContactUsDetails",
+            method: "post",
+
+        },
+        (e) => {
+
+            setName()
+            setemail()
+            setphone()
+            setinterestedIn()
+            setcity()
+            setremark()
+            toast.success(
+                "Details sended successfully.", e
+            )
+            return e
+
+        },
+        (e) => {
+
+            toast.error(transformErrorDefault(
+                "Something went wrong while saving details!",
+                e
+            ));
+        }
+    );
+
+
+    const submitHandler = () => {
+
+
+        let flag = true;
+
+        if (!name) {
+            flag = false
+            setisname(true)
+        }
+        if (!email) {
+            flag = false
+            setisemail(true)
+
+        }
+        if (!phone) {
+            flag = false
+            setisphone(true)
+
+        }
+
+        if (!city) {
+            flag = false
+            setiscity(true)
+
+        }
+
+        if (flag) {
+            console.log({
+                name: name ?? "",
+                phone: phone ?? "",
+                interestedIn: interestedIn ?? "",
+                email: email ?? "",
+                city: city ?? '',
+                message: remark ?? '',
+
+            });
+
+            getContactWithUsHandler({
+                body: {
+                    name: name ?? "",
+                    phone: phone ?? "",
+                    interestedIn: interestedIn ?? "",
+                    email: email ?? "",
+                    city: city ?? '',
+                    message: remark ?? '',
+
+                }
+            })
+
+        }
+
+
+
+
+    }
+
+
 
     return (
         <div className='global-background-gradient ' style={{ paddingTop: '70px' }}>
@@ -71,7 +164,7 @@ const ContactUs = () => {
 
                 <h1 className='header-contact-us' style={{
                     color: '#fff',
-                     textAlign: 'center',
+                    textAlign: 'center',
                     margin: '0 auto'
                 }}>
                     SSDBSHYAM Diagnostic LLP team would love to hear
@@ -103,8 +196,22 @@ const ContactUs = () => {
                                                 className="input"
                                                 placeholder="Your Name"
                                                 label=""
-                                                value={name}
+                                                value={name ?? ''}
                                                 onChange={(e) => {
+                                                    if (e?.target?.value) {
+
+                                                        if (isname === true) {
+                                                            setisname(false)
+                                                        }
+
+                                                    }
+                                                    else {
+
+                                                        if (isname === false) {
+                                                            setisname(true)
+
+                                                        }
+                                                    }
                                                     setName(e.target.value)
                                                 }}
                                                 style={{ borderRadius: '8px' }}
@@ -119,9 +226,24 @@ const ContactUs = () => {
                                                 placeholder="Email Address"
                                                 label=""
                                                 type="email"
-                                                value={email}
+                                                value={email ?? ''}
                                                 onChange={(e) => {
-                                                    setemail(e.target.value)
+
+                                                    if (e?.target?.value) {
+
+                                                        if (isemail === true) {
+                                                            setisemail(false)
+                                                        }
+
+                                                    }
+                                                    else {
+
+                                                        if (isemail === false) {
+                                                            setisemail(true)
+
+                                                        }
+                                                    }
+                                                    setemail(e?.target?.value)
                                                 }}
                                                 style={{ borderRadius: '8px' }}
                                             />
@@ -135,8 +257,22 @@ const ContactUs = () => {
                                                 placeholder="Phone"
                                                 label=""
                                                 type="number"
-                                                value={phone}
+                                                value={phone ?? ''}
                                                 onChange={(e) => {
+                                                    if (e?.target?.value) {
+
+                                                        if (isphone === true) {
+                                                            setisphone(false)
+                                                        }
+
+                                                    }
+                                                    else {
+
+                                                        if (isphone === false) {
+                                                            setisphone(true)
+
+                                                        }
+                                                    }
                                                     setphone(e.target.value)
                                                 }}
                                                 style={{ borderRadius: '8px' }}
@@ -151,8 +287,9 @@ const ContactUs = () => {
                                                 placeholder="Interested In"
                                                 label=""
                                                 type="string"
-                                                value={interestedIn}
+                                                value={interestedIn ?? ''}
                                                 onChange={(e) => {
+
                                                     setinterestedIn(e.target.value)
                                                 }}
                                                 style={{ borderRadius: '8px' }}
@@ -167,8 +304,23 @@ const ContactUs = () => {
                                                 placeholder="City"
                                                 label=""
                                                 type="string"
-                                                value={city}
+                                                value={city ?? ''}
                                                 onChange={(e) => {
+
+                                                    if (e?.target?.value) {
+
+                                                        if (iscity === true) {
+                                                            setiscity(false)
+                                                        }
+
+                                                    }
+                                                    else {
+
+                                                        if (iscity === false) {
+                                                            setiscity(true)
+
+                                                        }
+                                                    }
                                                     setcity(e.target.value)
                                                 }}
                                                 style={{ borderRadius: '8px' }}
@@ -186,7 +338,7 @@ const ContactUs = () => {
                                                 label=""
                                                 type="textarea"
                                                 autoComplete="off"
-                                                value={remark}
+                                                value={remark ?? ''}
                                                 name="textarea"
                                                 rows="5"
                                                 cols="15"
@@ -199,19 +351,23 @@ const ContactUs = () => {
 
 
                                         </div>
-                                        <div className="call-button slide-item" >
-                                            <button type="button  " className=" py-2  px-3    card-button-2" style={{ fontSize: '14px', fontWeight: '500' }}>Send your message </button>
 
-                                        </div>
 
                                     </div>
                                 </form>
+                                <div className="call-button slide-item" >
+                                    <button onClick={() => { submitHandler() }} type="button  " className=" py-2  px-3    card-button-2" style={{ fontSize: '14px', fontWeight: '500' }}>
+                                        {(getContactWithUsResponse?.fetching) ? <Spinner size={"sm"} /> : 'Send your message'}
+                                    </button>
+
+                                </div>
 
                                 <p className='mt-3' style={{ fontSize: '12px', color: '#505050' }}>
                                     By clicking, you agree to our <span style={{
                                         color: '#46b902',
                                         fontSize: '12px',
-                                        textDecoration: 'underline'
+                                        textDecoration: 'underline',
+                                        cursor: 'pointer'
                                     }}> Terms & Conditions, Privacy & Policy</span>
                                 </p>
 
@@ -326,7 +482,7 @@ const ContactUs = () => {
                 <hr />
 
                 <h1>Regional Laboratory</h1>
-                 
+
 
                 {allPackageResponse?.fetching ? (
                     <div className='text-center my-5'>

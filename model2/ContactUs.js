@@ -8,7 +8,8 @@ const ContactUsSchema = new Schema({
   email: { type: String, required: true },
   phone: { type: String, required: true },
   interestedIn: { type: String },
-  message: { type: String, required: true },
+  message: { type: String },
+  city: { type: String, required: true },
   is_delete: { type: Boolean, default: false }
 });
 

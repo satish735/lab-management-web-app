@@ -175,7 +175,7 @@ const AboutUs = () => {
                             Director’s Message
                         </p>
 
-                        <p style={{ color: '#97979a', fontSize: '16px' }}>
+                        <div style={{ color: '#97979a', fontSize: '16px' }}>
 
                             <p style={{ justifyContent: 'center' }}>
                                 While providing clinical investigation services, quality is an important criterion. We are committed to maintain excellence in all our services, ensuring patient satisfaction.
@@ -191,7 +191,7 @@ const AboutUs = () => {
                                 For you, we will continue to work with the passion on our mission to contribute significantly in health care of the society by providing efficient, timely and affordable patient care services.
                             </p>
 
-                        </p>
+                        </div>
 
                     </div>
 

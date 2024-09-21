@@ -4,8 +4,7 @@ import { useRouter } from "next/navigation";
 
 const TestsCard = ({ listing, type }) => {
   const router = useRouter()
-  console.log(listing);
-
+ 
   return (
     <div className="card-outer-layer-div " onClick={() => {
       router.push(`/${type}/${listing?.name}?id=${listing?._id}&${(type==='body-part' ? 'part':'disease')}=${listing?.name}`)

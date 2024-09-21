@@ -60,13 +60,20 @@ const Usercart = ({ isopencart, setisopencart }) => {
                 className="isopencart "
             >
 
-                <OffcanvasBody>
+                <OffcanvasBody style={{padding:'0px'}}>
+
+                    <div style={{padding:'10px 10px',backgroundColor:'#003747',color:'white',fontSize:'2rem',fontWeight:'700',textAlign:'center',textDecoration:'underline'}}>
+                        Cart Details
+
+                    </div>
                     <button type="button"
                         className="close border-0"
                         onClick={() => { setisopencart(!isopencart) }}
-                        style={{ position: 'relative', float: "right", background: "white", fontSize: "1.6rem" }}>
+                        style={{ position: 'relative', float: "right", background: "white", fontSize: "1.9rem" }}>
                         &times;
                     </button>
+                    <div className="px-3">
+
                     {(cartitem ?? [])?.length > 0 &&
                         <>
                             <div className="p-2 mt-5" >
@@ -140,6 +147,8 @@ const Usercart = ({ isopencart, setisopencart }) => {
                             </p>
                         </div>
                     }
+                    </div>
+
                 </OffcanvasBody>
             </Offcanvas>
 
