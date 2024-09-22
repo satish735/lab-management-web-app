@@ -153,7 +153,7 @@ export default function Transations() {
             label: "Bookings",
             value: (row) => {
                 return <>
-                    {Array.isArray(row?.bookingId) && row?.bookingId.map((bookingItem,index) => <Link key={index} href={`/admin/bookings/${bookingItem?.bookingId}`}>{bookingItem?.bookingId}</Link>)}
+                    {Array.isArray(row?.bookingId) && row?.bookingId.map((bookingItem, index) => <Link key={index} href={`/admin/bookings/${bookingItem?.bookingId}`}>{bookingItem?.bookingId}</Link>)}
                 </>
 
             },
@@ -281,12 +281,12 @@ export default function Transations() {
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
-                    { label: "Transactions", link: "/admin/transactions", active: true },
+                    { label: "Home Collections", link: "/admin/home-collections", active: true },
                 ]}
             />
             <div className="admin-content-box">
-                <h1 className="main-heading">Transactions</h1>
-                <p className="sub-heading">Listing page for transactions.</p>
+                <h1 className="main-heading">Home Collections</h1>
+                <p className="sub-heading">Listing page for Home Collections.</p>
                 <div className="text-end my-2">
 
                 </div>

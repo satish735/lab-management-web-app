@@ -19,7 +19,7 @@ import PackageBadges from "./layout-components/sidemenu-components/PackageBadges
 import AdminHeader from "./layout-components/AdminHeader";
 import AdminFooter from "./layout-components/AdminFooter";
 import defaultSideMenus from "@/utils/defaultSideMenus";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import matchDynamicPaths from "@/utils/matchDynamicPaths";
@@ -161,8 +161,12 @@ const AdminLayout = ({ children }) => {
   var userRole = session?.data?.user?.role
   console.log(session)
   useEffect(() => {
+
     switch (session?.status) {
       case "authenticated":
+        if (!["admin", "adminuser"].includes(userRole)) {
+          signOut({ redirect: true, callbackUrl: '/' });
+        }
         if (userRole != "admin") {
           var checkIfRouteMatch = onlyAdminPaths.some(onlyAdminPathsItem => matchDynamicPaths(onlyAdminPathsItem, pathname))
           if (checkIfRouteMatch) {

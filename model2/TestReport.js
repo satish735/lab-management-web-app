@@ -38,6 +38,10 @@ const testReportSchema = new Schema(
     reportFile: {
       type: String,
       required: true
+    },
+    sequence: {
+      type: Number,
+      unique: true
     }
   },
   {
@@ -52,15 +56,18 @@ testReportSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest report document
-      const lastReport = await mongoose.model('TestReport').findOne().sort({ createdAt: -1 });
+      const lastReport = await mongoose.model('TestReport').findOne().sort({ sequence: -1 });
       if (lastReport) {
         // Extract the last reportId 
-        const lastId = parseInt(lastReport.reportId.replace('RPRT-', ''), 10);
+        // const lastId = parseInt(lastReport.reportId.replace('RPRT-', ''), 10);
+        const lastId = lastReport?.sequence;
         const newId = lastId + 1;
         this.reportId = `RPRT-${newId}`;
+        this.sequence = newId
       } else {
         // If no reportId exist, start with RPRT-1
         this.reportId = 'RPRT-1';
+        this.sequence = 1
       }
 
       next();

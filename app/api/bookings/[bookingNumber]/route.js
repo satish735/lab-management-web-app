@@ -65,10 +65,10 @@ export const PUT = async (request, { params }) => {
           userId,
           bookingId: bookingNumber,
           activityType: "Booking Confirmed",
-          description: "Booking has been confirmed by admin user."
+          description: "<span>Booking has been changed to <span class='booking-badge confirmed'>Confirmed</span>.<span>"
         })
         await newActivity.save()
-        responseResult = { message: "Booking has been confirmed successfully" }
+        responseResult = { message: "Booking status has been confirmed successfully" }
         break
       case "cancellation":
         bookingDetails.isCancelled = true
@@ -76,8 +76,8 @@ export const PUT = async (request, { params }) => {
         var newActivity = new BookingActivity({
           userId,
           bookingId: bookingNumber,
-          activityType: "Booking cancelled",
-          description: restBody?.description ?? "Booking has been cancelled by admin user."
+          activityType: "Booking Cancelled",
+          description: restBody?.description ?? "<span>Booking status has been changed to <span class='booking-badge cancelled'>Cancelled</span>.<span>"
         })
         await newActivity.save()
         responseResult = { message: "Booking has been cancelled successfully" }
@@ -90,7 +90,7 @@ export const PUT = async (request, { params }) => {
           userId,
           bookingId: bookingNumber,
           activityType: "Booking payment marked as paid",
-          description: "Booking payment marked as paid and Payment type chnaged to cash by Admin User."
+          description: "<span>Booking payment marked as <span class='booking-badge completed'>Paid</span> and Payment type changed to cash by Admin User.</span>"
         })
         await newActivity.save()
         responseResult = { message: "Booking Payment is marked as paid successfully." }
@@ -101,7 +101,7 @@ export const PUT = async (request, { params }) => {
         var newActivity = new BookingActivity({
           userId,
           bookingId: bookingNumber,
-          activityType: `Status updated from ${restBody?.old_status} to ${restBody?.new_status}`,
+          activityType: `<span>Status updated from <span class='booking-badge ${restBody?.old_status}'>${restBody?.old_status}</span> to <span class='booking-badge ${restBody?.new_status}'>${restBody?.new_status}</span></span>`,
           description: restBody?.description ?? ""
         })
         await newActivity.save()

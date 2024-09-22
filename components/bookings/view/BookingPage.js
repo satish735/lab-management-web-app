@@ -223,7 +223,7 @@ const BookingPage = ({ bookingNumber = null }) => {
                     Type : {{ cash: "Cash", Online: "Online" }[bookingDetails?.paymentType]},
                   </span>{" "}
                   <span className="gender" >
-                    Status : {bookingDetails?.paymentStatus}
+                    Status : <span className={`booking-badge  ${bookingDetails?.paymentStatus}`}>{bookingDetails?.paymentStatus}</span>
                   </span>{" "}
                 </div>
                 <hr className="m-0" />
@@ -272,7 +272,7 @@ const BookingPage = ({ bookingNumber = null }) => {
                     Home Collection
                   </span>{" "}
                   <span className="gender">
-                    Status : {homeCollection?.collectionStatus},
+                    Status : <span className={`booking-badge  ${homeCollection?.collectionStatus}`}>{homeCollection?.collectionStatus}</span>,
                   </span>{" "}
                   <span className="dob">
                     Date :{" "}
@@ -367,7 +367,7 @@ const BookingPage = ({ bookingNumber = null }) => {
                             {tItem?.transactionId}
                           </span>{" "}
                           <span className="gender">
-                            Status : {tItem?.status},
+                            Status : <span className={`booking-badge ${tItem?.status}`}>{tItem?.status}</span>,
                           </span>{" "}<span className="gender">
                             Method : {tItem?.paymentMethod}
                           </span>,

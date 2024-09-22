@@ -39,7 +39,7 @@ export const PUT = async (request, { params }) => {
                     userId,
                     homeCollectionId: homeCollectionId,
                     activityType: "HomeCollection confirmed",
-                    description: restBody?.description ?? "HomeCollection has been received by center."
+                    description: restBody?.description ?? "<span>HomeCollection status has been changed to <span class='booking-badge confirmed'>Confirmed</span>.<span>"
                 })
                 await newActivity.save()
                 break;
@@ -53,7 +53,7 @@ export const PUT = async (request, { params }) => {
                     userId,
                     homeCollectionId: homeCollectionId,
                     activityType: "HomeCollection picked",
-                    description: restBody?.description ?? "HomeCollection has been picked."
+                    description: restBody?.description ?? "<span>HomeCollection status has been changed to <span class='booking-badge picked'>Picked</span>.<span>"
                 })
                 await newActivity.save()
                 break;
@@ -64,7 +64,7 @@ export const PUT = async (request, { params }) => {
                     userId,
                     homeCollectionId: homeCollectionId,
                     activityType: "HomeCollection cancelled",
-                    description: restBody?.description ?? "HomeCollection has been cancelled by admin user."
+                    description: restBody?.description ?? "<span>HomeCollection status has been changed to <span class='booking-badge cancelled'>Cancelled</span>.<span>"
                 })
                 await newActivity.save()
                 break;
@@ -113,7 +113,7 @@ export const POST = async (request, { params }) => {
             userId,
             homeCollectionId: homeCollection?.id,
             activityType: "Home Collection created",
-            description: "Home Collection has been created in system."
+            description: "Home Collection has been created."
         })
         await newActivity.save()
         return new Response({ message: 'Home Collection has been created successfully!' }, { status: 200 });

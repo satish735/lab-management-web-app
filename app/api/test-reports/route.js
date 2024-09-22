@@ -21,12 +21,13 @@ export const POST = async (request, { params }) => {
         if (!bookingDetails) {
             return new Response("No Booking found with given id!", { status: 404 });
         }
-        const lastReport = await TestReport.findOne().sort({ createdAt: -1 });
+        const lastReport = await TestReport.findOne().sort({ sequence: -1 });
         var lastReportId = 0
         if (lastReport) {
-            lastReportId = parseInt(lastReport.reportId.replace('RPRT-', ''), 10);
+            // lastReportId = parseInt(lastReport.reportId.replace('RPRT-', ''), 10);
+            lastReportId = lastReport?.sequence
         }
-
+        console.log(lastReportId)
         var bookingId = booking_id
         var teamMemberId = bookingDetails?.teamMemberId
         var generatedByName = session?.user?.name
@@ -36,7 +37,8 @@ export const POST = async (request, { params }) => {
         var newReports = await TestReport.insertMany(filteredReportList.map(({ testId, reportFile, ...rest }, index) => {
             return {
                 testId, bookingId, reportFile, teamMemberId, generatedByName, generatedBy, generatedByContact,
-                reportId: `RPRT-${index + lastReportId + 1}`
+                reportId: `RPRT-${index + lastReportId + 1}`,
+                sequence: lastReportId + index + 1
             }
         }))
         return new Response(JSON.stringify(newReports), { status: 200 });

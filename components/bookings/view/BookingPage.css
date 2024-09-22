@@ -217,3 +217,85 @@
   color: var(--color-primary);
   cursor: pointer;
 }
+
+.booking-badge {
+  display: inline-block;
+  padding: 0.3em .7em;
+  margin: 0.2em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+  color: var(--color-secondary);
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+
+/* Light Background Colors */
+.booking-badge.created {
+  background-color: #b8c8d4;
+  /* Light Grayish Blue */
+}
+
+.booking-badge.confirmed {
+  background-color: #c9e4c5;
+  /* Light Green */
+}
+
+.booking-badge.process_assigned {
+  background-color: #f9e6b0;
+  /* Light Yellow */
+}
+
+.booking-badge.started {
+  background-color: #b2e0e5;
+  /* Light Cyan */
+}
+
+.booking-badge.collection_done {
+  background-color: #e0e3e5;
+  /* Light Gray */
+}
+
+.booking-badge.sample_reached {
+  background-color: #d6c5f5;
+  /* Light Purple */
+}
+
+.booking-badge.report_approved {
+  background-color: #ffe5b3;
+  /* Light Orange */
+}
+
+.booking-badge.completed {
+  background-color: #b2e3d5;
+  /* Light Teal */
+}
+
+.booking-badge.cancelled {
+  background-color: #f8d7da;
+  /* Light Red */
+}
+
+
+/* New Badge Colors */
+.booking-badge.pending {
+  background-color: #fff3cd;
+  /* Light Yellow (Pending) */
+}
+
+.booking-badge.failed {
+  background-color: #f5c6cb;
+  /* Light Red (Failed) */
+}
+
+.booking-badge.refunded {
+  background-color: #d1ecf1;
+  /* Light Cyan (Refunded) */
+}
+
+
+/* New Badge Colors */
+.booking-badge.picked {
+  background-color: #d1e7dd;
+  /* Light Mint */
+}

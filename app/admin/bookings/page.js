@@ -120,13 +120,13 @@ export default function Home() {
                 router.push(`/admin/bookings/${row?.bookingId}`);
               }}
             />
-            <ActionOption
+            {/* <ActionOption
               Icon={Pencil}
               name="Edit"
               onClick={() => {
                 router.push(`/admin/bookings/${row?.bookingId}/edit`);
               }}
-            />
+            /> */}
           </>
         );
       },
@@ -158,10 +158,10 @@ export default function Home() {
       label: "Status",
       value: (row) => {
         return (
-          <Badge className="text-capitalize" color={{
+          <Badge className="text-capitalize" color={row?.isCancelled ? "danger" :{
             'upcoming': "primary", 'completed': "success", 'cancelled': "danger", 'rescheduled': "warning", 'no-show': "secondary", "created": "secondary"
           }[row?.status]}>
-            {row?.status}
+            {row?.isCancelled ? "Cancelled" : row?.status}
           </Badge>
         );
       },
