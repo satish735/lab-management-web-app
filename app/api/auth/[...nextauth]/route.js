@@ -83,16 +83,16 @@ export const authOptions = {
           if (!moment().isBefore(moment(User?.otpExpire))) {
             throw new Error("OTP expired!");
           }
-          const UserDetails = await UserDetails.findOne({ relation: "self", loginId: User?.id })
+          const userDetails = await UserDetails.findOne({ relation: "self", loginId: User?.id })
           return {
             id: User?.id,
             phone: User?.phone,
             selectedCity: User?.selectedCity ?? null,
-            name: UserDetails.name,
-            email: UserDetails.email,
+            name: userDetails?.name ,
+            email: userDetails?.email,
             role: "user",
-            image: UserDetails?.image,
-            otherDetails: UserDetails
+            image: userDetails?.image,
+            otherDetails: userDetails
 
           };
         } catch (err) {

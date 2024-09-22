@@ -93,7 +93,7 @@ const UserHeader2 = () => {
     }
   );
 
-   
+
 
 
   const [getSelectedCenterResponse, getSelectedCenterHandler] = useAPI(
@@ -108,7 +108,7 @@ const UserHeader2 = () => {
 
       // console.log(sessionData ?? {});
 
-      // session.update({ ...(sessionData?.user ?? {}), ...{ selectedLocation: (e?.[0].selectedLocation ?? '') } })
+      // session.update({ selectedCity:"jaoiput" } })
 
 
       return e
@@ -123,7 +123,7 @@ const UserHeader2 = () => {
   );
 
 
-  
+
   const [saveSelectedCenterResponse, saveSelectedCenterHandler] = useAPI(
     {
       url: "/getSelectedLocation",
