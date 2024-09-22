@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import BreadcrumbDiv from "@/components/BreadcrumbDiv";
+
 const Home = () => {
   const router = useRouter();
 
@@ -259,7 +261,7 @@ const Home = () => {
     (e) => {
       // EmailInput.setEnteredValue();
       // PhoneInput.setEnteredValue();
-      
+
 
       if (e?.issubmit == false) {
         toast.error(
@@ -267,7 +269,7 @@ const Home = () => {
         );
       } else {
         toast.success("Admin login added successfully");
-      router.push("/admin/user")
+        router.push("/admin/user")
 
       }
 
@@ -289,7 +291,7 @@ const Home = () => {
 
   const submit = () => {
 
-    
+
 
     let EmailValidate = EmailInputValidater(EmailInput.enteredValue);
     let NameValidate = NameInputValidater(NameInput.enteredValue);
@@ -356,21 +358,22 @@ const Home = () => {
 
   return (
     <>
+
+      <BreadcrumbDiv
+        options={[
+          { label: "Home", link: "/admin" },
+          { label: "User", link: "/admin/user" },
+          { label: "Create", active: true },
+        ]}
+      />
       <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
-
-
-
-        <h3 className=" mb-5  text-center" style={{ fontSize: "1.2rem" }} >
-
-          Create Admin User</h3>
-
-        <div className=" "  >
-          <div className="my-2" >
-
+        <h1 className="main-heading">Create Admin User</h1>
+        <div className="row my-3"  >
+          <div className="my-2 col-sm-3 col-12" >
             <SingleImageDropZone file={imageFile} setFile={setImageFile} />
           </div>
 
-          <div className="row  ">
+          <div className="row col-sm-9 col-12 ">
 
 
             <div className="col-lg-4 col-md-4 col-sm-12">

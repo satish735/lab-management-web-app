@@ -7,6 +7,7 @@ import { Spinner } from "reactstrap";
 import InputSelect from "@/components/formInput/select/InputSelect";
 import dynamic from "next/dynamic";
 import BreadcrumbDiv from '@/components/BreadcrumbDiv'
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 
 const TextEditor = dynamic(
     () => import("@/components/text-editor/TextEditor"),
@@ -145,14 +146,27 @@ const Partnerwithusupdate = ({ searchParams }) => {
     return (
         <>
 
-<BreadcrumbDiv
-        options={[
-          { label: "Home", link: "/admin" },
-          { label: "Partner with us", link: "/admin/partnerwithus" },
-          { label: "Update Partner with us", link: "/admin/partnerwithus/view", active: true },
-        ]}
-      />
-            {getpartnerwithusResponse?.fetching ? <div className="my-4 text-center" ><Spinner size={"xl"} /></div> : <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
+            <BreadcrumbDiv
+                options={[
+                    { label: "Home", link: "/admin" },
+                    { label: "Partner with us", link: "/admin/partnerwithus" },
+                    { label: "Update Partner with us", link: "/admin/partnerwithus/view", active: true },
+                ]}
+            />
+
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getpartnerwithusResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getpartnerwithusResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+            {!getpartnerwithusResponse?.fetching && <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
 
 
 
@@ -199,7 +213,7 @@ const Partnerwithusupdate = ({ searchParams }) => {
                                     deletepartnerwithusHandler()
                                 }}
                             >
-                               {deletepartnerwithusResponse?.fetching ?  <Spinner size={"sm"} /> : 'Delete'} 
+                                {deletepartnerwithusResponse?.fetching ? <Spinner size={"sm"} /> : 'Delete'}
                             </button>
 
                         </div>

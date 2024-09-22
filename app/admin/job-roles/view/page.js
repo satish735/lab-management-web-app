@@ -14,6 +14,8 @@ import useInputComponent from "@/hooks/useInputComponent";
 import uuid from "react-uuid";
 import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+
 const CreateJobRole = ({ searchParams }) => {
     const router = useRouter();
 
@@ -93,7 +95,7 @@ const CreateJobRole = ({ searchParams }) => {
     const submit = () => {
 
         let titleValidate = JobRoleValidater(JobRole.enteredValue);
-       
+
         let flag = false
         let data = (JobRoleData ?? []).map((item) => {
             if (!item.job_position || item.job_position === '') {
@@ -164,7 +166,20 @@ const CreateJobRole = ({ searchParams }) => {
                     { label: "Add Job Vacancies", link: "/admin/job-posts/create", active: true },
                 ]}
             />
-            <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
+
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getBodyPartResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getBodyPartResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+            {!getBodyPartResponse?.fetching && <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
 
 
 
@@ -272,7 +287,7 @@ const CreateJobRole = ({ searchParams }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     );
 };

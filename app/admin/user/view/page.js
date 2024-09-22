@@ -10,6 +10,7 @@ import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import moment from "moment";
+import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 
 const Userupdate = ({ searchParams }) => {
     const router = useRouter();
@@ -397,21 +398,25 @@ const Userupdate = ({ searchParams }) => {
 
     return (
         <>
+            <BreadcrumbDiv
+                options={[
+                    { label: "Home", link: "/admin" },
+                    { label: "User", link: "/admin/user" },
+                    { label: "Update", active: true },
+                ]}
+            />
             {(getuserResponse?.fetching || centerResponse?.fetching) ? <div className="my-4 text-center" ><Spinner size={"xl"} /></div> : <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>
 
 
+                <h1 className="main-heading">Update Admin User</h1>
 
-                <h3 className=" mb-5  text-center" style={{ fontSize: "1.2rem" }} >
-
-                    Update Admin User</h3>
-
-                <div className=" "  >
-                    <div className="my-2" >
+                <div className=" row my-3"  >
+                    <div className="my-2 col-sm-3 col-12" >
 
                         <SingleImageDropZone file={imageFile} setFile={setImageFile} />
                     </div>
 
-                    <div className="row  ">
+                    <div className="row col-sm-9 col-12 ">
 
 
                         <div className="col-lg-4 col-md-4 col-sm-12">

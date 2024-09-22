@@ -286,15 +286,12 @@ export default function Home() {
   };
 
 
-console.log(StateInput?.enteredValue);
-
-
   return (
     <div>
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Blogs", link: "/admin/blogs" },
+          { label: "Centers", link: "/admin/centers" },
           { label: "Create", active: true },
         ]}
       />

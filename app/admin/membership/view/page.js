@@ -15,10 +15,12 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+
 export default function Home({ searchParams }) {
     const router = useRouter();
 
- 
+
     const [MemberShipResponse, MemberShipHandler] = useAPI(
         {
             url: `/membership/${searchParams?.id}`,
@@ -90,7 +92,7 @@ export default function Home({ searchParams }) {
         return true;
     };
 
- 
+
 
     const discountOnPackagePercentage = useInputComponent('');
     const discountOnPackagePercentageValidater = (value) => {
@@ -141,12 +143,12 @@ export default function Home({ searchParams }) {
         var nameIsValid = nameInputValidater(nameInput?.enteredValue);
         var validityIsValid = validityValidater(validity?.enteredValue);
         var priceIsValid = priceValidater(price?.enteredValue);
-         var discountOnPackagePercentageIsValid = discountOnPackagePercentageValidater(discountOnPackagePercentage?.enteredValue);
+        var discountOnPackagePercentageIsValid = discountOnPackagePercentageValidater(discountOnPackagePercentage?.enteredValue);
         var typeIsValid = typeSelectValidater(type);
         var descriptionIsValid = descriptionValidater(description.enteredValue);
         var image = imageFile?.filePath;
 
-        if (!nameIsValid || !validityIsValid || !priceIsValid  || !discountOnPackagePercentageIsValid || !typeIsValid || !descriptionIsValid || !image) {
+        if (!nameIsValid || !validityIsValid || !priceIsValid || !discountOnPackagePercentageIsValid || !typeIsValid || !descriptionIsValid || !image) {
             toast.error("Please check all validations before continuing!");
             return;
         }
@@ -158,7 +160,7 @@ export default function Home({ searchParams }) {
                     banner: imageFile?.filePath ?? '',
                     validity: Number(validity.enteredValue) ?? null,
                     price: Number(price?.enteredValue) ?? null,
-                     discountOnPackagePercentage: Number(discountOnPackagePercentage?.enteredValue) ?? null,
+                    discountOnPackagePercentage: Number(discountOnPackagePercentage?.enteredValue) ?? null,
                     // termsAndConditions: requestBody?.termsAndConditions || "",
                     description: description.enteredValue ?? "",
                     // benefits: requestBody?.benefits || "",
@@ -186,7 +188,7 @@ export default function Home({ searchParams }) {
             nameInput.setEnteredValue(e?.name)
             validity.setEnteredValue(e?.validity)
             price.setEnteredValue(e?.price)
-             discountOnPackagePercentage.setEnteredValue(e?.discountOnPackagePercentage)
+            discountOnPackagePercentage.setEnteredValue(e?.discountOnPackagePercentage)
             settype(e?.type)
             description.setEnteredValue(e?.description)
             setImageFile({ filePath: e?.banner, url: process.env.NEXT_PUBLIC_BUCKET_URL + e?.banner, status: 'original' })
@@ -201,7 +203,7 @@ export default function Home({ searchParams }) {
         }
     );
 
- 
+
     return (
         <div>
             <BreadcrumbDiv
@@ -211,7 +213,20 @@ export default function Home({ searchParams }) {
                     { label: "Create", active: true },
                 ]}
             />
-            <div className="admin-content-box" style={{ minHeight: '100%' }}>
+
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getFaqResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getFaqResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+           {getFaqResponse?.fetching && <div className="admin-content-box" style={{ minHeight: '100%' }}>
                 <h1 className="main-heading mb-5">
                     {searchParams?.type === 'view' ? 'Member Ship' : 'Update Member Ship'}
 
@@ -293,7 +308,7 @@ export default function Home({ searchParams }) {
                                 </div>
 
 
-                                
+
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 ">
 
@@ -398,7 +413,7 @@ export default function Home({ searchParams }) {
 
                     </div>
                 </form>
-            </div>
+            </div>}
         </div>
     );
 }

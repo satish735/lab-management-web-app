@@ -167,17 +167,17 @@ const defaultSideMenus = [
           {
             type: "sub",
             label: "Patients",
-            link: "/admin/user"
+            link: "/admin"
           },
-          {
-            type: "sub",
-            label: "Staff Members",
-            link: "/admin/teammember"
-          },
+          // {
+          //   type: "sub",
+          //   label: "Staff Members",
+          //   link: "/admin/teammember"
+          // },
           {
             type: "sub",
             label: "Admin Users",
-            link: "/admin/admin-users"
+            link: "/admin/user"
           },
         ],
       },

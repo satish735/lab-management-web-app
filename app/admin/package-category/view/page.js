@@ -12,6 +12,8 @@ import { File } from "lucide-react";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+
 import { Spinner } from "reactstrap";
 const EditpackagecategoryMainPage = ({ searchParams }) => {
     const router = useRouter();
@@ -134,7 +136,21 @@ const EditpackagecategoryMainPage = ({ searchParams }) => {
                 ]}
             />
 
-            {getpackagecategoryResponse?.fetching ? <div className="text-center my-5" ><Spinner size={"lg"} /> </div> : <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
+
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getpackagecategoryResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getpackagecategoryResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+
+            {!getpackagecategoryResponse?.fetching && <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
 
                 <h3 className="mb-4 px-3 py-2 mt-2  " >
 

@@ -17,7 +17,8 @@ import { Spinner } from "reactstrap";
 
 import { toast } from "react-hot-toast";
 import moment from "moment";
-
+import BreadcrumbDiv from "@/components/BreadcrumbDiv";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 const Member = ({ searchParams }) => {
 
@@ -319,7 +320,27 @@ const Member = ({ searchParams }) => {
 
     return (
         <>
-            {getteammeberResponse?.fetching ? <div className="my-4 text-center" > <Spinner size={"xl"} /></div> : <div className="bg-white p-3">
+
+            <BreadcrumbDiv
+                options={[
+                    { label: "Home", link: "/admin" },
+                    { label: "Team member", link: "/admin/teammember" },
+                    { label: "Update", active: true },
+                ]}
+            />
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getteammeberResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getteammeberResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+            {!getteammeberResponse?.fetching && <div className="bg-white p-3">
                 <h3 className="mb-4 mt-2">Update Team Member Details</h3>
 
                 <div className="row my-3">

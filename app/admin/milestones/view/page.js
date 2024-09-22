@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
 import BreadcrumbDiv from '@/components/BreadcrumbDiv'
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 
 const Page = ({ searchParams }) => {
 
@@ -23,11 +24,11 @@ const Page = ({ searchParams }) => {
         },
         (e) => {
 
-         
-    TitleInput.setEnteredValue(e?.title ?? "")
-    DescriptionInput?.setEnteredValue(e?.desc ?? "")
-    YearInput?.setEnteredValue(e?.year ?? "")
-console.log("eeeeeeeeeeeee",e)
+
+            TitleInput.setEnteredValue(e?.title ?? "")
+            DescriptionInput?.setEnteredValue(e?.desc ?? "")
+            YearInput?.setEnteredValue(e?.year ?? "")
+            console.log("eeeeeeeeeeeee", e)
         },
         (e) => {
 
@@ -105,7 +106,7 @@ console.log("eeeeeeeeeeeee",e)
                 body: {
                     title: TitleInput.enteredValue ?? '',
                     desc: DescriptionInput.enteredValue ?? '',
-                    year:  YearInput.enteredValue ?? '',
+                    year: YearInput.enteredValue ?? '',
                 }
             })
         }
@@ -166,15 +167,28 @@ console.log("eeeeeeeeeeeee",e)
     return (
         <>
 
-<BreadcrumbDiv
-                    options={[
-                        { label: "Home", link: "/admin" },
-                        { label: "Milestones", link: "/admin/milestones" },
-                        { label: "Update Milestone", link: "/admin/milestones/view", active: true },
-                    ]}
-                />
+            <BreadcrumbDiv
+                options={[
+                    { label: "Home", link: "/admin" },
+                    { label: "Milestones", link: "/admin/milestones" },
+                    { label: "Update Milestone", link: "/admin/milestones/view", active: true },
+                ]}
+            />
 
-            {getteammeberResponse?.fetching ? <div className="my-4 text-center" > <Spinner size={"xl"} /></div> : <div className="bg-white p-3">
+
+            <LoaderGeneral
+                noContentMessage="records are not found"
+                state={
+                    getteammeberResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(getteammeberResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+
+            {!getteammeberResponse?.fetching && <div className="bg-white p-3">
                 <h3 className="mb-4 mt-2">Update Milestone Details</h3>
 
                 <div className="row my-3">
@@ -194,7 +208,7 @@ console.log("eeeeeeeeeeeee",e)
 
                             validateHandler={TitleInputValidater}
                             reset={TitleInput.reset}
-                            isRequired={searchParams?.type == 'view'? true : false}
+                            isRequired={searchParams?.type == 'view' ? true : false}
                         />
 
 
@@ -216,13 +230,13 @@ console.log("eeeeeeeeeeeee",e)
                             type={'number'}
                             validateHandler={YearInputValidater}
                             reset={YearInput.reset}
-                            isRequired={searchParams?.type == 'view'? true : false}                        />
+                            isRequired={searchParams?.type == 'view' ? true : false} />
                     </div>
                     <div className="col-lg-12 col-md-12 col-sm-12">
 
                         <InputTextArea
                             label="Description"
-                            className="loginInputs" 
+                            className="loginInputs"
                             setValue={DescriptionInput.setEnteredValue}
                             value={DescriptionInput.enteredValue}
                             feedbackMessage={DescriptionInput.feedbackMessage}
@@ -231,7 +245,7 @@ console.log("eeeeeeeeeeeee",e)
                             setIsTouched={DescriptionInput.setIsTouched}
                             validateHandler={DescriptionInputValidater}
                             reset={DescriptionInput.reset}
-                            isRequired={searchParams?.type == 'view'? true : false}                        />
+                            isRequired={searchParams?.type == 'view' ? true : false} />
                     </div>
 
 
