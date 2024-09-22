@@ -10,7 +10,7 @@ export const POST = async (request, { params }) => {
       gender: requestBody?.gender,
       dob: requestBody?.dob,
       relation: requestBody?.relation,
-      loginId: requestBody?.loginId,
+      loginId: requestBody?.loginId ?? "66f068edbc706deb4886b17f",
     });
 
     await UserDetailsnew.save();
@@ -18,7 +18,8 @@ export const POST = async (request, { params }) => {
 
 
 
-    return new Response(UserDetailsnew, { status: 200 });
+    return new Response(JSON.stringify(UserDetailsnew), { status: 200 });
+
   } catch (error) {
     console.log("error", error)
     return new Response("Errorr", { status: 500 });

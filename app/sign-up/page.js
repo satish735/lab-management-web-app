@@ -1,30 +1,37 @@
-"use client";
+'use client'
+
 import { useEffect, useState } from "react";
 import "./LoginForm.css";
 import "@/app/blog/blog.css"
 import { useRouter } from "next/navigation";
 import Loader from "@/components/essentials/Loader";
-// import DobInput from "./login-inputs/DobInput";
 import toast from "react-hot-toast";
 import useAPI from "@/hooks/useAPI";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import useInputComponent from '@/hooks/useInputComponent';
 import InputWithAddOn from '@/components/formInput/InputWithAddOn';
 import InputSelect from "@/components/formInput/select/InputSelect";
+import { signOut, useSession } from "next-auth/react";
+
 const LoginForm = () => {
   const router = useRouter();
 
-
+  const session = useSession()
   const [LoginUserResponse, LoginUserHandler] = useAPI(
     {
       url: "/member/create",
       method: "post",
     },
     (e) => {
-      refresh()
-      reset()
+      if (e) {
+        session.update({
+          ...session?.data, user:
+            { ...session?.data?.user, userID: e?._id, email: e?.email, name: e?.name, role: "user" }
+        })
+        router.push("/")
+      }
 
-      return toast.success("Member has been add successfully");
+      return toast.success("User Information has been Added successfully");
     },
     (e) => {
 
@@ -126,8 +133,6 @@ const LoginForm = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
-
-
     var isFullnameValidater = FullnameValidater(Name.enteredValue)
     var isDOBValidater = DOBValidater(DOB.enteredValue)
     var isGenderTypeSelectValidater = GenderTypeSelectValidater(GenderType)
@@ -146,7 +151,7 @@ const LoginForm = () => {
           gender: GenderType,
           email: Email.enteredValue,
           relation: "self",
-          loginId: ""
+          loginId: session?.data?.user?.id
         }
       })
     }

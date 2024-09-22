@@ -13,6 +13,8 @@ const UserLayout = ({ children }) => {
   const session = useSession()
   const router = useRouter()
   var user = session?.data?.user
+
+  console.log("jjjjjjjj", user)
   useEffect(() => {
     switch (session?.status) {
       case "authenticated":

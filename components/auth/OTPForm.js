@@ -1,4 +1,5 @@
-"use client";
+'use client'
+
 import { useEffect, useState } from "react";
 import "./LoginForm.css";
 import { useRouter } from "next/navigation";

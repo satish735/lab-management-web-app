@@ -1,3 +1,5 @@
+'use client'
+
 import OTPForm from "@/components/auth/OTPForm";
 
 export default function Home({ params = {}, searchParams = {} }) {
