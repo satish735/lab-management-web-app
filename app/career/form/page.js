@@ -1,18 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import "@/app/blog/blog.css"
-
 import Banner from "@/components/customdesign/Banner.jsx";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import transformErrorDefault from "@/utils/transformErrorDefault";
-import JobOpenings from "@/components/job-openings/JobOpenings";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import MultipleDropZone from "@/components/drop-zones/MultipleDropZone";
 import useInputComponent from "@/hooks/useInputComponent";
-import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
-import { Placeholder, Spinner } from "reactstrap";
+import { Spinner } from "reactstrap";
 import './career.css'
 import uuid from "react-uuid";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
@@ -149,8 +145,12 @@ const Form = ({ searchParams }) => {
 
     const Email = useInputComponent();
     const EmailValidater = (value) => {
-        if (!value || value == "") {
-            Email.setFeedbackMessage("Required Field!");
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Username validation regex: Alphanumeric characters, underscores, and hyphens allowed
+
+        if (!emailRegex.test(value)) {
+            Email.setFeedbackMessage("Email you entered is invalid!");
             Email.setMessageType("error");
             return false;
         }
@@ -165,6 +165,12 @@ const Form = ({ searchParams }) => {
             Phone.setFeedbackMessage(
                 "Field required!"
             );
+            Phone.setMessageType("error");
+            return false;
+        }
+
+        if (value.length!=10) {
+            Phone.setFeedbackMessage("Enter 10 digit number!");
             Phone.setMessageType("error");
             return false;
         }
@@ -358,49 +364,49 @@ const Form = ({ searchParams }) => {
         );
 
 
-        if(isexperienced){
+        if (isexperienced) {
 
 
-        if (!FirstNameValidate || !LastNameValidate || !PhoneValidate || !EmailValidate || !DateOfBirthValidate || !ExperienceYearValidate || !ExperienceMonthValidate || !CurrentSalaryValidate || !ExpectedSalaryValidate || !ExpectedSalaryValidate || !AvailableToJoinValidate || !CurrentLocationValidate || !SkillValidate || !GenderValidate || !JobRoleValidate) {
+            if (!FirstNameValidate || !LastNameValidate || !PhoneValidate || !EmailValidate || !DateOfBirthValidate || !ExperienceYearValidate || !ExperienceMonthValidate || !CurrentSalaryValidate || !ExpectedSalaryValidate || !ExpectedSalaryValidate || !AvailableToJoinValidate || !CurrentLocationValidate || !SkillValidate || !GenderValidate || !JobRoleValidate) {
 
+            }
+
+            else {
+
+                if ((addResume ?? [])?.length == 0) {
+                    return toast.error("Add Resume to proceed.")
+                }
+                else {
+
+                    getCareerHandler({
+                        body: {
+                            firstName: FirstName?.enteredValue ?? '',
+                            lastName: LastName?.enteredValue ?? '',
+                            phone: Phone?.enteredValue ?? '',
+                            email: Email?.enteredValue ?? '',
+                            dateOfBirth: DateOfBirth?.enteredValue ?? '',
+                            experienceYear: ExperienceYear?.enteredValue ?? '',
+                            currentSalary: CurrentSalary?.enteredValue ?? '',
+                            expectedSalary: ExpectedSalary?.enteredValue ?? '',
+                            availableToJoin: AvailableToJoin?.enteredValue ?? '',
+                            currentLocation: CurrentLocation?.enteredValue ?? '',
+                            experienceMonth: ExperienceMonth?.enteredValue ?? '',
+                            skill: Skill?.enteredValue ?? '',
+                            gender: Gender ?? '',
+                            forOpening: JobRole ?? '',
+                            isExperienced: isexperienced,
+                            resume: addResume ?? [],
+                            addAdditionalDocuments: addAdditionalDocuments ?? [],
+                            experienceData: ExperienceData
+                        }
+                    })
+                }
+            }
         }
 
         else {
-
-            if (  (addResume ?? [])?.length == 0) {
-                return toast.error("Add Resume to proceed.")
-            }
-            else{
-
-            getCareerHandler({
-                body: {
-                    firstName: FirstName?.enteredValue ?? '',
-                    lastName: LastName?.enteredValue ?? '',
-                    phone: Phone?.enteredValue ?? '',
-                    email: Email?.enteredValue ?? '',
-                    dateOfBirth: DateOfBirth?.enteredValue ?? '',
-                    experienceYear: ExperienceYear?.enteredValue ?? '',
-                    currentSalary: CurrentSalary?.enteredValue ?? '',
-                    expectedSalary: ExpectedSalary?.enteredValue ?? '',
-                    availableToJoin: AvailableToJoin?.enteredValue ?? '',
-                    currentLocation: CurrentLocation?.enteredValue ?? '',
-                    experienceMonth: ExperienceMonth?.enteredValue ?? '',
-                    skill: Skill?.enteredValue ?? '',
-                    gender: Gender ?? '',
-                    forOpening: JobRole ?? '',
-                    isExperienced: isexperienced,
-                    resume: addResume ?? [],
-                    addAdditionalDocuments: addAdditionalDocuments ?? [],
-                    experienceData: ExperienceData
-                }
-            })
+            toast.error('Accept Terms & Conditions to proceed.')
         }
-    }
-    }
-
-    else{
-        toast.error('Accept Terms & Conditions to proceed.')
-    }
 
     }
 
@@ -969,7 +975,7 @@ const ExperienceBlog = ({ experienceItem, key, setExperienceData, length }) => {
         }
     }, [experienceItem])
 
- 
+
     return (
         <>
             <div className="col-lg-10 col-md-10 col-sm-12 px-3 py-3 my-3" style={{ backgroundColor: '#ced6d93b' }} key={key}>

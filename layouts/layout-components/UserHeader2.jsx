@@ -33,16 +33,11 @@ import toast from "react-hot-toast";
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
-  //  const updateLocalStorage = (key, value) => {
-  //   localStorage.setItem(key, value);
-
-  //   setLocalStorageData(localStorage.getItem(key));
-  // };
+ 
   const router = useRouter();
 
   const session = useSession()
 
-  console.log(session)
 
   const [localStorageData, setLocalStorageData] = useState();
   useEffect(() => {
@@ -107,11 +102,9 @@ const UserHeader2 = () => {
 
     },
     (e) => {
-      // const sessionData = session?.data?.user
-
-      // console.log(sessionData ?? {});
-
-      // session.update({ selectedCity:"jaoiput" } })
+      console.log(e);
+      
+       session.update({ selectedCity:e?.[0]?.selectedLocation } )
 
 
       return e
@@ -229,8 +222,7 @@ const UserHeader2 = () => {
             { label: "Lab Acquisition", href: "/partner-with-us/lab-acquisition" },
             { label: "Hospital Lab Management", href: "/partner-with-us/hospital-lab-management" },
             { label: "Corporate Wellness", href: "/partner-with-us/corporate-wellness" },
-            { label: "Regional Partner", href: "/partner-with-us/regional-partner" },
-          ],
+           ],
         },
       ],
     },

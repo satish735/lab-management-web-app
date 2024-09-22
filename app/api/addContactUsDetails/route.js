@@ -14,8 +14,9 @@ export const POST = async (request, { params }) => {
             interestedIn: requestBody?.interestedIn || "",
             city: requestBody?.city || "",
             message: requestBody?.message || "",
+            status: 'New'
         });
- 
+
 
         await EnquireNew.save();
         return new Response(EnquireNew, { status: 200 });

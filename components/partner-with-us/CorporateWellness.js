@@ -9,7 +9,7 @@ const CorporateWellness = ({content}) => {
 
             <div className='col-lg-8 col-md-8 col-sm-12 px-2'>
             {content?.text ? (
-                    <div dangerouslySetInnerHTML={{ __html: content.text }} />
+                    <div className='ckeditor-content-div'  dangerouslySetInnerHTML={{ __html: content.text }} />
                 ) : (
                     <p>Loading content...</p> 
                 )}

@@ -18,12 +18,12 @@ const LabTest = () => {
     const [locationSelected, setlocationSelected] = useState();
 
 
-    
+
     const [bodyPartValue, setBodyPartValue] = useState([])
     const [ConditionsValue, setConditionsValue] = useState([])
 
 
-    
+
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
             url: "/getTestDetails",
@@ -360,7 +360,7 @@ const FiltersList = ({ item, setBodyPartValue }) => {
                 </div>
 
                 <div  >
-                    {item.label}
+                    {(item.label)?.charAt(0)?.toUpperCase() + (item.label)?.slice(1)}
                 </div>
             </div>
 
@@ -369,48 +369,4 @@ const FiltersList = ({ item, setBodyPartValue }) => {
     )
 }
 
-let filter_body_list = [
-    { field: 'Heart' },
-    { field: 'Kidney' },
-    { field: 'Liver' },
-    { field: 'Thyroid' },
-    { field: 'Brain' },
-    { field: 'Intestines' },
-    { field: 'Joints' },
-    { field: 'Pancreas' },
-    { field: 'Stomach' },
-    { field: 'Muscle' },
-    { field: 'Male Reproductive System ' },
-
-
-
-]
-
-let filter_health_list = [
-    { field: 'Deabetes' },
-    { field: 'Heart Diseses' },
-    { field: 'Infection' },
-    { field: 'Hypertension' },
-    { field: 'Anemia' },
-    { field: 'Cancer' },
-    { field: 'Infertility' },
-    { field: 'Fever' },
-    { field: 'AIDS' },
-    { field: 'Allergy' },
-    { field: 'Obesity' },
-
-
-
-]
-
-
-let popular_test = [{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-    // { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-    // { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-    // { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
-    // { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' }
-
-]
+ 

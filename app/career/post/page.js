@@ -201,7 +201,7 @@ const Post = ({ searchParams }) => {
                             <p className='mb-1' style={{ fontSize: '1.3rem', fontWeight: '700' }}>
                                 Experience
                             </p>
-                            <div dangerouslySetInnerHTML={{ __html: getJobsResponse?.data?.experience }} >
+                            <div className='ckeditor-content-div' dangerouslySetInnerHTML={{ __html: getJobsResponse?.data?.experience }} >
                                 {/* {getdata?.ckdescription ?? ""} */}
                             </div>
                         </div>

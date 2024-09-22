@@ -15,6 +15,7 @@ const EnquirySchema = new Schema({
   isExperienced: { type: Boolean },
   otherDetails: { type: String },
   enquireType:{type:String},
+  status:{type:String},
   is_delete: { type: Boolean, default: false }
 });
 

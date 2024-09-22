@@ -10,6 +10,7 @@ const ContactUsSchema = new Schema({
   interestedIn: { type: String },
   message: { type: String },
   city: { type: String, required: true },
+  status: { type: String, required: true },
   is_delete: { type: Boolean, default: false }
 });
 

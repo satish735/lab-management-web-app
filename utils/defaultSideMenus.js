@@ -129,11 +129,7 @@ const defaultSideMenus = [
             label: "Job Posts",
             link: "/admin/job-posts"
           },
-          // {
-          //   type: "sub",
-          //   label: "Job Roles",
-          //   link: "/admin/job-roles"
-          // },
+
         ],
       },
       {
@@ -154,8 +150,46 @@ const defaultSideMenus = [
           },
           {
             type: "sub",
-            label:"Partner with Us",
-            link:"/admin/partnerwithus"
+            label: "Partner With Us",
+            link: "/admin/partnerwithus",
+
+          }
+          ,
+          {
+            type: "main",
+            label: "Partner With Us Response",
+            menu: [
+              {
+                type: "sub",
+                label: "Franchising Opportunity",
+                link: "/admin/franchising-opportunity"
+              },
+              {
+                type: "sub",
+                label: "Lab Acquistion",
+                link: "/admin/lab-acquistion"
+              },
+              {
+                type: "sub",
+                label: "Hospital Lab Management",
+                link: "/admin/hospital-lab-management",
+
+              }
+              ,
+              {
+                type: "sub", 
+                label: "Corporate Wellness",
+                link: "/admin/corporate-wellness",
+
+              }
+
+            ],
+          }
+          ,
+          {
+            type: "sub",
+            label: "Contact Us Details",
+            link: "/admin/contact-us"
           }
         ],
       },
@@ -167,7 +201,7 @@ const defaultSideMenus = [
           {
             type: "sub",
             label: "Patients",
-            link: "/admin"
+            link: "/admins"
           },
           // {
           //   type: "sub",
@@ -191,7 +225,7 @@ const defaultSideMenus = [
             label: "Centers",
             link: "/admin/centers"
           }
-   
+
 
         ],
       },

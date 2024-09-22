@@ -110,13 +110,26 @@ const ContactUs = () => {
         if (!email) {
             flag = false
             setisemail(true)
-
         }
-        if (!phone) {
+        else {
+            // Email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailRegex.test(email)) {
+                flag = false
+                setisemail(true)
+            }
+            else {
+
+            }
+        }
+        if (!phone || phone?.length < 10) {
             flag = false
             setisphone(true)
 
         }
+
 
         if (!city) {
             flag = false
@@ -125,15 +138,7 @@ const ContactUs = () => {
         }
 
         if (flag) {
-            console.log({
-                name: name ?? "",
-                phone: phone ?? "",
-                interestedIn: interestedIn ?? "",
-                email: email ?? "",
-                city: city ?? '',
-                message: remark ?? '',
 
-            });
 
             getContactWithUsHandler({
                 body: {
@@ -259,21 +264,24 @@ const ContactUs = () => {
                                                 type="number"
                                                 value={phone ?? ''}
                                                 onChange={(e) => {
-                                                    if (e?.target?.value) {
+                                                    if ((e?.target?.value)?.length <= 10) {
 
-                                                        if (isphone === true) {
-                                                            setisphone(false)
-                                                        }
+                                                        if (e?.target?.value) {
 
-                                                    }
-                                                    else {
-
-                                                        if (isphone === false) {
-                                                            setisphone(true)
+                                                            if (isphone === true) {
+                                                                setisphone(false)
+                                                            }
 
                                                         }
+                                                        else {
+
+                                                            if (isphone === false) {
+                                                                setisphone(true)
+
+                                                            }
+                                                        }
+                                                        setphone(e.target.value)
                                                     }
-                                                    setphone(e.target.value)
                                                 }}
                                                 style={{ borderRadius: '8px' }}
                                             />

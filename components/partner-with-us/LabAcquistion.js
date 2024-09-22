@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Spinner } from 'reactstrap'
 
-const LabAcquistion = ({content}) => {
+const LabAcquistion = ({ content }) => {
 
 
     const [ownerName, setName] = useState()
@@ -60,6 +60,7 @@ const LabAcquistion = ({content}) => {
             setcity()
             setstate()
             setremark()
+            setage()
 
         },
         (e) => {
@@ -88,11 +89,29 @@ const LabAcquistion = ({content}) => {
             setisemail(true)
 
         }
-        if (!phone) {
+        else {
+            // Email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailRegex.test(email)) {
+                flag = false
+                setisemail(true)
+            }
+            else {
+
+            }
+        }
+        if (!phone || phone?.length < 10) {
             flag = false
             setisphone(true)
 
         }
+        if (alternativeNumber ? alternativeNumber?.length < 10 : false) {
+            flag = false
+            setisalternativeNumber(true)
+        }
+
         if (!currentLabName) {
             flag = false
             setiscurrentLabName(true)
@@ -116,6 +135,13 @@ const LabAcquistion = ({content}) => {
         }
 
 
+        if (!alternativeNumber) {
+
+            setisalternativeNumber(false)
+
+        }
+
+
 
 
         if (flag) {
@@ -131,6 +157,7 @@ const LabAcquistion = ({content}) => {
                     state: state ?? "",
                     isExperienced: isexperienced,
                     otherDetails: remark || "",
+                    age: age || "",
 
                 }
             })
@@ -152,10 +179,10 @@ const LabAcquistion = ({content}) => {
 
 
             <div className='col-lg-8 col-md-8 col-sm-12 px-2'>
-            {content?.text ? (
-                    <div dangerouslySetInnerHTML={{ __html: content.text }} />
+                {content?.text ? (
+                    <div className='ckeditor-content-div' dangerouslySetInnerHTML={{ __html: content.text }} />
                 ) : (
-                    <p>Loading content...</p> 
+                    <p>Loading content...</p>
                 )}
             </div>
 
@@ -243,21 +270,26 @@ const LabAcquistion = ({content}) => {
                                         type="number"
                                         value={phone ?? ''}
                                         onChange={(e) => {
-                                            if (e?.target?.value) {
 
-                                                if (isphone === true) {
-                                                    setisphone(false)
-                                                }
+                                            if ((e?.target?.value)?.length <= 10) {
 
-                                            }
-                                            else {
+                                                if (e?.target?.value) {
 
-                                                if (isphone === false) {
-                                                    setisphone(true)
+                                                    if (isphone === true) {
+                                                        setisphone(false)
+                                                    }
 
                                                 }
+                                                else {
+
+                                                    if (isphone === false) {
+                                                        setisphone(true)
+
+                                                    }
+                                                }
+                                                setphone(e.target.value)
                                             }
-                                            setphone(e.target.value)
+
                                         }}
                                         style={{ borderRadius: '8px' }}
                                     />
@@ -270,7 +302,7 @@ const LabAcquistion = ({content}) => {
                                         className="input"
                                         placeholder="Alternative Number"
                                         label=""
-                                        type="string"
+                                        type="number"
                                         value={alternativeNumber ?? ''}
                                         onChange={(e) => {
                                             setalternativeNumber(e.target.value)
@@ -286,7 +318,7 @@ const LabAcquistion = ({content}) => {
                                         className="input"
                                         placeholder="Age"
                                         label=""
-                                        type="string"
+                                        type="number"
                                         value={age ?? ''}
                                         onChange={(e) => {
                                             if (e?.target?.value) {

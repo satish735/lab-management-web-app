@@ -20,6 +20,7 @@ export const POST = async (request, { params }) => {
             isExperienced: requestBody?.isExperienced || false,
             otherDetails: requestBody?.otherDetails || "",
             enquireType: requestBody?.enquireType || "",
+            status:'New'
         });
 
 

@@ -18,7 +18,7 @@ const FranchisingOpport = ({ content }) => {
 
             <div className='col-lg-8 col-md-8 col-sm-12 px-2'  >
                 {content?.text ? (
-                    <div dangerouslySetInnerHTML={{ __html: content.text }} />
+                    <div className='ckeditor-content-div' dangerouslySetInnerHTML={{ __html: content.text }} />
                 ) : (
                     <p>Loading content...</p> // Fallback or placeholder while content is loading
                 )}
@@ -105,10 +105,27 @@ export const EnquireForm = ({ enquireType }) => {
             setisemail(true)
 
         }
-        if (!phone) {
+        else {
+            // Email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailRegex.test(email)) {
+                flag = false
+                setisemail(true)
+            }
+            else {
+
+            }
+        }
+        if (!phone || phone?.length < 10) {
             flag = false
             setisphone(true)
 
+        }
+        if (alternativeNumber ? alternativeNumber?.length < 10 : false) {
+            flag = false
+            setisalternativeNumber(true)
         }
         if (!organizationName) {
             flag = false
@@ -245,21 +262,24 @@ export const EnquireForm = ({ enquireType }) => {
                                 type="number"
                                 value={phone ?? ''}
                                 onChange={(e) => {
-                                    if (e?.target?.value) {
+                                    if ((e?.target?.value)?.length <= 10) {
 
-                                        if (isphone === true) {
-                                            setisphone(false)
-                                        }
+                                        if (e?.target?.value) {
 
-                                    }
-                                    else {
-
-                                        if (isphone === false) {
-                                            setisphone(true)
+                                            if (isphone === true) {
+                                                setisphone(false)
+                                            }
 
                                         }
+                                        else {
+
+                                            if (isphone === false) {
+                                                setisphone(true)
+
+                                            }
+                                        }
+                                        setphone(e.target.value)
                                     }
-                                    setphone(e.target.value)
                                 }}
                                 style={{ borderRadius: '8px' }}
                             />
@@ -275,7 +295,10 @@ export const EnquireForm = ({ enquireType }) => {
                                 type="string"
                                 value={alternativeNumber ?? ''}
                                 onChange={(e) => {
-                                    setalternativeNumber(e.target.value)
+                                    if ((e?.target?.value)?.length <= 10) {
+
+                                        setalternativeNumber(e.target.value)
+                                    }
                                 }}
                                 style={{ borderRadius: '8px' }}
                             />
