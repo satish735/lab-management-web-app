@@ -20,7 +20,7 @@ const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
     const FullnameValidater = (value) => {
         if (value === "" || !value) {
             Name.setFeedbackMessage(
-                "Field required!"
+                "Field required!" 
             );
             Name.setMessageType("error");
             return false;
@@ -211,7 +211,8 @@ const reset = ()=> {
                         dob: DOB.enteredValue,
                         gender: GenderType,
                         email: Email.enteredValue,
-                        relation: relationType
+                        relation: relationType,
+                        
                     }
                 })
             } else {
@@ -222,7 +223,8 @@ const reset = ()=> {
                         dob: DOB.enteredValue,
                         gender: GenderType,
                         email: Email.enteredValue,
-                        relation: relationType
+                        relation: relationType,
+                        loginId:""
                     }
                 })
             }

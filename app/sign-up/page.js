@@ -8,48 +8,149 @@ import Loader from "@/components/essentials/Loader";
 import toast from "react-hot-toast";
 import useAPI from "@/hooks/useAPI";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import useInputComponent from '@/hooks/useInputComponent';
+import InputWithAddOn from '@/components/formInput/InputWithAddOn';
+import InputSelect from "@/components/formInput/select/InputSelect";
 const LoginForm = () => {
   const router = useRouter();
 
-  const [loginAPIResponse, loginAPIHandler] = useAPI(
+
+  const [LoginUserResponse, LoginUserHandler] = useAPI(
     {
-      url: "/signup",
+      url: "/member/create",
       method: "post",
     },
     (e) => {
+      refresh()
+      reset()
 
+      return toast.success("Member has been add successfully");
     },
     (e) => {
-      toast.error(
-        transformErrorDefault("Something went wrong while Genrating OTP!", e)
+
+      return toast.error(
+        transformErrorDefault(
+          "Something went wrong while creating Member!",
+          e
+        )
       );
       return e;
     }
   );
 
 
-  const [name, setName] = useState()
-  const [email, setemail] = useState()
-  const [Dob, setDob] = useState()
 
 
 
-  // validation input 
+  const Name = useInputComponent('');
+  const FullnameValidater = (value) => {
+    if (value === "" || !value) {
+      Name.setFeedbackMessage(
+        "Field required!"
+      );
+      Name.setMessageType("error");
+      return false;
+    }
+    Name.setFeedbackMessage("");
+    Name.setMessageType("none");
+    return true;
+  };
 
-  const [isname, setisname] = useState(false)
-  const [isemail, setisemail] = useState(false)
-  const [isDob, setisDob] = useState(false)
+
+
+  const DOB = useInputComponent('');
+  const DOBValidater = (value) => {
+    if (value === "" || !value) {
+      DOB.setFeedbackMessage(
+        "Field required!"
+      );
+      DOB.setMessageType("error");
+      return false;
+    }
+    DOB.setFeedbackMessage("");
+    DOB.setMessageType("none");
+    return true;
+  };
+
+
+  const [GenderType, setGenderType] = useState();
+  const [GenderTypeIsTouch, setGenderTypeIsTouch] = useState(false);
+
+  const [GenderTypeMessage, setGenderTypeMessage] = useState({
+    type: "info",
+    message: "",
+  });
+  const GenderTypeSelectValidater = (value) => {
+    if (value === "" || !value) {
+      setGenderTypeMessage({ type: "error", message: "Field Required!" });
+      return false;
+    }
+    setGenderTypeMessage({ type: "info", message: "" });
+
+    return true;
+  };
+
+  const genderoption = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+  ];
+
+
+
+  const Email = useInputComponent("");
+
+  const EmailValidater = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (value === "" || !value) {
+      Email.setFeedbackMessage("Required!");
+      Email.setMessageType("error");
+      return false;
+    }
+
+    if (!emailRegex.test(value)) {
+      Email.setFeedbackMessage("Invalid email!");
+      Email.setMessageType("error");
+      return false;
+    }
+
+    Email.setFeedbackMessage("");
+    Email.setMessageType("none");
+    return true;
+  };
+
+
+
 
 
 
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    await loginAPIHandler({
-      body: {
-        // Dob: DobNumber,
-      },
-    });
+
+    var isFullnameValidater = FullnameValidater(Name.enteredValue)
+    var isDOBValidater = DOBValidater(DOB.enteredValue)
+    var isGenderTypeSelectValidater = GenderTypeSelectValidater(GenderType)
+    var isEmailValidater = EmailValidater(Email.enteredValue)
+
+
+    if (!isFullnameValidater || !isDOBValidater || !isGenderTypeSelectValidater || !isEmailValidater) {
+      toast.error(
+        "Fill required fields!"
+      );
+    } else {
+      LoginUserHandler({
+        body: {
+          name: Name.enteredValue,
+          dob: DOB.enteredValue,
+          gender: GenderType,
+          email: Email.enteredValue,
+          relation: "self",
+          loginId: ""
+        }
+      })
+    }
+
   };
   return (
     <div className="w-100 text-start login-form-inner">
@@ -58,73 +159,74 @@ const LoginForm = () => {
         Enter your details below to set up your account
       </h3>
       <form onSubmit={loginHandler}>
-        <div  >
-          <div className="my-3">
-            <p style={{ fontSize: "0.9rem" , marginBottom:"0px", fontWeight:"600"}} >Full Name*</p>
-            <input
-              className="input"
-              placeholder="Name"
-              label="Name"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value)
-              }}
+        <div className='row'>
+          <div className="">
+            <InputWithAddOn
+              placeholder="Full Name"
+              label="Full Name"
+              className="loginInputs"
+              setValue={Name.setEnteredValue}
+              value={Name.enteredValue}
+              feedbackMessage={Name.feedbackMessage}
+              feedbackType={Name.messageType}
+              isTouched={Name.isTouched}
+              setIsTouched={Name.setIsTouched}
+              validateHandler={FullnameValidater}
+              reset={Name.reset}
+              isRequired={true}
             />
-
-            {isname && <span className="input_isrequired" >This field is required.</span>}
-
           </div>
-          <div className="my-3" >
-            <p style={{ fontSize: "0.9rem", marginBottom:"0px" , fontWeight:"600"}}>Email Address*</p>
-            <input
-              className="input"
-              placeholder="Email"
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setemail(e.target.value)
-              }}
-            />
 
-            {isemail && <span className="input_isrequired" >This field is required.</span>}
 
-          </div>
-          <div className="my-3" >
-            <p style={{ fontSize: "0.9rem" ,marginBottom:"0px",  fontWeight:"600"}}>DOB*</p>
-            <input
-              className="input"
-              placeholder="Dob"
-              label="Dob"
+          <div className="">
+            <InputWithAddOn
+              placeholder="DOB"
+              label="DOB"
+              className="loginInputs"
               type="date"
-              value={Dob}
-              onChange={(e) => {
-                setDob(e.target.value)
-              }}
+              setValue={DOB.setEnteredValue}
+              value={DOB.enteredValue}
+              feedbackMessage={DOB.feedbackMessage}
+              feedbackType={DOB.messageType}
+              isTouched={DOB.isTouched}
+              setIsTouched={DOB.setIsTouched}
+              validateHandler={DOBValidater}
+              reset={DOB.reset}
+              isRequired={true}
             />
-
-            {isDob && <span className="input_isrequired" >This field is required.</span>}
-
           </div>
-          <div className="my-3" >
-            <p style={{ fontSize: "0.9rem" ,marginBottom:"0px",  fontWeight:"600"}}>Gender*</p>
-            <input
-              className="input"
-              placeholder=" select Gender"
-              label="Gender"
-              type="gender"
-              value={Dob}
-              onChange={(e) => {
-                setDob(e.target.value)
-              }}
+          <div className="">
+            <InputSelect
+              setValue={setGenderType}
+              value={GenderType}
+              options={genderoption ?? []}
+              isTouched={GenderTypeIsTouch}
+              setIsTouched={setGenderTypeIsTouch}
+              className="py-1"
+              label={"Gender"}
+              isRequired={true}
+              feedbackMessage={GenderTypeMessage?.message}
+              feedbackType={GenderTypeMessage?.type}
+              validateHandler={GenderTypeSelectValidater}
             />
-
-            {isDob && <span className="input_isrequired" >This field is required.</span>}
-
           </div>
 
-
-
+          <div className="">
+            <InputWithAddOn
+              label="Email"
+              placeholder="Email"
+              className="loginInputs"
+              setValue={Email.setEnteredValue}
+              value={Email.enteredValue}
+              feedbackMessage={Email.feedbackMessage}
+              feedbackType={Email.messageType}
+              isTouched={Email.isTouched}
+              setIsTouched={Email.setIsTouched}
+              validateHandler={EmailValidater}
+              reset={Email.reset}
+              isRequired={true}
+            />
+          </div>
 
         </div>
         <div className="login-form-box">
@@ -132,9 +234,9 @@ const LoginForm = () => {
             type="submit"
             name="en"
             className="login-main-button"
-            disabled={loginAPIResponse?.fetching}
+            disabled={LoginUserResponse?.fetching}
           >
-            {loginAPIResponse?.fetching ? <Loader /> : "Sign Up"}
+            {LoginUserResponse?.fetching ? <Loader /> : "Sign Up"}
           </button>
         </div>
       </form>

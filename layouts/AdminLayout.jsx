@@ -159,7 +159,7 @@ const AdminLayout = ({ children }) => {
   const router = useRouter()
   const onlyAdminPaths = []
   var userRole = session?.data?.user?.role
-  console.log(session)
+  console.log(session, pathname, "mmmmmmmm")
   useEffect(() => {
 
     switch (session?.status) {

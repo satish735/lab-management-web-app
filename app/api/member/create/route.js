@@ -9,13 +9,13 @@ export const POST = async (request, { params }) => {
       email: requestBody?.email,
       gender: requestBody?.gender,
       dob: requestBody?.dob,
-      relation: requestBody?.relation
+      relation: requestBody?.relation,
+      loginId: requestBody?.loginId,
     });
 
     await UserDetailsnew.save();
 
 
-    console.log("UserDetailsnew",UserDetailsnew)
 
 
     return new Response(UserDetailsnew, { status: 200 });

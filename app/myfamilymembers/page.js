@@ -17,6 +17,8 @@ const Mymember = () => {
 
     const session = useSession()
 
+    console.log("session",session)
+
     const [updatemember, setUpdatemember] = useState({})
     const [ismember, setIsmember] = useState(false)
     const [membersResponse, membersHandler] = useAPI(
