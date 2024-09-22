@@ -8,11 +8,12 @@ export const metadata = {
 import { Toaster } from "react-hot-toast";
 import TooltipComponent from "@/components/TooltipComponent";
 import dynamic from "next/dynamic";
-import BootstrapClient from "@/components/BootstrapClient";
 const TopProgressBar = dynamic(
   () => import("@/components/TopProgressBar"),
   { ssr: false }
 );
+import BootstrapClient from "@/components/BootstrapClient";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

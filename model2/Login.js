@@ -28,6 +28,9 @@ const LoginSchema = new Schema({
     type: Date,
     default: null,
   },
+  selectedCity: {
+    type: String,
+  },
   is_delete: { type: Boolean, default: false }
 });
 

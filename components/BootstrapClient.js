@@ -3,7 +3,8 @@ import React, { useEffect } from 'react'
 
 const BootstrapClient = () => {
     useEffect(() => {
-        require('bootstrap/dist/js/bootstrap');
+        import('bootstrap/dist/js/bootstrap');
+        import('@/styles/globals.css');
     }, []);
     return (
         <span>

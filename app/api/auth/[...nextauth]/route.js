@@ -8,6 +8,7 @@ import Login from "@/model2/Login";
 import moment from "moment";
 import AdminLogin from "@/model2/AdminLogin";
 import Center from "@/model2/Center";
+import UserDetails from "@/model2/UserDetails";
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -82,10 +83,17 @@ export const authOptions = {
           if (!moment().isBefore(moment(User?.otpExpire))) {
             throw new Error("OTP expired!");
           }
-
+          const UserDetails = await UserDetails.findOne({ relation: "self", loginId: User?.id })
           return {
-            id: User.id,
-            phone: User.phone,
+            id: User?.id,
+            phone: User?.phone,
+            selectedCity: User?.selectedCity ?? null,
+            name: UserDetails.name,
+            email: UserDetails.email,
+            role: "user",
+            image: UserDetails?.image,
+            otherDetails: UserDetails
+
           };
         } catch (err) {
           throw new Error(err.message);
@@ -108,14 +116,16 @@ export const authOptions = {
         return token;
       };
       if (User) {
+        token.selectedCity = User?.selectedCity;
+        token.otherDetails = User?.otherDetails;
         token.id = User.id;
         token.email = User.email;
         token.name = User.name;
         token.role = User.role;
         token.phone = User.phone;
-        token.centers = User?.centers ?? [],
-          token.currentCenter = User?.currentCenter,
-          token.image = User?.image
+        token.centers = User?.centers ?? [];
+        token.currentCenter = User?.currentCenter;
+        token.image = User?.image
       }
       return token;
     },
@@ -129,7 +139,9 @@ export const authOptions = {
           phone: token.phone,
           centers: token?.centers,
           currentCenter: token?.currentCenter,
-          image: token?.image
+          image: token?.image,
+          selectedCity: token?.selectedCity,
+          otherDetails: token?.otherDetails
         };
       }
       return session;

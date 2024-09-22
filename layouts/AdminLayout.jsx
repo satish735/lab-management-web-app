@@ -78,7 +78,6 @@ const hexToRgba = (hex, alpha) => {
 
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
-import "@/styles/globals.css";
 
 const AdminLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
