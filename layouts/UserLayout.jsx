@@ -4,6 +4,7 @@ import UserFooter from "./layout-components/UserFooter";
 import UserHeader2 from "./layout-components/UserHeader2";
 import UserSvg from "./layout-components/UserSvg";
 import PhoneViewSlide from '@/components/bottom-phone-design/PhoneViewSlide'
+import "@/styles/globals.css";
 
 const UserLayout = ({ children }) => {
   return (
