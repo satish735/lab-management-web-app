@@ -16,7 +16,7 @@ import moment from "moment";
 import ActionOption from "@/components/ActionOption";
 import Link from "next/link";
 
-export default function Transations() {
+export default function HomeCollections() {
     const router = useRouter();
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -43,15 +43,13 @@ export default function Transations() {
         // { key: "name", type: "$is", value: 1, label: "Anil Puri" },
     ]);
     const [selectedViewOptions, setSelectedViewOptions] = useState([
-        "transactionId",
-        "amount",
-        "currency",
-        "transactionType",
+        "bookingId",
+        "selectedCollectionDate",
+        "originalCollectionDate",
         "status",
-        "paymentMethod",
-        "transactionDate",
-        "referenceTransactionId",
-        "bookingId"
+        "collectedByName",
+        "collectedByContact",
+        "collectionId", "action", "updatedAt", "createdAt"
     ]);
     const changePageAndRows = (page, rows) => {
         bookingsHandler({
@@ -83,7 +81,7 @@ export default function Transations() {
 
     const [bookingsResponse, bookingsHandler] = useAPI(
         {
-            url: "/transactions",
+            url: "/home-collections",
             method: "get",
             sendImmediately: true,
             params: {
@@ -100,7 +98,7 @@ export default function Transations() {
         },
         (e) => {
             toast.error(transformErrorDefault(
-                "Something went wrong while Getting Transactions!",
+                "Something went wrong while Getting HomeCollections!",
                 e
             ));
             return e
@@ -108,52 +106,43 @@ export default function Transations() {
     );
 
     const columns = [
-        // {
-        //     label: "Action",
-        //     value: (row) => {
-        //         return (
-        //             <>
-        //                 <ActionOption
-        //                     Icon={Eye}
-        //                     name="View"
-        //                     onClick={() => {
-        //                         router.push(`/admin/bookings/${row?.bookingId}`);
-        //                     }}
-        //                 />
-        //                 <ActionOption
-        //                     Icon={Pencil}
-        //                     name="Edit"
-        //                     onClick={() => {
-        //                         router.push(`/admin/bookings/${row?.bookingId}/edit`);
-        //                     }}
-        //                 />
-        //             </>
-        //         );
-        //     },
-        //     key: "action",
-        //     isDefault: true,
-        //     isSelectRequired: true,
-        //     className: "mnw-12",
-        // },
         {
-            key: "transactionId",
-            label: "Transaction Number",
+            label: "Action",
             value: (row) => {
-                return row?.transactionId
-
+                return (
+                    <>
+                        <ActionOption
+                            Icon={Eye}
+                            name="View"
+                            onClick={() => {
+                                router.push(`/admin/home-collections/${row?._id}`);
+                            }}
+                        />
+                    </>
+                );
+            },
+            key: "action",
+            isDefault: true,
+            isSelectRequired: true,
+            className: "mnw-12",
+        },
+        {
+            key: "collectionId",
+            label: "Home Collection Id",
+            value: (row) => {
+                return <Link href={`/admin/home-collections/${row?._id}`}>{row?._id}</Link>
             },
             sortable: true,
             isDefault: true,
             isSelectRequired: true,
-            hasTooltip: true,
             className: "mnw-12",
         },
         {
             key: "bookingId",
-            label: "Bookings",
+            label: "Booking ID",
             value: (row) => {
                 return <>
-                    {Array.isArray(row?.bookingId) && row?.bookingId.map((bookingItem, index) => <Link key={index} href={`/admin/bookings/${bookingItem?.bookingId}`}>{bookingItem?.bookingId}</Link>)}
+                    {row?.bookingId?.bookingId && <Link href={`/admin/bookings/${row?.bookingId?._id}`}>{row?.bookingId?.bookingId}</Link>}
                 </>
 
             },
@@ -163,20 +152,19 @@ export default function Transations() {
             hasTooltip: true,
             notSame: true,
             tooltip: (row) => {
-                return Array.isArray(row?.bookingId) ? row?.bookingId.map((bookingItem) => bookingItem?.bookingId).join(", ") : ""
+                return row?.bookingId?.bookingId ?? ""
 
             },
             className: "mnw-12",
         },
-
         {
             label: "Status",
             value: (row) => {
                 return (
                     <Badge className="text-capitalize" color={{
-                        'pending': "secondary", 'completed': "success", 'failed': "error"
-                    }[row?.status]}>
-                        {row?.status}
+                        'pending': "secondary", 'confirmed': "success", 'cancelled': "error", "picked": "secondary"
+                    }[row?.collectionStatus]}>
+                        {row?.collectionStatus}
                     </Badge>
                 );
             },
@@ -185,74 +173,47 @@ export default function Transations() {
             className: "mnw-12",
         },
         {
-            label: "TransactionType",
+            label: "selectedCollectionDate",
             value: (row) => {
-                return <span className="text-uppercase">
-                    {row?.transactionType}
-                </span>
+                return row?.selectedCollectionDate ? <span className="text-uppercase">
+                    {moment(row?.selectedCollectionDate).format("DD MMMM YYYY")} {row?.selectedCollectionTime}
+                </span> : ""
             },
-            key: "transaction Type",
+            key: "selectedCollectionDate",
             isDefault: true,
-
             className: "mnw-12",
         },
         {
             label: "Payment Method",
             value: (row) => {
-                return <span className="text-uppercase">
-                    {row?.paymentMethod}
-                </span>
+                return row?.selectedCollectionDate ? <span className="text-uppercase">
+                    {moment(row?.originalCollectionDate).format("DD MMMM YYYY")} {row?.originalCollectionTime}
+                </span> : ""
             },
-            key: "paymentMethod",
-            isDefault: true,
-
-            className: "mnw-12",
-        },
-        {
-            label: "Amount",
-            value: (row) => {
-                return "Rs " + row?.amount
-
-            },
-            key: "amount",
-            isDefault: true,
-            hasTooltip: true,
-            className: "mnw-12",
-        },
-        {
-            label: "Reference Transaction Id",
-            value: (row) => {
-
-                return row?.referenceTransactionId
-            },
-            key: "referenceTransactionId",
-            isDefault: true,
-            className: "mnw-12",
-
-            hasTooltip: true,
-
-        },
-        {
-            label: "Description",
-            value: (row) => {
-
-                return row?.description
-
-            },
-            hasTooltip: true,
-            key: "description",
+            key: "originalCollectionDate",
             isDefault: true,
             className: "mnw-12",
         },
         {
-            label: "Transaction Date",
+            label: "Collected By",
             value: (row) => {
-                return moment(row?.transactionDate).format("LLL");
+                return <span className="text-uppercase">{row?.collectedByName}</span>
             },
-            key: "transactionDate",
-            sortable: true,
-            hasTooltip: true,
+            key: "collectedByName",
+
+            hasTooltip: false,
             className: "mnw-12",
+        },
+        {
+            label: "Collected By Contact",
+            value: (row) => {
+                return row?.collectedByContact
+            },
+            key: "collectedByContact",
+
+            className: "mnw-12",
+            hasTooltip: true,
+
         },
         {
             label: "Created At",

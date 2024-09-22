@@ -36,7 +36,7 @@ const BookingPage = ({ bookingNumber = null }) => {
     },
     (e) => {
       toast.error(
-        transformErrorDefault("Something went wrong while Booking Details!", e)
+        transformErrorDefault("Something went wrong while loading Booking Details!", e)
       );
       return e;
     }

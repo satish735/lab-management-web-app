@@ -5,15 +5,40 @@ import HomeCollectionActivity from "@/model2/HomeCollectionActivity";
 import SlotDate from "@/model2/SlotDate";
 import SlotTime from "@/model2/SlotTime";
 import Booking from "@/model2/Booking";
-export const GET = async (request, { params }) => {
+import { parse } from "url";
+export const GET = async (request) => {
     try {
-        var response = {}
-        return new Response(JSON.stringify(response), { status: 200 });
+        const urlParams = parse(request.url, true);
+        const { pageSize = 20, pageNo = 1, sortColumn = "createdAt", sortDirection = "desc", searchQuery = "", centerId = null } = urlParams.query;
 
+        // Pagination and sorting setup
+        const skip = (pageNo - 1) * pageSize;
+        const sort = sortColumn ? { [sortColumn]: sortDirection === "desc" ? -1 : 1 } : {};
+
+        // Filter setup
+        const searchFilter = searchQuery
+            ? { $or: [{ bookingId: { bookingId: { $regex: searchQuery, $options: "i" } } }, { collectedByName: { $regex: searchQuery, $options: "i" } }, { collectionStatus: { $regex: searchQuery, $options: "i" } }] }
+            : {};
+        if (centerId) searchFilter.bookingId = { centerId: centerId };
+
+        // Fetch bookings
+        const homeCollectionList = await HomeCollection.find(searchFilter)
+            .populate({ path: "bookingId", select: "bookingId " })
+            .sort(sort)
+            .skip(skip)
+            .limit(pageSize);
+
+        // Get total count
+        const totalCount = await HomeCollection.countDocuments(searchFilter);
+
+        // Return response
+        return new Response(JSON.stringify({ data: homeCollectionList, total: totalCount }), { status: 200 });
     } catch (error) {
-        return new Response(error?.message, { status: 500 });
+        console.error("GET Error:", error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
     }
 };
+
 
 export const PUT = async (request, { params }) => {
     try {
