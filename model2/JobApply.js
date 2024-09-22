@@ -53,7 +53,9 @@ const JobApplySchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Opening',
     required: true,
-  }
+  },
+  status: { type: String },
+
 });
 
 export default mongoose.models.JobApply || mongoose.model('JobApply', JobApplySchema);

@@ -30,6 +30,7 @@ export const POST = async (request, { params }) => {
       isExperienced: requestBody?.isExperienced ?? false,
       experienceData: requestBody?.experienceData ?? null,
       forOpening: requestBody?.forOpening ?? null,
+      status:'New'
 
     });
 

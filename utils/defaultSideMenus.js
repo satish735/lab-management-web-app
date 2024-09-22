@@ -191,6 +191,12 @@ const defaultSideMenus = [
             label: "Contact Us Details",
             link: "/admin/contact-us"
           }
+          ,
+          {
+            type: "sub",
+            label: "Jobs Apply",
+            link: "/admin/job-applies"
+          }
         ],
       },
       {

@@ -39,7 +39,7 @@ export default function Home() {
   ]);
   const [selectedViewOptions, setSelectedViewOptions] = useState([
     "action", "status",
-    "name", "email", "phone", "city"
+    "name", "email", "phone", "forOpening"
 
   ]);
   const changePageAndRows = (page, rows) => {
@@ -72,7 +72,7 @@ export default function Home() {
 
   const [ContactDetailsResponse, ContactDetailsHandler] = useAPI(
     {
-      url: "/contactUs/list",
+      url: "/jobAppliesDetails/list",
       method: "get",
       sendImmediately: true,
       params: {
@@ -84,6 +84,7 @@ export default function Home() {
       },
     },
     (e) => {
+      console.log(e)
       setlistingdata(e.data ?? []);
       setTotalRows(e?.total);
     },
@@ -95,6 +96,28 @@ export default function Home() {
       return e
     }
   );
+  const [jobRoles, setjobRoles] = useState([])
+
+  const [getJobsResponse, getJobsHandler] = useAPI(
+    {
+      url: "/getJobs",
+      method: "get",
+      sendImmediately: true,
+
+    },
+    (e) => {
+      let data = (e ?? []).map((item) => { return { label: item?.name, value: item?._id } })
+      setjobRoles(data ?? [])
+    },
+    (e) => {
+
+      toast.error(transformErrorDefault(
+        "Something went wrong while fetching jobs!",
+        e
+      ));
+    }
+  );
+
 
   const columns = [
     {
@@ -106,7 +129,7 @@ export default function Home() {
               Icon={Eye}
               name="View"
               onClick={() => {
-                router.push(`/admin/contact-us/view?id=${row?._id}&type=view`);
+                router.push(`/admin/job-applies/view?id=${row?._id}&type=view`);
 
 
               }}
@@ -144,7 +167,7 @@ export default function Home() {
       key: "name",
       label: "Name",
       value: (row) => {
-        return row?.name;
+        return (row?.firstName + ' ' + row?.lastName);
       },
       sortable: true,
       isDefault: true,
@@ -155,14 +178,19 @@ export default function Home() {
 
     ,
     {
-      key: "email",
-      label: "Email",
+      key: "forOpening",
+      label: "Job Name",
       value: (row) => {
-        return row?.email;
+
+        let data = (jobRoles ?? []).find((obj) => {
+          return obj?.value === row?.forOpening
+        });
+
+        return data?.label
       },
       sortable: true,
       isDefault: true,
-      isSelectRequired: true,
+      isSelectRequired: false,
       hasTooltip: true,
       className: "mnw-12",
     }
@@ -184,10 +212,10 @@ export default function Home() {
 
     ,
     {
-      key: "city",
-      label: "City",
+      key: "email",
+      label: "Email",
       value: (row) => {
-        return row?.city;
+        return row?.email;
       },
       sortable: true,
       isDefault: true,
@@ -219,17 +247,19 @@ export default function Home() {
     },
   ];
 
+
+
   return (
     <div>
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Contact Details", link: "/admin/contact-us", active: true },
+          { label: "Job Apply Details", link: "/admin/job-applies", active: true },
         ]}
       />
       <div className="admin-content-box">
-        <h1 className="main-heading">User Contact Details</h1>
-        <p className="sub-heading">Listing page for user contact details.</p>
+        <h1 className="main-heading">Jobs Apply Details</h1>
+        <p className="sub-heading">Listing page for jobs apply details.</p>
         <div className="text-end my-2">
 
         </div>
@@ -250,7 +280,7 @@ export default function Home() {
         <CustomTable
           loading={ContactDetailsResponse?.fetching}
           columns={columns}
-          data={getlistingdata ?? [1, 2]}
+          data={getlistingdata ?? []}
           sort={sort}
           sortAction={sortAction}
           selectedColumns={selectedViewOptions}

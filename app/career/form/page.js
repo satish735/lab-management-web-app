@@ -169,7 +169,7 @@ const Form = ({ searchParams }) => {
             return false;
         }
 
-        if (value.length!=10) {
+        if (value.length != 10) {
             Phone.setFeedbackMessage("Enter 10 digit number!");
             Phone.setMessageType("error");
             return false;
@@ -453,7 +453,11 @@ const Form = ({ searchParams }) => {
                             <div className="row">
                                 <div className="col-12 mb-4">
 
-                                    <MultipleDropZone dropZoneMessage={'Upload Resume'} files={addResume} setFiles={setAddResume} />
+                                    <MultipleDropZone dropZoneMessage={'Upload Resume'} files={addResume} setFiles={setAddResume} fileNoAllowed={1} typeAllowed={{
+                                        'application/pdf': ['.pdf'],
+                                        'application/msword': ['.doc'],
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+                                    }} typeAllowedMessage={"Only Docs and Pdf files allowed"} filePathSuffix={`jobResumes/`} />  
 
                                 </div>
 
@@ -580,7 +584,11 @@ const Form = ({ searchParams }) => {
                                 <div className="col-12 mb-3">
                                     <p>Additional Documents</p>
                                     <div style={{ width: '300px' }}>
-                                        <MultipleDropZone dropZoneMessage={'Add attachment'} files={addAdditionalDocuments} setFiles={setAddAdditionalDocuments} />
+                                        <MultipleDropZone dropZoneMessage={'Add attachment'} files={addAdditionalDocuments} setFiles={setAddAdditionalDocuments}  typeAllowed={{
+                                        'application/pdf': ['.pdf'],
+                                        'application/msword': ['.doc'],
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+                                    }} typeAllowedMessage={"Only Docs and Pdf files allowed"} filePathSuffix={`jobApplyAttachments/`} />
 
                                     </div>
 
