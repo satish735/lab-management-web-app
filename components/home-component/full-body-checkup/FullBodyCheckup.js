@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const FullBodyCheckup = () => {
 
   const [locationSelected, setlocationSelected] = useState();

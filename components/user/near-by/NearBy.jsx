@@ -7,6 +7,7 @@ import { FaAngleDown, FaPhone, FaArrowsSplitUpAndLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import useAPI from '@/hooks/useAPI';
 import { Spinner } from 'reactstrap';
+import transformErrorDefault from '@/utils/transformErrorDefault'
 
 const NearBy = () => {
 

@@ -7,6 +7,7 @@ import moment from "moment";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
 import LoaderGeneral from '@/components/loaders/LoaderGeneral';
+import transformErrorDefault from '@/utils/transformErrorDefault'
 
 const View = ({ searchParams }) => {
 

@@ -1,3 +1,6 @@
+
+"use client";
+
 import useAPI from '@/hooks/useAPI'
 import transformErrorDefault from '@/utils/transformErrorDefault'
 import React, { useState } from 'react'
