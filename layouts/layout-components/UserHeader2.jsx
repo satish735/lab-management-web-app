@@ -24,6 +24,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import toast from "react-hot-toast";
 
 // const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
