@@ -9,6 +9,8 @@ import "./test.css";
 import { useRouter } from "next/navigation";
 import useAPI from "@/hooks/useAPI";
 import { Spinner } from "reactstrap";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const TestsComponent = () => {
   const router = useRouter();
 

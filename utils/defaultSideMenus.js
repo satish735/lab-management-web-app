@@ -94,12 +94,12 @@ const defaultSideMenus = [
         icon: <FaBlogger className="admin-left-menu-icon" />,
         link: "/admin/blogs"
       },
-      {
-        type: "sub",
-        label: "Health Bulletins",
-        icon: <FaHandHoldingMedical className="admin-left-menu-icon" />,
-        link: "/admin/healthbulletin"
-      },
+      // {
+      //   type: "sub",
+      //   label: "Health Bulletins",
+      //   icon: <FaHandHoldingMedical className="admin-left-menu-icon" />,
+      //   link: "/admin/healthbulletin"
+      // },
       {
         type: "sub",
         label: "FAQ's",

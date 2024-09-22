@@ -5,6 +5,8 @@ import useAPI from "@/hooks/useAPI";
 import '@/components/home-component/frequently-asked-question/question-ans.css'
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 import { useRouter } from "next/navigation";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const Blog = ({ searchParams }) => {
 
     const [getdata, setdata] = useState({})

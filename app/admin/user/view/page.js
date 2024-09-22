@@ -11,6 +11,8 @@ import { Spinner } from "reactstrap";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import moment from "moment";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 
 const Userupdate = ({ searchParams }) => {
     const router = useRouter();

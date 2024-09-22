@@ -20,6 +20,8 @@ import moment from "moment";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const Member = ({ searchParams }) => {
 
     const router = useRouter();

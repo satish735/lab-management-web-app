@@ -13,6 +13,7 @@ import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+import transformErrorDefault from "@/utils/transformErrorDefault";
 
 import { Spinner } from "reactstrap";
 const EditpackagecategoryMainPage = ({ searchParams }) => {

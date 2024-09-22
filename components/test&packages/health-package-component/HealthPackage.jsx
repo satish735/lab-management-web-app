@@ -7,6 +7,8 @@ import PackageCardDesign from '../../package-details/package-card/PackageCardDes
 import useAPI from '@/hooks/useAPI'
 import toast, { ToastBar } from 'react-hot-toast'
 import './health-package.css'
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
@@ -47,10 +49,10 @@ const HealthPackage = () => {
         },
         (e) => {
 
-            //  transformErrorDefault(
-            //     "Something went wrong while creating Test Case!",
-            //     e
-            // );
+             transformErrorDefault(
+                "Something went wrong while creating Test Case!",
+                e
+            );
         }
     );
 

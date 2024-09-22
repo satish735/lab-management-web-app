@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import MultipleDropZone from "@/components/drop-zones/MultipleDropZone";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+import transformErrorDefault from "@/utils/transformErrorDefault";
 
 const View = ({ searchParams }) => {
 

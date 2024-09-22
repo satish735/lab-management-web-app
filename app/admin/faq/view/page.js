@@ -1,5 +1,6 @@
 "use client";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
+import { Spinner } from "reactstrap";
 
 import { useState } from "react";
 import useAPI from "@/hooks/useAPI";
@@ -9,6 +10,8 @@ import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 import useInputComponent from "@/hooks/useInputComponent";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 
 const Home = ({ searchParams }) => {
 
@@ -27,7 +30,6 @@ const Home = ({ searchParams }) => {
         questionsInput.setMessageType("none");
         return true;
     };
-
 
 
     const answersInput = useInputComponent('');
@@ -98,17 +100,19 @@ const Home = ({ searchParams }) => {
 
 
     const submit = () => {
+        let isquestionsInputValidater = questionsInputValidater(questionsInput.enteredValue)
+        let isanswersInputValidater = answersInputValidater(answersInput.enteredValue)
 
-        if (questions != "" && answers != "") {
+        if (!isquestionsInputValidater || !isanswersInputValidater) {
+            toast.error("Fill complete form.");
 
+        } else {
             faqHandler({
                 body: {
                     question: questionsInput?.enteredValue,
                     answer: answersInput?.enteredValue,
                 },
             });
-        } else {
-            toast.error("Fill complete form.");
         }
     };
 
@@ -143,7 +147,7 @@ const Home = ({ searchParams }) => {
                 options={[
                     { label: "Home", link: "/admin" },
                     { label: "FAQ", link: "/admin/faq" },
-                    { label: "Create", active: true },
+                    { label: "Update", active: true },
                 ]}
             />
 
@@ -202,9 +206,9 @@ const Home = ({ searchParams }) => {
                             onClick={() => {
                                 DeletefaqHandler()
                             }}
-                            // type="button"
+                        // type="button"
                         >
-                            {DeletefaqResponse?.fetching ? <Spinner /> : "Delete"}
+                            {DeletefaqResponse?.fetching ? <Spinner size="sm" /> : "Delete"}
                         </button>}
 
 

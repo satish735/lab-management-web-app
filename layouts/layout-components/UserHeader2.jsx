@@ -23,6 +23,8 @@ import useAPI from "@/hooks/useAPI";
 import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 // const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
 //   window.dispatchEvent(new Event('storageChange')); // Dispatch a custom event

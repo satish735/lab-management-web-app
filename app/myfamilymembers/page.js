@@ -6,21 +6,26 @@ import React, { useEffect, useState } from "react";
 import { Input, Spinner } from 'reactstrap'
 import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
 import moment from "moment";
+import { useSession } from "next-auth/react";
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 
 const Mymember = () => {
     const [modal2, setModal2] = useState(false);
     const toggle2 = () => setModal2(!modal2);
 
+    const session = useSession()
 
     const [updatemember, setUpdatemember] = useState({})
     const [ismember, setIsmember] = useState(false)
     const [membersResponse, membersHandler] = useAPI(
         {
-            url: "/member/list",
+            url: "/member/myfamilymember",
             method: "get",
             sendImmediately: true,
             params: {
-
+                loginId: session?.data?.user?.id
             },
         },
         (e) => {
@@ -68,7 +73,20 @@ const Mymember = () => {
             </div>
 
             <div className='item-page-section'>
-                {membersResponse?.fetching ? <div style={{ textTransform: "capitalize" }} className="  text-center my-3" > {<Spinner size="xl" />} </div> : <div className="mmy-2" >
+
+
+                <LoaderGeneral
+                    noContentMessage="records are not found"
+                    state={
+                        membersResponse?.fetching
+                            ? "loading"
+                            : [null, undefined].includes(membersResponse?.data)
+                                ? "no-content"
+                                : "none"
+
+                    }
+                />
+                {!membersResponse?.fetching && <div className="mmy-2" >
                     <div className="row my-3 " style={{ borderBottom: "1px solid #97978", textTransform: "capitalize" }} >
                         <div className="col-6 " >
                             <span className="mx-3 " style={{ fontWeight: "700", fontSize: "1.1rem" }} >My member</span>
@@ -125,7 +143,7 @@ const Mymember = () => {
                         toggle={toggle2}
                         refresh={membersHandler}
                         isupdate={ismember}
-                        update={updatemember}
+                        update={ismember ? updatemember : {}}
                     />
                 </div>}</div>
         </div>

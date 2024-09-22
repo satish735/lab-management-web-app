@@ -10,6 +10,7 @@ import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
+import transformErrorDefault from "@/utils/transformErrorDefault";
 
 const Home = () => {
   const router = useRouter();

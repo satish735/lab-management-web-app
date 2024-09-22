@@ -8,10 +8,13 @@ import InputSelect from "@/components/formInput/select/InputSelect";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
+import { useSession } from "next-auth/react";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
+
 const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) => {
 
-
-
+    const session = useSession()
     const HouseNO = useInputComponent('');
     const FullnameValidater = (value) => {
         if (value === "" || !value) {
@@ -96,32 +99,67 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
 
 
     const Phone = useInputComponent("");
+
     const PhoneValidater = (value) => {
+        const phoneRegex = /^\d{10}$/;
+    
         if (value === "" || !value) {
-            Phone.setFeedbackMessage("Field required!");
+            Phone.setFeedbackMessage("Required!");
             Phone.setMessageType("error");
             return false;
         }
+    
+        if (!phoneRegex.test(value)) {
+            Phone.setFeedbackMessage("Invalid number!");
+            Phone.setMessageType("error");
+            return false;
+        }
+    
         Phone.setFeedbackMessage("");
         Phone.setMessageType("none");
         return true;
     };
+    
 
     const Pincode = useInputComponent("");
+
     const PincodeValidater = (value) => {
+        const pincodeRegex = /^\d{6}$/; 
+    
         if (value === "" || !value) {
-            Pincode.setFeedbackMessage("Field required!");
+            Pincode.setFeedbackMessage("Required!");
             Pincode.setMessageType("error");
             return false;
         }
+    
+        if (!pincodeRegex.test(value)) {
+            Pincode.setFeedbackMessage("Invalid pincode!");
+            Pincode.setMessageType("error");
+            return false;
+        }
+    
         Pincode.setFeedbackMessage("");
         Pincode.setMessageType("none");
         return true;
     };
+    
 
+    const ResetModel = () => {
 
+        HouseNO.setEnteredValue()
+        Address.setEnteredValue()
+        State.setEnteredValue()
+        setSaveASType()
+        State.setEnteredValue()
+        Phone.setEnteredValue()
+        Pincode.setEnteredValue()
+        City.setEnteredValue()
 
+        AddressHandler()
 
+        toggle()
+
+    }
 
 
     const [addressResponse, addressHandler] = useAPI(
@@ -130,18 +168,7 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
             method: "post",
         },
         (e) => {
-            toggle()
-
-            HouseNO.reset()
-            Address.reset()
-            State.reset()
-            setSaveASType()
-            State.reset()
-            Phone.reset()
-            Pincode.reset()
-            City.reset()
-
-            AddressHandler()
+            ResetModel()
 
             return toast.success("Address has been added successfully");
         },
@@ -164,7 +191,6 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
             City.setEnteredValue(update?.city)
             Pincode.setEnteredValue(update?.pincode)
             setSaveASType(update?.addressType)
-
         }
     }, [update])
 
@@ -175,9 +201,8 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
             method: "put",
         },
         (e) => {
-            AddressHandler()
 
-            toggle()
+            ResetModel()
             toast.success("Address updated successfully");
 
 
@@ -222,7 +247,7 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                         phone: Phone?.enteredValue,
                         pincode: Pincode?.enteredValue,
                         city: City?.enteredValue ?? "",
-                        userId:'66cf404ac1f2412ff270857f'
+                        userId: session?.data?.user?.id
 
                     }
                 })
@@ -236,7 +261,7 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                         phone: Phone?.enteredValue,
                         pincode: Pincode?.enteredValue,
                         city: City?.enteredValue ?? "",
-                        userId:'66cf404ac1f2412ff270857f'
+                        userId: session?.data?.user?.id
 
                     }
                 })
@@ -254,11 +279,11 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
 
             <Modal
                 isOpen={modal}
-                toggle={toggle}
+                toggle={ResetModel}
                 size="lg"
 
             >
-                <ModalHeader toggle={toggle}>Add Address</ModalHeader>
+                <ModalHeader toggle={ResetModel}>Add Address</ModalHeader>
                 <ModalBody>
                     <div className='row'>
 
@@ -400,7 +425,7 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                             isupdate ? "Update Details" : "Save Details"
                         )}
                     </Button>{' '}
-                    <Button color="secondary" onClick={toggle}>
+                    <Button color="secondary" onClick={ResetModel}>
                         Cancel
                     </Button>
                 </ModalFooter>

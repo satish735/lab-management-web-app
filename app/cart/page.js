@@ -20,6 +20,7 @@ import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 
 
+import transformErrorDefault from "@/utils/transformErrorDefault";
 
 const Cart = ({ params: { _id } }) => {
 

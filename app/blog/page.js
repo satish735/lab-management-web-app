@@ -7,6 +7,7 @@ import Card from "@/components/customdesign/Card.jsx";
 import useAPI from "@/hooks/useAPI";
 import UserLayout from '@/layouts/UserLayout'
 import LoaderGeneral from '@/components/loaders/LoaderGeneral';
+import transformErrorDefault from "@/utils/transformErrorDefault";
 
 const Blog = ({ params: { id } }) => {
 

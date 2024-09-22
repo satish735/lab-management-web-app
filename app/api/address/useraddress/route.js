@@ -1,5 +1,6 @@
 import Address from "@/model2/Address";
 import { parse } from "url";
+
 export const GET = async (request, { params }) => {
   try {
     const urlParams = parse(request.url, true);
@@ -9,6 +10,7 @@ export const GET = async (request, { params }) => {
       sortColumn = "createdAt",
       sortDirection = "desc",
       searchQuery = "",
+      userID =null
     } = urlParams.query;
 
 
@@ -17,26 +19,25 @@ export const GET = async (request, { params }) => {
     if (sortColumn) {
       sort[sortColumn] = sortDirection === "desc" ? -1 : 1;
     }
-    const searchFilter = {};
+    
+    const searchFilter = { userID }; 
+    
     if (searchQuery) {
       searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
     }
-    const userinfodata = await Address 
+
+    const userinfodata = await Address
       .find(searchFilter)
       .sort(sort)
       .skip(skip)
       .limit(pageSize);
 
- 
     const totalCount = await Address.find(searchFilter).countDocuments();
 
-    var response = { data: userinfodata, total: totalCount }
-
+    const response = { data: userinfodata, total: totalCount };
 
     return new Response(JSON.stringify(response), { status: 200 });
-
   } catch (error) {
-
     return new Response("Error", { status: 500 });
   }
 };
