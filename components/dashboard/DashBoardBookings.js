@@ -48,9 +48,9 @@ const DashBoardBookings = () => {
                 !getBookingResponse?.error &&
                 getBookingResponse?.data && (
 
-                    getBookingResponse?.data?.map?.(bItem => {
+                    getBookingResponse?.data?.map?.((bItem, index) => {
                         var preprations = bItem?.packages?.filter?.(item => typeof item?.preparation == "string" && item?.preparation != "No specific Preparation Required" && item?.preparation)?.map?.((item) => item?.preparation)?.join?.(',').split(',')
-                        return <div className="general-details row m-0 p-0 mb-2">
+                        return <div key={index} className="general-details row m-0 p-0 mb-2">
                             <div className="col-12 py-2 m-0">
                                 <span className="full-name" style={{ color: "var(--color-primary)" }}>
                                     <Link href={`/admin/bookings/${bItem?.bookingId}`}>{bItem?.bookingId}</Link>
