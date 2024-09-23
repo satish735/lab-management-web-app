@@ -1,4 +1,5 @@
 "use client";
+import '@/styles/globals.css'
 import "./AdminLayout.css"
 import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";

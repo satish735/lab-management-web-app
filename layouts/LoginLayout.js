@@ -1,5 +1,5 @@
 "use client";
-
+import '@/styles/globals.css'
 import React from "react";
 import "./LoginLayout.css";
 import Image from "next/image";

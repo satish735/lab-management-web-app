@@ -7,7 +7,7 @@ import UserSvg from "./layout-components/UserSvg";
 import PhoneViewSlide from '@/components/bottom-phone-design/PhoneViewSlide'
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import '@/styles/globals.css'
 const UserLayout = ({ children }) => {
 
   const session = useSession()
