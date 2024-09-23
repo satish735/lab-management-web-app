@@ -13,6 +13,8 @@ import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+import moment from "moment";
 const ViewContactDetailsPage = ({ searchParams }) => {
     const router = useRouter();
 
@@ -83,67 +85,62 @@ const ViewContactDetailsPage = ({ searchParams }) => {
     };
 
 
-    const InterestedIn = useInputComponent();
-    const InterestedInValidater = (value) => {
+    const Gender = useInputComponent();
+    const GenderValidater = (value) => {
         if (!value || value == "") {
-            InterestedIn.setFeedbackMessage("Required Field!");
-            InterestedIn.setMessageType("error");
+            Gender.setFeedbackMessage("Required Field!");
+            Gender.setMessageType("error");
             return false;
         }
-        InterestedIn.setFeedbackMessage(null);
-        InterestedIn.setMessageType("none");
+        Gender.setFeedbackMessage(null);
+        Gender.setMessageType("none");
         return true;
     };
 
 
-    const City = useInputComponent();
-    const CityValidater = (value) => {
+    const Relation = useInputComponent();
+    const RelationValidater = (value) => {
         if (!value || value == "") {
-            City.setFeedbackMessage("Required Field!");
-            City.setMessageType("error");
+            Relation.setFeedbackMessage("Required Field!");
+            Relation.setMessageType("error");
             return false;
         }
-        City.setFeedbackMessage(null);
-        City.setMessageType("none");
+        Relation.setFeedbackMessage(null);
+        Relation.setMessageType("none");
         return true;
     };
 
 
-    const Message = useInputComponent();
-    const MessageValidater = (value) => {
+    const DOB = useInputComponent();
+    const DOBValidater = (value) => {
         if (!value || value == "") {
-            Message.setFeedbackMessage("Required Field!");
-            Message.setMessageType("error");
+            DOB.setFeedbackMessage("Required Field!");
+            DOB.setMessageType("error");
             return false;
         }
-        Message.setFeedbackMessage(null);
-        Message.setMessageType("none");
+        DOB.setFeedbackMessage(null);
+        DOB.setMessageType("none");
+        return true;
+    }
+
+
+    const Status = useInputComponent();
+    const StatusValidater = (value) => {
+        if (!value || value == "") {
+            Status.setFeedbackMessage("Required Field!");
+            Status.setMessageType("error");
+            return false;
+        }
+        Status.setFeedbackMessage(null);
+        Status.setMessageType("none");
         return true;
     };
 
-    const [updateStatusContactUsResponse, updateStatusContactUsHandler] = useAPI(
-        {
-            url: `/contactUs/${searchParams?.id}`,
-            method: "put",
- 
-        },
-        (e) => {
-            return e
-        },
-        (e) => {
-
-            toast.error(transformErrorDefault(
-                "Something went wrong while Getting details!",
-                e
-            ));
-            return e
-        }
-    );
 
 
     const [getContactUsResponse, getContactUsHandler] = useAPI(
         {
-            url: `/contactUs/${searchParams?.id}`,
+            url: `/patientsDetails/${searchParams?.id}`,
             method: "get",
             sendImmediately: true,
 
@@ -151,24 +148,16 @@ const ViewContactDetailsPage = ({ searchParams }) => {
         (e) => {
 
 
+ 
             Name.setEnteredValue(e?.name)
             Email.setEnteredValue(e?.email)
-            InterestedIn.setEnteredValue(e?.interestedIn)
-            Phone.setEnteredValue(e?.phone)
-            City.setEnteredValue(e?.city)
-            Message.setEnteredValue(e?.message)
+            Gender.setEnteredValue(e?.gender)
+            Phone.setEnteredValue(e?.contactPhone)
+            Relation.setEnteredValue(e?.relation)
+            Status.setEnteredValue(e?.status)
 
+            DOB.setEnteredValue((e?.dob) ? moment(e?.dob).format('DD/MM/YYYY') : '')
 
- 
-
-            if (e?.status === 'New') {
-             
-                updateStatusContactUsHandler({
-                    body: {
-                        status: 'Seen'
-                    }
-                })
-            }
 
         },
         (e) => {
@@ -186,15 +175,15 @@ const ViewContactDetailsPage = ({ searchParams }) => {
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
-                    { label: "Contact Listing", link: "/admin/contact-us" },
-                    { label: "User Contact Details", link: "/admin/contact-us/view", active: true },
+                    { label: "Patient Listing", link: "/admin/patients" },
+                    { label: "Patient Details", link: "/admin/patients/view", active: true },
                 ]}
             />
             <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
 
                 <h3 className="mb-4 px-3 py-2 mt-2  " >
 
-                    {'Contact Us Details' }
+                    {'Patient Details'}
                 </h3>
 
                 <LoaderGeneral
@@ -222,7 +211,7 @@ const ViewContactDetailsPage = ({ searchParams }) => {
                             <div className="col-lg-4 col-md-6 col-sm-12 mt-3">
 
                                 <InputWithAddOn
-                                    label="Sender Name"
+                                    label="Name"
                                     className="loginInputs"
 
                                     setValue={Name.setEnteredValue}
@@ -282,18 +271,18 @@ const ViewContactDetailsPage = ({ searchParams }) => {
                             <div className="col-lg-4 col-md-6 col-sm-12 mt-3">
 
                                 <InputWithAddOn
-                                    label="City"
+                                    label="Date Of Birth"
                                     className="loginInputs"
 
-                                    setValue={City.setEnteredValue}
-                                    value={City.enteredValue}
-                                    feedbackMessage={City.feedbackMessage}
-                                    feedbackType={City.messageType}
-                                    isTouched={City.isTouched}
-                                    setIsTouched={City.setIsTouched}
+                                    setValue={DOB.setEnteredValue}
+                                    value={DOB.enteredValue}
+                                    feedbackMessage={DOB.feedbackMessage}
+                                    feedbackType={DOB.messageType}
+                                    isTouched={DOB.isTouched}
+                                    setIsTouched={DOB.setIsTouched}
 
-                                    validateHandler={CityValidater}
-                                    reset={City.reset}
+                                    validateHandler={DOBValidater}
+                                    reset={DOB.reset}
                                     isRequired={true}
                                     disabled={true}
                                 />
@@ -302,38 +291,58 @@ const ViewContactDetailsPage = ({ searchParams }) => {
                             <div className="col-lg-4 col-md-6 col-sm-12 mt-3">
 
                                 <InputWithAddOn
-                                    label="Interested In"
+                                    label="Relation"
                                     className="loginInputs"
 
-                                    setValue={InterestedIn.setEnteredValue}
-                                    value={InterestedIn.enteredValue}
-                                    feedbackMessage={InterestedIn.feedbackMessage}
-                                    feedbackType={InterestedIn.messageType}
-                                    isTouched={InterestedIn.isTouched}
-                                    setIsTouched={InterestedIn.setIsTouched}
+                                    setValue={Relation.setEnteredValue}
+                                    value={Relation.enteredValue}
+                                    feedbackMessage={Relation.feedbackMessage}
+                                    feedbackType={Relation.messageType}
+                                    isTouched={Relation.isTouched}
+                                    setIsTouched={Relation.setIsTouched}
 
-                                    validateHandler={InterestedInValidater}
-                                    reset={InterestedIn.reset}
+                                    validateHandler={RelationValidater}
+                                    reset={Relation.reset}
                                     isRequired={true}
                                     disabled={true}
                                 />
                             </div>
 
-                            <div className="col-12 mt-3">
+                            <div className="col-lg-4 col-md-6 col-sm-12 mt-3">
 
                                 <InputWithAddOn
-                                    label="Sender Message"
+                                    label="Gender"
                                     className="loginInputs"
 
-                                    setValue={Message.setEnteredValue}
-                                    value={Message.enteredValue}
-                                    feedbackMessage={Message.feedbackMessage}
-                                    feedbackType={Message.messageType}
-                                    isTouched={Message.isTouched}
-                                    setIsTouched={Message.setIsTouched}
+                                    setValue={Gender.setEnteredValue}
+                                    value={Gender.enteredValue}
+                                    feedbackMessage={Gender.feedbackMessage}
+                                    feedbackType={Gender.messageType}
+                                    isTouched={Gender.isTouched}
+                                    setIsTouched={Gender.setIsTouched}
 
-                                    validateHandler={MessageValidater}
-                                    reset={Message.reset}
+                                    validateHandler={GenderValidater}
+                                    reset={Gender.reset}
+                                    isRequired={true}
+                                    disabled={true}
+                                />
+                            </div>
+
+                            <div className="col-4 mt-3">
+
+                                <InputWithAddOn
+                                    label="Status"
+                                    className="loginInputs"
+
+                                    setValue={Status.setEnteredValue}
+                                    value={Status.enteredValue}
+                                    feedbackMessage={Status.feedbackMessage}
+                                    feedbackType={Status.messageType}
+                                    isTouched={Status.isTouched}
+                                    setIsTouched={Status.setIsTouched}
+
+                                    validateHandler={StatusValidater}
+                                    reset={Status.reset}
                                     isRequired={true}
                                     disabled={true}
                                 />
@@ -348,7 +357,7 @@ const ViewContactDetailsPage = ({ searchParams }) => {
                                 <button
                                     className="mx-2 btn btn-dark"
                                     onClick={() => {
-                                        router.push("/admin/contact-us");
+                                        router.push("/admin/patients");
                                     }}
                                     type="button"
                                 >

@@ -1,5 +1,5 @@
 export const BodyParts = [
-    { value: "HEAD", label: "Head" },
+    { value: "HEAD", label: "Header" },
     { value: "BRAIN", label: "Brain" },
     { value: "EYES", label: "Eyes" },
     { value: "EARS", label: "Ears" },

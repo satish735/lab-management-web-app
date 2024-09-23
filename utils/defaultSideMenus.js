@@ -177,7 +177,7 @@ const defaultSideMenus = [
               }
               ,
               {
-                type: "sub", 
+                type: "sub",
                 label: "Corporate Wellness",
                 link: "/admin/corporate-wellness",
 
@@ -207,7 +207,7 @@ const defaultSideMenus = [
           {
             type: "sub",
             label: "Patients",
-            link: "/admins"
+            link: "/admin/patients"
           },
           // {
           //   type: "sub",
