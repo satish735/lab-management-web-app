@@ -24,10 +24,7 @@ const LoginForm = () => {
     },
     (e) => {
       if (e) {
-        session.update({
-          ...session?.data, user:
-            { ...session?.data?.user, userID: e?._id, email: e?.email, name: e?.name, role: "user" }
-        })
+        session.update({ email: e?.email, name: e?.name, otherDetails: e })
         router.push("/")
       }
 

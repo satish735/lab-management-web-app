@@ -26,7 +26,7 @@ const UserLayout = ({ children }) => {
         }
         break;
       case "unauthenticated":
-        router.push("/login")
+        // router.push("/login")
         break;
     }
   }, [session?.status])
