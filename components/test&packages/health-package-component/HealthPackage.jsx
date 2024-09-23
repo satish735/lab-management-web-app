@@ -8,12 +8,14 @@ import useAPI from '@/hooks/useAPI'
 import toast, { ToastBar } from 'react-hot-toast'
 import './health-package.css'
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import { useSession } from "next-auth/react";
 
 const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
     const [locationSelected, setlocationSelected] = useState();
+    const session = useSession();
 
 
     const [bodyPartValue, setBodyPartValue] = useState([])
@@ -49,7 +51,7 @@ const HealthPackage = () => {
         },
         (e) => {
 
-             transformErrorDefault(
+            transformErrorDefault(
                 "Something went wrong while creating Test Case!",
                 e
             );
@@ -93,14 +95,13 @@ const HealthPackage = () => {
         }
     );
 
-     useEffect(() => {
+    useEffect(() => {
 
 
 
         if (!locationSelected) {
-            let data = JSON.parse(localStorage.getItem("selectedLocation"));
+            setlocationSelected(session?.data?.user?.selectedCity)
 
-            setlocationSelected(data?.selectedLocation)
 
 
             allPackageHandler({
@@ -109,7 +110,7 @@ const HealthPackage = () => {
                     pageNo: 1,
                     pageSize: 20,
                     searchQuery: InputSearch,
-                    location: data?.selectedLocation ?? null,
+                    location: session?.data?.user?.selectedCity ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                     conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
 
@@ -135,7 +136,7 @@ const HealthPackage = () => {
 
 
 
-    }, [ConditionsValue, bodyPartValue])
+    }, [ConditionsValue, bodyPartValue, session?.data])
 
 
 
@@ -160,10 +161,10 @@ const HealthPackage = () => {
 
                 <div className='row '>
                     <div className='col-lg-3 col-md-3 col-sm-12  py-3' style={{ backgroundColor: 'white', border: '1px solid #dee2db', borderRadius: "10px" }}>
-                   
+
 
                         <div style={{ fontSize: '20px', color: '#1e1e2f' }}>
-                            
+
                             Filters
                         </div>
                         <div className='mb-2 mt-3'>

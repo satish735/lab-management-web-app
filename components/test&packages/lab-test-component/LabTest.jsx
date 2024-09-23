@@ -10,8 +10,10 @@ import toast from 'react-hot-toast'
 import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
 import '@/components/test&packages/health-package-component/health-package.css'
 import transformErrorDefault from '@/utils/transformErrorDefault'
+import { useSession } from "next-auth/react";
 
 const LabTest = () => {
+    const session = useSession();
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
@@ -99,10 +101,9 @@ const LabTest = () => {
 
 
         if (!locationSelected) {
-            let data = JSON.parse(localStorage.getItem("selectedLocation"));
+            setlocationSelected(session?.data?.user?.selectedCity)
 
-            setlocationSelected(data)
-
+ 
 
             allPackageHandler({
                 params: {
@@ -110,7 +111,7 @@ const LabTest = () => {
                     pageNo: 1,
                     pageSize: 20,
                     searchQuery: InputSearch,
-                    location: data?.selectedLocation ?? null,
+                    location: session?.data?.user?.selectedCity ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                     conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
 
@@ -136,7 +137,7 @@ const LabTest = () => {
 
 
 
-    }, [ConditionsValue, bodyPartValue])
+    }, [ConditionsValue, bodyPartValue,session?.data])
 
 
 

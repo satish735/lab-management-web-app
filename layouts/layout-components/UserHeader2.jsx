@@ -22,7 +22,7 @@ import {
 import useAPI from "@/hooks/useAPI";
 import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
 import SkeletonTextLoder from "@/components/SkeletonLoders/SkeletonTextLoder";
@@ -97,15 +97,14 @@ const UserHeader2 = () => {
 
   const [getSelectedCenterResponse, getSelectedCenterHandler] = useAPI(
     {
-      url: "/getSelectedLocation",
+      url: `/getSelectedLocation/${session?.data?.user?.id}`,
       method: "get",
-      sendImmediately: true,
 
     },
     (e) => {
       console.log(e);
 
-      session.update({ selectedCity: e?.[0]?.selectedLocation })
+      session.update({ selectedCity: e?.selectedCity })
 
 
       return e
@@ -118,17 +117,33 @@ const UserHeader2 = () => {
       return e
     }
   );
+  const [FirstTimeFetch, setFirstTimeFetch] = useState(true)
+
+  useEffect(() => {
+
+    if (session?.data?.user) {
+      if (FirstTimeFetch) {
+        getSelectedCenterHandler()
+        setFirstTimeFetch(false)
+      }
+    }
+
+  }, [session?.data])
   console.log(session?.status)
   console.log(session?.data?.user)
 
 
   const [saveSelectedCenterResponse, saveSelectedCenterHandler] = useAPI(
     {
-      url: "/getSelectedLocation",
+      url: `/getSelectedLocation/${session?.data?.user?.id}`,
       method: "put",
+
 
     },
     (e) => {
+      console.log(e);
+
+      session.update({ selectedCity: e?.selectedCity })
 
       return e
     },
@@ -140,6 +155,8 @@ const UserHeader2 = () => {
       return e
     }
   );
+
+
 
 
   useEffect(() => {
@@ -284,7 +301,7 @@ const UserHeader2 = () => {
                     >
 
                       <span className="btn-text" >
-                        {'Select Location' ?? "Select Location"}
+                        {session?.data?.user?.selectedCity ?? "Select Location"}
                       </span>
                       {/* currentLocation, setCurrentLocation */}
                       <FaChevronDown size={14} className="dropdonw-arrow" />
@@ -297,15 +314,15 @@ const UserHeader2 = () => {
                         return (
                           <>
                             <div onClick={() => {
-                              localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
-                              setCurrentLocation(item)
+
+                              setCurrentLocation(session?.data?.user?.selectedCity ?? '')
                               saveSelectedCenterHandler({
                                 body: {
-                                  selectedLocation: item
+                                  selectedCity: item
                                 }
                               })
                               router.push(`/${item}`)
-                            }} className="center-selection-item  text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200',lineHeight:'13px' }}>
+                            }} className="center-selection-item  text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200', lineHeight: '13px' }}>
 
                               {item}
 
@@ -319,7 +336,7 @@ const UserHeader2 = () => {
 
 
 
-                    </div>                     
+                    </div>
                   </div>
                 </div>
               </div>
@@ -395,7 +412,7 @@ const UserHeader2 = () => {
                   <FaPhone size={18} className="call-icon" />
                   +91 9739923174
                 </a>
-                <a type="button" className={`btn ${(session?.status == 'authenticated' && session?.data?.user) ? 'user-button' : 'login-button'}`}   href={session?.status === 'authenticated' && session?.data?.user ?   undefined : "/login"} style={{
+                <a type="button" className={`btn ${(session?.status == 'authenticated' && session?.data?.user) ? 'user-button' : 'login-button'}`} href={session?.status === 'authenticated' && session?.data?.user ? undefined : "/login"} style={{
                   position: 'relative', lineHeight: `${(session?.status == 'authenticated' && session?.data?.user) ? '20px' : '50px'}`, padding: `${(session?.status == 'authenticated' && session?.data?.user) ? '5px 20px 0 7px' : '0 20px'}`
                 }}>
 
@@ -406,10 +423,9 @@ const UserHeader2 = () => {
                       </div>
                       <div style={{ width: '70%', textAlign: 'start' }} className="ps-2" >
                         <h1 className=" text-truncate text-capitalize m-0  " style={{ fontSize: '17px', fontWeight: '400', paddingTop: '10px' }}>{session?.data?.user?.name ?? 'Name'}</h1>
-
                       </div>
 
-                      
+
                     </div> : 'Login'
                   }
 
@@ -482,7 +498,7 @@ const UserHeader2 = () => {
                       </div>
 
                       <div onClick={() => {
-                        router.push("/my-profile")
+                        signOut({ redirect: true, callbackUrl: '/' });
                       }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
 
                         <span style={{ marginRight: '5px', color: '#003747' }}>
@@ -573,26 +589,26 @@ export default UserHeader2;
 
 function calculateAgeInYears(dateString) {
   // Remove time and only keep the date portion
- 
-  const birthDate = new Date(dateString?.split('T')?.[0]); 
+
+  const birthDate = new Date(dateString?.split('T')?.[0]);
   const today = new Date();
-  
-   let age = today?.getFullYear() - birthDate?.getFullYear();
+
+  let age = today?.getFullYear() - birthDate?.getFullYear();
   const monthDifference = today?.getMonth() - birthDate?.getMonth();
- 
+
   // Subtract 1 from the age if the birthday hasn't occurred yet this year
   if (monthDifference < 0 || (monthDifference === 0 && today?.getDate() < birthDate?.getDate())) {
     age--;
   }
 
-  if(age<0){
+  if (age < 0) {
     return 0
   }
 
-  else{
+  else {
     return age;
 
   }
 }
 
- 
+
