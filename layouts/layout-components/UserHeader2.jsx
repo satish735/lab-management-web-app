@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
+import SkeletonTextLoder from "@/components/SkeletonLoders/SkeletonTextLoder";
 
 // const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
@@ -33,7 +34,7 @@ import toast from "react-hot-toast";
 const UserHeader2 = () => {
   const [currentCity, setCurrentCity] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
- 
+
   const router = useRouter();
 
   const session = useSession()
@@ -103,8 +104,8 @@ const UserHeader2 = () => {
     },
     (e) => {
       console.log(e);
-      
-       session.update({ selectedCity:e?.[0]?.selectedLocation } )
+
+      session.update({ selectedCity: e?.[0]?.selectedLocation })
 
 
       return e
@@ -117,7 +118,8 @@ const UserHeader2 = () => {
       return e
     }
   );
-
+  console.log(session?.status)
+  console.log(session?.data?.user)
 
 
   const [saveSelectedCenterResponse, saveSelectedCenterHandler] = useAPI(
@@ -222,7 +224,7 @@ const UserHeader2 = () => {
             { label: "Lab Acquisition", href: "/partner-with-us/lab-acquisition" },
             { label: "Hospital Lab Management", href: "/partner-with-us/hospital-lab-management" },
             { label: "Corporate Wellness", href: "/partner-with-us/corporate-wellness" },
-           ],
+          ],
         },
       ],
     },
@@ -288,7 +290,7 @@ const UserHeader2 = () => {
                       <FaChevronDown size={14} className="dropdonw-arrow" />
                       <span className="btn-shape"></span>
                     </button>
-                    <div className="location-divs"   >
+                    <div className="location-divs "   >
 
 
                       {(allCentersResponse?.data?.cityArray ?? []).map((item) => {
@@ -303,7 +305,7 @@ const UserHeader2 = () => {
                                 }
                               })
                               router.push(`/${item}`)
-                            }} className="center-selection-item text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200' }}>
+                            }} className="center-selection-item  text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200',lineHeight:'13px' }}>
 
                               {item}
 
@@ -317,20 +319,7 @@ const UserHeader2 = () => {
 
 
 
-                    </div>                    {/* <ul className="miniPopup miniPopup-language list-unstyled">
-                      <li>
-                        <button>
-                          <img src="/assets/icons/en.png" alt="en" />
-                          <span>English</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button>
-                          <img src="/assets/icons/gr.png" alt="en" />
-                          <span>Germany</span>
-                        </button>
-                      </li>
-                    </ul> */}
+                    </div>                     
                   </div>
                 </div>
               </div>
@@ -406,74 +395,105 @@ const UserHeader2 = () => {
                   <FaPhone size={18} className="call-icon" />
                   +91 9739923174
                 </a>
-                <a type="button" className="btn login-button user-button" href="/login" style={{
-                  position: 'relative'
+                <a type="button" className={`btn ${(session?.status == 'authenticated' && session?.data?.user) ? 'user-button' : 'login-button'}`}   href={session?.status === 'authenticated' && session?.data?.user ?   undefined : "/login"} style={{
+                  position: 'relative', lineHeight: `${(session?.status == 'authenticated' && session?.data?.user) ? '20px' : '50px'}`, padding: `${(session?.status == 'authenticated' && session?.data?.user) ? '5px 20px 0 7px' : '0 20px'}`
                 }}>
-                  Login
-                  <div className="profile-div"  >
-                    <div className="d-flex pt-2" style={{ border: '1px solid green', borderRadius: '6px' }}>
+
+                  {(session?.status == 'authenticated' && session?.data?.user) ?
+                    <div className="d-flex gap-2"  >
                       <div style={{ width: '30%' }} >
-                        <img src="/assets/icons/MEN.png" style={{ height: '60px', width: '60px' }} />
+                        <img src="/assets/icons/MEN.png" style={{ height: '40px', width: '40px' }} />
                       </div>
                       <div style={{ width: '70%', textAlign: 'start' }} className="ps-2" >
-                        <h1 className=" text-capitalize m-0 p-0" style={{ fontSize: '17px', fontWeight: '400' }}>{'name'}</h1>
-                        <p className="text-capitalize  m-0 p-0" style={{ fontSize: '13px', fontWeight: '400', color: 'green' }}>{'role , 5 years'}</p>
+                        <h1 className=" text-truncate text-capitalize m-0  " style={{ fontSize: '17px', fontWeight: '400', paddingTop: '10px' }}>{session?.data?.user?.name ?? 'Name'}</h1>
+
                       </div>
-                    </div>
+
+                      
+                    </div> : 'Login'
+                  }
 
 
-                    <div onClick={() => {
-                      router.push("/mybookings")
-                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
 
-                      <span style={{ marginRight: '5px', color: '#003747' }}>
-                        <FaBook />
+                  {(session?.status == 'authenticated' && session?.data?.user) &&
+                    <div className="profile-div"  >
+                      <div className="d-flex pt-2 pb-2" style={{ border: '1px solid green', borderRadius: '6px' }}>
+                        <div style={{ width: '30%' }} >
+                          <img src="/assets/icons/MEN.png" style={{ height: '60px', width: '60px' }} />
+                        </div>
+                        <div style={{ width: '70%', textAlign: 'start' }} className="ps-2 pt-2">
+                          <h1 className=" text-capitalize mb-1 p-0" style={{ fontSize: '17px', fontWeight: '500' }}>{session?.data?.user?.name ?? 'Name'}</h1>
 
-                      </span>
-                      <span>My Bookings</span>
-
-
-                    </div>
-
-                    <div onClick={() => {
-                      router.push("/my-address")
-                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
-
-                      <span style={{ marginRight: '5px', color: '#003747' }}>
-                        <FaLocationDot />
+                          <p className="text-capitalize  m-0 p-0" style={{ fontSize: '13px', fontWeight: '500', color: 'green' }}>{session?.data?.user?.role ?? 'Role'} , {calculateAgeInYears(session?.data?.user?.otherDetails?.dob ?? null)} years</p>
+                        </div>
+                      </div>
 
 
-                      </span>
-                      <span>My Address</span>
+                      <div onClick={() => {
+                        router.push("/mybookings")
+                      }} className=" text-start user-profile-menu ps-3  mt-2" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
+
+                        <span style={{ marginRight: '5px', color: '#003747' }}>
+                          <FaBook />
+
+                        </span>
+                        <span>My Bookings</span>
 
 
-                    </div>
+                      </div>
 
-                    <div onClick={() => {
-                      router.push("/myfamilymembers")
-                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
+                      <div onClick={() => {
+                        router.push("/my-address")
+                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
 
-                      <span style={{ marginRight: '5px', color: '#003747' }}>
-                        <FaUserGroup />
-
-                      </span>
-                      <span>My Family Members</span>
+                        <span style={{ marginRight: '5px', color: '#003747' }}>
+                          <FaLocationDot />
 
 
-                    </div>
-                    <div onClick={() => {
-                      router.push("/my-profile")
-                    }} className=" text-start ps-3" style={{ fonSize: '17px', fonWeight: '500' }}>
-
-                      <span style={{ marginRight: '5px', color: '#003747' }}>
-                        <MdAccountCircle />
-
-                      </span>
-                      <span>My Profile</span>
+                        </span>
+                        <span>My Address</span>
 
 
-                    </div>
-                  </div>
+                      </div>
+
+                      <div onClick={() => {
+                        router.push("/myfamilymembers")
+                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
+
+                        <span style={{ marginRight: '5px', color: '#003747' }}>
+                          <FaUserGroup />
+
+                        </span>
+                        <span>My Family Members</span>
+
+
+                      </div>
+                      <div onClick={() => {
+                        router.push("/my-profile")
+                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
+
+                        <span style={{ marginRight: '5px', color: '#003747' }}>
+                          <MdAccountCircle />
+
+                        </span>
+                        <span>My Profile</span>
+
+
+                      </div>
+
+                      <div onClick={() => {
+                        router.push("/my-profile")
+                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
+
+                        <span style={{ marginRight: '5px', color: '#003747' }}>
+                          <MdAccountCircle />
+
+                        </span>
+                        <span>Logout</span>
+
+
+                      </div>
+                    </div>}
                 </a>
 
 
@@ -550,3 +570,29 @@ const cityList = [
   },
 ];
 export default UserHeader2;
+
+function calculateAgeInYears(dateString) {
+  // Remove time and only keep the date portion
+ 
+  const birthDate = new Date(dateString?.split('T')?.[0]); 
+  const today = new Date();
+  
+   let age = today?.getFullYear() - birthDate?.getFullYear();
+  const monthDifference = today?.getMonth() - birthDate?.getMonth();
+ 
+  // Subtract 1 from the age if the birthday hasn't occurred yet this year
+  if (monthDifference < 0 || (monthDifference === 0 && today?.getDate() < birthDate?.getDate())) {
+    age--;
+  }
+
+  if(age<0){
+    return 0
+  }
+
+  else{
+    return age;
+
+  }
+}
+
+ 

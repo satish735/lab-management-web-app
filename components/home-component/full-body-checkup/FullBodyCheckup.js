@@ -29,7 +29,6 @@ const FullBodyCheckup = () => {
 
 
 
-  console.log(locationSelected);
 
   const [testResponse, testHandler] = useAPI(
     {
@@ -99,27 +98,7 @@ const FullBodyCheckup = () => {
             Full Body Checkup Packages
           </p>
           <div className="col-lg-4 col-md-4 col-sm-12 pt-3">
-            <InputSelect
-              setValue={setSelectCategory}
-              value={SelectCategory}
-              options={[
-                { label: "Select Category", value: "value1", disabled: true },
 
-                { label: "test1", value: "value4" },
-                { label: "test2", value: "value2" },
-                { label: "test3", value: "value3" },
-              ]}
-              labelClassName="input-select-user-management-label"
-              isTouched={SelectCategoryIsTouch}
-              setIsTouched={setSelectCategoryIsTouch}
-              className="py-1 input-select input-select-user-management"
-              extraProps={{ style: { height: "40px" } }}
-              label={""}
-              isRequired={true}
-              feedbackMessage={SelectCategoryFeedbackMessage?.message}
-              feedbackType={SelectCategoryFeedbackMessage?.type}
-            // validateHandler={SelectCategorySelectValidater}
-            />
           </div>
         </div>
 

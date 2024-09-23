@@ -21,7 +21,7 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
                 toggle={() => { setisopencart(!isopencart) }}
                 isOpen={isopencart}
                 className="isopencart "
-                style={{ height: '50vh'  }}
+                style={{ height: '74vh'  }}
             >
 
                 <OffcanvasBody className='off-canvas-body-profile p-0' >
