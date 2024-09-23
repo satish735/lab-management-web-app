@@ -24,7 +24,7 @@ const Page = () => {
             method: "get",
             sendImmediately: true,
             params: {
-                userID: session?.data?.user?.id
+                userId: session?.data?.user?.id
             },
         },
         (e) => {

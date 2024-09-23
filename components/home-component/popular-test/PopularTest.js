@@ -24,9 +24,7 @@ const PopularTest = () => {
                 </h2>
 
                 <div >
-
                     <PopularLinkComponent item={array} />
-
                 </div>
 
 

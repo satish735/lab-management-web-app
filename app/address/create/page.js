@@ -15,6 +15,7 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) => {
 
     const session = useSession()
+
     const HouseNO = useInputComponent('');
     const FullnameValidater = (value) => {
         if (value === "" || !value) {
@@ -247,8 +248,6 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                         phone: Phone?.enteredValue,
                         pincode: Pincode?.enteredValue,
                         city: City?.enteredValue ?? "",
-                        userId: session?.data?.user?.id
-
                     }
                 })
             } else {

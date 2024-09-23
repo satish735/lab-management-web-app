@@ -12,10 +12,8 @@ export const POST = async (request, { params }) => {
       pincode: requestBody?.pincode,
       state:requestBody?.state ?? "",
       city:requestBody?.city ?? "",
-      userId:'66cf404ac1f2412ff270857f'
+      userId:requestBody?.userId 
     });
-
-
 
 
     await AddressDetailsnew.save();

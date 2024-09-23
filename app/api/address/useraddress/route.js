@@ -1,43 +1,20 @@
 import Address from "@/model2/Address";
 import { parse } from "url";
 
-export const GET = async (request, { params }) => {
+export const GET = async (request) => {
   try {
     const urlParams = parse(request.url, true);
-    const {
-      pageSize = 20,
-      pageNo = 1,
-      sortColumn = "createdAt",
-      sortDirection = "desc",
-      searchQuery = "",
-      userID =null
-    } = urlParams.query;
+    const { userId = null } = urlParams.query;
 
-
-    const skip = (pageNo - 1) * pageSize;
-    const sort = {};
-    if (sortColumn) {
-      sort[sortColumn] = sortDirection === "desc" ? -1 : 1;
-    }
-    
-    const searchFilter = { userID }; 
-    
-    if (searchQuery) {
-      searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
+    if (!userId) {
+      return new Response("userId is required", { status: 400 });
     }
 
-    const userinfodata = await Address
-      .find(searchFilter)
-      .sort(sort)
-      .skip(skip)
-      .limit(pageSize);
+    const getdata = await Address.find({ userId });
 
-    const totalCount = await Address.find(searchFilter).countDocuments();
-
-    const response = { data: userinfodata, total: totalCount };
-
-    return new Response(JSON.stringify(response), { status: 200 });
+    return new Response(JSON.stringify(getdata), { status: 200 });
   } catch (error) {
-    return new Response("Error", { status: 500 });
+    console.log(error);
+    return new Response(error?.message, { status: 500 });
   }
 };
