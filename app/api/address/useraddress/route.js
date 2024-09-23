@@ -6,11 +6,12 @@ export const GET = async (request) => {
     const urlParams = parse(request.url, true);
     const { userId = null } = urlParams.query;
 
+
     if (!userId) {
       return new Response("userId is required", { status: 400 });
     }
 
-    const getdata = await Address.find({ userId });
+    const getdata = await Address.find({ userId: userId });
 
     return new Response(JSON.stringify(getdata), { status: 200 });
   } catch (error) {

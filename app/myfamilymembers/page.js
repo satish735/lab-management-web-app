@@ -17,8 +17,7 @@ const Mymember = () => {
 
     const session = useSession()
 
-    console.log("session",session)
-
+ 
     const [updatemember, setUpdatemember] = useState({})
     const [ismember, setIsmember] = useState(false)
     const [membersResponse, membersHandler] = useAPI(
@@ -27,12 +26,14 @@ const Mymember = () => {
             method: "get",
             sendImmediately: true,
             params: {
-                loginId: session?.data?.user?.id
+                loginId: session?.data?.user?.otherDetails?._id
             },
         },
         (e) => {
 
-            return e?.data
+            console.log("'dddddddddddddddd'",e)
+
+            return e
         },
         (e) => {
             toast.error(transformErrorDefault(

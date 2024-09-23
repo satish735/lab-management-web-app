@@ -10,7 +10,7 @@ export const POST = async (request, { params }) => {
       gender: requestBody?.gender,
       dob: requestBody?.dob,
       relation: requestBody?.relation,
-      loginId: requestBody?.loginId ?? "66f068edbc706deb4886b17f",
+      loginId: requestBody?.loginId ,
     });
 
     await UserDetailsnew.save();

@@ -28,7 +28,9 @@ const Page = () => {
             },
         },
         (e) => {
-            return e?.data
+
+            console.log(e,"xxxxxxxxxxxxxxx")
+            return e
         },
         (e) => {
             toast.error(transformErrorDefault(

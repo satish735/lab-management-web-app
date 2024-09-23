@@ -10,9 +10,13 @@ import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
 import moment from "moment";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import {  useSession } from "next-auth/react";
 
 
 const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
+    const session = useSession()
+
+    var user = session?.data?.user?.otherDetails
 
 
 
@@ -224,7 +228,7 @@ const reset = ()=> {
                         gender: GenderType,
                         email: Email.enteredValue,
                         relation: relationType,
-                        loginId:""
+                        loginId:user?._id
                     }
                 })
             }

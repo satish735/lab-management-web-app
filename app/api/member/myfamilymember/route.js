@@ -3,41 +3,17 @@ import { parse } from "url";
 
 export const GET = async (request, { params }) => {
   try {
+
     const urlParams = parse(request.url, true);
     const {
-      pageSize = 20,
-      pageNo = 1,
-      sortColumn = "createdAt",
-      sortDirection = "desc",
-      searchQuery = "",
-      loginId = null, 
+      loginId = null
     } = urlParams.query;
 
-    const skip = (pageNo - 1) * pageSize;
-    const sort = {};
-    if (sortColumn) {
-      sort[sortColumn] = sortDirection === "desc" ? -1 : 1;
-    }
+    const userinfodata = await UserDetails.find({ loginId });
 
-    const searchFilter = { loginId }; 
-
-    if (searchQuery) {
-      searchFilter.$or = [{ title: { $regex: searchQuery, $options: "i" } }];
-    }
-
-    const userinfodata = await UserDetails
-      .find(searchFilter)
-      .sort(sort)
-      .skip(skip)
-      .limit(pageSize);
-
-    const totalCount = await UserDetails.find(searchFilter).countDocuments();
-
-    const response = { data: userinfodata, total: totalCount };
-
-    console.log("userinfodata", response);
-    return new Response(JSON.stringify(response), { status: 200 });
+    return new Response(JSON.stringify(userinfodata), { status: 200 });
   } catch (error) {
-    return new Response("Error", { status: 500 });
+    console.log(error);
+    return new Response(error?.message, { status: 500 });
   }
 };
