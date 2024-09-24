@@ -129,7 +129,8 @@ const Page = () => {
                                         url: `/address/${item?._id}`
                                     })
                                 }} className="btn btn-danger mx-2" >
-                                    {(deleteaddressResponse?.fetching && deleteid == item?._id) ? <Spinner size='sm' /> : 'Delete'}
+                                    {(deleteaddressResponse?.fetching && deleteid == item?._id) ?
+                                     <Spinner size='sm' /> : 'Delete'}
                                 </button>
                             </div>
                         </div>

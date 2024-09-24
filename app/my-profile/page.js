@@ -116,7 +116,51 @@ const MyProfile = () => {
         return true;
     };
 
+    const [UpdateMemberResponse, UpdateMemberHandler] = useAPI(
+        {
+            url: `/member/${session?.data?.user?.otherDetails?._id}`,
+            method: "put",
+        },
+        (e) => {
 
+            toast.success("User Profile has been updated successfully");
+
+
+        },
+        (e) => {
+
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating Body Part!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
+
+
+    const submit = () => {
+        var isFullnameValidater = FullnameValidater(Name.enteredValue)
+        var isDOBValidater = DOBValidater(DOB.enteredValue)
+        var isGenderTypeSelectValidater = GenderTypeSelectValidater(GenderType)
+        var isEmailValidater = EmailValidater(Email.enteredValue)
+
+        if (!isFullnameValidater || !isDOBValidater || !isGenderTypeSelectValidater || !isEmailValidater ) {
+            toast.error(
+                "Fill required fields!"
+            );
+        } else {
+            UpdateMemberHandler({
+                body: {
+                    name: Name.enteredValue,
+                    dob: DOB.enteredValue,
+                    gender: GenderType,
+                    email: Email.enteredValue,
+                }
+            })
+        }
+    }
 
 
     return <>
@@ -125,20 +169,18 @@ const MyProfile = () => {
         <div className='main-parent-bar-div'>
 
             <div className='side-bar-main' style={{ backgroundColor: 'white' }}>
-
                 <SideBarProfile />
             </div>
 
             <div className='item-page-section'>
-
                 <div className="my-3">
-                    <h4 className="px-5 mx-5" style={{ fontWeight: "1.orem", fontWeight: "700" }}> My Profile
+                    <h4 className="px-5 mx-5" style={{ fontWeight: "1.orem", fontWeight: "700" }}> 
+                        My Profile
                     </h4>
 
                     <div className="text-center">
                         <img src="/assets/images/male.png" style={{ marginRight: "18px" }} alt="" />
                     </div>
-
                     <div className='row px-5 mx-5 my-2'>
                         <div className=" my-1 col-12">
                             <InputWithAddOn
@@ -153,7 +195,7 @@ const MyProfile = () => {
                                 setIsTouched={Name.setIsTouched}
                                 validateHandler={FullnameValidater}
                                 reset={Name.reset}
-                                disabled={true}
+                                // disabled={true}
                             />
                         </div>
 
@@ -170,8 +212,8 @@ const MyProfile = () => {
                                 isTouched={Email.isTouched}
                                 setIsTouched={Email.setIsTouched}
                                 validateHandler={EmailValidater}
-                                reset={Email.reset}
-                                disabled={true}
+                                reset={Email?.reset}
+                                // disabled={true}
                             />
                         </div>
 
@@ -187,7 +229,7 @@ const MyProfile = () => {
                                 isTouched={Phone.isTouched}
                                 setIsTouched={Phone.setIsTouched}
                                 validateHandler={PhoneValidater}
-                                reset={Phone.reset}
+                                reset={Phone?.reset}
                                 disabled={true}
                             />
                         </div>
@@ -206,7 +248,7 @@ const MyProfile = () => {
                                 setIsTouched={DOB.setIsTouched}
                                 validateHandler={DOBValidater}
                                 reset={DOB.reset}
-                                disabled={true}
+                                // disabled={true}
                             />
                         </div>
                         <div className="col-sm-6 col-12 my-1 ">
@@ -218,13 +260,17 @@ const MyProfile = () => {
                                 setIsTouched={setGenderTypeIsTouch}
                                 className="py-1"
                                 label={"Gender"}
-                                disabled={true}
+                                // disabled={true}
                                 feedbackMessage={GenderTypeMessage?.message}
                                 feedbackType={GenderTypeMessage?.type}
                                 validateHandler={GenderTypeSelectValidater}
                             />
                         </div>
-
+                         <div className="text-end">
+                             <button onClick={submit} className="btn btn-theme primary"> 
+                               {UpdateMemberResponse?.fetching ? <Spinner size='sm' /> : "Update Profile"}  
+                             </button>
+                         </div>
 
                     </div>
                 </div>

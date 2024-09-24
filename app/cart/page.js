@@ -33,7 +33,7 @@ const Cart = () => {
 
 
 
-    const [step, setstep] = useState(4);
+    const [step, setstep] = useState(1);
 
 
     const [addtestandpackage, settestandpackage] = useState()
@@ -42,7 +42,6 @@ const Cart = () => {
         {
             url: "/member/myfamilymember",
             method: "get",
-            sendImmediately: true,
             params: {
                 loginId: session?.data?.user?.otherDetails?._id
             },
@@ -67,6 +66,19 @@ const Cart = () => {
 
 
 
+
+
+    useEffect(()=> {
+
+        if(session?.data){
+            userinfoHandler({
+                params: {
+                    loginId: session?.data?.user?.otherDetails?._id
+                }
+            })
+        }
+
+    },[session?.data])
 
     const [rate, setrate] = useState(0)
 
@@ -424,15 +436,11 @@ const session = useSession()
 
     }, [selectlab, selectaddress, islab])
 
-console.log("session?.data?.user?.id",session?.data?.user?.id)
     const [AddressResponse, AddressHandler] = useAPI(
         {
             url: `/address/useraddress`,
             method: "get",
-            sendImmediately: true,
-            params: {
-                userId: session?.data?.user?.id
-            }
+           
         },
         (e) => {
 
@@ -446,6 +454,15 @@ console.log("session?.data?.user?.id",session?.data?.user?.id)
             return e
         }
     );
+      useEffect(()=> {
+       if(session?.data){
+        AddressHandler({
+            params: {
+                userId: session?.data?.user?.id
+            }
+        })
+       }
+      },[session?.session])
 
 
     const [modal2, setModal2] = useState(false);
