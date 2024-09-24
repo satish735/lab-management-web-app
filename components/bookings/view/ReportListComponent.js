@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import {
     FaRegTrashCan, FaRegEye, FaDownload
 } from "react-icons/fa6";
-const ReportListComponent = ({ testReports = [], successHandler = () => { } }) => {
+const ReportListComponent = ({ testReports = [], successHandler = () => { }, isEdit = true }) => {
 
     var tempGrouped = []
     testReports.forEach(testItem => {
@@ -26,7 +26,7 @@ const ReportListComponent = ({ testReports = [], successHandler = () => { } }) =
                 return <div key={index + item?.id}>
                     <h5 style={{ color: "var(--color-secondary)" }}>Package/Test :- {item?.name}</h5>
                     {item.items.map((reportItem, index2) => {
-                        return <ReportListComponentItem key={index2 + index + reportItem?._id} item={reportItem} successHandler={successHandler} />
+                        return <ReportListComponentItem isEdit={isEdit} key={index2 + index + reportItem?._id} item={reportItem} successHandler={successHandler} />
                     })}
                 </div>
             })}
@@ -34,7 +34,7 @@ const ReportListComponent = ({ testReports = [], successHandler = () => { } }) =
     )
 }
 
-const ReportListComponentItem = ({ item = {}, successHandler = () => { } }) => {
+const ReportListComponentItem = ({ item = {}, successHandler = () => { }, isEdit = true }) => {
 
     const [getPresignedURLResponse, getPresignedURLHandler] = useAPI(
         {
@@ -87,13 +87,13 @@ const ReportListComponentItem = ({ item = {}, successHandler = () => { } }) => {
                 })
             }} />
             {/* <FaDownload className="action-icon" onClick={open} /> */}
-            <FaRegTrashCan className="action-icon text-danger" onClick={async () => {
+           {isEdit &&  <FaRegTrashCan className="action-icon text-danger" onClick={async () => {
                 if (removeReportResponse?.fetching || getPresignedURLResponse?.fetching) {
                     toast.error("There has an process in queue please wait a while for next process!")
                     return
                 }
                 await removeReportHandler()
-            }} />
+            }} />}
 
         </div>
         <div className="general-details row m-0 py-0 mb-2">

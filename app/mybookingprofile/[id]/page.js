@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import React, { useEffect, useState } from "react";
 import { Input, Spinner } from 'reactstrap'
 import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
-const MyBookingProfileInfo = () => {
+import BookingPageUser from "@/components/bookings/view/BookingPageUser";
+const MyBookingProfileInfo = ({ params }) => {
 
     return (<>
         <div className='main-parent-bar-div'>
@@ -12,7 +13,7 @@ const MyBookingProfileInfo = () => {
                 <SideBarProfile />
             </div>
             <div className='item-page-section'>
-    
+                <BookingPageUser bookingNumber={params?.id} />
             </div>
         </div>
 
