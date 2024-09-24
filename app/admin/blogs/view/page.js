@@ -59,7 +59,7 @@ const Page = ({ searchParams }) => {
                 } else if (e?.trending && item?.value == "trending") {
                     return item
                 }
-            })?.filter((item) =>  item != undefined)
+            })?.filter((item) => item != undefined)
 
             setSelectedTags(getdata ?? [])
             return e
@@ -180,7 +180,7 @@ const Page = ({ searchParams }) => {
             is_home: selectedTags.some((item) => item?.value == "is_home"),
             trending: selectedTags.some((item) => item?.value == "trending"),
             isPopular: selectedTags.some((item) => item?.value == "is_popular"),
-            image: imageFile?.filePath,
+            // image: imageFile?.filePath,
             ckdescription: content,
         };
         await blogHandler({ body: submitBody });
@@ -243,62 +243,66 @@ const Page = ({ searchParams }) => {
                         </div>
 
 
-                        <div className="row mt-2">
-                            <div className=" col-md-6 col-12">
-                                <InputWithAddOn
-                                    label="Blog Title"
-                                    isRequired={true}
-                                    value={titleInput.enteredValue}
-                                    setValue={titleInput.setEnteredValue}
-                                    feedbackMessage={titleInput.feedbackMessage}
-                                    feedbackType={titleInput.messageType}
-                                    isTouched={titleInput.isTouched}
-                                    setIsTouched={titleInput.setIsTouched}
-                                    validateHandler={titleInputValidater}
-                                />
-                            </div>
-                            <div className=" col-md-6 col-12">
-                                <InputMultipleSelect
-                                    label="Tags"
-                                    options={[
-                                        { label: "Show At Home", value: "is_home" },
-                                        { label: "Trending", value: "trending" },
-                                        { label: "Popular", value: "is_popular" },
-                                    ]}
-                                    isRequired={true}
-                                    value={selectedTags}
-                                    setValue={setSelectedTags}
-                                    feedbackMessage={
-                                        "Select tags from above to make blog more visible."
-                                    }
-                                    feedbackType={"info"}
-                                />
-                            </div>
-                            <div>
-                                <InputTextArea
-                                    label="Description"
-                                    isRequired={true}
-                                    value={descriptionInput.enteredValue}
-                                    setValue={descriptionInput.setEnteredValue}
-                                    feedbackMessage={descriptionInput.feedbackMessage}
-                                    feedbackType={descriptionInput.messageType}
-                                    isTouched={descriptionInput.isTouched}
-                                    setIsTouched={descriptionInput.setIsTouched}
-                                    validateHandler={descriptionInputValidater}
-                                />
-                            </div>
-
-                            <div className="py-3">
+                        <div className="row" >
+                            <div className="py-3 col-sm-3 col-12">
                                 <h6 className="py-1 small">Add Banner Image</h6>
                                 <SingleImageDropZone file={imageFile} setFile={setImageFile} />
                             </div>
+                            <div className="row mt-2 col-sm-9 col-12">
+                                <div className=" col-md-6 col-12">
+                                    <InputWithAddOn
+                                        label="Blog Title"
+                                        isRequired={true}
+                                        value={titleInput.enteredValue}
+                                        setValue={titleInput.setEnteredValue}
+                                        feedbackMessage={titleInput.feedbackMessage}
+                                        feedbackType={titleInput.messageType}
+                                        isTouched={titleInput.isTouched}
+                                        setIsTouched={titleInput.setIsTouched}
+                                        validateHandler={titleInputValidater}
+                                    />
+                                </div>
+                                <div className=" col-md-6 col-12">
+                                    <InputMultipleSelect
+                                        label="Tags"
+                                        options={[
+                                            { label: "Show At Home", value: "is_home" },
+                                            { label: "Trending", value: "trending" },
+                                            { label: "Popular", value: "is_popular" },
+                                        ]}
+                                        isRequired={true}
+                                        value={selectedTags}
+                                        setValue={setSelectedTags}
+                                        feedbackMessage={
+                                            "Select tags from above to make blog more visible."
+                                        }
+                                        feedbackType={"info"}
+                                    />
+                                </div>
+                                <div>
+                                    <InputTextArea
+                                        label="Description"
+                                        isRequired={true}
+                                        value={descriptionInput.enteredValue}
+                                        setValue={descriptionInput.setEnteredValue}
+                                        feedbackMessage={descriptionInput.feedbackMessage}
+                                        feedbackType={descriptionInput.messageType}
+                                        isTouched={descriptionInput.isTouched}
+                                        setIsTouched={descriptionInput.setIsTouched}
+                                        validateHandler={descriptionInputValidater}
+                                    />
+                                </div>
 
-                            <div style={{ height: "400px" }}>
-                                <TextEditor content={content} setContent={setContent} />
+
                             </div>
                         </div>
 
 
+
+
+                        <div style={{ height: "400px" }}>
+                            <TextEditor content={content} setContent={setContent} />
+                        </div>
                     </div>
                 </div>
             </div>}

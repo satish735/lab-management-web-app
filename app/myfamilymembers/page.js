@@ -17,14 +17,13 @@ const Mymember = () => {
 
     const session = useSession()
 
- 
+
     const [updatemember, setUpdatemember] = useState({})
     const [ismember, setIsmember] = useState(false)
     const [membersResponse, membersHandler] = useAPI(
         {
             url: "/member/myfamilymember",
             method: "get",
-            sendImmediately: true,
             params: {
                 loginId: session?.data?.user?.otherDetails?._id
             },
@@ -42,6 +41,20 @@ const Mymember = () => {
             return e
         }
     );
+
+
+
+    useEffect(() => {
+        if (session?.data) {
+            membersHandler({
+                params: {
+                    loginId: session?.data?.user?.otherDetails?._id
+                },
+            })
+        }
+
+    }, [session?.data])
+
 
 
 

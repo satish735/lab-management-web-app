@@ -8,7 +8,7 @@ export const GET = async (request) => {
   try {
     // Parse URL parameters
     const urlParams = parse(request.url, true);
-    const { pageSize = 20, pageNo = 1, sortColumn = "createdAt", sortDirection = "desc" } = urlParams.query;
+    const { pageSize = 20, pageNo = 1, sortColumn = "createdAt", sortDirection = "desc", teamMemberId = null } = urlParams.query;
 
     // Pagination and sorting configuration
     const skip = (pageNo - 1) * pageSize;
@@ -18,7 +18,7 @@ export const GET = async (request) => {
     }
 
     // Fetch bookings with populated references
-    const bookingList = await Booking.find({})
+    const bookingList = await Booking.find({ teamMemberId: teamMemberId })
       .populate({
         path: "slotId",
         select: "slotStartTime slotDate",

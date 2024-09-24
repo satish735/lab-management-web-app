@@ -178,17 +178,14 @@ const CreateDiscountCoupen = () => {
 
     const CouponCode = useInputComponent('');
     const CouponCodeValidater = (value) => {
+        const regex = /^[a-zA-Z0-9]{5,12}$/;
         if (value === "" || !value) {
-            CouponCode.setFeedbackMessage(
-                "Field required!"
-            );
+            CouponCode.setFeedbackMessage("Field required!");
             CouponCode.setMessageType("error");
             return false;
         }
-        if (value?.length < 5) {
-            CouponCode.setFeedbackMessage(
-                "Minimum 5 character required!"
-            );
+        if (!regex.test(value)) {
+            CouponCode.setFeedbackMessage("Invalid code! Only alphanumeric characters, 5-12 characters long.");
             CouponCode.setMessageType("error");
             return false;
         }
@@ -196,7 +193,6 @@ const CreateDiscountCoupen = () => {
         CouponCode.setMessageType("none");
         return true;
     };
-
 
     const [DiscountType, setDiscountType] = useState();
     const [DiscountTypeIsTouch, setDiscountTypeIsTouch] = useState(false);
@@ -1148,7 +1144,7 @@ const CreateDiscountCoupen = () => {
                             <button
                                 className="mx-2 btn btn-outline-dark"
                                 onClick={() => {
-                                    router.push("/admin/body-parts");
+                                    router.push("/admin/coupen");
                                 }}
                                 type="button"
                             >

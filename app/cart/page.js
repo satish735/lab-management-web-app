@@ -18,25 +18,22 @@ import Address from "@/app/address/create/page"
 import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
-
+import moment from "moment"
 
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
-
+import AddCoupon from "@/app/cart/AddCoupon"
 
 const Cart = () => {
 
     const session = useSession()
-
-    
     const router = useRouter();
 
-
-
     const [step, setstep] = useState(1);
-
-
     const [addtestandpackage, settestandpackage] = useState()
+
+
+
 
     const [userinfoResponse, userinfoHandler] = useAPI(
         {
@@ -68,9 +65,9 @@ const Cart = () => {
 
 
 
-    useEffect(()=> {
+    useEffect(() => {
 
-        if(session?.data){
+        if (session?.data) {
             userinfoHandler({
                 params: {
                     loginId: session?.data?.user?.otherDetails?._id
@@ -78,7 +75,7 @@ const Cart = () => {
             })
         }
 
-    },[session?.data])
+    }, [session?.data])
 
     const [rate, setrate] = useState(0)
 
@@ -159,7 +156,7 @@ const Cart = () => {
                         setstep={setstep}
                         rate={rate}
                         addtestandpackage={addtestandpackage}
-                        
+
                         setselectlab={setselectlab}
                         selectlab={selectlab}
                         setselectaddress={setselectaddress}
@@ -191,8 +188,10 @@ const Cart = () => {
                         islab={islab}
                         selectaddress={selectaddress}
                         selectlab={selectlab}
+                        slotdata={slotdata}
                     />}
-                </div>}
+                </div>
+            }
         </div >
     );
 };
@@ -237,7 +236,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
         }
     );
     return (<>
-        <div>
+        <div className="text-capitalize" style={{ textTransform: "capitalize" }}  >
             <h2 className="p-4 " style={{ fontWeight: "700", fontSize: "1.2rem" }}> Add Patients</h2>
             <div className="row">
                 <div className=" col-sm-8 col-12 ">
@@ -249,7 +248,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
                                         <AccordionHeader targetId={index}>
                                             <button className="tablinks">
 
-                                                <h6  >
+                                                <h6 className="text-capitalize" >
                                                     <img src="/assets/images/male.png" style={{ width: "35px", heigit: "35px", marginRight: "18px" }} alt="" />
                                                     {item?.name}</h6>
                                             </button>
@@ -331,7 +330,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
 
 
                 {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
-                    <div className="summary"><h3>Summary</h3>
+                    <div className=" " style={{ fontWeight: '700' }}><h3>Summary</h3>
                         <div className="checkout-summary">
                             {(addtestandpackage ?? [])?.map((itemtest, index) => {
 
@@ -345,7 +344,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
                             })}
 
                         </div>
-                        <h3>rate Details</h3>
+                        <h3 style={{ fontWeight: '700' }} className="text-capitalize">rate Details</h3>
                         <div className="checkout-rate-details">
 
                             {(addtestandpackage ?? [])?.map((testrate, index) => {
@@ -383,12 +382,12 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
 
 
 
-const Step2 = ({ setstep, rate , addtestandpackage , setselectlab, 
-    selectlab , setselectaddress, selectaddress, 
-    changecheckboxcollecion, changecheckboxlab, 
-    islab, iscollection}) => {
+const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
+    selectlab, setselectaddress, selectaddress,
+    changecheckboxcollecion, changecheckboxlab,
+    islab, iscollection }) => {
 
-const session = useSession()
+    const session = useSession()
 
 
 
@@ -440,7 +439,9 @@ const session = useSession()
         {
             url: `/address/useraddress`,
             method: "get",
-           
+            params: {
+                userId: session?.data?.user?.id
+            }
         },
         (e) => {
 
@@ -454,22 +455,22 @@ const session = useSession()
             return e
         }
     );
-      useEffect(()=> {
-       if(session?.data){
-        AddressHandler({
-            params: {
-                userId: session?.data?.user?.id
-            }
-        })
-       }
-      },[session?.session])
+    useEffect(() => {
+        if (session?.data) {
+            AddressHandler({
+                params: {
+                    userId: session?.data?.user?.id
+                }
+            })
+        }
+    }, [session?.session])
 
 
     const [modal2, setModal2] = useState(false);
     const toggle2 = () => setModal2(!modal2);
 
     return (<>
-        <div>
+        <div className="text-capitalize" >
             <div className="my-3 select-tab" style={{ display: "flex", color: "green" }} >
 
                 <div onClick={changecheckboxcollecion} class=" mx-3 bg-white py-2 px-3 border border-2 rounded">
@@ -513,7 +514,7 @@ const session = useSession()
                                                 }}
                                                 label={''}
                                             />
-                                            <span className="px-2" style={{
+                                            <span className="px-2 pt-0" style={{
                                                 fontSize: "1.1rem",
                                                 fontWeight: "700"
                                             }}>{item?.addressType ?? ""}</span>
@@ -568,7 +569,7 @@ const session = useSession()
                 </div>}
 
                 {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
-                    <div className="summary"><h3>Summary</h3>
+                    <div className="summary" style={{ fontWeight: '700' }}><h3>Summary</h3>
                         <div className="checkout-summary">
                             {(addtestandpackage ?? [])?.map((itemtest, index) => {
 
@@ -582,7 +583,7 @@ const session = useSession()
                             })}
 
                         </div>
-                        <h3>rate Details</h3>
+                        <h3 style={{ fontWeight: '700' }} className="text-capitalize">rate Details</h3>
                         <div className="checkout-rate-details">
 
                             {(addtestandpackage ?? [])?.map((testrate, index) => {
@@ -630,19 +631,19 @@ const session = useSession()
 }
 
 
-const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setstep, rate , addtestandpackage }) => {
+const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setstep, rate, addtestandpackage }) => {
 
 
 
-    return(<>
+    return (<>
 
-        <div>
+        <div className="text-capitalize" >
             <div className="row" >
                 <div className="col-sm-8 col-12" >
                     <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} setslotdata={setslotdata} />
                 </div>
                 {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
-                    <div className="summary"><h3>Summary</h3>
+                    <div className="summary" style={{ fontWeight: '700' }} ><h3>Summary</h3>
                         <div className="checkout-summary">
                             {(addtestandpackage ?? [])?.map((itemtest, index) => {
 
@@ -656,7 +657,7 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
                             })}
 
                         </div>
-                        <h3>rate Details</h3>
+                        <h3 style={{ fontWeight: '700' }} className="text-capitalize">rate Details</h3>
                         <div className="checkout-rate-details">
 
                             {(addtestandpackage ?? [])?.map((testrate, index) => {
@@ -674,7 +675,8 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
 
                             <button onClick={() => {
                                 setstep(4)
-                            }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
+                            }} className="continue_button"
+                                style={{ textDecoration: "none" }} >Continue</button>
 
                         </div>
                     </div>}
@@ -682,18 +684,24 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
                     <div className=" my-2">
                         <button onClick={() => {
                             setstep(2)
-                        }} className="btn btn-outline-success block py-2 " style={{ textDecoration: "none", display: 'block', width: "100%" }} >Back</button>
+                        }} className="btn btn-outline-success block py-2 "
+                            style={{
+                                textDecoration: "none",
+                                display: 'block', width: "100%"
+                            }} >Back</button>
                     </div>
                 </div>}
             </div>
         </div>
-        </>
-        )
+    </>
+    )
 }
 
-const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, selectaddress , selectlab}) => {
+const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata }) => {
 
 
+
+    console.log("setstepsetstepsetstepsetstep", slotdata)
 
     // step 4 
 
@@ -780,6 +788,45 @@ const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, se
         }
     );
 
+
+
+    const [CouponResponse, CouponHandler] = useAPI(
+        {
+            url: "/bookings/getcoupon",
+            method: "get",
+        },
+        (e) => {
+
+            return e?.data
+
+        },
+        (e) => {
+
+            return toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating your order!",
+                    e
+                )
+            );
+        }
+    );
+
+
+
+    useEffect(() => {
+
+        if (session?.data) {
+            CouponHandler({
+                params: {
+                    userId: session.data.user?.otherDetails?._id
+                }
+            })
+        }
+    }, [session?.data])
+
+
+
+
     const submit = async () => {
 
         let bookingtest = (addtestandpackage ?? [])
@@ -794,10 +841,10 @@ const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, se
             body: {
                 team_members: bookingtest,
                 center_id: selectlab?._id,
-                payment_type: ispayonline ? "cash" : "cash",
-                collection_type: islab ? "lab" : "lab",
-                slot_id: selectedSlotId ,
-                discoun: 0,
+                payment_type: ispayonline ? "online" : "cash",
+                collection_type: islab ? "lab" : "home",
+                slot_id: selectedSlotId,
+                discount: 0,
                 home_collection_charge: 0,
                 total: rate,
                 address_id: islab == false ? selectaddress._id : null ?? null,
@@ -809,14 +856,16 @@ const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, se
 
 
 
+    const[selectCoupon , setselectCoupon] = useState({})
 
-
-
-
+    const [iscouponcode, setisCouponcode] = useState(false)
+    const CouponToggle = () => {
+        setisCouponcode(!iscouponcode)
+    }
 
 
     return (<>
-        <div>
+        <div className="text-capitalize" >
 
             <div className="row my-3" >
 
@@ -849,6 +898,9 @@ const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, se
 
                     </div>
 
+
+
+
                     <div className="bg-white p-3 my-4 mx-2 rounded" >
                         {(addtestandpackage?.cart ?? [])?.map((item, index) => {
                             return (<div key={index}>
@@ -875,14 +927,58 @@ const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, se
                     </div>
 
 
+
+                    <div>
+                        <h6 style={{ fontWeight: "700", fontSize: "1.0rem" }} >{islab ? "Lab" : "Home Collection"} </h6>
+
+
+                        {islab ? <div className="p-3 bg-white rounded border w-100 ">
+                            <div className="filter-boxleft py-2 " style={{ borderBottom: "1px solid #dee2db ", width: "100%" }}>
+
+                                <span className="px-2" style={{ fontSize: "1.1rem", fontWeight: "700" }}>{selectlab?.centre ?? ""}</span>
+
+                            </div>
+
+                            <div className="checkbox-tests-name  " style={{ display: "block", paddingLeft: "15px" }}>
+                                {selectlab?.address ?? ""}
+                            </div>
+
+                        </div> :
+
+                            <div className="p-3 bg-white rounded border w-100 ">
+                                <div className="filter-boxleft py-2 " style={{
+                                    borderBottom: "1px solid #dee2db ",
+                                    width: "100%"
+                                }}>
+
+                                    <span className="px-2" style={{
+                                        fontSize: "1.1rem",
+                                        fontWeight: "700"
+                                    }}>{selectaddress?.addressType ?? ""}</span>
+
+                                </div>
+
+                                <div className="checkbox-tests-name  " style={{ display: "block", paddingLeft: "15px" }}>
+                                    {selectaddress?.houseNo}   {selectaddress?.addressLine1 ?? ""}
+                                </div>
+
+                            </div>
+                        }
+
+
+
+
+                    </div>
+
+
                     <div className="bg-white  my-4  rounded">
-                       
+
                         <div className="row  py-2 mt-1 rounded" style={{ background: "#f1f6ee" }} >
                             <div className="col-2 text-center" >
                                 <img src="/assets/images/time.png" className="p-2 mt-2 rounded-circle" style={{ height: "40px", background: "#f1f6ee" }} />
                             </div>
                             <div className="col-10" >
-                                <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >At 08:00 AM</h6>
+                                <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >At {slotdata?.slotStartTime ?? ""} </h6>
                                 <p className="" style={{ fontSize: "0.7rem" }}>Tuesday | September 3, 2024</p>
                             </div>
 
@@ -894,6 +990,25 @@ const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, se
 
                 <div className="col-sm-4 col-12  " >
 
+
+
+                    <div>
+
+                        <button onClick={() => {
+                            CouponToggle()
+                        }} className="continue_button">
+                            Apply Coupon Code
+                        </button>
+                        <AddCoupon
+                            modal={iscouponcode}
+                            toggle={CouponToggle}
+                            CouponResponse={CouponResponse?.data}
+                            setselectCoupon={setselectCoupon}
+                        />
+
+
+
+                    </div>
 
 
 

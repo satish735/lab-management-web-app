@@ -26,7 +26,7 @@ const CreateDiscountCoupen = ({ searchParams }) => {
             method: "put",
         },
         (e) => {
-
+            router.push("/admin/coupen");
             toast.success("Coupen updated successfully");
 
 
@@ -52,7 +52,7 @@ const CreateDiscountCoupen = ({ searchParams }) => {
         },
         (e) => {
 
-            router.push('/admin/coupen')
+            router.push("/admin/coupen");
             toast.success("Coupon deleted successfully.");
 
 
@@ -60,7 +60,6 @@ const CreateDiscountCoupen = ({ searchParams }) => {
             return e
         },
         (e) => {
-            // setisSubmit(false)
             toast.error(transformErrorDefault(
                 "Something went wrong while deleting!",
                 e
@@ -170,25 +169,30 @@ const CreateDiscountCoupen = ({ searchParams }) => {
 
     const CouponName = useInputComponent('');
     const CouponNameValidater = (value) => {
+        
         if (value === "" || !value) {
-            CouponName.setFeedbackMessage(
-                "Field required!"
-            );
+            CouponName.setFeedbackMessage("Field required!");
             CouponName.setMessageType("error");
             return false;
         }
+       
+        
         CouponName.setFeedbackMessage("");
         CouponName.setMessageType("none");
         return true;
     };
-
+    
 
     const CouponCode = useInputComponent('');
     const CouponCodeValidater = (value) => {
+        const regex = /^[a-zA-Z0-9]{5,12}$/;
         if (value === "" || !value) {
-            CouponCode.setFeedbackMessage(
-                "Field required!"
-            );
+            CouponCode.setFeedbackMessage("Field required!");
+            CouponCode.setMessageType("error");
+            return false;
+        }
+        if (!regex.test(value)) {
+            CouponCode.setFeedbackMessage("Invalid code! Only alphanumeric characters, 5-12 characters long.");
             CouponCode.setMessageType("error");
             return false;
         }
@@ -196,7 +200,7 @@ const CreateDiscountCoupen = ({ searchParams }) => {
         CouponCode.setMessageType("none");
         return true;
     };
-
+    
 
     const [DiscountType, setDiscountType] = useState();
     const [DiscountTypeIsTouch, setDiscountTypeIsTouch] = useState(false);
@@ -1348,7 +1352,7 @@ const CreateDiscountCoupen = ({ searchParams }) => {
                                 <button
                                     className="mx-2 btn btn-outline-dark"
                                     onClick={() => {
-                                        router.push("/admin/body-parts");
+                                        router.push("/admin/coupen");
                                     }}
                                     type="button"
                                 >

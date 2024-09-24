@@ -7,21 +7,24 @@ import InputSelect from "@/components/formInput/select/InputSelect";
 import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
 import moment from "moment";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import { useSession } from "next-auth/react";
 
 const MyBooking = () => {
+    const session = useSession()
 
+    const [booking, setbooking] = useState([])
 
     const [bookingdataResponse, bookingdataHandler] = useAPI(
         {
             url: "/bookings/mybooking",
             method: "get",
-            sendImmediately: true,
             params: {
-
+                teamMemberId: session?.data?.user?.otherDetails?._id
             },
         },
         (e) => {
-            console?.log(e)
+
+            setbooking(e?.data ?? [])
 
             return e?.data
         },
@@ -33,6 +36,17 @@ const MyBooking = () => {
             return e
         }
     );
+
+
+    useEffect(() => {
+        if (session?.data) {
+            bookingdataHandler({
+                params: {
+                    teamMemberId: session?.data?.user?.otherDetails?._id
+                }
+            })
+        }
+    }, [session?.data])
 
     const [Patient, setPatient] = useState();
     const [PatientIsTouch, setPatientIsTouch] = useState(false);
@@ -93,67 +107,46 @@ const MyBooking = () => {
     const [getBookingdata, setBookingdata] = useState([]);
 
     useEffect(() => {
-      if (bookingdataResponse?.data) {
-        let filteredData = bookingdataResponse.data;
-  
-        if (BookingStatus) {
-          filteredData = filteredData.filter(item => item.status === BookingStatus);
-        }
-  
-        if (Patient) {
-          filteredData = filteredData.filter(item => item.teamMemberId?._id === Patient);
-        }
+        if (bookingdataResponse?.data) {
+            let filteredData = bookingdataResponse.data;
 
-        if (Time) {
-            const today = moment().startOf('day');
-            if (Time === 'today') {
-              filteredData = filteredData.filter(item =>
-                moment(item.createdAt).isSame(today, 'day')
-              );
-            } else if (Time === '7day') {
-              const sevenDaysAgo = moment().subtract(7, 'days').startOf('day');
-              filteredData = filteredData.filter(item =>
-                moment(item.createdAt).isBetween(sevenDaysAgo, today.clone().add(1, 'day'), null, '[]') // Inclusive of start and end
-              );
+            if (BookingStatus) {
+                filteredData = filteredData.filter(item => item.status === BookingStatus);
             }
-          } else if (Time === '30day') {
-            startDate = moment().subtract(30, 'days').startOf('day');
-            filteredData = filteredData.filter(item =>
-              moment(item.createdAt).isBetween(startDate, today.clone().add(1, 'day'), null, '[]')
-            );
-          } else if (Time === '365day') {
-            startDate = moment().subtract(365, 'days').startOf('day');
-            filteredData = filteredData.filter(item =>
-              moment(item.createdAt).isBetween(startDate, today.clone().add(1, 'day'), null, '[]')
-            );
-          }
-  
-        setBookingdata(filteredData);
-      }
-    }, [bookingdataResponse?.data, BookingStatus, Patient , Time]);
 
+            if (Patient) {
+                filteredData = filteredData.filter(item => item.teamMemberId?._id === Patient);
+            }
 
-    const [membersResponse, membersHandler] = useAPI(
-        {
-            url: "/member/list",
-            method: "get",
-            sendImmediately: true,
-            params: {
+            if (Time) {
+                const today = moment().startOf('day');
+                if (Time === 'today') {
+                    filteredData = filteredData.filter(item =>
+                        moment(item.createdAt).isSame(today, 'day')
+                    );
+                } else if (Time === '7day') {
+                    const sevenDaysAgo = moment().subtract(7, 'days').startOf('day');
+                    filteredData = filteredData.filter(item =>
+                        moment(item.createdAt).isBetween(sevenDaysAgo, today.clone().add(1, 'day'), null, '[]') // Inclusive of start and end
+                    );
+                }
+            } else if (Time === '30day') {
+                startDate = moment().subtract(30, 'days').startOf('day');
+                filteredData = filteredData.filter(item =>
+                    moment(item.createdAt).isBetween(startDate, today.clone().add(1, 'day'), null, '[]')
+                );
+            } else if (Time === '365day') {
+                startDate = moment().subtract(365, 'days').startOf('day');
+                filteredData = filteredData.filter(item =>
+                    moment(item.createdAt).isBetween(startDate, today.clone().add(1, 'day'), null, '[]')
+                );
+            }
 
-            },
-        },
-        (e) => {
-
-            return e?.data
-        },
-        (e) => {
-            toast.error(transformErrorDefault(
-                "Something went wrong while Getting members!",
-                e
-            ));
-            return e
+            setBookingdata(filteredData);
         }
-    );
+    }, [bookingdataResponse?.data, BookingStatus, Patient, Time]);
+
+
 
 
     var status = [
@@ -181,7 +174,7 @@ const MyBooking = () => {
                             <InputSelect
                                 setValue={setPatient}
                                 value={Patient}
-                                options={membersResponse?.data?.map((item) => {
+                                options={booking?.map((item) => {
                                     return { label: item?.name, value: item?._id }
                                 }) ?? []}
                                 isTouched={PatientIsTouch}
@@ -241,7 +234,7 @@ const MyBooking = () => {
                                             <div className="row">
                                                 <div className="col-sm-7 col-12 my-2">
                                                     <span className="p-2  rounded small" style={{ background: "#dee2db" }}> <dpan style={{ fontWeight: "700" }} >{item?.teamMemberId?.name} </dpan>
-                                                       |  {item?.teamMemberId?.gender}</span>
+                                                        |  {item?.teamMemberId?.gender}</span>
                                                 </div>
                                                 <div className="col-sm-5 col-12 my-2 small" >
                                                     <span className=" p-2  rounded" style={{ background: "#dee2db" }}> Booking ID: <span style={{ fontWeight: "700" }} >{item?.bookingId}</span> </span>
@@ -282,10 +275,10 @@ const MyBooking = () => {
                                     </div>
 
                                     <ul className=" px-3  my-3 " >
-                                        {(item?.packages ?? [])?.map((packageitem , index)=> {
+                                        {(item?.packages ?? [])?.map((packageitem, index) => {
                                             return <li key={index} style={{ color: "#97979" }} > {packageitem?.name} </li>
                                         })}
-   
+
                                     </ul>
 
 
@@ -295,7 +288,7 @@ const MyBooking = () => {
 
                                         </div>
                                         <div className="col-6 text-end" >
-                                            <button className="card-button-2" > View More</button>
+                                            <button className="card-button-2"   > View More</button>
                                         </div>
                                     </div>
                                 </div>
