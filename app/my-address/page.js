@@ -29,7 +29,6 @@ const Page = () => {
         },
         (e) => {
 
-            console.log(e,"xxxxxxxxxxxxxxx")
             return e
         },
         (e) => {

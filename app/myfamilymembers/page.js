@@ -31,7 +31,6 @@ const Mymember = () => {
         },
         (e) => {
 
-            console.log("'dddddddddddddddd'",e)
 
             return e
         },

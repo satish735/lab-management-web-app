@@ -9,7 +9,29 @@ import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
 import useInputComponent from '@/hooks/useInputComponent';
 import InputWithAddOn from '@/components/formInput/InputWithAddOn';
 import InputSelect from "@/components/formInput/select/InputSelect";
+import { useSession } from "next-auth/react";
+import moment from "moment"
 const MyProfile = () => {
+    const session = useSession()
+
+
+
+    useEffect(()=> {
+
+        if(session?.data?.user?.otherDetails){
+            let getuserinfo = session?.data?.user?.otherDetails
+
+            Phone.setEnteredValue(session?.data?.user?.phone ?? "")
+            Email.setEnteredValue(getuserinfo?.email ?? "")
+            setGenderType(getuserinfo?.gender ?? "")
+            Name.setEnteredValue(getuserinfo?.name ?? '')
+            DOB.setEnteredValue(moment(getuserinfo?.dob ).format("YYYY-MM-DD")?? "")
+        }
+
+       },[session?.data?.user?.otherDetails])
+
+
+
 
     const Name = useInputComponent('');
     const FullnameValidater = (value) => {
@@ -82,6 +104,17 @@ const MyProfile = () => {
 
 
 
+    const Phone = useInputComponent("");
+    const PhoneValidater = (value) => {
+        if (value === "" || !value) {
+            Phone.setFeedbackMessage("Field required!");
+            Phone.setMessageType("error");
+            return false;
+        }
+        Phone.setFeedbackMessage("");
+        Phone.setMessageType("none");
+        return true;
+    };
 
 
 
@@ -125,7 +158,7 @@ const MyProfile = () => {
                         </div>
 
 
-                        <div className="my-1 col-sm-12">
+                        <div className="my-1 col-sm-6 col-12">
                             <InputWithAddOn
                                 label="Email"
                                 placeholder="Email"
@@ -142,7 +175,24 @@ const MyProfile = () => {
                             />
                         </div>
 
-                        <div className="col-6 my-1">
+                        <div className="my-1 col-sm-6 col-12">
+                            <InputWithAddOn
+                                label="Phone"
+                                placeholder="Phone"
+                                className="loginInputs"
+                                setValue={Phone.setEnteredValue}
+                                value={Phone.enteredValue}
+                                feedbackMessage={Phone.feedbackMessage}
+                                feedbackType={Phone.messageType}
+                                isTouched={Phone.isTouched}
+                                setIsTouched={Phone.setIsTouched}
+                                validateHandler={PhoneValidater}
+                                reset={Phone.reset}
+                                disabled={true}
+                            />
+                        </div>
+
+                        <div className="col-sm-6 col-12 my-1">
                             <InputWithAddOn
                                 placeholder="DOB"
                                 label="DOB"
@@ -159,7 +209,7 @@ const MyProfile = () => {
                                 disabled={true}
                             />
                         </div>
-                        <div className="col-6 my-1 ">
+                        <div className="col-sm-6 col-12 my-1 ">
                             <InputSelect
                                 setValue={setGenderType}
                                 value={GenderType}

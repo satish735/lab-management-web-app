@@ -24,7 +24,7 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
 
 
-const Cart = ({ params: { _id } }) => {
+const Cart = () => {
 
     const session = useSession()
 
@@ -33,12 +33,10 @@ const Cart = ({ params: { _id } }) => {
 
 
 
-    const [step, setstep] = useState(1);
-
+    const [step, setstep] = useState(4);
 
 
     const [addtestandpackage, settestandpackage] = useState()
-
 
     const [userinfoResponse, userinfoHandler] = useAPI(
         {
@@ -50,6 +48,8 @@ const Cart = ({ params: { _id } }) => {
             },
         },
         (e) => {
+
+
             const storedData = localStorage.getItem('testpackage');
             const addtestandpackage = storedData ? JSON?.parse?.(storedData) : [];
             let testPackagedata = addtestandpackage?.item?.map((item) => { return { ...item, isselect: false } })
@@ -60,10 +60,7 @@ const Cart = ({ params: { _id } }) => {
             return e
         },
         (e) => {
-            toast.error(transformErrorDefault(
-                "Something went wrong while Getting userinfo!",
-                e
-            ));
+            toast.error("Something went wrong while Getting userinfo!");
             return e
         }
     );
@@ -177,6 +174,11 @@ const Cart = ({ params: { _id } }) => {
                     {step == 4 && <Step4
                         setstep={setstep}
                         rate={rate}
+                        addtestandpackage={addtestandpackage}
+                        selectedSlotId={selectedSlotId}
+                        islab={islab}
+                        selectaddress={selectaddress}
+                        selectlab={selectlab}
                     />}
                 </div>}
         </div >
@@ -374,6 +376,7 @@ const Step2 = ({ setstep, rate , addtestandpackage , setselectlab,
     changecheckboxcollecion, changecheckboxlab, 
     islab, iscollection}) => {
 
+const session = useSession()
 
 
 
@@ -421,22 +424,19 @@ const Step2 = ({ setstep, rate , addtestandpackage , setselectlab,
 
     }, [selectlab, selectaddress, islab])
 
-
+console.log("session?.data?.user?.id",session?.data?.user?.id)
     const [AddressResponse, AddressHandler] = useAPI(
         {
-            url: "/address/list",
+            url: `/address/useraddress`,
             method: "get",
             sendImmediately: true,
             params: {
-                
-            },
+                userId: session?.data?.user?.id
+            }
         },
         (e) => {
 
-
-
-
-            return e?.data
+            return e
         },
         (e) => {
             toast.error(transformErrorDefault(
@@ -617,7 +617,7 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
 
 
 
-    retrun(<>
+    return(<>
 
         <div>
             <div className="row" >
@@ -669,15 +669,18 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
                     </div>
                 </div>}
             </div>
-        </div></>)
+        </div>
+        </>
+        )
 }
 
-const Step4 = ({ setstep }, rate) => {
+const Step4 = ({ setstep , rate , addtestandpackage , selectedSlotId , islab, selectaddress , selectlab}) => {
 
 
 
     // step 4 
 
+    const session = useSession()
 
     const [ispayonline, setisChecked] = useState(true)
     const [ispaycash, setispaycash] = useState(false)
@@ -720,7 +723,6 @@ const Step4 = ({ setstep }, rate) => {
                     e
                 )
             );
-            return e;
         }
     );
 
@@ -774,16 +776,16 @@ const Step4 = ({ setstep }, rate) => {
         BookingHandler({
             body: {
                 team_members: bookingtest,
-                center_id: "66d2f3a4ec819eaf2ac4bcfc",
+                center_id: selectlab?._id,
                 payment_type: ispayonline ? "cash" : "cash",
                 collection_type: islab ? "lab" : "lab",
-                slot_id: selectedSlotId ?? "66d43539f993be8ad9766010",
+                slot_id: selectedSlotId ,
                 discoun: 0,
                 home_collection_charge: 0,
                 total: rate,
                 address_id: islab == false ? selectaddress._id : null ?? null,
                 coupon_id: null,
-                membership_id: null
+                teamMemberId: session?.data?.user?.otherDetails?._id
             }
         })
     }
@@ -857,19 +859,7 @@ const Step4 = ({ setstep }, rate) => {
 
 
                     <div className="bg-white  my-4  rounded">
-                        <h5 style={{ borderBottom: "2px solid #f1f6ee", fontSize: "1.0rem", fontWeight: "600" }}>Sample payonline</h5>
-                        <div className="row  py-2 mt-3 rounded" style={{ background: "#f1f6ee" }} >
-                            <div className="col-2 text-center" >
-                                <img src="/assets/images/locationicon.png" className="p-2 mt-2 rounded-circle" style={{ height: "40px", background: "#f1f6ee" }} />
-                            </div>
-                            <div className="col-10" >
-                                <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >From Others</h6>
-                                <p className="" style={{ fontSize: "0.7rem" }}>dbcbcb, WQ2G+XCW, Bhagat Vatika, Civil Lines, Jaipur, Rajasthan 302007, India Jaipur, Rajasthan, 302007</p>
-                            </div>
-
-                        </div>
-
-
+                       
                         <div className="row  py-2 mt-1 rounded" style={{ background: "#f1f6ee" }} >
                             <div className="col-2 text-center" >
                                 <img src="/assets/images/time.png" className="p-2 mt-2 rounded-circle" style={{ height: "40px", background: "#f1f6ee" }} />
