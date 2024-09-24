@@ -338,10 +338,18 @@ body::-webkit-scrollbar-thumb {
 .midbox-inner {
   margin: 0 auto;
   max-width: 90rem;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
   width: 100%;
 }
+
+@media screen and (max-width: 680px) {
+  .midbox-inner {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 
 .badge {
   line-height: unset !important;

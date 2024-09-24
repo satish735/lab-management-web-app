@@ -42,33 +42,7 @@ const AdminHeader = ({
         zIndex: 99
       }}
     >
-      {/* {isMobile && (
-        <Image
-          width={35}
-          height={35}
-          src={"/assets/icons/right-toggle-header.svg"}
-          onClick={mobileToggle}
-          className="header-toggle-icon"
-        />
-      )}
-      {collapsed && !isMobile && (
-        <Image
-          width={35}
-          height={35}
-          src={"/assets/icons/right-toggle-header.svg"}
-          onClick={collapsedToggle}
-          className="header-toggle-icon"
-        />
-      )}
-      {!collapsed && !isMobile && (
-        <Image
-          width={35}
-          height={35}
-          src={"/assets/icons/left-toggle-header.svg"}
-          onClick={collapsedToggle}
-          className="header-toggle-icon"
-        />
-      )} */}
+
       {
         isMobile && (
           <FaIndent

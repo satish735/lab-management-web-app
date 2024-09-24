@@ -26,6 +26,8 @@ import { signOut, useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
 import SkeletonTextLoder from "@/components/SkeletonLoders/SkeletonTextLoder";
+import { useMediaQuery } from "react-responsive";
+import MobileHeaderMenu from "./MobileHeaderMenu";
 
 // const updateLocalStorage = (key, value) => {
 //   localStorage.setItem(key, value);
@@ -249,6 +251,9 @@ const UserHeader2 = () => {
   const [cartItemCount, setCartItemCount] = useState("0");
   const [bellItemCount, setBellItemCount] = useState("4");
   const [isopencart, setisopencart] = useState(false)
+  const isMobileScreen = useMediaQuery({ minWidth: 880 })
+  const isMiniMobileScreen = useMediaQuery({ minWidth: 680 })
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   return (
     <div className="header header-layout1">
       <div className="header-topbar">
@@ -256,19 +261,20 @@ const UserHeader2 = () => {
           <div className="row align-items-center">
             <div className="col-12">
               <div className="d-flex align-items-center justify-content-between">
-                <ul className="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0">
-                  <li>
+                <ul className="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0 ">
+                  {isMobileScreen && <li >
                     <FaPhone size={18} className="phone-icon" />
                     <a href="tel:+5565454117">9739923174 | 1800000000 </a>
-                  </li>
+                  </li>}
+
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html">  8:00 AM - 8:00 PM - (365 Days)</a>
+                    <a href="contact-us.html">  8:00 AM - 8:00 PM(365 Days)</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">
-                  <ul className="header-topbar-links d-flex list-unstyled mb-0 mr-10">
-                    <li>
+                  {isMiniMobileScreen && <ul className="header-topbar-links d-flex list-unstyled mb-0 mr-10">
+                    <li className="">
                       <FaLocationArrow size={18} className="phone-icon" />
                       <a
                         href="/near-by"
@@ -277,29 +283,27 @@ const UserHeader2 = () => {
                         Find Nearby Labs
                       </a>
                     </li>
-                    <li>
+                    {isMobileScreen && <li >
                       <FaBox size={18} className="phone-icon" />
 
                       <a href="/health-packages" className="header-packages">
                         Packages
                       </a>
-                    </li>
-                    <li>
+                    </li>}
+                    {isMobileScreen && <li >
                       <FaMicroscope size={18} className="phone-icon" />
 
 
                       <a href="/lab-tests" className="header-tests">
                         Tests
                       </a>
-                    </li>
-                  </ul>
+                    </li>}
+                  </ul>}
                   <div className="miniPopup-language-area location-buttons" style={{ position: 'relative' }}>
-
                     <button
                       className="miniPopup-language-trigger"
                       type="button"
                     >
-
                       <span className="btn-text" >
                         {currentLocation ?? "Select Location"}
                       </span>
@@ -308,8 +312,6 @@ const UserHeader2 = () => {
                       <span className="btn-shape"></span>
                     </button>
                     <div className="location-divs "   >
-
-
                       {(allCentersResponse?.data?.cityArray ?? []).map((item) => {
                         return (
                           <>
@@ -334,9 +336,6 @@ const UserHeader2 = () => {
 
                         )
                       })}
-
-
-
                     </div>
                   </div>
                 </div>
@@ -366,7 +365,7 @@ const UserHeader2 = () => {
             }}
           >
             <div className="d-flex" style={{ alignItems: "center" }}>
-              <NavbarBrand href="/">
+              <NavbarBrand href="/" onClick={(e) => { e?.preventDefault(); if (!isMobileScreen || !isMiniMobileScreen) { setMobileMenuOpen(true) } }}>
                 <img
                   alt="logo"
                   src="/assets/images/MainLogo.png"
@@ -378,7 +377,7 @@ const UserHeader2 = () => {
                   }}
                 />
               </NavbarBrand>
-              <MultiLevelDropDown data={menuItems} />
+              {isMobileScreen && <MultiLevelDropDown data={menuItems} />}
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
@@ -398,21 +397,14 @@ const UserHeader2 = () => {
                       <div className="cart-badge">{cartItemCount}</div>
                     )}
                 </a>
-                {/* <a className=" cart-button">
-                  <FaBell size={20} className="cart-icon" />
-                  {Number.isInteger(Number(cartItemCount)) &&
-                    Number(cartItemCount) > 0 && (
-                      <div className="cart-badge">{cartItemCount}</div>
-                    )}
-                </a> */}
-                <a
+                {isMiniMobileScreen && <a
                   type="button"
                   className="btn  call-button"
                   href="tel:+919166125555"
                 >
                   <FaPhone size={18} className="call-icon" />
                   +91 9739923174
-                </a>
+                </a>}
                 <a type="button" className={`btn ${(session?.status == 'authenticated' && session?.data?.user) ? 'user-button' : 'login-button'}`} href={session?.status === 'authenticated' && session?.data?.user ? undefined : "/login"} style={{
                   position: 'relative', lineHeight: `${(session?.status == 'authenticated' && session?.data?.user) ? '20px' : '50px'}`, padding: `${(session?.status == 'authenticated' && session?.data?.user) ? '5px 20px 0 7px' : '0 20px'}`
                 }}>
@@ -525,7 +517,7 @@ const UserHeader2 = () => {
           </div>
         </Navbar>
       </div>
-
+      <MobileHeaderMenu isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen}  />
       <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );

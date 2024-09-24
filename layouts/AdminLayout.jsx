@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import matchDynamicPaths from "@/utils/matchDynamicPaths";
 import Link from "next/link";
+import { useMediaQuery } from 'react-responsive';
 
 const themes = {
   light: {
@@ -89,7 +90,12 @@ const AdminLayout = ({ children }) => {
   const [theme, setTheme] = useState("light");
 
 
-
+  const isMobileScreen = useMediaQuery({ maxWidth: 880 })
+  useEffect(() => {
+    if (isMobileScreen) {
+      setToggled(true)
+    }
+  }, [])
   // handle on RTL change event
   const handleRTLChange = (e) => {
     setRtl(e.target.checked);
@@ -197,7 +203,7 @@ const AdminLayout = ({ children }) => {
         onBreakPoint={setBroken}
         image="https://user-images.githubusercontent.com/25878302/144499035-2911184c-76d3-4611-86e7-bc4e8ff84ff5.jpg"
         rtl={rtl}
-        breakPoint="md"
+        breakPoint="sm"
         backgroundColor={hexToRgba(
           themes[theme].sidebar.backgroundColor,
           hasImage ? 0.9 : 1
