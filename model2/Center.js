@@ -3,6 +3,10 @@ import slugify from "slugify";
 const { Schema } = mongoose;
 
 const CenterSchema = new Schema({
+  sequence: {
+    type: Number,
+    unique: true
+  },
   centreId: { type: String, required: true, unique: true },
   centre: { type: String, required: true, unique: true },
   // centreNameInApp: { type: String, required: true },//to be removed 
@@ -34,12 +38,15 @@ CenterSchema.pre("save", async function (next) {
     const lastCentre = await mongoose
       .model("Center")
       .findOne()
-      .sort({ centreId: -1 });
-    const lastId = lastCentre ? parseInt(lastCentre.centreId.replace("center", "")) : 0;
-    if (lastId >= 99999) {
-      this.centreId = `center${lastId + 1}`;
+      .sort({ sequence: -1 });
+    const lastId = lastCentre?.sequence ?? 0
+    // const lastId = lastCentre ? parseInt(lastCentre.centreId.replace("center", "")) : 0;
+    if (lastCentre) {
+      this.centreId = `Center-${lastId + 1}`;
+      this.sequence = lastId + 1
     } else {
-      this.centreId = `center${String(lastId + 1).padStart(5, "0")}`;
+      this.centreId = `Center-${1}`;
+      this.sequence = 1
     }
   }
 

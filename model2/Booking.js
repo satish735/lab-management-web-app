@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 
 // Define the Booking schema
 const bookingSchema = new Schema({
+  sequence: {
+    type: Number,
+    unique: true
+  },
   bookingId: {
     type: String,
     // required: true,
@@ -97,16 +101,19 @@ bookingSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest booking document
-      const lastBooking = await mongoose.model('Booking').findOne().sort({ createdAt: -1 });
+      const lastBooking = await mongoose.model('Booking').findOne().sort({ sequence: -1 });
 
       if (lastBooking) {
         // Extract the last booking ID number
-        const lastId = parseInt(lastBooking.bookingId.replace('BKN-', ''), 10);
+        // const lastId = parseInt(lastBooking.bookingId.replace('BKN-', ''), 10);
+        const lastId = lastBooking?.sequence
         const newId = lastId + 1;
         this.bookingId = `BKN-${newId}`;
+        this.sequence = newId
       } else {
         // If no bookings exist, start with BKN-1
         this.bookingId = 'BKN-1';
+        this.sequence = 1
       }
 
       next();

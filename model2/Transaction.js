@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 
 // Define the Transaction schema
 const transactionSchema = new Schema({
+  sequence: {
+    type: Number,
+    unique: true
+  },
   transactionId: {
     type: String,
     // required: true,
@@ -60,16 +64,18 @@ transactionSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest transaction document
-      const lastTransaction = await mongoose.model('Transaction').findOne().sort({ createdAt: -1 });
+      const lastTransaction = await mongoose.model('Transaction').findOne().sort({ sequence: -1 });
 
       if (lastTransaction) {
         // Extract the last transaction ID number
-        const lastId = parseInt(lastTransaction.transactionId.replace('TXN-', ''), 10);
-        const newId = lastId + 1;
+        // const lastId = parseInt(lastTransaction.transactionId.replace('TXN-', ''), 10);
+        const newId = lastTransaction?.sequence + 1;
         this.transactionId = `TXN-${newId}`;
+        this.sequence = newId
       } else {
         // Start with TXN-1 if no previous transactions exist
         this.transactionId = 'TXN-1';
+        this.sequence = 1
       }
 
       next();
