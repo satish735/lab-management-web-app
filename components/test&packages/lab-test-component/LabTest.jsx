@@ -4,17 +4,14 @@ import { Spinner } from "reactstrap";
 import { Input } from 'reactstrap'
 import CheckboxInput from '../../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
-import PackageCardDesign from '../../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
 import toast from 'react-hot-toast'
 import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
 import '@/components/test&packages/health-package-component/health-package.css'
 import transformErrorDefault from '@/utils/transformErrorDefault'
-import { useSession } from "next-auth/react";
-
+ 
 const LabTest = () => {
-    const session = useSession();
-
+ 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
     const [locationSelected, setlocationSelected] = useState();
@@ -101,8 +98,9 @@ const LabTest = () => {
 
 
         if (!locationSelected) {
-            setlocationSelected(session?.data?.user?.selectedCity)
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
+            setlocationSelected(data)
  
 
             allPackageHandler({
@@ -111,7 +109,7 @@ const LabTest = () => {
                     pageNo: 1,
                     pageSize: 20,
                     searchQuery: InputSearch,
-                    location: session?.data?.user?.selectedCity ?? null,
+                    location: data?.selectedLocation ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                     conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
 
@@ -137,7 +135,7 @@ const LabTest = () => {
 
 
 
-    }, [ConditionsValue, bodyPartValue,session?.data])
+    }, [ConditionsValue, bodyPartValue])
 
 
 

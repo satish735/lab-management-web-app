@@ -9,15 +9,13 @@ import TestCardDesign from '../test-details/test-card/TestCardDesign'
 import toast from 'react-hot-toast'
 import transformErrorDefault from '@/utils/transformErrorDefault'
 import '@/components/test&packages/health-package-component/health-package.css'
-import { useSession } from "next-auth/react";
-const HomeCollection = () => {
+ const HomeCollection = () => {
 
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
     const [locationSelected, setlocationSelected] = useState();
-    const session = useSession();
-
+ 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
             url: "/getTestDetails",
@@ -133,10 +131,10 @@ const HomeCollection = () => {
 
  
 
-            if (!locationSelected) {
-                setlocationSelected(session?.data?.user?.selectedCity)
+        if (!locationSelected) {
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
-
+            setlocationSelected(data)
 
                 allPackageHandler({
                     params: {
@@ -144,7 +142,7 @@ const HomeCollection = () => {
                         pageNo: 1,
                         pageSize: 20,
                         searchQuery: InputSearch,
-                        location: session?.data?.user?.selectedCity ?? null,
+                        location:  data?.selectedLocation ?? null,
                         bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                         conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
 
@@ -170,7 +168,7 @@ const HomeCollection = () => {
  
 
 
-    }, [typeValue, ConditionsValue, bodyPartValue, session?.data])
+    }, [typeValue, ConditionsValue, bodyPartValue ])
 
 
 

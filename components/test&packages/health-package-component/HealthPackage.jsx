@@ -8,15 +8,12 @@ import useAPI from '@/hooks/useAPI'
 import toast, { ToastBar } from 'react-hot-toast'
 import './health-package.css'
 import transformErrorDefault from "@/utils/transformErrorDefault";
-import { useSession } from "next-auth/react";
 
 const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
     const [InputSearch, setInputSearch] = useState();
     const [locationSelected, setlocationSelected] = useState();
-    const session = useSession();
-
 
     const [bodyPartValue, setBodyPartValue] = useState([])
     const [ConditionsValue, setConditionsValue] = useState([])
@@ -66,8 +63,6 @@ const HealthPackage = () => {
             url: "/test/list",
             method: "get",
             params: {
-                // sortColumn: sort?.column,
-                // sortDirection: sort?.direction,
                 pageNo: 1,
                 pageSize: 20,
                 location: locationSelected
@@ -100,7 +95,8 @@ const HealthPackage = () => {
 
 
         if (!locationSelected) {
-            setlocationSelected(session?.data?.user?.selectedCity)
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
+            setlocationSelected(data?.selectedLocation)
 
 
 
@@ -110,7 +106,7 @@ const HealthPackage = () => {
                     pageNo: 1,
                     pageSize: 20,
                     searchQuery: InputSearch,
-                    location: session?.data?.user?.selectedCity ?? null,
+                    location: data?.selectedLocation ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                     conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
 
@@ -136,7 +132,7 @@ const HealthPackage = () => {
 
 
 
-    }, [ConditionsValue, bodyPartValue, session?.data])
+    }, [ConditionsValue, bodyPartValue])
 
 
 

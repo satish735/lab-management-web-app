@@ -8,13 +8,11 @@ import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
-import { useSession } from "next-auth/react";
 
 const FullBodyCheckup = () => {
 
   const [locationSelected, setlocationSelected] = useState();
 
-  const session=useSession();
   const [SelectCategory, setSelectCategory] = useState();
   const [SelectCategoryIsTouch, setSelectCategoryIsTouch] = useState();
   const router = useRouter();
@@ -73,23 +71,22 @@ const FullBodyCheckup = () => {
 
   useEffect(() => {
 
-    if (session?.data ) {
+
+    let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+    setlocationSelected(data)
+    testHandler({
+      params: {
+        pageNo: 1,
+        pageSize: 20,
+        location: data?.selectedLocation  ?? null,
+        bodyPartsIds: JSON.stringify([]),
+        conditionIds: JSON.stringify([]),
+      }
+    })
 
 
-      setlocationSelected(session?.data?.user?.selectedCity)
-
-      testHandler({
-        params: {
-          pageNo: 1,
-          pageSize: 20,
-          location: session?.data?.user?.selectedCity ?? null,
-          bodyPartsIds: JSON.stringify([]),
-          conditionIds: JSON.stringify([]),
-        }
-      })
-    }
-
-  }, [session?.data ])
+  }, [])
 
 
 

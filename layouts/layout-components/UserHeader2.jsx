@@ -104,7 +104,7 @@ const UserHeader2 = () => {
     (e) => {
       console.log(e);
 
-      session.update({ selectedCity: e?.selectedCity })
+      // session.update({ selectedCity: e?.selectedCity })
 
 
       return e
@@ -117,20 +117,20 @@ const UserHeader2 = () => {
       return e
     }
   );
-  const [FirstTimeFetch, setFirstTimeFetch] = useState(true)
+  // const [FirstTimeFetch, setFirstTimeFetch] = useState(true)
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (session?.data?.user) {
-      if (FirstTimeFetch) {
-        getSelectedCenterHandler()
-        setFirstTimeFetch(false)
-      }
-    }
+  //   if (session?.data?.user) {
+  //     if (FirstTimeFetch) {
+  //       getSelectedCenterHandler()
+  //       setFirstTimeFetch(false)
+  //     }
+  //   }
 
-  }, [session?.data])
-  console.log(session?.status)
-  console.log(session?.data?.user)
+  // }, [session?.data])
+  // console.log(session?.status)
+  // console.log(session?.data?.user)
 
 
   const [saveSelectedCenterResponse, saveSelectedCenterHandler] = useAPI(
@@ -143,7 +143,7 @@ const UserHeader2 = () => {
     (e) => {
       console.log(e);
 
-      session.update({ selectedCity: e?.selectedCity })
+      // session.update({ selectedCity: e?.selectedCity })
 
       return e
     },
@@ -160,9 +160,9 @@ const UserHeader2 = () => {
 
 
   useEffect(() => {
-    // let data = JSON.parse(localStorage.getItem("selectedLocation"));
+    let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
-    // setCurrentLocation(data?.selectedLocation)
+    setCurrentLocation(data?.selectedLocation)
 
     const findNearestCity = (currentLat, currentLon) => {
       let nearestCity = null;
@@ -301,7 +301,7 @@ const UserHeader2 = () => {
                     >
 
                       <span className="btn-text" >
-                        {session?.data?.user?.selectedCity ?? "Select Location"}
+                        {currentLocation ?? "Select Location"}
                       </span>
                       {/* currentLocation, setCurrentLocation */}
                       <FaChevronDown size={14} className="dropdonw-arrow" />
@@ -315,7 +315,8 @@ const UserHeader2 = () => {
                           <>
                             <div onClick={() => {
 
-                              setCurrentLocation(session?.data?.user?.selectedCity ?? '')
+                              localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
+                              setCurrentLocation(item)
                               saveSelectedCenterHandler({
                                 body: {
                                   selectedCity: item
