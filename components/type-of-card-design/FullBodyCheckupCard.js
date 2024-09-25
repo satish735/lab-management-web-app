@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import Usercart from "@/layouts/layout-components/cart"
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
- const FullBodyCheckupCard = ({ listing,location }) => {
+const FullBodyCheckupCard = ({ listing, location }) => {
   const router = useRouter();
 
   const [isopencart, setisopencart] = useState(false)
 
-  
+
   const setitem = async (listing) => {
 
 
@@ -63,10 +63,10 @@ import { useEffect, useState } from "react";
                 width: "100%",
                 border: "none",
                 borderRadius: "12px 12px 0 0 ",
-                backgroundImage:`Url('${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}')`,
-                backgroundRepeat:'no-repeat',
-                backgroundSize:'cover',
-                 
+                backgroundImage: `Url('${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}')`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+
               }}
             />
           </div>
@@ -82,7 +82,7 @@ import { useEffect, useState } from "react";
               <div className="col-8">
                 <div>
                   <p className="card-heading-test text-start truncate">
-                    {listing?.name}  
+                    {listing?.name}
                   </p>
                 </div>
                 <p
@@ -112,15 +112,15 @@ import { useEffect, useState } from "react";
             <div className="d-flex justify-content-between px-1 pb-1">
               <div className="">
 
-                <button className="card-button" onClick={() => { router.push( `/${(location ?? '')?.replace(/\s+/g, '-') ??  'jaipur'}/health-package/package?id=${listing?._id}` ) }}>
+                <button className="card-button" onClick={() => { router.push(`/${(location ?? '')?.replace(/\s+/g, '-') ?? 'jaipur'}/health-package/package?id=${listing?._id}`) }}>
                   View Details <span>→</span>
                 </button>
               </div>
               <div className=" text-end">
-                <button onClick={()=>{
-                
+                <button onClick={() => {
+
                   setitem(listing)
-                }}  className="card-button-2">
+                }} className="card-button-2">
                   Add to Cart <span>→</span>
                 </button>
               </div>
@@ -128,7 +128,7 @@ import { useEffect, useState } from "react";
           </div>
         </div>
       </div>
-        
+
       <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );

@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 
 const ViewEdit = ({ searchParams }) => {
     const router = useRouter();
@@ -910,7 +911,7 @@ const ViewEdit = ({ searchParams }) => {
 
 
 
-    
+
 
 
 
@@ -962,6 +963,13 @@ const ViewEdit = ({ searchParams }) => {
 
     return (<>
 
+<BreadcrumbDiv
+            options={[
+                { label: "Home", link: "/admin" },
+                { label: "Tests & Packages", link: "/admin/tests" },
+                { label: "Edit Tests & Packages", link: "/admin/tests/view", active: true },
+            ]}
+        />
         <div className='bg-white pt-2 pb-3 mt-2' style={{ borderRadius: '5px' }}>
 
             <h3 className="mb-3 px-3 py-2 mt-2  " >

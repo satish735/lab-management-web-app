@@ -194,7 +194,7 @@ const CreateDiscountCoupen = () => {
         return true;
     };
 
-    const [DiscountType, setDiscountType] = useState();
+    const [DiscountType, setDiscountType] = useState('percentage');
     const [DiscountTypeIsTouch, setDiscountTypeIsTouch] = useState(false);
 
     const [DiscountTypeMessage, setDiscountTypeMessage] = useState({
@@ -852,6 +852,7 @@ const CreateDiscountCoupen = () => {
                                 feedbackMessage={DiscountTypeMessage?.message}
                                 feedbackType={DiscountTypeMessage?.type}
                                 validateHandler={DiscountTypeSelectValidater}
+                                disabled={true}
                             />
                         </div>
 

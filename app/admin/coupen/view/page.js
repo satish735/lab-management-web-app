@@ -169,19 +169,19 @@ const CreateDiscountCoupen = ({ searchParams }) => {
 
     const CouponName = useInputComponent('');
     const CouponNameValidater = (value) => {
-        
+
         if (value === "" || !value) {
             CouponName.setFeedbackMessage("Field required!");
             CouponName.setMessageType("error");
             return false;
         }
-       
-        
+
+
         CouponName.setFeedbackMessage("");
         CouponName.setMessageType("none");
         return true;
     };
-    
+
 
     const CouponCode = useInputComponent('');
     const CouponCodeValidater = (value) => {
@@ -200,9 +200,9 @@ const CreateDiscountCoupen = ({ searchParams }) => {
         CouponCode.setMessageType("none");
         return true;
     };
-    
 
-    const [DiscountType, setDiscountType] = useState();
+
+    const [DiscountType, setDiscountType] = useState('percentage');
     const [DiscountTypeIsTouch, setDiscountTypeIsTouch] = useState(false);
 
     const [DiscountTypeMessage, setDiscountTypeMessage] = useState({
@@ -1034,7 +1034,7 @@ const CreateDiscountCoupen = ({ searchParams }) => {
                                     feedbackMessage={DiscountTypeMessage?.message}
                                     feedbackType={DiscountTypeMessage?.type}
                                     validateHandler={DiscountTypeSelectValidater}
-                                    disabled={searchParams?.type === 'view'}
+                                    disabled={true}
                                 />
                             </div>
 
