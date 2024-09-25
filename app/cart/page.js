@@ -23,6 +23,7 @@ import moment from "moment"
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
 import AddCoupon from "@/app/cart/AddCoupon"
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 
 const Cart = () => {
 
@@ -259,7 +260,9 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
                                                 {item?.istest?.map((key, index) => {
                                                     return (
                                                         <div key={index} className="col-sm-6 col-12" >
-                                                            <div className="checkbox-tests-packages-item w-100 ">
+                                                             <div className={`checkbox-tests-packages-item 
+                                                 ${key?.testType == "Test" ? 
+                                                "test_backgound" :""}  w-100 `}>
                                                                 <div className="filter-boxleft">
                                                                     <label className="container-checkbox" >
 
@@ -496,7 +499,19 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                 {iscollection && <div className="col-sm-8 col-12 ">
                     <h2 className="p-4 " style={{ fontWeight: "700", fontSize: "1.2rem" }}> Sample Collection Address</h2>
                     <div>
-                        <div >
+
+                    <LoaderGeneral
+                noContentMessage="Job Posts not found"
+                state={
+                    AddressResponse?.fetching
+                        ? "loading"
+                        : [null, undefined].includes(AddressResponse?.data)
+                            ? "no-content"
+                            : "none"
+
+                }
+            />
+                      {!AddressResponse?.fetching &&  <div >
                             {(AddressResponse?.data ?? [])?.map((item, index) => {
                                 return <div className="py-1" key={index}>
 
@@ -530,14 +545,15 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
 
                             })}
 
-                        </div>
+                        </div>}
 
 
                     </div>
                     <button type="button" onClick={() => {
                         toggle2()
                     }} className="add_another_member_btn">Add Address</button>
-                </div>}
+                </div>
+                }
 
 
                 {islab && <div className="col-sm-8 col-12 my-2">
@@ -869,6 +885,53 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
 
     console.log("selectCoupon", selectCoupon)
 
+
+     const [TestPackage , setTestPackage ] = useState([])
+    useEffect(()=> {
+
+        if(addtestandpackage){
+            setTestPackage(addtestandpackage)
+        }
+
+    },[selectCoupon, addtestandpackage])
+
+
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalDiscount, setTotalDiscount] = useState(0);
+  
+    const calculateTotals = () => {
+      let totalPrice = 0;
+      let totalDiscount = 0;
+  
+      TestPackage
+        .filter((check) => check.istest?.some((key) => key.isselect))
+        .forEach((item) => {
+          const price = item.testType === "Test" ? item.rate : item.totalMrp;
+  
+          const discount = item.testType === "Test"
+            ? ((selectCoupon.testCondition?.[0] === "*" ||
+                selectCoupon.selectedCriteria?.testCondition?.includes(item._id))
+              ? (Number(item.rate) / (Number(selectCoupon.discountValue) || 1))
+              : 0)
+            : ((selectCoupon.Packages?.[0] === "*" ||
+                selectCoupon.selectedCriteria?.Packages?.includes(item._id))
+              ? (Number(item.totalMrp) / (Number(selectCoupon.discountValue) || 1))
+              : 0);
+  
+          const finalAmount = price - discount;
+  
+          totalPrice += finalAmount;
+          totalDiscount += discount;
+        });
+  
+      setTotalPrice(totalPrice);
+      setTotalDiscount(totalDiscount);
+    };
+  
+    useEffect(() => {
+      calculateTotals(); 
+    }, [TestPackage, selectCoupon]);
+
     return (<>
         <div className="text-capitalize" >
 
@@ -877,45 +940,47 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                 <div className="col-sm-8 col-12 rounded "  >
 
                     <div>
-                        <h5 className="my-2 " style={{ fontSize: "1.2rem", fontWeight: "600" }}>Order Summary                                    </h5>
+                        <h5 className="my-2 " style={{ fontSize: "1.2rem", fontWeight: "600" }}>Order Summary    </h5>
 
-                        {(addtestandpackage ?? [])?.filter((check) => check?.istest?.some((key) => key?.isselect == true) == true)?.map((item, index) => {
+                        {(TestPackage ?? [])?.filter((check) => check?.istest
+                        ?.some((key) => key?.isselect == true) == true)?.map((item, index) => {
+
+                            
+
                             return <div key={index} className="my-3 border border-2 p-2 rounded" >
                                 <h6 className="px-2 " style={{ fontWeight: "600" }} >{item?.name}</h6>
                                 <div className="row">
                                     {item?.istest?.filter((test) => test?.isselect == true)?.map((item, index) => {
-                                        return <div key={index} className="col-sm-6 col-12" >
-                                            <div className="checkbox-tests-packages-item w-100 ">
+                                        let price = item?.testType == "Test" ? item?.rate : item?.totalMrp
 
-                                                <img
-                                                    src="/assets/images/test-icon.png"
-
-                                                />
-                                                <div className="checkbox-tests-name">
-                                                    {item?.name} 
-                                                    <span>₹ {item?.testType == "Test" ? 
-                                                               item?.rate : item?.totalMrp}
-                                                    </span> 
-                                                    <h6> discountValue  -  {item?.testType == "Test" ? 
+                                        let discount = item?.testType == "Test" ? 
                                                              (((selectCoupon?.testCondition ?? [])[0] ?? "") == "*" || 
-                                                                selectCoupon?.testCondition?.some(key =>
+                                               selectCoupon?.selectedCriteria?.testCondition?.some(key =>
                                                                      key === item?._id)) 
                                                                 ? (Number(item?.rate ) 
                                                                 / Number(selectCoupon?.discountValue))
                                                                 : 0
                                                                : 
                                                                (((selectCoupon?.Packages ?? [])[0] ?? "") == "*" || 
-                                                               selectCoupon?.Packages?.some(key =>
+                                              selectCoupon?.selectedCriteria?.Packages?.some(key =>
                                                                     key === item?._id)) 
                                                                ? (Number(item?.totalMrp) 
                                                                / Number(selectCoupon?.discountValue))
                                                                 : 0
-                                                               }
-                                                    </h6>
+
+                                          let finalamount =  price -  discount
+                                              
+                                        return <div key={index} className="col-sm-6 col-12" >
+                                            <div className={`checkbox-tests-packages-item 
+                                                 ${item?.testType == "Test" ? 
+                                                "test_backgound" :""}  w-100 `}>
+                                                <img src="/assets/images/test-icon.png"/>
+                                                <div className="checkbox-tests-name">
+                                                    {item?.name} 
+                                                    <span> Price ₹ {price}</span> 
+                                                    <span> Discount Price  - ₹ {discount} </span>
+                                                    <h6> Final Amount  - ₹ {finalamount} </h6>
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     })}
@@ -945,7 +1010,9 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                                         return (<div key={index} className="col-sm-6 col-12" >
                                             <div className="checkbox-tests-packages-item w-100 ">
                                                 <img src="/assets/images/test-icon.png" />
-                                                <div className="checkbox-tests-name">{key?.name} <span>₹ {key?.testType == "Test" ? key?.rate : key?.totalMrp}</span></div>
+                                                <div className="checkbox-tests-name">{key?.name} 
+                                                    <span>₹ {key?.testType == "Test" ? key?.rate :
+                                                     key?.totalMrp}</span></div>
                                             </div>
                                         </div>)
                                     })}
@@ -963,7 +1030,8 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                         {islab ? <div className="p-3 bg-white rounded border w-100 ">
                             <div className="filter-boxleft py-2 " style={{ borderBottom: "1px solid #dee2db ", width: "100%" }}>
 
-                                <span className="px-2" style={{ fontSize: "1.1rem", fontWeight: "700" }}>{selectlab?.centre ?? ""}</span>
+                                <span className="px-2" style={{ fontSize: "1.1rem", fontWeight: "700" }}>
+                                    {selectlab?.centre ?? ""}</span>
 
                             </div>
 
@@ -1024,7 +1092,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
 
                         <button onClick={() => {
                             CouponToggle()
-                        }} className="continue_button">
+                        }} className="btn btn-primary-theme  w-100">
                             Apply Coupon Code
                         </button>
                         <AddCoupon
@@ -1050,7 +1118,8 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
 
                                     <h5 className="col-6 px-4" style={{ fontSize: "1.0rem" }}>
                                         {item?.name ?? ""} (Price)</h5>
-                                    <h6 className="col-6" style={{ textAlign: "right" }} >₹ {(item?.istest ?? [])?.filter((key) => key?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)}</h6>
+                                    <h6 className="col-6" style={{ textAlign: "right" }} >
+                                        ₹ {(item?.istest ?? [])?.filter((key) => key?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)}</h6>
                                 </div>
 
 
@@ -1061,6 +1130,12 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                         <div className="row px-3 py-2" style={{ borderTop: "2px solid #f1f6ee" }}>
                             <h5 className="col-6 " style={{ fontSize: "1.1rem", fontWeight: "700" }}>Total</h5>
                             <h5 className="col-6" style={{ fontSize: "1.1rem", fontWeight: "700", color: "#46bb00", textAlign: "right" }}>₹ {rate}</h5>
+                        <h5 className="col-6 " style={{ fontSize: "1.1rem", fontWeight: "700" }}>Discount</h5>
+                        <h5 className="col-6" style={{ fontSize: "1.1rem", fontWeight: "700", 
+                            color: "#46bb00", textAlign: "right" }}>₹ {totalPrice}</h5>
+                        <h5 className="col-6 " style={{ fontSize: "1.1rem", fontWeight: "700" }}>Final Price</h5>
+                        <h5 className="col-6" style={{ fontSize: "1.1rem", fontWeight: "700", 
+                            color: "#46bb00", textAlign: "right" }}>₹ {totalDiscount}</h5>
                         </div>
 
                     </div>

@@ -13,7 +13,7 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
 
 
-const AddCoupon = ({ toggle, modal, CouponResponse, setselectCoupon }) => {
+const AddCoupon = ({ toggle, modal, CouponResponse, setselectCoupon , selectCoupon }) => {
     const session = useSession()
 
 
@@ -41,24 +41,37 @@ const AddCoupon = ({ toggle, modal, CouponResponse, setselectCoupon }) => {
 
                 <ModalBody>
 
-                    <div className='row' >
+                    <div className='' >
 
                     {(CouponResponse ?? [])?.map((item , index) => {
                         return (
-                            <div key={index} className={` col-sm-6 col-12  border border-1 rounded p-2 shadow my-2  ${item?._id == selectCoupon?._id ? "border-success" : ""} `} >
-                                <h4 className='' style={{color:"#21cdad"}}  > {item?.couponCode ?? ""}</h4>
-                                <p className="small" > Expiration Date - {moment(item?.expirationDate)?.format("LLL") ?? ""}</p>
+                            <div key={index} className={`   border border-1 rounded p-2 shadow my-2  ${item?._id == selectCoupon?._id ? "border-success" : ""} `} >
+                                <div className='row'>
+                                    <div className='col-sm-9 col-8 '> 
+                                    <h4  style={{color:"#003747"}}  > {item?.couponCode ?? ""}</h4>
 
-                                <p className="small p-0" > Discount - {item?.discountValue ?? 0} Percentage</p>
+                                    </div>
+                               <div className='col-sm-3 col-4'> 
+                               <button  onClick={() => {
+                                    setselectCoupon(item ?? {})
+                                    reset()
+                                }} className="btn btn-primary-theme " style={{float:"right", fontSize:"0.8rem"}}>
+                                    Apply Now
+                                </button>
+                               </div>
+                                 </div>   
+                                <p className="small m-0" > <span className='' style={{fontWeight:"500", color:"rgb(0, 55, 71)"}} > Expiration Date -</span> {moment(item?.expirationDate)?.format("LLL") ?? ""}</p>
+
+                                <p className="small m-0" >
+                                     <span className='' style={{fontWeight:"500" , color:"rgb(0, 55, 71)"}} > 
+                                        Discount -
+                                        </span> 
+                                        {item?.discountValue ?? 0} Percentage
+                                </p>
 
                                 <p className="small" >  {item?.descriptionShort ?? ""} </p>
 
-                                <button onClick={() => {
-                                    setselectCoupon(item ?? {})
-                                    reset()
-                                }} className="continue_button">
-                                    Apply Now
-                                </button>
+                                
 
                             </div>
                         )
