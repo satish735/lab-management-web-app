@@ -50,7 +50,9 @@ export const POST = async (request, { params }) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const { team_members = [], center_id = null, payment_type = "cash", collection_type = "lab", slot_id = null, discount = 0, home_collection_charge = 0, total = 10, address_id = null, coupon_id = null, membership_id = null } = await request.json();
+    const { team_members = [], center_id = null, payment_type = "cash", collection_type = "lab", 
+      slot_id = null, discount = 0, home_collection_charge = 0, total = 10, address_id = null, 
+      coupon_id = null, membership_id = null } = await request.json();
     if (!team_members || !Array.isArray(team_members) || !center_id || !slot_id) {
       await session.abortTransaction();
       session.endSession();

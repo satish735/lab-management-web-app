@@ -28,9 +28,7 @@ export const GET = async (request) => {
       ];
     }
 
-    if (userId) {
-      searchFilter.selectedusers = { $ne: null, $eq: userId };
-    }
+   
   
 
 

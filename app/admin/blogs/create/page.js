@@ -96,6 +96,7 @@ export default function Home() {
       isPopular: selectedTags.some((item) => item?.value == "is_popular"),
       image: imageFile?.filePath,
       ckdescription: content,
+      published_at: isPublish
     };
     await blogSubmitHandler({ body: submitBody });
   };
@@ -119,7 +120,7 @@ export default function Home() {
             <button
               disabled={blogSubmitResponse?.fetching}
               className="btn  btn-outline-dark px-5 me-2"
-              onClick={createBlogSubmitHandler}
+              onClick={createBlogSubmitHandler(false)}
               type="button"
             >
               {blogSubmitResponse?.fetching && !publish ? (

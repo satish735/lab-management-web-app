@@ -56,7 +56,7 @@ const AddCoupon = ({ toggle, modal, CouponResponse, setselectCoupon , selectCoup
                                     setselectCoupon(item ?? {})
                                     reset()
                                 }} className="btn btn-primary-theme " style={{float:"right", fontSize:"0.8rem"}}>
-                                    Apply Now
+                                    Apply
                                 </button>
                                </div>
                                  </div>   
