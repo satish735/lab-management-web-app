@@ -1,0 +1,24 @@
+.banner-body-part-page{
+    padding:80px 20px ;
+    color: #fff;
+    font-weight:600;
+     
+}
+
+.banner-body-part-page h2{
+    font-size: 40px;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .banner-body-part-page{
+        padding:40px 20px 30px 20px ;
+        color: #fff;
+        font-weight:600
+    }
+
+    .banner-body-part-page h2{
+        font-size: 30px;
+    }
+    
+}

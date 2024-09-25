@@ -1,18 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import "@/components/home-component/full-body-checkup/full-body-checkup.css";
-import InputSelect from "@/components/project-main-component/input-component/InputSelect";
-import CarousalSlider from "@/components/CarousalSlider";
-import YoutubeComponent from "../i-frame-component/YoutubeComponent";
-import RecentBlog from "../health-blog/RecentBlog";
-import PopularBlog from "../health-blog/PopularBlog";
-import TrendingBlog from "../health-blog/TrendingBlog";
+ import CarousalSlider from "@/components/CarousalSlider";
+ 
 import FrequentlyAskQuestion from "../frequently-asked-question/FrequentlyAskQuestion";
 import PopularTest from "../popular-test/PopularTest";
 import "./test.css";
 import { useRouter } from "next/navigation";
 import useAPI from "@/hooks/useAPI";
 import { Spinner } from "reactstrap";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const TestsComponent = () => {
   const router = useRouter();
 
@@ -84,8 +82,9 @@ const TestsComponent = () => {
   return (
     <div >
        
-      <div className="midbox-inner mt-5 heading-text-home">
-        <p className="  my-4">Tests by Medical Conditions</p>
+      <div className="midbox-inner mt-5 ">
+        <p className=" heading-text-home my-4">Tests by Medical Conditions</p>
+        
         {getBasicDetailsResponse?.fetching ? (
           <div className='text-center my-5'>
 
@@ -113,7 +112,7 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="midbox-inner  heading-text-home">
+      <div className="midbox-inner ">
         <p className=" heading-text-home my-2">Tests by Body Parts</p>
 
 
@@ -144,7 +143,7 @@ const TestsComponent = () => {
         </div>
       </div>
 
-      <div className="midbox-inner">
+      {/* <div className="midbox-inner">
         <p
           className=" heading-text-home mt-2 mb-4  text-center"
           style={{ lineHeight: "1.2" }}
@@ -318,9 +317,9 @@ const TestsComponent = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         className="container-fluid pt-5"
         style={{ backgroundColor: "#f9f9f9" }}
       >
@@ -413,15 +412,15 @@ const TestsComponent = () => {
         </div>
         </div>
 
-      </div>
+      </div> */}
 
       <div className="midbox-inner pt-5">
-        <p className=" heading-text-home mt-2 mb-4 text-center">
+        {/* <p className=" heading-text-home mt-2 mb-4 text-center">
           {" "}
           Health Blogs
-        </p>
+        </p> */}
 
-        <div className="d-flex justify-content-center gap-3">
+        {/* <div className="d-flex justify-content-center gap-3">
           <button
             onClick={() => {
               setHealthBlog("recent");
@@ -457,9 +456,9 @@ const TestsComponent = () => {
           >
             Trending
           </button>
-        </div>
+        </div> */}
 
-        <div className="my-5 container-fluid">
+        {/* <div className="my-5 container-fluid">
           {healthBlog == "recent" && <RecentBlog />}
           {healthBlog == "popular" && <PopularBlog />}
           {healthBlog == "trending" && <TrendingBlog />}
@@ -475,9 +474,9 @@ const TestsComponent = () => {
               View All
             </button>
           </div>
-        </div>
+        </div> */}
 
-        <div className="container-fluid">
+        {/* <div className="container-fluid">
           <div
             className="container-fluid global-background-gradient"
             style={{
@@ -531,7 +530,7 @@ const TestsComponent = () => {
             </div>
 
           </div>
-        </div>
+        </div> */}
 
         <div className="mt-5">
           <h2
@@ -541,7 +540,7 @@ const TestsComponent = () => {
               textAlign: "center",
               margin: "0 20%",
               padding: "0 0 50px",
-              fontFamily: "Inter Medium",
+              // fontFamily: "Inter Medium",
             }}
           >
             Frequently Asked Questions

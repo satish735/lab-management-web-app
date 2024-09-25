@@ -32,12 +32,12 @@ const CarousalSlider = ({
     slidesToShow_lg = 4,
     slidesToShow_md = 2,
     slidesToShow_sm = 1,
-    sliderFor
+    sliderFor,location
 
 }) => {
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         autoplay: true,
         autoplaySpeed: 6000,
         slidesToShow: slidesToShow_lg, // Number of slides to show at a time
@@ -48,7 +48,7 @@ const CarousalSlider = ({
                 settings: {
                     slidesToShow: slidesToShow_md,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: false,
                     dots: true
                 }
             },
@@ -64,8 +64,7 @@ const CarousalSlider = ({
 
     };
 
-    console.log(DataList);
-    
+     
 
     return (
         <>
@@ -75,7 +74,7 @@ const CarousalSlider = ({
                     sliderFor == 'packages' &&
 
                     ((DataList ?? []).map((listing,index) => {
-                        return <FullBodyCheckupCard listing={listing} key={index} />
+                        return <FullBodyCheckupCard listing={listing} key={index} location={location?.selectedLocation} />
                     }))
                 }
 
@@ -84,7 +83,7 @@ const CarousalSlider = ({
                     sliderFor == 'popular test' &&
 
                     ((DataList ?? []).map((listing,index) => {
-                        return <PopularTestCard listing={listing} key={index} />
+                        return <PopularTestCard listing={listing} key={index}  location={location?.selectedLocation} />
                     }))
                 }
                 {

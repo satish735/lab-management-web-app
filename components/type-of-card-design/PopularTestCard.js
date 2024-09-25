@@ -1,9 +1,43 @@
-import React from "react";
+'use client'
+import React, { useEffect, useState } from "react";
 import SvgIcon from "../home-component/SvgIcon";
 import { useRouter } from "next/navigation";
+import Usercart from "@/layouts/layout-components/cart"
+import toast from "react-hot-toast";
 
-const PopularTestCard = ({ listing }) => {
+const PopularTestCard = ({ listing ,location}) => {
   const router = useRouter();
+  const [discountprice, setdiscountprice] = useState();
+  useEffect(() => {
+    let FinalPrice = (listing?.rate) * (1 - ((listing?.discountPercentage) / 100))
+    setdiscountprice(FinalPrice)
+  }, [])
+
+
+  const [isopencart, setisopencart] = useState(false)
+
+  
+  const setitem = async (listing) => {
+
+
+
+    const storedData = localStorage?.getItem?.('testpackage');
+    
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("This package already exists in your cart")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+      setisopencart(true)
+    }
+
+
+  }
 
   return (
     <div className="card-outer-layer-div">
@@ -29,7 +63,7 @@ const PopularTestCard = ({ listing }) => {
 
 
             <div
-              // src={process.env.NEXT_PUBLIC_BUCKET_URL + 'public/3bdf5e58-47ce-d0fa-526d-1859ea3e77f7.png'}
+               
               alt=""
               className=""
               style={{
@@ -37,7 +71,7 @@ const PopularTestCard = ({ listing }) => {
                 width: "100%",
                 border: "none",
                 borderRadius: "10px 10px 0 0 ",
-                backgroundImage: `Url('/assets/images/TestBanner.jpg')`,
+                backgroundImage: `Url('${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}')`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize:'cover',
               }}
@@ -53,17 +87,17 @@ const PopularTestCard = ({ listing }) => {
           >
             <div className="row">
               <div className="col-9">
-                <p className="card-heading-test">{listing?.name}</p>
+                <p className="card-heading-test truncate">{listing?.name}</p>
               </div>
               <div className="col-3 text-end">
-                <p> ₹ {listing?.rate}</p>
+                <p> ₹{listing?.rate}</p>
               </div>
             </div>
 
             <hr />
 
-            <div className="row my-2" style={{ color: "#828599" }}>
-              <div className="col-6">
+            <div className="d-flex justify-content-between my-2" style={{ color: "#828599" }}>
+              <div className="">
                 <div className="row">
                   <p className="col-3 pt-1">
                     <span
@@ -82,7 +116,7 @@ const PopularTestCard = ({ listing }) => {
                 </div>
               </div>
 
-              <div className="col-6">
+              <div className="">
                 <div className="row">
                   <p className="col-3 pt-1">
                     <span
@@ -105,14 +139,16 @@ const PopularTestCard = ({ listing }) => {
 
             <hr />
 
-            <div className="row px-1 pb-1">
-              <div className="col-6">
-                <button className="card-button " style={{ fontSize: "13px" }} onClick={() => { router.push(`/jaipur/lab-test/test?id=${listing?._id}`) }}>
+            <div className="d-flex justify-content-between px-1 pb-1">
+              <div className=" ">
+                <button className="card-button " style={{ fontSize: "13px" }} onClick={() => { router.push(`/${(location ?? '')?.replace(/\s+/g, '-') ?? 'jaipur'}/lab-test/test?id=${listing?._id}`) }}>
                   View Details <span>→</span>
                 </button>
               </div>
-              <div className="col-6 text-end">
-                <button className="card-button-2 " style={{ fontSize: "13px" }}>
+              <div className="  text-end">
+                <button onClick={()=>{
+                  setitem(listing)
+                }}  className="card-button-2 " style={{ fontSize: "13px" }}>
                   Add to Cart <span>→</span>
                 </button>
               </div>
@@ -120,6 +156,7 @@ const PopularTestCard = ({ listing }) => {
           </div>
         </div>
       </div>
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

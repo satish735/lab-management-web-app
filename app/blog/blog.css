@@ -109,7 +109,7 @@
 
 
 .btn_checkout {
-    background-color: #21cdad;
+    background-color: #003747;
     color: white;
     font-weight: 600;
     display: block;
@@ -118,9 +118,15 @@
 }
 
 .btn_checkout:hover {
-    background-color: #002678;
+    background-color: #21cdad;
     color: white;
     font-weight: 600;
     display: block;
     width: 100%;
+}
+
+.popular-blog-item:hover{
+ 
+    background-color: #efefef;
+    border-radius: 10px;
 }

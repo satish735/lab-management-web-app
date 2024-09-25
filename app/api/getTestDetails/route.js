@@ -19,6 +19,9 @@ export const GET = async (request, { params }) => {
         const PackageTestInstance = await PackageTest
             .find({testType:'Test'});
 
+            const PackageInstance = await PackageTest
+            .find({testType:'Package'});
+
         const BodyPartInstance = await BodyPart
             .find(searchFilter);
 
@@ -30,7 +33,7 @@ export const GET = async (request, { params }) => {
 
 
 
-        var response = { BodyPartListing: BodyPartInstance, TestConditionListing: TestConditionInstance, PackageTestInstanceListing: PackageTestInstance };
+        var response = { BodyPartListing: BodyPartInstance, TestConditionListing: TestConditionInstance, PackageTestInstanceListing: PackageTestInstance ,PackagesListing:PackageInstance};
         return new Response(JSON.stringify(response), { status: 200 });
     } catch (error) {
         console.log(error);

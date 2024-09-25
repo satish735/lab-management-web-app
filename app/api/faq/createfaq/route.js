@@ -4,14 +4,12 @@ export const POST = async (request, { params }) => {
     const requestBody = await request.json();
 
 
-    console.log("requestBody", requestBody)
 
     const faqnew = new FAQ({
       question: requestBody?.question,
       answer: requestBody?.answer,
     });
 
-    console.log("faqnew", faqnew)
     await faqnew.save();
 
     return new Response(faqnew, { status: 200 });

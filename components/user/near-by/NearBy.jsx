@@ -1,23 +1,28 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './nearby.css'
+import '@/styles/common-card-designs/card_designs.css'
+
 import { FaAngleDown, FaPhone, FaArrowsSplitUpAndLeft } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import useAPI from '@/hooks/useAPI';
 import { Spinner } from 'reactstrap';
+import transformErrorDefault from '@/utils/transformErrorDefault'
 
 const NearBy = () => {
 
     const [location, setLocation] = useState('');
-    const [coordinates, setCoordinates] = useState({ lat: 26.922070, lng: 75.778885 });
+    const [coordinates, setCoordinates] = useState({
+        latitude: null,
+        longitude: null
+    });
+    const [centerData, setCenterData] = useState([])
     const [state, setState] = useState('rajasthan');
     const [city, setCity] = useState('jaipur');
 
-    const handleSearch = () => {
 
-    }
 
-    const[inputSearch,setInputSearch]=useState('')
+    const [inputSearch, setInputSearch] = useState('')
     const [allPackageResponse, allPackageHandler] = useAPI(
         {
             url: "/centers/list",
@@ -35,6 +40,27 @@ const NearBy = () => {
 
 
 
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+
+                        setCoordinates({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+
+                        })
+
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+
+
+
             console.log(e);
 
 
@@ -49,7 +75,28 @@ const NearBy = () => {
         }
     );
 
-    const inputChange=(e)=>{
+
+    useEffect(() => {
+
+        if (coordinates?.latitude !== null && coordinates?.longitude !== null && allPackageResponse) {
+
+
+
+            let data = (allPackageResponse?.data?.data ?? []).map((item) => {
+
+                const distance = getDistanceFromLatLonInKm(Number(coordinates.latitude), Number(coordinates.longitude), Number(item?.latitude), Number(item?.longitude))
+
+
+                return { ...item, distanceFromLocation: distance }
+
+
+            })
+            setCenterData(data ?? [])
+
+        }
+    }, [coordinates])
+
+    const inputChange = (e) => {
         setInputSearch(e.target.value)
         allPackageHandler({
             params: {
@@ -80,11 +127,11 @@ const NearBy = () => {
             <div className='floating-map-div'>
                 <div style={{ backgroundColor: 'white', borderRadius: '12px', width: '342px' }}>
 
-                    <div style={{ color: 'white', fontSize: '20px', fontWeight: '600', padding: '15px 10px', borderRadius: '5px', backgroundColor: '#00277a' }} >
+                    <div style={{ color: 'white', fontSize: '20px', fontWeight: '600', padding: '15px 10px', borderRadius: '5px', backgroundColor: '#003747' }} >
                         <div className="search-box">
                             <button className="btn-search"><FaSearch /></button>
 
-                            <input type="text" className="input-search" placeholder="Type to Search..." onChange={(e)=>{inputChange(e)}} />
+                            <input type="text" className="input-search" placeholder="Type to Search..." onChange={(e) => { inputChange(e) }} />
                         </div>
                         {/* <span >Offices and Main Labs</span> */}
 
@@ -92,7 +139,7 @@ const NearBy = () => {
                     {allPackageResponse?.fetching ? (
                         <div className='text-center my-5'>
 
-                        <Spinner size={"lg"} />
+                            <Spinner size={"lg"} />
                         </div>
 
                     ) : (
@@ -100,7 +147,7 @@ const NearBy = () => {
 
 
                             {
-                                (allPackageResponse?.data?.data ?? []).map((itemValue, index) => {
+                                (centerData ?? []).map((itemValue, index) => {
                                     return <LocationCard itemValue={itemValue} key={index} />
                                 })
                             }
@@ -125,6 +172,13 @@ const LocationCard = ({ itemValue }) => {
     const [ViewTimings, setViewTimings] = useState(false)
 
 
+    function openGoogleMaps(lat, lng) {
+        // console.log('...........................................');
+
+        const url = `https://www.google.com/maps?q=${lat},${lng}`;
+        window.open(url, '_blank');
+    }
+
 
 
     return (
@@ -147,7 +201,7 @@ const LocationCard = ({ itemValue }) => {
             {
                 showDiv &&
                 <div>
-                    <hr style={{ border: '2px solid rgb(0 229 237)' }} />
+                    <hr style={{ border: '2px solid #003747' }} />
 
                     <div className='row'>
                         <p className='col-8' style={{ color: '#86868a', fontSize: '16px' }}>
@@ -155,7 +209,7 @@ const LocationCard = ({ itemValue }) => {
 
                         </p>
                         <p className='col-4 text-end' style={{ color: '#46b902', fontSize: '13px', fontWeight: '500' }}>
-                            {itemValue?.distance ?? '4km'} Away
+                            {(itemValue?.distanceFromLocation)?.toFixed() ?? ''} Km Away
                         </p>
                     </div>
 
@@ -181,7 +235,7 @@ const LocationCard = ({ itemValue }) => {
                                 Timings <FaAngleDown />
 
                                 {ViewTimings &&
-                                    <div style={{ fontSize: '13px', color: '#86868a' }}>
+                                    <div style={{ fontSize: '13px', color: '#86868a' }} >
 
                                         {itemValue.labOpeningTime} - {itemValue.labClosingTime}
 
@@ -196,7 +250,7 @@ const LocationCard = ({ itemValue }) => {
 
                         <p className='col-12 d-flex gap-4' style={{ fontSize: '15px' }}>
                             <div className='mb-2'>
-                                <button className='d-flex gap-1 py-1 px-2   call-button' style={{
+                                <button className='d-flex gap-1 py-1 px-2   card-button-2' style={{
                                     borderRadius:
                                         '10px', color: 'white', fontWeight: '600'
                                 }}><p className='mb-0'><FaPhone /></p><span>{itemValue.contact}</span></button>
@@ -204,11 +258,16 @@ const LocationCard = ({ itemValue }) => {
 
                             </div>
                             <div className=' '>
-                                <button className='d-flex gap-1 py-1 px-2  view-direction' style={{
+                                <button onClick={() => {
+                                    openGoogleMaps(Number(itemValue?.latitude), Number(itemValue?.longitude))
 
-                                    borderRadius:
-                                        '10px', color: 'white', fontWeight: '600'
-                                }}><p className='mb-0' style={{ paddingTop: '0px' }}><FaArrowsSplitUpAndLeft /></p><span>View_Directions</span></button>
+                                }} className='d-flex gap-1 py-1 px-2  card-button-2' style={{
+                                    borderRadius: '10px', color: 'white', fontWeight: '600'
+                                }}>
+
+                                    <p className='mb-0' style={{ paddingTop: '0px' }}><FaArrowsSplitUpAndLeft /></p>
+                                    <span>View_Directions</span>
+                                </button>
                             </div>
 
 
@@ -236,6 +295,27 @@ let array = [
     { centername: 'Jaipur Diaganostics', distance: '145 KM', address: 'Chandra Colony Bengali Wale gali Near Nagar Palika Nadbai, Bharatpur ,Bharatpur', openAt: '07:30 AM', close: '07:30 PM', contact: '', direction: '' },
 ]
 
+
+
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = deg2rad(lat2 - lat1); // Difference in latitude
+    const dLon = deg2rad(lon2 - lon1); // Difference in longitude
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in kilometers
+    return distance;
+}
+
+// Helper function to convert degrees to radians
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
 
 
 

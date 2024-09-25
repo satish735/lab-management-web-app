@@ -11,7 +11,7 @@ const AddressSchema = new Schema({
   pincode: { type: String, required: true },
   state: { type: String, required: true },
   city: { type: String, required: true },
-  userId: { type: Schema.Types.ObjectId, ref: 'UserDetails', required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'Login', required: true },
   isDelete: { type: Boolean, default: false },
 });
 

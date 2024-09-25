@@ -9,19 +9,17 @@ import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { File } from "lucide-react";
-import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
-import BreadcrumbDiv from "@/components/BreadcrumbDiv";
+ import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
 import { Spinner } from "reactstrap";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const CreateBodyPartMainPage = () => {
     const router = useRouter();
 
 
 
-    const [imageFile, setImageFile] = useState({
-        url: "",
-        status: "",
-    });
+    
     const [bodypartResponse, bodypartHandler] = useAPI(
         {
             url: "/body-parts/create",
@@ -29,12 +27,10 @@ const CreateBodyPartMainPage = () => {
         },
         (e) => {
 
+            router.push("/admin/body-parts");
 
             toast.success("Body part added successfully");
-            setImageFile({
-                url: "",
-                status: "",
-              })
+             
               bodypart.setEnteredValue()
         
 
@@ -69,14 +65,13 @@ const CreateBodyPartMainPage = () => {
 
     const submit = () => {
         let bodyPartIsValid = bodypartValidater(bodypart?.enteredValue);
-        if (bodyPartIsValid != "" && imageFile?.filePath) {
+        if (bodyPartIsValid != ""  ) {
 
 
             bodypartHandler({
                 body: {
                     name: bodypart?.enteredValue ?? '',
-                    image: imageFile?.filePath
-                }
+                 }
             });
         } else {
             toast.error("Fill the field.");
@@ -103,14 +98,7 @@ const CreateBodyPartMainPage = () => {
 
                     <div className="row">
 
-                        <div className="col-12">
-                            <p style={{ marginBottom: '7px', fontSize: '12px', color: '#0F0F0F', fontWeight: '500' }}>Upload Image  <span style={{ color: 'rgb(220 53 69)' }}>*</span></p>
-
-                            <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-
-
-
-                        </div>
+                        
                         <div className="col-12 mt-3">
 
                             <InputWithAddOn

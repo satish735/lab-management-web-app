@@ -65,7 +65,7 @@
 
 .checkbox-tests-packages-item {
     width: 48.56%;
-    background: #f1f6ee;
+    background: #dae3d5;
     border-radius: 8px;
     margin: 0;
     padding: 20px 60px 20px 20px;
@@ -73,6 +73,11 @@
     gap:20px;
     border:2px solid white
 
+}
+
+
+.test_backgound{
+    background-color: #b2c1dd91;
 }
 
 .checkbox-tests-packages-item .filter-boxleft {
@@ -278,12 +283,32 @@ input[type="checkbox"] {
   
 
   .continue_button{
-    padding: 12px;
-    background: #46bb00;
+    padding: 8px  12px;
+    background: #003747;
     width: 100%;
     /* display: block; */
     border-radius: 5px;
     color: white;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
+
+
+
+
+
+
+
+
+
+/* address page css  */
+
+.select-tab input {
+    border-radius: 50% !important
+    
+}
+
+.select-tab label {
+    font-size: 1.0rem;
+    /* margin-top: 8px; */
+}

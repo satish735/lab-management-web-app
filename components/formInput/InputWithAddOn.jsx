@@ -11,6 +11,7 @@ const InputWithAddOn = ({
   isTouched = false,
   setIsTouched = () => {},
   label = "",
+  Placeholder='',
   validateHandler = () => {},
   onBlurAction = () => {},
   isRequired = false,
@@ -47,6 +48,7 @@ const InputWithAddOn = ({
           aria-required="true"
           aria-label={label}
           title={value}
+          placeholder={Placeholder}
           tabIndex={0}
           onChange={(e) => {
             setValue(e.target.value);

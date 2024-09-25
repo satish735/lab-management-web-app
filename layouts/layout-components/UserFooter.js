@@ -1,8 +1,9 @@
-import { FaLocationPin, FaPhone } from "react-icons/fa6";
+"use client"
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaLocationPin, FaPhone, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import "./UserFooter.css";
 const UserFooter = () => {
   return (
-    <div className="user-footer global-background-gradient" style={{backgroundColor:'rgb(1, 7, 63)'}}>
+    <div className="user-footer global-background-gradient" style={{ backgroundColor: 'rgb(1, 7, 63)' }}>
       <div className="midbox-inner">
         <div className="footer-section row">
           <div className="footer-about col-md-4 col-sm-4 col-12">
@@ -14,12 +15,14 @@ const UserFooter = () => {
                     href="https://www.facebook.com/blalclinicallab/?utm_source=WiseStamp&amp;amp%3Butm_medium=email&amp;amp%3Butm_term&amp;amp%3Butm_content&amp;amp%3Butm_campaign=signature"
                     target="_black"
                   >
-                    FB
+                    <span > <FaFacebookF /></span>
+
                   </a>
                 </li>
                 <li>
                   <a href="https://twitter.com/Blalclinicallab" target="_black">
-                    TW
+                  <FaXTwitter />
+
                   </a>
                 </li>
                 <li>
@@ -27,7 +30,8 @@ const UserFooter = () => {
                     href="https://www.youtube.com/channel/UCBhmPyrCSDREuEDTGBX_Pbg?utm_source=WiseStamp&amp;utm_medium=email&amp;utm_term=&amp;utm_content=&amp;utm_campaign=signature"
                     target="_black"
                   >
-                    YT
+                    <FaYoutube />
+
                   </a>
                 </li>
                 <li>
@@ -35,7 +39,9 @@ const UserFooter = () => {
                     href="https://www.instagram.com/Blalclinicallab"
                     target="_black"
                   >
-                    IN
+                    <FaInstagram/>
+
+
                   </a>
                 </li>
                 <li>
@@ -43,13 +49,14 @@ const UserFooter = () => {
                     href="https://www.linkedin.com/company/blalclinicallab/mycompany/?viewAsMember=true"
                     target="_black"
                   >
-                    LI
+                    <FaLinkedinIn />
+
                   </a>
                 </li>
               </ul>
             </div>
 
-            <div className="app-box">
+            {/* <div className="app-box">
               <a
                 href="https://play.google.com/store/apps/details?id=com.blal"
                 target="_black"
@@ -68,8 +75,8 @@ const UserFooter = () => {
                   alt="apple-store-icon"
                 />
               </a>
-            </div>
-            <div className="footer-awards-recognition">
+            </div> */}
+            {/* <div className="footer-awards-recognition">
               <h3>Awards &amp; Recognition</h3>
               <ul>
                 <li>
@@ -88,20 +95,20 @@ const UserFooter = () => {
                   <img src="/assets/icons/awards/5.webp" alt="award-icon5" />
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
           <div className="footer-links col-md-7 col-sm-7 col-12 ">
             <div className="row">
               <div className="footer-navbox col-md-3 col-sm-3">
-                <a href="/about-us">
+                <a href="/about-us"  style={{textDecoration:'none'}}>
                   {" "}
-                  <h4 className="footer-nav-des">About Us</h4>
+                  <h4 className="footer-nav-des" >About Us</h4>
                 </a>
-                <h4 className="but  footer-nav-mob">
+                {/* <h4 className="but  footer-nav-mob">
                   About Us
                   <i className="fas fa-chevron-down"></i>
-                </h4>
+                </h4> */}
                 <ul className="footerbox">
                   <li>
                     <a target="_self" href="/about-us">
@@ -124,9 +131,9 @@ const UserFooter = () => {
               </div>
               <div className="footer-navbox col-md-3 col-sm-3">
                 <h4 className="footer-nav-des">Useful Links</h4>
-                <h4 className="but  footer-nav-mob">
+                {/* <h4 className="but  footer-nav-mob">
                   Useful Links <i className="fas fa-chevron-down"></i>
-                </h4>
+                </h4> */}
                 <ul className="footerbox">
                   <li>
                     <a href="/health-packages">Health Packages</a>
@@ -145,7 +152,7 @@ const UserFooter = () => {
                   </li>
                 </ul>
               </div>
-              <div className="footer-navbox col-md-3 col-sm-3">
+              {/* <div className="footer-navbox col-md-3 col-sm-3">
                 <h4 className="footer-nav-des">Doctors</h4>
                 <h4 className="but  footer-nav-mob">
                   Doctors <i className="fas fa-chevron-down"></i>
@@ -166,26 +173,26 @@ const UserFooter = () => {
                     <a style={{ color: "#fff", cursor: "pointer" }}>My Report</a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               <div className="footer-navbox col-md-3 col-sm-3">
-                <a href="/contact-us">
+                <a href="/contact-us" style={{textDecoration:'none'}}>
                   <h4 className="footer-nav-des">Contact Us</h4>
                 </a>
-                <h4 className="but  footer-nav-mob">
+                {/* <h4 className="but  footer-nav-mob">
                   Contact Us <i className="fas fa-chevron-down"></i>
-                </h4>
+                </h4> */}
                 <ul className="footerbox">
                   <li>
-                    <a style={{ color: "#fff", cursor: "pointer",display:'flex',gap:'5px' }}>
-                      
-                      <FaLocationPin style={{color:'rgb(204 241 122)',fontSize:'27px' }}/> D6-Opposite, Chamatkareshwar Mahadev, Banipark, Jaipur 302016</a>
+                    <a style={{ color: "#fff", cursor: "pointer", display: 'flex', gap: '5px' }}>
+
+                      <FaLocationPin style={{ color: 'rgb(204 241 122)', fontSize: '27px' }} /> D6-Opposite, Chamatkareshwar Mahadev, Banipark, Jaipur 302016</a>
                   </li>
 
                   <li>
-                    <a style={{ color: "#fff", cursor: "pointer",display:'flex',gap:'5px' }}><FaPhone style={{color:'rgb(204 241 122)',fontSize:'17px' }}/>+91 9739923174</a>
+                    <a style={{ color: "#fff", cursor: "pointer", display: 'flex', gap: '5px' }}><FaPhone style={{ color: 'rgb(204 241 122)', fontSize: '17px' }} />+91 9739923174</a>
                   </li>
 
-                  {/* mn  */}
+
                 </ul>
               </div>
             </div>
@@ -195,7 +202,7 @@ const UserFooter = () => {
           <div className="wh">
             © Copyright 2024{" "}
             <a href="/" style={{ color: "inherit" }}>
-              Endolab
+            Endolabs
             </a>
             , All rights reserved.
           </div>

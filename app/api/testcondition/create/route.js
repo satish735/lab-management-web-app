@@ -1,12 +1,12 @@
  
 import TestCondition from "@/model2/TestCondition";
-
+ 
 export const POST = async (request, { params }) => {
  
   
   try {
     const requestBody = await request.json();
-   
+ 
 
     const TestConditionNew = new TestCondition({
       name: requestBody?.name || "",

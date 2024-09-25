@@ -5,7 +5,7 @@
     width: 100%;
     position: relative;
     display: block;
-    color: #002678;
+    color: #003747;
 
 }
 
@@ -18,7 +18,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 200px;
+    /* height: 200px; */
+   
 
     border-radius: 13px;
 }
@@ -49,12 +50,15 @@
     height: 100%;
     width: 100%;
     background-color: rgba(33, 205, 173, 0.806);
-    padding-top: 60px;
+    padding: 50px 0;
     box-sizing: border-box;
     border-radius: 13px;
 
 }
 
+.div-section{
+
+}
 
 .vertical-image-div {
     background-image: url('../../../public/assets/images/package-details/vertical-frequently-packages.jpg');
@@ -71,14 +75,14 @@
 .hidden-div {
     height: 50px;
     width: 78%;
-    background-color: #002678;
-    float:right;
+    background-color: #003747;
+    float: right;
     border-radius: 0px 10px 0px 15px;
 
 }
 
 .frequent-booked {
-     
+
     position: absolute;
     right: 0px;
     top: -20px;
@@ -123,14 +127,14 @@
     border: 2px solid #21cdad;
 }
 
-/* .card-button-package-card-light:hover {
-    transition: all 0.1s linear;
-    font-size: 15px;
-
-    padding: 5px 10px;
-    border-radius: 4px;
-    background-color: white;
-
-    color: #21cdad;
-    border-color: #21cdad;
-} */
+@media only screen and (max-width: 600px) {
+    .div-section {
+        margin: 10px 0;
+        /* text-align: center; */
+    }
+    .div-section-inner{
+        padding: 10px 0;
+        
+        margin: 0 auto;
+    }
+}

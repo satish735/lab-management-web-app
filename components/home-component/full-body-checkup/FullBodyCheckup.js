@@ -1,49 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "@/components/home-component/full-body-checkup/full-body-checkup.css";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
 import CarousalSlider from "@/components/CarousalSlider";
 import { useRouter } from "next/navigation";
-import apiRequest from "@/utils/apiRequest";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const FullBodyCheckup = () => {
 
+  const [locationSelected, setlocationSelected] = useState();
 
-
-  const [SelectCategory, setSelectCategory] = useState();
-  const [SelectCategoryIsTouch, setSelectCategoryIsTouch] = useState();
+ 
   const router = useRouter();
-
-  const [SelectCategoryFeedbackMessage, setSelectCategoryFeedBackMessage] =
-    useState({
-      type: "info",
-      message: "",
-    });
-  const SelectCategorySelectValidater = (value) => {
-    return true;
-  };
-
-
-
-
-
+ 
   const [testResponse, testHandler] = useAPI(
     {
       url: "/test/list",
       method: "get",
-      sendImmediately: true,
+      // sendImmediately: true,
       params: {
         // sortColumn: sort?.column,
         // sortDirection: sort?.direction,
         pageNo: 1,
         pageSize: 20,
+        location: locationSelected ?? null
+
         // searchQuery: searchValue,
       },
     },
     (e) => {
 
+      console.log(e);
 
 
       let packages = (e?.data ?? []).filter((item) => {
@@ -65,8 +55,26 @@ const FullBodyCheckup = () => {
     }
   );
 
-  console.log(testResponse);
+  useEffect(() => {
 
+
+    let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+    setlocationSelected(data)
+    testHandler({
+      params: {
+        pageNo: 1,
+        pageSize: 20,
+        location: data?.selectedLocation  ?? null,
+        bodyPartsIds: JSON.stringify([]),
+        conditionIds: JSON.stringify([]),
+      }
+    })
+
+
+  }, [])
+
+ 
 
   return (
     <div className="">
@@ -76,27 +84,7 @@ const FullBodyCheckup = () => {
             Full Body Checkup Packages
           </p>
           <div className="col-lg-4 col-md-4 col-sm-12 pt-3">
-            <InputSelect
-              setValue={setSelectCategory}
-              value={SelectCategory}
-              options={[
-                { label: "Select Category", value: "value1", disabled: true },
 
-                { label: "test1", value: "value4" },
-                { label: "test2", value: "value2" },
-                { label: "test3", value: "value3" },
-              ]}
-              labelClassName="input-select-user-management-label"
-              isTouched={SelectCategoryIsTouch}
-              setIsTouched={setSelectCategoryIsTouch}
-              className="py-1 input-select input-select-user-management"
-              extraProps={{ style: { height: "40px" } }}
-              label={""}
-              isRequired={true}
-              feedbackMessage={SelectCategoryFeedbackMessage?.message}
-              feedbackType={SelectCategoryFeedbackMessage?.type}
-            // validateHandler={SelectCategorySelectValidater}
-            />
           </div>
         </div>
 
@@ -113,6 +101,7 @@ const FullBodyCheckup = () => {
               slidesToScroll={1}
               slidesToShow_lg={3}
               sliderFor={"packages"}
+              location={locationSelected}
             />
           </div>
         )}
@@ -140,8 +129,9 @@ const FullBodyCheckup = () => {
             <CarousalSlider
               DataList={testResponse?.data?.testList}
               slidesToScroll={1}
-              slidesToShow_lg={4}
+              slidesToShow_lg={3}
               sliderFor={"popular test"}
+              location={locationSelected}
             />
           </div>
         )}

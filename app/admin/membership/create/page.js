@@ -1,20 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import useInputComponent from "@/hooks/useInputComponent";
-import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
-// import TextEditor from "@/components/text-editor/TextEditor";
-import moment from "moment";
 import { Spinner } from "reactstrap";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import InputSelect from "@/components/project-main-component/input-component/InputSelect";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import uuid from "react-uuid";
 export default function Home() {
   const router = useRouter();
 
@@ -42,6 +40,10 @@ export default function Home() {
     url: "",
     status: "",
   });
+
+  const [ObservationsData, setObservationsData] = useState([{ observations: '', id: uuid() }]);
+
+  const [TermsCondition, setTermsCondition] = useState([{ terms: '', id: uuid() }]);
 
 
 
@@ -150,12 +152,14 @@ export default function Home() {
     var nameIsValid = nameInputValidater(nameInput?.enteredValue);
     var validityIsValid = validityValidater(validity?.enteredValue);
     var priceIsValid = priceValidater(price?.enteredValue);
-     var discountOnPackagePercentageIsValid = discountOnPackagePercentageValidater(discountOnPackagePercentage?.enteredValue);
+    var discountOnPackagePercentageIsValid = discountOnPackagePercentageValidater(discountOnPackagePercentage?.enteredValue);
     var typeIsValid = typeSelectValidater(type);
     var descriptionIsValid = descriptionValidater(description.enteredValue);
     var image = imageFile?.filePath;
+    let BenifitsInputValidate = (ObservationsData ?? []).length > 0;
+    let TermsInputValidate = (TermsCondition ?? []).length > 0;
 
-    if (!nameIsValid || !validityIsValid || !priceIsValid || !discountIsValid || !discountOnPackagePercentageIsValid || !typeIsValid || !descriptionIsValid || !image) {
+    if (!nameIsValid || !validityIsValid || !priceIsValid || !discountOnPackagePercentageIsValid || !typeIsValid || !descriptionIsValid || !image || !BenifitsInputValidate || !TermsInputValidate) {
       toast.error("Please check all validations before continuing!");
       return;
     }
@@ -167,10 +171,10 @@ export default function Home() {
           banner: imageFile?.filePath ?? '',
           validity: Number(validity.enteredValue) ?? null,
           price: Number(price?.enteredValue) ?? null,
-           discountOnPackagePercentage: Number(discountOnPackagePercentage?.enteredValue) ?? null,
-          // termsAndConditions: requestBody?.termsAndConditions || "",
+          discountOnPackagePercentage: Number(discountOnPackagePercentage?.enteredValue) ?? null,
+          termsAndConditions: TermsCondition ?? [] ,
           description: description.enteredValue ?? "",
-          // benefits: requestBody?.benefits || "",
+          benefits: ObservationsData ?? [],
           type: type ?? "",
           // conditions: requestBody?.conditions || "",
           // is_delete: requestBody?.is_delete || "",
@@ -179,7 +183,7 @@ export default function Home() {
 
     }
   }
-   return (
+  return (
     <div>
       <BreadcrumbDiv
         options={[
@@ -263,7 +267,7 @@ export default function Home() {
                 </div>
 
 
-                
+
 
                 <div className="col-lg-6 col-md-6 col-sm-12 ">
 
@@ -343,6 +347,41 @@ export default function Home() {
               />
             </div>
 
+<div className="my-3">
+            <hr />
+            </div>
+            {(ObservationsData ?? []).map((observationsItem, index) => {
+              return <ObservationsSection observationsItem={observationsItem} key={index} setObservationsData={setObservationsData} length={(ObservationsData ?? []).length}
+              type='Benifit'  />
+            })}
+
+            <div className='my-2 '>
+              <p>
+                <span style={{ cursor: 'pointer' }} onClick={() => { setObservationsData(prev => { return [...prev, { observations: '', id: uuid() }] }) }}>
+                  <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more benifits</span>
+                </span>
+
+              </p>
+            </div>
+
+
+            <div className="my-3">
+            <hr />
+            </div>
+
+            {(TermsCondition ?? []).map((observationsItem, index) => {
+              return <ObservationsSection observationsItem={observationsItem} key={index} setObservationsData={setTermsCondition} length={(TermsCondition ?? []).length} type='Terms & Condition' />
+            })}
+
+            <div className='my-2 '>
+              <p>
+                <span style={{ cursor: 'pointer' }} onClick={() => { setTermsCondition(prev => { return [...prev, { terms: '', id: uuid() }] }) }}>
+                  <span style={{ backgroundColor: 'blue', color: 'white', borderRadius: '50%', padding: '0px 5px 1px 6px' }}>+</span> <span style={{ color: 'blue', fontSize: '18px', fontWeight: '500' }}>Add more terms & condition</span>
+                </span>
+
+              </p>
+            </div>
+
             <div className="col-12 text-end my-3">
               <button
 
@@ -363,4 +402,109 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+
+const ObservationsSection = ({ observationsItem, key, setObservationsData, length,type }) => {
+  const Observations = useInputComponent('');
+  const ObservationsValidater = (value) => {
+    if (value === "" || !value) {
+      Observations.setFeedbackMessage(
+        "Field required!"
+      );
+      Observations.setMessageType("error");
+      return false;
+    }
+    Observations.setFeedbackMessage("");
+    Observations.setMessageType("none");
+    return true;
+  };
+
+  const insertobservations = (value) => {
+
+
+    setObservationsData(prev => {
+
+      let observationsListing = (prev ?? []).map((observationsObject) => {
+        if (observationsObject?.id == observationsItem?.id) {
+          return { ...observationsObject, ['observations']: value }
+        }
+        else {
+          return { ...observationsObject }
+
+        }
+      })
+      return observationsListing
+
+    })
+  }
+
+
+  const deleteobservations = () => {
+
+    setObservationsData(prev => {
+
+
+
+      let observationsListing = (prev ?? []).filter((observationsObject) => {
+
+
+        if (observationsObject?.id === observationsItem?.id) {
+
+        }
+        else {
+          return observationsObject
+        }
+      })
+      return observationsListing
+
+
+    })
+  }
+
+  useEffect(() => {
+    if (observationsItem) {
+      Observations.setEnteredValue(observationsItem.observations ?? '')
+    }
+  }, [observationsItem])
+
+  return (
+    <>
+      <div className="col-lg-8 col-md-8 col-sm-12 " key={key}>
+        <div className='row'>
+          <div className='col-9'>
+            <InputWithAddOn
+              label={type}
+              className="loginInputs"
+
+              setValue={Observations.setEnteredValue}
+              value={Observations.enteredValue}
+              feedbackMessage={Observations.feedbackMessage}
+              feedbackType={Observations.messageType}
+              isTouched={Observations.isTouched}
+              setIsTouched={Observations.setIsTouched}
+
+              validateHandler={ObservationsValidater}
+              reset={Observations.reset}
+              isRequired={true}
+              onBlurAction={(e) => {
+                insertobservations(e)
+              }}
+            />
+          </div>
+
+          {
+            (length > 1) &&
+            <div className='col-3 ' style={{ paddingTop: '29px', boxSizing: 'border-box' }}>
+              <button onClick={() => { deleteobservations() }} className='' style={{ border: '2px solid red', borderRadius: '10px', color: 'red', fontSize: '15px', fontWeight: '500', backgroundColor: 'white', padding: '2px 10px' }}>X <span>Remove</span></button>
+
+
+            </div>
+          }
+
+        </div>
+
+      </div>
+    </>
+  )
 }

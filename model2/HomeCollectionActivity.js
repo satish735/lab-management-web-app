@@ -8,6 +8,11 @@ const homeCollectionActivitySchema = new Schema({
     ref: 'HomeCollection', // Reference to the HomeCollection model
     required: true
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'AdminLogin', // Reference to the User model who performed the activity
+    required: true
+  },
   activityType: {
     type: String, // Plain string for activity type
     required: true

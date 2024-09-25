@@ -8,14 +8,14 @@ import colors from "react-multi-date-picker/plugins/colors"
 import moment from 'moment'
 import InputMultipleSelect from '../formInput/select/InputMultipleSelect'
 import toast from 'react-hot-toast'
-const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
+const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "", exclude = [], excludeLoading = false }) => {
     const [selectedPickType, setSelectedPickType] = useState()
     const [selectedRangeValues, setSelectedRangeValues] = useState()
     const [selectedMultiPick, setSelectedMultiPick] = useState()
     const [maxUse, setMaxUse] = useState(50)
     const minDate = new Date();
     minDate.setDate(minDate.getDate() + 1);
-    const disabledDateStrings = (slots ?? []).map(item => moment(item?.date).format('YYYY/MM/DD'));
+    const disabledDateStrings = [...(slots ?? []).map(item => moment(item?.date).format('YYYY/MM/DD')), ...(exclude ?? []).map(item => moment(item).format('YYYY/MM/DD'))];
     const [selectedInterval, setSelectedInterval] = useState(60)
     const [selectedSlots, setSelectedSlots] = useState([])
     const generateDateHandler = () => {
@@ -97,6 +97,7 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                         value={selectedPickType}
                         setValue={setSelectedPickType}
                         label='Select Picker Type'
+                        isLoading={excludeLoading}
                     />
                 </div>
                 {selectedPickType == "range" && <div className='col-lg-6 col-md-6 col-12'>
@@ -114,6 +115,7 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                             Select Multiple Ranges <span className="text-danger"> *</span>
                         </label>
                         <DatePicker
+                            disabled={excludeLoading}
                             numberOfMonths={2}
                             inputClass='form-control w-100'
                             style={{ width: "100%" }}
@@ -135,7 +137,8 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                                 },
                             ]}
                             onChange={(ranges) => {
-                               var new_ranges = ranges.filter(([start, end]) => start && end)
+                                var new_ranges = ranges.filter(([start, end]) => start && end)
+
                                 const checkIfIsInRange = new_ranges.some(([start, end]) => {
                                     const startStr = start?.format?.();
                                     const endStr = end?.format?.();
@@ -180,6 +183,7 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                             Select Multiple Dates <span className="text-danger"> *</span>
                         </label>
                         <DatePicker
+                            disabled={excludeLoading}
                             numberOfMonths={2}
                             inputClass='form-control w-100'
                             style={{ width: "100%" }}
@@ -261,7 +265,7 @@ const GenrateSlots = ({ slots = [], setSlots = () => { }, centerId = "" }) => {
                 </div>
             </div>
 
-            <div className='text-end'><button className='btn btn-theme primary' onClick={generateDateHandler}>Generate Slots</button></div>
+            <div className='text-end'><button className='btn btn-theme primary' onClick={generateDateHandler} disabled={excludeLoading}>Generate Slots</button></div>
         </div>
     )
 }

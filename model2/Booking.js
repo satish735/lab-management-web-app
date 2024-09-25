@@ -3,9 +3,13 @@ const { Schema } = mongoose;
 
 // Define the Booking schema
 const bookingSchema = new Schema({
+  sequence: {
+    type: Number,
+    unique: true
+  },
   bookingId: {
     type: String,
-    required: true,
+    // required: true,
     unique: true
   },
   centerId: {
@@ -19,7 +23,7 @@ const bookingSchema = new Schema({
   }],
   status: {
     type: String,
-    enum: ['upcoming', 'completed', 'cancelled', 'rescheduled', 'no-show'],
+    enum: ['created', 'confirmed', 'process_assigned', 'started', 'collection_done', "sample_reached", "report_approved", "completed"],
     default: 'upcoming'
   },
   paymentStatus: {
@@ -37,26 +41,23 @@ const bookingSchema = new Schema({
     enum: ['lab', 'home'],
     required: true
   },
-  slotId: [{
+  slotId: {
     type: Schema.Types.ObjectId,
     ref: 'SlotTime'
-  }, {
-    type: Schema.Types.ObjectId,
-    ref: 'SlotDate'
-  }],
+  },
   teamMemberId: {
     type: Schema.Types.ObjectId,
     ref: 'UserDetails',
-    required: true
+    // required: true
   },
-  testPackageId: {
-    type: Schema.Types.ObjectId,
-    ref: 'PackageTest'
-  },
+  // testPackageId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'PackageTest'
+  // },
   discount: {
     type: Number,
-    min: 0,
-    max: 100,
+    // min: 0,
+    // max: 100,
     default: 0
   },
   homeCollectionCharge: {
@@ -65,12 +66,18 @@ const bookingSchema = new Schema({
   },
   total: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
+  },
+  testAmount: {
+    type: Number,
+    required: true,
+    default: 0
   },
   addressId: {
     type: Schema.Types.ObjectId,
     ref: 'Address',
-    required: true
+    // required: true
   },
   couponSelectedId: {
     type: Schema.Types.ObjectId,
@@ -79,26 +86,34 @@ const bookingSchema = new Schema({
   membershipUsed: {
     type: Schema.Types.ObjectId,
     ref: 'Membership'
+  },
+  isCancelled: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, {
   timestamps: true // Mongoose will automatically add createdAt and updatedAt fields
 });
 
 // Pre-save hook to generate and set the bookingId
-bookingSchema.pre('save', async function(next) {
+bookingSchema.pre('save', async function (next) {
   if (this.isNew) {
     try {
       // Find the latest booking document
-      const lastBooking = await mongoose.model('Booking').findOne().sort({ bookingId: -1 });
+      const lastBooking = await mongoose.model('Booking').findOne().sort({ sequence: -1 });
 
       if (lastBooking) {
         // Extract the last booking ID number
-        const lastId = parseInt(lastBooking.bookingId.replace('BKN-', ''), 10);
+        // const lastId = parseInt(lastBooking.bookingId.replace('BKN-', ''), 10);
+        const lastId = lastBooking?.sequence
         const newId = lastId + 1;
         this.bookingId = `BKN-${newId}`;
+        this.sequence = newId
       } else {
         // If no bookings exist, start with BKN-1
         this.bookingId = 'BKN-1';
+        this.sequence = 1
       }
 
       next();
@@ -109,6 +124,46 @@ bookingSchema.pre('save', async function(next) {
     next();
   }
 });
+
+
+
+// Define a virtual field for homeCollection
+bookingSchema.virtual('homeCollection', {
+  ref: 'HomeCollection',         // The model to use
+  localField: '_id',       // Field in HomeCollection
+  foreignField: 'bookingId', // Field in HomeCollection that references Booking
+  justOne: true
+});
+
+// Define a virtual field for the BookingActivity
+bookingSchema.virtual('activities', {
+  ref: 'BookingActivity', // The model to use
+  localField: '_id', // Field in the Booking model
+  foreignField: 'bookingId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
+// Define a virtual field for the BookingActivity
+bookingSchema.virtual('transactions', {
+  ref: 'Transaction', // The model to use
+  localField: '_id', // Field in the Booking model
+  foreignField: 'bookingId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
+// Define a virtual field for the Reports
+bookingSchema.virtual('testReports', {
+  ref: 'TestReport', // The model to use
+  localField: '_id', // Field in the Booking model
+  foreignField: 'bookingId', // Field in the Activity model
+  justOne: false // Return multiple documents
+});
+
+// Ensure virtual fields are included in toJSON output
+bookingSchema.set('toJSON', { virtuals: true });
+bookingSchema.set('toObject', { virtuals: true });
+
+
 
 // Create the Booking model
 export default mongoose.models.Booking || mongoose.model('Booking', bookingSchema);

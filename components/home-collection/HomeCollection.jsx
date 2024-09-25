@@ -1,16 +1,21 @@
 'use client'
-import React, { useRef, useState } from 'react'
-import { Input } from 'reactstrap'
+import React, { useEffect, useRef, useState } from 'react'
+import { Input, Spinner } from 'reactstrap'
 import CheckboxInput from '../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
 import TestCardDesign from '../test-details/test-card/TestCardDesign'
-const HomeCollection = () => {
+import toast from 'react-hot-toast'
+import transformErrorDefault from '@/utils/transformErrorDefault'
+import '@/components/test&packages/health-package-component/health-package.css'
+ const HomeCollection = () => {
 
 
     const [ListingFields, setListingFields] = useState();
-
+    const [InputSearch, setInputSearch] = useState();
+    const [locationSelected, setlocationSelected] = useState();
+ 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
             url: "/getTestDetails",
@@ -53,7 +58,6 @@ const HomeCollection = () => {
         {
             url: "/test/list",
             method: "get",
-            sendImmediately: true,
             params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
@@ -64,18 +68,49 @@ const HomeCollection = () => {
         },
         (e) => {
 
+            console.log(e);
+
+            if ((typeValue ?? []).length === 0 || (typeValue ?? []).length === 2) {
+                let packageList = (e?.data ?? []).filter((item) => {
+                    return item.testType === 'Package'
+                });
+
+                let testList = (e?.data ?? []).filter((item) => {
+                    return item.testType === 'Test'
+                });
+
+                return { packageList: packageList, testList: testList }
+            }
+
+            else {
+
+
+                let containsPackage = typeValue.some(item => { return item.label === 'Package' });
 
 
 
-            let packageList = (e?.data ?? []).filter((item) => {
-                return item.testType === 'Package'
-            });
+                let containsTest = typeValue.some(item => item.label === 'Test');
 
-            let testList = (e?.data ?? []).filter((item) => {
-                return item.testType === 'Test'
-            });
+                if (containsPackage) {
+                    let packageList = (e?.data ?? []).filter((item) => {
+                        return item.testType === 'Package'
+                    });
 
-            return { packageList: packageList, testList: testList }
+
+                    return { packageList: packageList, testList: [] }
+                }
+
+                if (containsTest) {
+                    let testList = (e?.data ?? []).filter((item) => {
+                        return item.testType === 'Test'
+                    });
+
+                    return { packageList: [], testList: testList }
+                }
+            }
+
+
+
         },
         (e) => {
             toast.error(transformErrorDefault(
@@ -87,12 +122,73 @@ const HomeCollection = () => {
     );
 
     const [bodyPartValue, setBodyPartValue] = useState([])
+    const [ConditionsValue, setConditionsValue] = useState([])
+    const [typeValue, settypeValue] = useState([])
+
+    // console.log(bodyPartValue,ConditionsValue);
+
+    useEffect(() => {
+
+ 
+
+        if (!locationSelected) {
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
+
+            setlocationSelected(data)
+
+                allPackageHandler({
+                    params: {
+
+                        pageNo: 1,
+                        pageSize: 20,
+                        searchQuery: InputSearch,
+                        location:  data?.selectedLocation ?? null,
+                        bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                        conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                    }
+                })
+            }
+
+            else {
+                allPackageHandler({
+                    params: {
+
+                        pageNo: 1,
+                        pageSize: 20,
+                        searchQuery: InputSearch,
+                        location: locationSelected ?? null,
+                        bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                        conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                    }
+                })
+            }
+
+ 
 
 
-// console.log(allPackageResponse);
+    }, [typeValue, ConditionsValue, bodyPartValue ])
 
-    const changeSearchValue = () => {
 
+
+
+    // console.log(typeValue);
+
+    // console.log(bodyPartValue);
+
+    const changeSearchValue = (value) => {
+        setInputSearch(value)
+        allPackageHandler({
+            params: {
+
+                pageNo: 1,
+                pageSize: 20,
+                searchQuery: value,
+                bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+            }
+        })
     }
     return (
         <div className='pt-3' style={{ backgroundColor: '#f1f6ee' }}>
@@ -116,7 +212,7 @@ const HomeCollection = () => {
                             </p>
                             <div style={{}}>
                                 {(select_type_list ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} />
+                                    return <FiltersOnTypeList item={item} key={index} setTypeValue={settypeValue} />
                                 })}
 
                             </div>
@@ -128,11 +224,23 @@ const HomeCollection = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Body Parts
                             </p>
-                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-                                {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
-                                })}
-                            </div>
+                            {
+                                (getBasicDetailsResponse?.fetching ?
+                                    <div className='text-center my-5'>
+
+                                        <Spinner size={"xl"} />
+                                    </div>
+
+                                    :
+
+                                    <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                        {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
+                                        })}
+
+                                    </div>
+                                )
+                            }
                         </div>
 
                         <hr className='my-4 ' />
@@ -140,35 +248,60 @@ const HomeCollection = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Health Conditions
                             </p>
-                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-                                {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
-                                })}
+                            {
+                                (getBasicDetailsResponse?.fetching ?
+                                    <div className='text-center my-5'>
 
-                            </div>
+                                        <Spinner size={"xl"} />
+                                    </div>
+
+                                    :
+
+                                    <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                        {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setConditionsValue} />
+                                        })}
+
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
 
-                    <div className='col-lg-9 col-md-9 col-sm-12 ps-4'>
+                    <div className='col-lg-9 col-md-9 col-sm-12 main-health-package'>
                         <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
                             Packages and Tests
                         </div>
                         <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
-                            Showing 1-19 of 19 Packages
+                            Showing {(allPackageResponse?.data?.packageList ?? [])?.length + (allPackageResponse?.data?.testList ?? [])?.length} Test & Packages
                         </div>
 
-                        <div className='row'>
-                            {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
-                                return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                            })}
+                        {
+                            (allPackageResponse?.fetching ?
+                                <div className='text-center my-5'>
+
+                                    <Spinner size={"xl"} />
+                                </div>
+
+                                :
+
+                                <div className='row'>
+                                    {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
+                                        return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                    })}
 
 
-                            {(allPackageResponse?.data?.testList  ?? []).map((keyValue, index) => {
-                                return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                            })}
+                                    {(allPackageResponse?.data?.testList ?? []).map((keyValue, index) => {
+                                        return <TestCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                    })}
 
 
-                        </div>
+
+                                </div>
+                            )
+                        }
+
+
 
 
                     </div>
@@ -242,6 +375,7 @@ const FiltersList = ({ item, setBodyPartValue }) => {
 
 
 
+
     return (
 
         <div className='mx-2'>
@@ -278,6 +412,57 @@ const FiltersList = ({ item, setBodyPartValue }) => {
                 </div>
 
                 <div  >
+                    {(item.label)?.charAt(0)?.toUpperCase() + (item.label)?.slice(1)}
+                </div>
+            </div>
+
+        </div>
+
+    )
+}
+
+const FiltersOnTypeList = ({ item, setTypeValue }) => {
+    const [FilterCheck, setFilterCheck] = useState();
+
+
+
+
+    return (
+
+        <div className='mx-2'>
+
+
+            <div className='d-flex '>
+                <div ><CheckboxInput
+                    check={FilterCheck}
+                    setChecked={() => {
+                        if (FilterCheck) {
+                            setTypeValue(prev => {
+                                let data = (prev ?? []).filter((value) => {
+                                    if (value.label === item.label) {
+
+                                    }
+                                    else {
+                                        return value
+                                    }
+                                })
+                                return data
+
+                            });
+
+                        }
+                        else {
+                            setTypeValue(prev => [...prev, item]);
+
+                        }
+
+                        setFilterCheck(!FilterCheck)
+                    }}
+                    label={''}
+                />
+                </div>
+
+                <div  >
                     {item.label}
                 </div>
             </div>
@@ -289,11 +474,9 @@ const FiltersList = ({ item, setBodyPartValue }) => {
 
 
 
-
-
 let select_type_list = [
     { label: 'Package', label: 'Package' },
-    { label: 'Test',label: 'Test' },
+    { label: 'Test', label: 'Test' },
 
 
 

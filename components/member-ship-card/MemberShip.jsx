@@ -4,6 +4,8 @@ import React from 'react'
 import Banner from '../customdesign/Banner'
 import MemberShipCard from '../customdesign/MemberShipCard'
 import useAPI from "@/hooks/useAPI";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const MemberShip = () => {
 
     const [MemberShipResponse, MemberShipHandler] = useAPI(
@@ -44,7 +46,7 @@ const MemberShip = () => {
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ color: '#97979a', width: '70%', margin: '0 auto' }}>
 
-                        There&apos;s no reason to skip out on health when it comes with perks like comfort, convenience, and care. Become a member and take home many benefits of discounts on medicines, tests, packages and more. The Dr. B. Lal Clinical Laboratory provides membership cards to seniors and their families. We want to ensure that everyone has the opportunity to live a happy and healthy life.
+                        There&apos;s no reason to skip out on health when it comes with perks like comfort, convenience, and care. Become a member and take home many benefits of discounts on medicines, tests, packages and more. The SSDBSHYAM Diagnostic LLP provides membership cards to seniors and their families. We want to ensure that everyone has the opportunity to live a happy and healthy life.
                     </div>
 
                 </div>

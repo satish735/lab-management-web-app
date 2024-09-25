@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     instrumentationHook: true,
+    cssChunking: 'strict',
   },
   compiler: {
     styledComponents: true,

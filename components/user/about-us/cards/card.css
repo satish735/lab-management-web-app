@@ -21,17 +21,20 @@
     overflow-y: auto;
     width: 100%;
     height: 100%;
-
+     
+    color:white;
     text-align: justify;
 
 }
 .scientific-team:hover .scientific-team-hover-content {
     display: block;
+    
 }
 
 .director-image-div{
     position: absolute;
-    top: -108px;
+    top: 12px;
+    
     left: -10px;
 }
 .why-choose-us-image-div-parent-div {

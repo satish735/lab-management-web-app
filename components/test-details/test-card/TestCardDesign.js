@@ -3,6 +3,7 @@ import SvgIcon from "../../home-component/SvgIcon";
 import "@/styles/common-card-designs/card_designs.css";
 import "../total-test-include/totalTestInclude.css";
 import { useRouter } from "next/navigation";
+import Usercart from "@/layouts/layout-components/cart"
 import toast from "react-hot-toast";
 const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
   const router = useRouter()
@@ -12,21 +13,23 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
     setdiscountprice(FinalPrice)
   }, [])
 
+  const [isopencart, setisopencart] = useState(false)
 
   const setitem = async () => {
 
 
-    const storedData = localStorage.getItem('testpackage');
-    const parsedData = storedData ? JSON.parse(storedData) : [];
+    const storedData = localStorage?.getItem?.('testpackage');
+    const parsedData = storedData ? JSON?.parse?.(storedData) : null
     const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
 
     if ((filterdata ?? [])?.length > 0) {
-      toast.error("Already Added")
+      toast.error("This test is already Exists in your cart.")
     } else {
-      const dataToStore = { item: parsedData?.item == null || parsedData?.item == []  ? [listing] : [...parsedData?.item, listing] };
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
 
       localStorage.setItem('testpackage', JSON.stringify(dataToStore));
-      toast.success("Package saved successfully")
+      setisopencart(true)
+   
     }
 
 
@@ -50,10 +53,26 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
               style={{ borderRadius: "0px 0px 13px 13px" }}
             >
               <div className="row">
-                <div className="col-8">
-                  <p className="card-heading-test">{listing?.name}</p>
+                <div className="col-12 ">
+                  <p className="card-heading-test truncate">{listing?.name}</p>
                 </div>
-                <div className="col-4 text-end " style={{}}>
+                <div className="col-5 ">
+                  <span
+                    className=""
+                    style={{
+                      border: "1px solid green",
+                      borderRadius: "10px",
+                      color: "white",
+                      fontWeight: "400",
+                      backgroundColor: "green",
+                      padding:'5px 10px 5px 10px'
+                    }}
+                  >
+                    {" "}
+                    {listing?.discountPercentage} % off
+                  </span>
+                </div>
+                <div className="col-7 text-end " style={{}}>
                   <span
                     style={{
                       textDecoration: "line-through",
@@ -70,27 +89,13 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
                     ₹ {discountprice}
                   </span>
                 </div>
-                <div className="col-12 text-end">
-                  <span
-                    className="px-3 py-2"
-                    style={{
-                      border: "1px solid green",
-                      borderRadius: "10px",
-                      color: "white",
-                      fontWeight: "400",
-                      backgroundColor: "green",
-                    }}
-                  >
-                    {" "}
-                    {listing?.discountPercentage} % off
-                  </span>
-                </div>
+
               </div>
 
               <hr />
 
-              <div className="row my-2" style={{ color: "#828599" }}>
-                <div className="col-6">
+              <div className="d-flex justify-content-between my-2" style={{ color: "#828599" }}>
+                <div className=" ">
                   <div className="row">
                     <p className="col-3 pt-1">
                       <span
@@ -109,7 +114,7 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
                   </div>
                 </div>
 
-                <div className="col-6">
+                <div className=" ">
                   <div className="row">
                     <p className="col-3 pt-1">
                       <span
@@ -132,19 +137,19 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
 
               <hr />
 
-              <div className="row">
-                <div className="col-6">
+              <div className="d-flex justify-content-between">
+                <div className="">
                   <button
-                    className="card-button-package-card "
+                    className="card-button  "
                     style={{ fontSize: "13px" }}
                     onClick={() => { router.push(`/jaipur/lab-test/${'test'}?id=${listing?._id}`) }}
                   >
-                    View Details <span>→</span>
+                    View Details<span>→</span>
                   </button>
                 </div>
-                <div className="col-6 text-end">
+                <div className=" text-end">
                   <button onClick={setitem} className="card-button " style={{ fontSize: "13px" }}>
-                    Add to Cart <span>→</span>
+                    Add to Cart<span>→</span>
                   </button>
                 </div>
               </div>
@@ -152,6 +157,7 @@ const TestCardDesign = ({ listing, lg = 6, md = 6 }) => {
           </div>
         </div>
       </div>
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

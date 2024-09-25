@@ -33,7 +33,7 @@ const items = [
                   <h5>Customer every Year</h5>
                 </li>
               </ul>
-              <a className="search-div" href="/search">
+              <a className="search-div" href="/home-collection">
                 <FaSearch
                   size={20}
                 
@@ -77,7 +77,7 @@ const items = [
                   <FaPhone size={18} className="call-icon" />
                   Call Now
                 </a>
-                <a type="button" className="btn  search-button" href="/search">
+                <a type="button" className="btn  search-button" href="/home-collection">
                   <FaMicroscope size={18} className="search-icon" />
                   Search for Test
                 </a>

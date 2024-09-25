@@ -6,7 +6,7 @@ const MainBannerSecondPart = () => {
   return (
     <div className="main-banner-2-part-1    text-center">
       <MainBannerSecondCrousel />
-      <MainBannerSecondCards />
+      {/* <MainBannerSecondCards /> */}
     </div>
   );
 };

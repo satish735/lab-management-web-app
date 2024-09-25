@@ -5,6 +5,8 @@ const { Schema } = mongoose;
 const EnquirySchema = new Schema({
   name: { type: String, required: true },
   age: { type: Number },
+  labName: { type: String },
+  organizationName: { type: String },
   number: { type: String },
   alternateNumber: { type: String },
   emailAddress: { type: String },
@@ -12,6 +14,8 @@ const EnquirySchema = new Schema({
   state: { type: String },
   isExperienced: { type: Boolean },
   otherDetails: { type: String },
+  enquireType:{type:String},
+  status:{type:String},
   is_delete: { type: Boolean, default: false }
 });
 

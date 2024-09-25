@@ -4,8 +4,10 @@ import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
 import TotalTestInclude from '@/components/test-details/total-test-include/TotalTestInclude'
 import useAPI from '@/hooks/useAPI'
 import UserLayout from '@/layouts/UserLayout'
-import React from 'react'
+import React,{useEffect} from 'react'
 import toast from 'react-hot-toast'
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 
 const Page = ({ searchParams }) => {
 
@@ -65,6 +67,13 @@ const Page = ({ searchParams }) => {
             return e
         }
     );
+
+    useEffect(() => {
+        if (searchParams?.id) {
+            testHandler()
+        }
+
+    }, [searchParams])
     return (
         <UserLayout>
             <div className='py-3' style={{ backgroundColor: '#f2f4f8' }}>

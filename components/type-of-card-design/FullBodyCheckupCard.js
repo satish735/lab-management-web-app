@@ -3,11 +3,33 @@ import React from "react";
 // import { ReactComponent as inovation } from '@/public/assets/images/inovation.jpg'
 import "@/styles/common-card-designs/card_designs.css";
 import { useRouter } from "next/navigation";
-
-const FullBodyCheckupCard = ({ listing }) => {
+import Usercart from "@/layouts/layout-components/cart"
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+const FullBodyCheckupCard = ({ listing, location }) => {
   const router = useRouter();
 
-  console.log(listing)
+  const [isopencart, setisopencart] = useState(false)
+
+
+  const setitem = async (listing) => {
+
+
+    const storedData = localStorage.getItem('testpackage');
+    const parsedData = storedData ? JSON?.parse?.(storedData) : [];
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("This package already exists in your cart")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+      setisopencart(true)
+    }
+
+
+  }
   return (
     <div className="card-outer-layer-div">
       <div className="main-card-border" style={{}}>
@@ -41,10 +63,10 @@ const FullBodyCheckupCard = ({ listing }) => {
                 width: "100%",
                 border: "none",
                 borderRadius: "12px 12px 0 0 ",
-                backgroundImage:`Url('/assets/images/PackagesBanner.jpg')`,
-                backgroundRepeat:'no-repeat',
-                backgroundSize:'cover',
-                 
+                backgroundImage: `Url('${process.env.NEXT_PUBLIC_BUCKET_URL + listing?.image}')`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+
               }}
             />
           </div>
@@ -59,7 +81,7 @@ const FullBodyCheckupCard = ({ listing }) => {
             <div className="row">
               <div className="col-8">
                 <div>
-                  <p className="card-heading-test text-start">
+                  <p className="card-heading-test text-start truncate">
                     {listing?.name}
                   </p>
                 </div>
@@ -87,15 +109,18 @@ const FullBodyCheckupCard = ({ listing }) => {
               </div>
             </div>
 
-            <div className="row px-1 pb-1">
-              <div className="col-6">
+            <div className="d-flex justify-content-between px-1 pb-1">
+              <div className="">
 
-                <button className="card-button" onClick={() => { router.push( `/jaipur/health-package/package?id=${listing?._id}` ) }}>
+                <button className="card-button" onClick={() => { router.push(`/${(location ?? '')?.replace(/\s+/g, '-') ?? 'jaipur'}/health-package/package?id=${listing?._id}`) }}>
                   View Details <span>→</span>
                 </button>
               </div>
-              <div className="col-6 text-end">
-                <button className="card-button-2">
+              <div className=" text-end">
+                <button onClick={() => {
+
+                  setitem(listing)
+                }} className="card-button-2">
                   Add to Cart <span>→</span>
                 </button>
               </div>
@@ -103,6 +128,8 @@ const FullBodyCheckupCard = ({ listing }) => {
           </div>
         </div>
       </div>
+
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
 };

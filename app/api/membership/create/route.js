@@ -7,18 +7,18 @@ export const POST = async (request, { params }) => {
     try {
         const requestBody = await request.json();
         console.log(requestBody);
-       
+
 
         const MembershipNew = new Membership({
-            name: requestBody?.name || "",
-            banner: requestBody?.banner || "",
+            name: requestBody?.name ?? '',
+            banner: requestBody?.banner ?? '',
             validity: requestBody?.validity || null,
             price: requestBody?.price || null,
-             
+
             discountOnPackagePercentage: requestBody?.discountOnPackagePercentage || null,
-            // termsAndConditions: requestBody?.termsAndConditions || "",
-            description: requestBody?.description || "",
-            // benefits: requestBody?.benefits || "",
+            termsAndConditions: requestBody?.termsAndConditions ?? [],
+            description: requestBody?.description ?? '',
+            benefits: requestBody?.benefits ?? [],
             type: requestBody?.type || "",
             // conditions: requestBody?.conditions || "",
             is_delete: requestBody?.is_delete ?? false,
@@ -27,7 +27,7 @@ export const POST = async (request, { params }) => {
         });
 
         console.log(MembershipNew);
-        
+
 
         await MembershipNew.save();
         return new Response(MembershipNew, { status: 200 });

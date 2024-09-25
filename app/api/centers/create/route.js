@@ -2,26 +2,40 @@ import Center from "@/model2/Center";
 export const POST = async (request, { params }) => {
   try {
     const requestBody = await request.json();
+
+      // Generate centreId here if you choose not to use the pre-save hook for this
+      const lastCentre = await Center.findOne().sort({ centreId: -1 });
+      const lastId = lastCentre ? parseInt(lastCentre.centreId.replace("center", "")) : 0;
+      let newCentreId;
+      if (lastId >= 99999) {
+        newCentreId = `center${lastId + 1}`;
+      } else {
+        newCentreId = `center${String(lastId + 1).padStart(5, "0")}`;
+      }
+
+     
+      
+
     const newCenter = new Center({
-      centreId:3,
-      centre: 'Malviye Nagar Center' || "",
-      // centreNameInApp: requestBody?.centreNameInApp || "",
-      address: 'Malviye nagar, jaipur' || "",
-      address2: '' || "",
-      contact: '987778485' || "",
-      pinCode: '303021' || "",
-      email: 'endo123@gmail.com' || "",
-      labOpeningTime: '8 AM' || "",
-      labClosingTime: '8 PM' || "",
-      latitude: '26.861969' || "",
-      longitude: '75.806389' || "",
-      labFacilities: [] || [],
-      city: 'Jaipur',
-      state: 'Rajasthan'
+      centreId: newCentreId,  // Set the generated centreId
+      centre: requestBody?.centre || null,
+      address: requestBody?.address || null,
+      address2: requestBody?.address2 || null,
+      contact: requestBody?.contact || null,
+      pinCode: requestBody?.pinCode || null,
+      email: requestBody?.email || null,
+      labOpeningTime: requestBody?.labOpeningTime || null,
+      labClosingTime: requestBody?.labClosingTime || null,
+      latitude: requestBody?.latitude || null,
+      longitude: requestBody?.longitude || null,
+      labFacilities: requestBody?.labFacilities || [],
+      city: requestBody?.city || null,
+      state: requestBody?.state || null
     });
 
-    console.log(newCenter);
 
+
+ 
     await newCenter.save();
     return new Response(newCenter, { status: 200 });
   } catch (error) {
@@ -30,15 +44,3 @@ export const POST = async (request, { params }) => {
   }
 };
 
-// centre: requestBody?.centre || "",
-// centreNameInApp: requestBody?.centreNameInApp || "",
-// address: requestBody?.address || "",
-// address2: requestBody?.address2 || "",
-// contact: requestBody?.contact || "",
-// pinCode: requestBody?.pinCode || "",
-// email: requestBody?.email || "",
-// labOpeningTime: requestBody?.labOpeningTime || "",
-// labClosingTime: requestBody?.labClosingTime || "",
-// latitude: requestBody?.latitude || "",
-// longitude: requestBody?.longitude || "",
-// labFacilities: requestBody?.labFacilities || [],

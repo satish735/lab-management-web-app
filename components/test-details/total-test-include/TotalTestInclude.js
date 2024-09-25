@@ -6,7 +6,7 @@ const TotalTestInclude = ({ total_test }) => {
   return (
     <>
       <div className='test-include-div bg-white py-4' style={{ borderRadius: '10px' }}>
-        <h2 className='heading-text px-3'>
+        <h2 className='heading-text px-3' >
           {total_test?.name ?? ''}
         </h2>
 
@@ -24,8 +24,8 @@ const TotalTestInclude = ({ total_test }) => {
           <div className='row px-3 '>
 
 
-            <div className='px-2 col-lg-3 col-md-3 col-sm-12'>
-              <div className=' bg-white d-flex pt-3' style={{ borderRadius: '7px' }}>
+            <div className='px-2 col-lg-3 col-md-3 col-sm-12 div-section'>
+              <div className=' bg-white d-flex pt-3  div-section-inner ' style={{ borderRadius: '7px' }}>
                 <div className='pt-2'>
 
                   <span className='  ps-2 pe-2' style={{}}>
@@ -48,8 +48,8 @@ const TotalTestInclude = ({ total_test }) => {
               </div>
             </div>
 
-            <div className='px-2 col-lg-3 col-md-3 col-sm-12'>
-              <div className=' bg-white d-flex pt-3' style={{ borderRadius: '7px' }}>
+            <div className='px-2 col-lg-3 col-md-3 col-sm-12 div-section'>
+              <div className=' bg-white d-flex pt-3 div-section-inner ' style={{ borderRadius: '7px' }}>
                 <div className='pt-2'>
 
                   <span className='  ps-2 pe-2' style={{}}>
@@ -72,8 +72,8 @@ const TotalTestInclude = ({ total_test }) => {
               </div>
             </div>
 
-            <div className='px-2 col-lg-3 col-md-3 col-sm-12'>
-              <div className=' bg-white d-flex pt-3' style={{ borderRadius: '7px' }}>
+            <div className='px-2 col-lg-3 col-md-3 col-sm-12 div-section'>
+              <div className=' bg-white d-flex pt-3 div-section-inner ' style={{ borderRadius: '7px' }}>
                 <div className='pt-2'>
 
                   <span className='  ps-2 pe-2' style={{}}>
@@ -96,8 +96,8 @@ const TotalTestInclude = ({ total_test }) => {
               </div>
             </div>
 
-            <div className='px-2 col-lg-3 col-md-3 col-sm-12'>
-              <div className=' bg-white d-flex pt-3' style={{ borderRadius: '7px' }}>
+            <div className='px-2 col-lg-3 col-md-3 col-sm-12 div-section'>
+              <div className=' bg-white d-flex pt-3 div-section-inner ' style={{ borderRadius: '7px' }}>
                 <div className='pt-2'>
 
                   <span className='  ps-2 pe-2' style={{}}>

@@ -12,6 +12,7 @@ const PackageTestSchema = new Schema({
   preTestInfo: { type: String },//For Test
   bodyParts: [{ type: Schema.Types.ObjectId, ref: 'BodyPart' }],//For Test
   conditions: [{ type: Schema.Types.ObjectId, ref: 'TestCondition' }],//For Test
+  availableInCenters: [{ type: Schema.Types.ObjectId, ref: 'Center', required: true }], 
   totalMrp: { type: Number },//For Package
   gender: { type: String, enum: ['male', 'female', 'both'] },//For Test
   fromAge: { type: Number },//For Test
@@ -43,6 +44,8 @@ const PackageTestSchema = new Schema({
   editorContent: { type: String },
   publishedAt: { type: Date },
   is_delete: { type: Boolean, default: false },
+  is_popular: { type: Boolean, default: false },
+
   slug: { type: String, unique: true }
 });
 
@@ -56,4 +59,3 @@ export default mongoose.models.PackageTest || mongoose.model('PackageTest', Pack
 
 
 
- 

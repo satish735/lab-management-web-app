@@ -43,8 +43,7 @@ export default function Home() {
   const [selectedViewOptions, setSelectedViewOptions] = useState([
     "action",
     "center",
-    "status",
-    "timings",
+     "timings",
   ]);
   const changePageAndRows = (page, rows) => {
     blogsHandler({
@@ -109,14 +108,15 @@ export default function Home() {
               Icon={Eye}
               name="View"
               onClick={() => {
-                router.push(`/admin/centers/${row?.slug}`);
+                router.push(`/admin/centers/view?id=${row?._id}&type=view`);
+ 
               }}
             />
             <ActionOption
               Icon={Pencil}
               name="Edit"
               onClick={() => {
-                router.push(`/admin/centers/${row?.slug}/edit`);
+                router.push(`/admin/centers/view?id=${row?._id}&type=edit`);
               }}
             />
           </>
@@ -141,7 +141,7 @@ export default function Home() {
       key: "center",
       label: "Center Name",
       value: (row) => {
-        return row?.center;
+        return row?.centre;
       },
       sortable: true,
       isDefault: true,
@@ -150,20 +150,7 @@ export default function Home() {
       className: "mnw-12",
     },
 
-    {
-      label: "Status",
-      value: (row) => {
-        return (
-          <Badge color={row?.publishedAt ? "success" : "warning"}>
-            {row?.publishedAt ? "Published" : "Draft"}
-          </Badge>
-        );
-      },
-      key: "status",
-      isDefault: true,
-      isSelectRequired: true,
-      className: "mnw-12",
-    },
+    
     {
       label: "Contact",
       value: (row) => {
@@ -175,7 +162,7 @@ export default function Home() {
     {
       label: "Email",
       value: (row) => {
-        return row?.author;
+        return row?.email;
       },
       key: "email",
       className: "mnw-12",

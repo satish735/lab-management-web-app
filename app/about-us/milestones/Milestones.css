@@ -13,16 +13,16 @@
   }
   
   /* The actual timeline (the vertical ruler) */
-  .timeline::after {
+  /* .timeline::after {
     content: '';
     position: absolute;
     width: 6px;
     background-color: #d99849;
     top: 0;
     bottom: 0;
-    left: 14px;
+    left: 5%;
     margin-left: -3px;
-  }
+  } */
   
   /* Container around content */
   .container {
@@ -32,68 +32,22 @@
     /* width: 50%; */
   }
   
-  /* The circles on the timeline */
-  .container::after {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
 
-    background-color: white;
-    border: 4px solid #FF9F55;
-    top: 15px;
-    border-radius: 50%;
-    z-index: 1;
-  }
-  
-  /* Place the container to the left */
-  .left {
-    left: 0;
-  }
-  
-  /* Place the container to the right */
-  .right {
-    left: 0%;
-  }
-  
-  /* Add arrows to the left container (pointing right) */
-  .left::before {
-    content: " ";
-    height: 0;
-    position: absolute;
-    top: 22px;
-    width: 0;
-    z-index: 1;
-    right: 30px;
-    border: medium solid white;
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent white;
-  }
-  
-  /* Add arrows to the right container (pointing left) */
-  .right::before {
-    content: " ";
-    height: 0;
-    position: absolute;
-    top: 22px;
-    width: 0;
-    z-index: 1;
-    left: 30px;
-    border: medium solid white;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
-  }
-  
-  /* Fix the circle for containers on the right side */
-  .right::after {
-    left: -20px;
-  }
+ 
+  .container {
+    position: relative; /* Ensures pseudo-elements are positioned correctly */
+    padding: 20px; /* Optional padding for layout purposes */
 
-  .left::after {
-    left: -20px;
   }
   
-  /* The actual content */
+
+  
+
+  
+  
+
+  
+
   .content {
     padding: 20px 30px;
     background-color: white;

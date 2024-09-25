@@ -20,13 +20,14 @@ const InputMultipleSelect = ({
   ...rest
 }) => {
 
- 
+
   return (
     <FormGroup
       className={`${rest?.hasExpand ?? false ? "expand-multiple-select-dropdown" : ""
         } ${feedbackType === "error" ? "input-searchable-select-error" : ""
         }  input_select_tab${rest?.heightClass ? "_" + rest?.heightClass : ""} ${disabled ? "input_select_tab_disabled" : ""
-        } `}
+        } ${rest?.formGroupClass ?? ""}`}
+      style={rest?.formGroupStyle ?? {}}
     >
       {label !== "" && (
         <label
@@ -64,7 +65,7 @@ const InputMultipleSelect = ({
           selectSomeItems: rest?.placeholder ?? "Select...",
         }}
         className="small"
- 
+
         {...rest}
       />
 

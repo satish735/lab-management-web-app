@@ -1,14 +1,22 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import useInputComponent from '@/hooks/useInputComponent';
-import InputWithAddOn from '../../components/formInput/InputWithAddOn';
+import InputWithAddOn from '@/components/formInput/InputWithAddOn';
 import InputSelect from "@/components/formInput/select/InputSelect";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
-const Addmember = ({ toggle, modal }) => {
+import moment from "moment";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+import {  useSession } from "next-auth/react";
+
+
+const Addmember = ({ toggle, modal, refresh, isupdate, update }) => {
+    const session = useSession()
+
+    var user = session?.data?.user?.otherDetails
 
 
 
@@ -16,7 +24,7 @@ const Addmember = ({ toggle, modal }) => {
     const FullnameValidater = (value) => {
         if (value === "" || !value) {
             Name.setFeedbackMessage(
-                "Field required!"
+                "Field required!" 
             );
             Name.setMessageType("error");
             return false;
@@ -119,7 +127,14 @@ const Addmember = ({ toggle, modal }) => {
         return true;
     };
 
-
+const reset = ()=> {
+    toggle()
+    Name.reset()
+    DOB.reset()
+    Email.reset()
+    setGenderType()
+    setrelationType()
+}
 
 
     const [addmemberResponse, addmemberHandler] = useAPI(
@@ -128,13 +143,9 @@ const Addmember = ({ toggle, modal }) => {
             method: "post",
         },
         (e) => {
-            toggle()
+            refresh()
+            reset()
 
-            Name.reset()
-            DOB.reset()
-            Email.reset()
-            setGenderType()
-            setrelationType()
             return toast.success("Member has been add successfully");
         },
         (e) => {
@@ -150,7 +161,39 @@ const Addmember = ({ toggle, modal }) => {
     );
 
 
+    useEffect(() => {
+        if (isupdate) {
+            Name.setEnteredValue(update?.name ?? "")
+            DOB?.setEnteredValue(moment(update?.dob)?.format("YYYY-MM-DD") ?? "")
+            setGenderType(update?.gender)
+            Email?.setEnteredValue(update?.email ?? "")
+            setrelationType(update?.relation)
+        }
+    }, [update])
 
+    const [UpdateMemberResponse, UpdateMemberHandler] = useAPI(
+        {
+            url: `/member/${update?._id}`,
+            method: "put",
+        },
+        (e) => {
+            refresh()
+            reset()
+            toast.success("Member updated successfully");
+
+
+        },
+        (e) => {
+
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while creating Body Part!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
 
 
     const submit = () => {
@@ -165,15 +208,30 @@ const Addmember = ({ toggle, modal }) => {
                 "Fill required fields!"
             );
         } else {
-            addmemberHandler({
-                body: {
-                    name: Name.enteredValue,
-                    dob: DOB.enteredValue,
-                    gender: GenderType,
-                    email: Email.enteredValue,
-                    relation: relationType
-                }
-            })
+            if (isupdate) {
+                UpdateMemberHandler({
+                    body: {
+                        name: Name.enteredValue,
+                        dob: DOB.enteredValue,
+                        gender: GenderType,
+                        email: Email.enteredValue,
+                        relation: relationType,
+                        
+                    }
+                })
+            } else {
+
+                addmemberHandler({
+                    body: {
+                        name: Name.enteredValue,
+                        dob: DOB.enteredValue,
+                        gender: GenderType,
+                        email: Email.enteredValue,
+                        relation: relationType,
+                        loginId:user?._id
+                    }
+                })
+            }
         }
     }
 
@@ -184,11 +242,11 @@ const Addmember = ({ toggle, modal }) => {
 
             <Modal
                 isOpen={modal}
-                toggle={toggle}
+                toggle={reset}
                 size="xl"
 
             >
-                <ModalHeader toggle={toggle}>Add Member</ModalHeader>
+                <ModalHeader toggle={reset}>Add Member</ModalHeader>
                 <ModalBody>
                     <div className='row'>
                         <div className="col-sm-6 col-12">
@@ -277,13 +335,13 @@ const Addmember = ({ toggle, modal }) => {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="success" onClick={submit}>
-                        {false ? (
+                        {(UpdateMemberResponse?.fetching || addmemberResponse?.fetching) ? (
                             <Spinner size={"sm"} />
                         ) : (
-                            "Save Details"
+                           isupdate ? "Update Deatils": "Save Details"
                         )}
                     </Button>{' '}
-                    <Button color="secondary" onClick={toggle}>
+                    <Button color="secondary" onClick={reset}>
                         Cancel
                     </Button>
                 </ModalFooter>

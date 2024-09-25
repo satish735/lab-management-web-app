@@ -113,20 +113,20 @@ export default function Home() {
               Icon={Eye}
               name="View"
               onClick={() => {
-                router.push(`/admin/milestone/${row?.slug}`);
+                router.push(`/admin/milestones/view?id=${row?._id}&type=view`);
               }}
             />
             <ActionOption
               Icon={Pencil}
               name="Edit"
               onClick={() => {
-                router.push(`/admin/milestone/${row?.slug}/edit`);
+                router.push(`/admin/milestones/view?id=${row?._id}&type=edit`);
               }}
             />
           </>
         );
       },
-      key: "action",
+      key: "action", 
       isDefault: true,
       isSelectRequired: true,
       className: "mnw-12",

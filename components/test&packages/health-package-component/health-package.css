@@ -1,0 +1,13 @@
+.main-health-package{
+    padding-left: 20px !important;
+    
+}
+
+
+@media only screen and (max-width: 600px) {
+    .main-health-package{
+       padding: 10px !important;
+       margin-top: 20px;
+        
+    }
+}

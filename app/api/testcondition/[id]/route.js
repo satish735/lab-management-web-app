@@ -3,15 +3,15 @@ import blog from "@/models/blog";
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
-    const TestConditions =await TestCondition
+    const TestConditions = await TestCondition
       .findById(id);
-    return new Response(TestConditions, { status: 200 });
+    return new Response(JSON.stringify(TestConditions), { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
   }
 };
-export const PATCH = async (request, { params }) => {
+export const PUT = async (request, { params }) => {
   try {
     const toUpdateBody = await request.json();
     const { id = null } = params;
@@ -25,7 +25,8 @@ export const PATCH = async (request, { params }) => {
       }
     }
     await existingTestCondition.save();
-    return new Response(existingTestCondition, { status: 200 });
+    return new Response(JSON.stringify(existingTestCondition), { status: 200 });
+
   } catch (error) {
     console.log(error);
     return new Response(error?.message, { status: 500 });
@@ -33,7 +34,7 @@ export const PATCH = async (request, { params }) => {
 };
 export const DELETE = async (request, { params }) => {
   try {
-    const { id = null} = params;
+    const { id = null } = params;
     await TestCondition.findByIdAndDelete(id);
     return new Response("Test Condition deleted successfully.", { status: 200 });
   } catch (error) {

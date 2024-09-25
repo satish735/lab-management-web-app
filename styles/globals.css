@@ -1,3 +1,9 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.ckeditor-content-div>* {
+  max-width: 100%;
+}
+
 :root {
   --max-width: 1100px;
   /* --border-radius: 12px; */
@@ -278,8 +284,8 @@ a {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(263deg,
-      #002678 5.26%,
-      #002678 104.79%);
+      #003747 5.26%,
+      #003747 104.79%);
   /* Linear gradient for the thumb */
   border-radius: 12px;
   /* Rounded corners for the thumb */
@@ -289,8 +295,8 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(263deg,
-      #46bb00 5.26%,
-      #3b9d00 104.79%);
+      #21cdad 5.26%,
+      #21cdad 104.79%);
   /* Different gradient for the thumb when hovered */
   border: 3px solid #f1f1f100;
   /* Adds space around thumb */
@@ -327,22 +333,23 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* header */
-.header-toggle-icon {
-  cursor: pointer;
-  user-select: none;
-}
 
-.header-toggle-icon:hover {
-  opacity: 0.8;
-}
 
 .midbox-inner {
   margin: 0 auto;
   max-width: 90rem;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
   width: 100%;
 }
+
+@media screen and (max-width: 680px) {
+  .midbox-inner {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 
 .badge {
   line-height: unset !important;
@@ -437,4 +444,30 @@ body::-webkit-scrollbar-thumb {
   font-size: 0.9rem;
   margin-bottom: 0;
   margin-bottom: 5px;
+}
+
+
+.card-button-2 {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #003747;
+  color: white;
+  border: 2px solid #003747;
+}
+
+
+.card-button-2:hover {
+  transition: all 0.1s linear;
+  font-size: 15px;
+  padding: 5px 10px;
+  background-color: #21cdad;
+  color: white;
+  border-color: transparent;
+}
+
+
+.admin-left-menu-icon {
+  font-size: 20px;
+  color: #46bb00;
 }

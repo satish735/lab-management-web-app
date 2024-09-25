@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 // Define the SlotDate schema
 const slotDateSchema = new Schema({
   date: {
-    type: Date,
+    type: String,
     required: true
   },
   day: {
@@ -25,6 +25,20 @@ const slotDateSchema = new Schema({
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt fields
 });
+
+
+
+// Define a virtual field for SlotTimes
+slotDateSchema.virtual('slotTimes', {
+  ref: 'SlotTime',         // The model to use
+  localField: '_id',       // Field in SlotDate
+  foreignField: 'slotDate' // Field in SlotTime that references SlotDate
+});
+
+// Ensure virtual fields are included in toJSON output
+slotDateSchema.set('toJSON', { virtuals: true });
+slotDateSchema.set('toObject', { virtuals: true });
+
 
 // Create the SlotDate model
 export default mongoose.models.SlotDate || mongoose.model('SlotDate', slotDateSchema);

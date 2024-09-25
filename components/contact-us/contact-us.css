@@ -1,0 +1,17 @@
+.center-contact-listing{
+    color: #97979a;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.header-contact-us{
+    width: 70%;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .header-contact-us{
+        width: 100%;
+    }
+}

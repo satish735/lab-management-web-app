@@ -1,5 +1,5 @@
 import twilio from "twilio";
-import user from "@/models/user";
+import Login from "@/model2/Login";
 import moment from "moment";
 const client = twilio(
   process.env.TWILIO_ACCOUNT_SID,
@@ -12,8 +12,9 @@ export const POST = async (request, { params }) => {
     if (!phone || !phonePattern.test(phone)) {
       return new Response("Invalid Phone number!", { status: 500 });
     }
-    const User = await user.findOne({ phone });
+    const User = await Login.findOne({ phone });
     // var otp = Math.floor(100000 + Math.random() * 900000).toString();
+
     var otp = 123456;
     const body = `Your OTP code is ${otp}. It is valid for 1 minutes.`;
     // let data = {
@@ -24,14 +25,15 @@ export const POST = async (request, { params }) => {
 
     // await client.messages.create(data);
     if (!User) {
-      const newUser = new user({
+      const newUser = new Login({
         phone: phone,
         otp: otp,
         otpExpire: moment.utc().add(1, "minute").toISOString(),
-        role: "user",
-        email: null,
         password: null,
       });
+
+      console.log(newUser)
+
 
       await newUser.save();
       return new Response("OTP for login sent to mobile no.", {

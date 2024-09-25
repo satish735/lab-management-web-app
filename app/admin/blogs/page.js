@@ -112,14 +112,14 @@ export default function Home() {
               Icon={Eye}
               name="View"
               onClick={() => {
-                router.push(`/admin/blogs/${row?.slug}`);
+                router.push(`/admin/blogs/view?id=${row?._id}&type=view`);
               }}
             />
             <ActionOption
               Icon={Pencil}
               name="Edit"
               onClick={() => {
-                router.push(`/admin/blogs/${row?.slug}/edit`);
+                router.push(`/admin/blogs/view?id=${row?._id}&type=view`);
               }}
             />
           </>

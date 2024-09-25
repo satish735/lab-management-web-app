@@ -1,4 +1,5 @@
-"use client";
+'use client'
+
 import { useEffect, useState } from "react";
 import "./LoginForm.css";
 import { useRouter } from "next/navigation";
@@ -66,6 +67,8 @@ const OTPForm = ({ searchParams }) => {
     }
     setOTPVerifyIsLoading(false);
   };
+
+  
   const resendingOTPHandler = async () => {
     if (otpResendResponse?.fetching) {
       toast("Resending OTP Please wait...!");

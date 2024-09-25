@@ -14,22 +14,17 @@ export const GET = async (request, { params }) => {
 export const PUT = async (request, { params }) => {
   try {
 
-    console.log("paramsparams", params)
+    console.log("vvvvvvvvvv")
     const toUpdateBody = await request.json();
-    console.log("lllllllllll",toUpdateBody)
     const { id = null } = params;
     const existingBlog = await FAQ.findById(id);
-    if (!existingBlog) {
-      return new Response("No FAQ found with given id!", { status: 404 });
-    }
+
     for (const key in toUpdateBody) {
       if (key in existingBlog) {
         existingBlog[key] = toUpdateBody[key];
       }
     }
     await existingBlog.save();
-
-    console.log("existingBlog", existingBlog)
     return new Response(JSON.stringify(existingBlog), { status: 200 });
 
   } catch (error) {

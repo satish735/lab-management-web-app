@@ -1,16 +1,15 @@
 
 "use client";
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
-import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
-import InputSelect from "@/components/formInput/select/InputSelect";
 import { useEffect, useState } from "react";
 import useAPI from "@/hooks/useAPI";
 import InputTextArea from "@/components/formInput/InputTextArea";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { File } from "lucide-react";
-import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 import useInputComponent from "@/hooks/useInputComponent";
+import { Spinner } from "reactstrap";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const CreateMilestone = () => {
     const router = useRouter();
 
@@ -23,7 +22,7 @@ const CreateMilestone = () => {
             TitleInput.setEnteredValue();
             YearInput.setEnteredValue();
             DescriptionInput.setEnteredValue();
-
+            router.push("/admin/milestones");
             toast.success("Milestone added successfully");
 
         },
@@ -110,6 +109,7 @@ const CreateMilestone = () => {
 
     return (
         <>
+        
             <div className='bg-white pt-2 mt-2' style={{ borderRadius: '5px' }}>
 
 
@@ -186,7 +186,7 @@ const CreateMilestone = () => {
                             <button
                                 className="mx-2 btn btn-outline-dark"
                                 onClick={() => {
-                                    router.push("/admin/body-parts");
+                                    router.push("/admin/milestones");
                                 }}
                                 type="button"
                             >
@@ -199,7 +199,7 @@ const CreateMilestone = () => {
                                 className="btn btn-success px-3"
                                 onClick={submit}
                             >
-                                Add
+                               {milestoneResponse?.fetching ? <Spinner size="sm" /> :'Create'} 
                             </button>
                         </div>
                     </div>

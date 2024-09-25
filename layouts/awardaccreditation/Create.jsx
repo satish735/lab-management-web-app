@@ -6,6 +6,9 @@ import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import SingleImageDropZone from "@/components/drop-zones/SingleImageDropZone";
+import useInputComponent from "@/hooks/useInputComponent";
+import { Spinner } from "reactstrap";
+
 const Create = ({ searchParams }) => {
 
 
@@ -13,8 +16,7 @@ const Create = ({ searchParams }) => {
 
 
     const [imageFile, setImageFile] = useState({
-        url: "",
-        status: "original",
+
     });
 
     const [awardaccreditationResponse, awardaccreditationHandler] = useAPI(
@@ -23,10 +25,11 @@ const Create = ({ searchParams }) => {
             method: "post",
         },
         (e) => {
-            settitle();
-            setdescs();
+            TitleInput?.reset()
+            DescriptionnInput?.reset()
+            DateInput?.reset()
             toast.success("Award accreditation added successfully");
-            // setisSubmit(false)
+            router.push("/admin/awardaccreditation");
         },
         (e) => {
             // setisSubmit(false)
@@ -42,23 +45,73 @@ const Create = ({ searchParams }) => {
 
 
 
+    const TitleInput = useInputComponent('');
+    const TitleInputValidater = (value) => {
+        if (value === "" || !value) {
+            TitleInput.setFeedbackMessage(
+                "Field required!"
+            );
+            TitleInput.setMessageType("error");
+            return false;
+        }
+        TitleInput.setFeedbackMessage("");
+        TitleInput.setMessageType("none");
+        return true;
+    };
 
-    const [title, settitle] = useState();
-    const [descs, setdescs] = useState();
-    const [date, setdate] = useState();
+
+
+    const DescriptionnInput = useInputComponent('');
+    const DescriptionnInputValidater = (value) => {
+        if (value === "" || !value) {
+            DescriptionnInput.setFeedbackMessage(
+                "Field required!"
+            );
+            DescriptionnInput.setMessageType("error");
+            return false;
+        }
+        DescriptionnInput.setFeedbackMessage("");
+        DescriptionnInput.setMessageType("none");
+        return true;
+    };
+
+    const DateInput = useInputComponent('');
+    const DateInputValidater = (value) => {
+        if (value === "" || !value) {
+            DateInput.setFeedbackMessage(
+                "Field required!"
+            );
+            DateInput.setMessageType("error");
+            return false;
+        }
+        DateInput.setFeedbackMessage("");
+        DateInput.setMessageType("none");
+        return true;
+    };
+
+
+
 
     const submit = () => {
-        if (title != "") {
+
+
+        let isTitleInputValidater = TitleInputValidater(TitleInput?.enteredValue)
+        let isDescriptionnInputValidater = DescriptionnInputValidater(DescriptionnInput?.enteredValue)
+        let isDateInputValidater = DateInputValidater(DateInput?.enteredValue)
+
+        if (!isTitleInputValidater || !isDescriptionnInputValidater || !isDateInputValidater) {
+            toast.error("Fill complete form.");
+
+
+        } else {
             awardaccreditationHandler({
                 body: {
-                    title: title,
-                    desc: descs,
-                    date: date,
+                    title: TitleInput?.enteredValue,
+                    desc: DescriptionnInput?.enteredValue,
+                    date: DateInput?.enteredValue,
                     image: imageFile?.url
                 },
             });
-        } else {
-            toast.error("Fill complete form.");
         }
     };
 
@@ -67,41 +120,71 @@ const Create = ({ searchParams }) => {
 
     return (
         <>
-            <div className="my-2">
-                <h6> Awards and Accreditations</h6>
 
-                <div className="row">
+           
+            <div className="my-2">
+                <h4> Awards and Accreditations</h4>
+
+
+               <div className="row my-3">
+               <div className="col-sm-3  col-12">
+                        <h5 className="py-2 small">Add Image</h5>
+                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
+                    </div>
+                <div className="row col-sm-9 col-12 my-3">
+                    
+               
                     <div className="col-sm-6 col-12" >
                         <InputWithAddOn
                             label="Title"
-                            value={title}
-                            setValue={settitle}
+                            setValue={TitleInput.setEnteredValue}
+                            value={TitleInput.enteredValue}
+                            feedbackMessage={TitleInput.feedbackMessage}
+                            feedbackType={TitleInput.messageType}
+                            isTouched={TitleInput.isTouched}
+                            setIsTouched={TitleInput.setIsTouched}
+
+                            validateHandler={TitleInputValidater}
+                            reset={TitleInput.reset}
+                            isRequired={true}
                         />
                     </div>
 
                     <div className="col-sm-6 col-12" >
                         <InputWithAddOn
                             label="Description"
-                            value={descs}
-                            setValue={setdescs}
+                            value={DescriptionnInput.enteredValue}
+                            setValue={DescriptionnInput?.setEnteredValue}
+                            feedbackMessage={DescriptionnInput.feedbackMessage}
+                            feedbackType={DescriptionnInput.messageType}
+                            isTouched={DescriptionnInput.isTouched}
+                            setIsTouched={DescriptionnInput.setIsTouched}
+                            isRequired={true}
+
+                            validateHandler={DescriptionnInputValidater}
+                            reset={DescriptionnInput.reset}
                         />
                     </div>
 
                     <div className="col-sm-6 col-12" >
                         <InputWithAddOn
                             label="Date"
-                            value={date}
-                            setValue={setdate}
+                            setValue={DateInput.setEnteredValue}
+                            value={DateInput.enteredValue}
+                            feedbackMessage={DateInput.feedbackMessage}
+                            feedbackType={DateInput.messageType}
+                            isTouched={DateInput.isTouched}
+                            setIsTouched={DateInput.setIsTouched}
+
+                            validateHandler={DateInputValidater}
+                            reset={DateInput.reset}
+                            isRequired={true}
                             type="date"
                         />
                     </div>
 
 
 
-                    <div className="col-12">
-                        <h5 className="py-2 small">Add Image</h5>
-                        <SingleImageDropZone file={imageFile} setFile={setImageFile} />
-                    </div>
 
                     <div className="my-3 text-end">
                         <button
@@ -116,14 +199,14 @@ const Create = ({ searchParams }) => {
                         </button>
                         <button
                             style={{ float: "right" }}
-                            disabled={title == "" && descs == ""}
                             className="btn btn-success px-3"
                             onClick={submit}
                         >
-                            Submit
+                            {awardaccreditationResponse?.fetching ? <Spinner size='sm' /> : "Submit"}
                         </button>
                     </div>
                 </div>
+               </div>
             </div>
         </>
     );

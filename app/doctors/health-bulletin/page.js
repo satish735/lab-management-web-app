@@ -5,6 +5,8 @@ import Banner from "@/components/customdesign/Banner.jsx";
 import Card from "@/components/customdesign/Card.jsx";
 import useAPI from "@/hooks/useAPI";
 import { useState } from "react";
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const Blog = ({ params: { id } }) => {
 
     const blog = [

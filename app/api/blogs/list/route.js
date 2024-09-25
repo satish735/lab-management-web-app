@@ -2,7 +2,7 @@ import Blog from "@/model2/Blog";
 import { parse } from "url";
 export const GET = async (request, { params }) => {
   try {
-    const urlParams = parse(request.url, true);
+    const urlParams = parse(request?.url, true);
     const {
       pageSize = 20,
       pageNo = 1,

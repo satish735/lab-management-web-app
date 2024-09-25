@@ -37,6 +37,7 @@ export default function Home() {
     const [selectedFilters, setSelectedFilterOptions] = useState([
        
     ]);
+ 
     const [selectedViewOptions, setSelectedViewOptions] = useState([
         "action",
         "name",
@@ -50,7 +51,7 @@ export default function Home() {
                 sortDirection: sort?.direction,
                 pageNo: page,
                 pageSize: rows,
-                searchQuery: searchValue,
+                searchQuery: searchValue
             },
         });
         setPageNo(page);

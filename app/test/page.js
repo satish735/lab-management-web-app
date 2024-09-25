@@ -1,16 +1,15 @@
-import MenuItems from "@/components/multilevel-dropdown/MenuItems";
-import MultiLevelDropDown from "@/components/multilevel-dropdown/MultiLevelDropDown";
-import CreateSlots from "@/components/slots/CreateSlots";
+"use client"
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 import AdminLayout from "@/layouts/AdminLayout";
+import { useState } from "react";
 // sdfdsf
 export default function Test() {
-
+  const [selectedSlotId, setSelectedSlotId] = useState(null)
 
   return (
     <AdminLayout>
-      <CreateSlots />
-dev-branch
+      <div style={{ height: "100vh",background:"white",width:"100%" }}>  <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} /></div>
+      dev-branch -09-10-2024
     </AdminLayout>
   );
 }

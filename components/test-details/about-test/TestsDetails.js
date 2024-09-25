@@ -1,9 +1,11 @@
 import SvgIcon from '@/components/home-component/SvgIcon'
+import SkeletonTextLoder from '@/components/SkeletonLoders/SkeletonTextLoder'
 import React from 'react'
 
 const TestsDetails = ({ packageData }) => {
+   
   return (
-    <div className='px-3 py-3' style={{ background: 'linear-gradient(180deg, rgb(1 7 63) , #004e92)', borderRadius: '13px' }}>
+    <div className='px-3 py-3 global-background-gradient' style={{  borderRadius: '13px' }}>
 
       <p style={{ fontSize: '24px', fontWeight: '600', color: 'white' }}>
         {packageData?.name ?? ''}
@@ -19,7 +21,13 @@ const TestsDetails = ({ packageData }) => {
           <div className='pt-3'><span style={{ padding: '10px', backgroundColor: '#21cdad', borderRadius: '10px' }}> <SvgIcon setColor={'white'} /></span>
           </div>
           <div> <p className='mb-1' style={{ fontSize: '18px', color: '#21cdad', fontWeight: '400' }}>Sample Required</p>
-            <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.sampleCollection ?? ''}</p>
+             
+
+            {(packageData?.sampleCollection) ?
+              <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.sampleCollection ?? ''}</p>
+              :
+              <SkeletonTextLoder />
+            }
           </div>
         </div>
 
@@ -28,7 +36,13 @@ const TestsDetails = ({ packageData }) => {
           <div className='pt-3'><span style={{ padding: '10px', backgroundColor: '#21cdad', borderRadius: '10px' }}> <SvgIcon setColor={'white'} /></span>
           </div>
           <div> <p className='mb-1' style={{ fontSize: '18px', color: '#21cdad', fontWeight: '400' }}>Preperations Required</p>
-            <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.preparation ?? ''}</p>
+           
+
+            {(packageData?.preparation) ?
+              <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.preparation ?? ''}</p>
+              :
+              <SkeletonTextLoder />
+            }
           </div>
         </div>
 
@@ -38,7 +52,13 @@ const TestsDetails = ({ packageData }) => {
           <div className='pt-3'><span style={{ padding: '10px', backgroundColor: '#21cdad', borderRadius: '10px' }}> <SvgIcon setColor={'white'} /></span>
           </div>
           <div> <p className='mb-1' style={{ fontSize: '18px', color: '#21cdad', fontWeight: '400' }}>Gender</p>
-            <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.gender === 'both' ? 'Male & Female' : packageData?.gender}</p>
+            
+
+            {(packageData?.gender) ?
+              <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.gender === 'both' ? 'Male & Female' : packageData?.gender}</p>
+              :
+              <SkeletonTextLoder />
+            }
           </div>
         </div>
 
@@ -48,18 +68,30 @@ const TestsDetails = ({ packageData }) => {
           <div className='pt-3'><span style={{ padding: '10px', backgroundColor: '#21cdad', borderRadius: '10px' }}> <SvgIcon setColor={'white'} /></span>
           </div>
           <div> <p className='mb-1' style={{ fontSize: '18px', color: '#21cdad', fontWeight: '400' }}>Age Group</p>
-            <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.fromAge ?? ''} - {packageData?.toAge ?? ''} years</p>
+           
+
+            {(packageData?.toAge) ?
+              <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.fromAge ?? ''} - {packageData?.toAge ?? ''} years</p>
+              :
+              <SkeletonTextLoder />
+            }
           </div>
         </div>
 
 
 
 
-        <div className='d-flex gap-2'>
+        <div className='d-flex gap-2 mb-2'>
           <div className='pt-3'><span style={{ padding: '10px', backgroundColor: '#21cdad', borderRadius: '10px' }}> <SvgIcon setColor={'white'} /></span>
           </div>
           <div> <p className='mb-1' style={{ fontSize: '18px', color: '#21cdad', fontWeight: '400' }}>Collection At</p>
-            <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.homeCollection ? 'Home & Lab' : 'Lab'}</p>
+           
+
+            {(packageData) ?
+              <p style={{ fontSize: '13px', color: 'white', fontWeight: '400' }}>{packageData?.homeCollection ? 'Home & Lab' : 'Lab'}</p>
+              :
+              <SkeletonTextLoder />
+            }
           </div>
         </div>
 
@@ -100,14 +132,14 @@ const Card = ({ packageData }) => {
         <div className='row'>
           <div className='col-4'>
             <div className='row'>
-              <div className='col-4 pt-2'>
+              <div className='col-lg-4 col-md-4 col-sm-12 pt-2  mb-3'>
                 <span className='p-2 ' style={{ backgroundColor: 'white', borderRadius: '5px' }}>
                   <SvgIcon setColor='#7c7c7c' />
 
                 </span>
 
               </div>
-              <div className='col-8 ps-3' style={{ color: 'white', fontSize: '12px' }}>
+              <div className='col-lg-8 col-md-8 col-sm-12  ps-3' style={{ color: 'white', fontSize: '12px' }}>
                 Free Home  collection
 
 
@@ -117,14 +149,14 @@ const Card = ({ packageData }) => {
           </div>
           <div className='col-4'>
             <div className='row'>
-              <div className='col-4 pt-2'>
-                <span className='p-2 ' style={{ backgroundColor: 'white', borderRadius: '5px' }}>
+              <div className='col-lg-4 col-md-4 col-sm-12 pt-2  mb-3'>
+                <span className='   p-2 ' style={{ backgroundColor: 'white', borderRadius: '5px' }}>
                   <SvgIcon setColor='#7c7c7c' />
 
                 </span>
 
               </div>
-              <div className='col-8 ps-3' style={{ color: 'white', fontSize: '12px' }}>
+              <div className='col-lg-8 col-md-8 col-sm-12  ps-3' style={{ color: 'white', fontSize: '12px' }}>
                 {(packageData?.itemId ?? []).length} tests
 
                 included
@@ -137,14 +169,14 @@ const Card = ({ packageData }) => {
 
           <div className='col-4'>
             <div className='row'>
-              <div className='col-4 pt-2'>
-                <span className='p-2 ' style={{ backgroundColor: 'white', borderRadius: '5px' }}>
+              <div className='col-lg-4 col-md-4 col-sm-12  pt-2 mb-3'>
+                <span className='   p-2 ' style={{ backgroundColor: 'white', borderRadius: '5px' }}>
                   <SvgIcon setColor='#7c7c7c' />
 
                 </span>
 
               </div>
-              <div className='col-8 ps-3' style={{ color: 'white', fontSize: '12px' }}>
+              <div className='col-lg-8 col-md-8 col-sm-12  ps-3 ' style={{ color: 'white', fontSize: '12px' }}>
                 Results with in {packageData?.reportGenerationHours } Hours
 
 
@@ -157,10 +189,10 @@ const Card = ({ packageData }) => {
       </div>
 
       <div className='row ps-3 pe-4 py-3'>
-        <div className='col-8' style={{ color: '#7c7c7c' }}>
+        <div className='col-7' style={{ color: '#7c7c7c' }}>
           <span style={{ color: '#7c7c7c', fontWeight: '700' }}>10% off</span>   New user? Enjoy 10% off up to <span style={{ color: '#7c7c7c', fontWeight: '700' }}>Rs 200</span> on all tests and health packages.
         </div>
-        <div className='col-4'>
+        <div className='col-5'>
           <div className='py-2 px-3' style={{ backgroundColor: "linear-gradient(180deg, rgba(136, 209, 110, .14), rgba(35, 151, 6, .14))", border: '1px solid #7c7c7c', borderRadius: '13px' }}>
             Use Code: <span style={{ color: '#7c7c7c', fontWeight: '700' }}>NEW10</span>
 

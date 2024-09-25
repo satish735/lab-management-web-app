@@ -109,14 +109,14 @@ export default function Home() {
                             Icon={Eye}
                             name="View"
                             onClick={() => {
-                                router.push(`/admin/package-category/${row?.slug}`);
+                                router.push(`/admin/package-category/view?id=${row?._id}&type=view`);
                             }}
                         />
                         <ActionOption
                             Icon={Pencil}
                             name="Edit"
                             onClick={() => {
-                                router.push(`/admin/package-category/${row?.slug}/edit`);
+                                router.push(`/admin/package-category/view?id=${row?._id}&type=edit`);
                             }}
                         />
                     </>
@@ -168,7 +168,7 @@ export default function Home() {
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
-                    { label: "package category", link: "/admin/package-category", active: true },
+                    { label: "Package Category", link: "/admin/package-category", active: true },
                 ]}
             />
             <div className="admin-content-box">

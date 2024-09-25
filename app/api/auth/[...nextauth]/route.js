@@ -4,9 +4,11 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs"; // For password hashing
 
-import user from "@/models/user";
+import Login from "@/model2/Login";
 import moment from "moment";
-
+import AdminLogin from "@/model2/AdminLogin";
+import Center from "@/model2/Center";
+import UserDetails from "@/model2/UserDetails";
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -18,23 +20,44 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const User = await user.findOne({ email: credentials?.email });
+          const User = await AdminLogin.findOne({ email: credentials?.email }).populate({ path: "currentCenter" });
           if (!User) {
             throw new Error("User not found!");
           }
-          if (User.role !== "admin") {
-            throw new Error("Not authorized!");
-          }
-          if (credentials.password !== User.password) {
+
+          if (credentials.password !== User.bcryptPassword) {
             throw new Error("Incorrect password!");
           }
 
+          var getCentersFilter = {}
+          var currentCenter = User?.currentCenter
+          if (Array.isArray(User?.iscenter) && (User?.iscenter?.includes?.("*") || User.role == "admin")) {
+            getCentersFilter = { publishedAt: { $ne: null } }
+          }
+          else if (Array.isArray(User?.iscenter) && User.iscenter.length > 0) {
+            getCentersFilter = { _id: { $in: User.iscenter }, publishedAt: { $ne: null } }
+          }
+          else {
+            throw new Error("Centers are not assigned to user. Not Allowed to login!");
+          }
+          var centers = await Center.find(getCentersFilter).select("centre city state")
+          if (centers.some(item => item?.id == User?.currentCenter?.id) && User?.currentCenter) {
+            currentCenter = User?.currentCenter
+          }
+          else {
+            currentCenter = centers[0]
+            User.currentCenter = currentCenter?.id
+            await User.save();
+          }
           return {
-            id: User._id,
+            id: User.id,
             name: User.name,
             email: User.email,
             role: User.role,
             phone: User.phone,
+            centers: centers,
+            currentCenter: centers[0],
+            image: User?.image
           };
         } catch (err) {
           throw new Error(err.message);
@@ -50,7 +73,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const User = await user.findOne({ phone: credentials?.phone });
+          const User = await Login.findOne({ phone: credentials?.phone });
           if (!User) {
             throw new Error("User not found!");
           }
@@ -60,13 +83,17 @@ export const authOptions = {
           if (!moment().isBefore(moment(User?.otpExpire))) {
             throw new Error("OTP expired!");
           }
-
+          const userDetails = await UserDetails.findOne({ relation: "self", loginId: User?.id })
           return {
-            id: User._id,
-            name: User.name,
-            email: User.email,
-            role: User.role,
-            phone: User.phone,
+            id: User?.id,
+            phone: User?.phone,
+            selectedCity: User?.selectedCity ?? null,
+            name: userDetails?.name ,
+            email: userDetails?.email,
+            role: "user",
+            image: userDetails?.image,
+            otherDetails: userDetails
+
           };
         } catch (err) {
           throw new Error(err.message);
@@ -83,13 +110,22 @@ export const authOptions = {
     maxAge: 10 * 24 * 60 * 60, // JWT expiration time (24 hours)
   },
   callbacks: {
-    async jwt({ token, user: User }) {
+    async jwt({ token, user: User, trigger, session }) {
+      if (trigger === "update" && session) {
+        token = { ...token, ...session }
+        return token;
+      };
       if (User) {
+        token.selectedCity = User?.selectedCity;
+        token.otherDetails = User?.otherDetails;
         token.id = User.id;
         token.email = User.email;
         token.name = User.name;
         token.role = User.role;
         token.phone = User.phone;
+        token.centers = User?.centers ?? [];
+        token.currentCenter = User?.currentCenter;
+        token.image = User?.image
       }
       return token;
     },
@@ -101,6 +137,11 @@ export const authOptions = {
           name: token.name,
           role: token.role,
           phone: token.phone,
+          centers: token?.centers,
+          currentCenter: token?.currentCenter,
+          image: token?.image,
+          selectedCity: token?.selectedCity,
+          otherDetails: token?.otherDetails
         };
       }
       return session;

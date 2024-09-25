@@ -84,6 +84,7 @@ export default function Home() {
     StateInput.setMessageType("none");
     return true;
   };
+
   const [stateListResponse, StateListHandler] = useAPI(
     {
       url: "/states/in",
@@ -92,7 +93,14 @@ export default function Home() {
     },
     (e) => {
       return e?.data.map((stateItem) => {
-        return { label: stateItem?.name, value: stateItem?.state_code };
+        if( stateItem?.state_code==='RJ'){
+          return { label: stateItem?.name, value: stateItem?.state_code  };
+
+        }
+        else{
+          return { label: stateItem?.name, value: stateItem?.state_code };
+
+        }
       });
     },
     (e) => {
@@ -125,18 +133,35 @@ export default function Home() {
       return e;
     }
   );
+  
+  // useEffect(() => {
+  //   if (stateListResponse) {
+  //     StateInput.setEnteredValue('RJ')
+  //   }
+  // }, [stateListResponse]);
   useEffect(() => {
     if (StateInput?.enteredValue && StateInput?.enteredValue != "") {
-      console.log(StateInput?.enteredValue);
+     
       CityListHandler({
         url: `/cities/${StateInput?.enteredValue}`,
       });
     }
   }, [StateInput?.enteredValue]);
+
   const EmailInput = useInputComponent("");
   const EmailInputValidater = (value) => {
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Username validation regex: Alphanumeric characters, underscores, and hyphens allowed
+    const usernameRegex = /^[a-zA-Z0-9_-]+$/;
     if (value === "" || !value) {
-      EmailInput.setFeedbackMessage("Field required!");
+      EmailInput.setFeedbackMessage("Email is required!");
+      EmailInput.setMessageType("error");
+      return false;
+    }
+
+    if (!emailRegex.test(value)) {
+      EmailInput.setFeedbackMessage("Email you entered is invalid!");
       EmailInput.setMessageType("error");
       return false;
     }
@@ -144,6 +169,7 @@ export default function Home() {
     EmailInput.setMessageType("none");
     return true;
   };
+
   const ContactInput = useInputComponent("");
   const ContactInputValidater = (value) => {
     if (value === "" || !value) {
@@ -157,11 +183,11 @@ export default function Home() {
   };
   const AddressLine2Input = useInputComponent("");
   const AddressLine2InputValidater = (value) => {
-    if (value === "" || !value) {
-      AddressLine2Input.setFeedbackMessage("Field required!");
-      AddressLine2Input.setMessageType("error");
-      return false;
-    }
+    // if (value === "" || !value) {
+    //   AddressLine2Input.setFeedbackMessage("Field required!");
+    //   AddressLine2Input.setMessageType("error");
+    //   return false;
+    // }
     AddressLine2Input.setFeedbackMessage("");
     AddressLine2Input.setMessageType("none");
     return true;
@@ -189,7 +215,17 @@ export default function Home() {
     return true;
   };
 
-  const [publish, setPublish] = useState(false);
+  const PinCode = useInputComponent("");
+  const PinCodeValidater = (value) => {
+    if (value === "" || !value) {
+      PinCode.setFeedbackMessage("Field required!");
+      PinCode.setMessageType("error");
+      return false;
+    }
+    PinCode.setFeedbackMessage("");
+    PinCode.setMessageType("none");
+    return true;
+  };
   const [centerSubmitResponse, centerSubmitHandler] = useAPI(
     {
       url: "/centers/create",
@@ -197,7 +233,7 @@ export default function Home() {
     },
     (e) => {
       toast.success(
-        `Center has been ${publish ? "Published" : "Saved"} successfully`
+        `Center has been added successfully`
       );
       router.push("/admin/centers");
     },
@@ -208,66 +244,63 @@ export default function Home() {
       return e;
     }
   );
-  const createCenterSubmitHandler = async (isPublish = false) => {
-    setPublish(isPublish);
-    var titleIsValid = titleInputValidater(titleInput?.enteredValue);
-    if (!titleIsValid) {
+  const createCenterSubmitHandler = async () => {
+
+    let CenterName_validate = CenterNameValidater(CenterName?.enteredValue)
+    let LabOpenTime_validate = LabOpenTimeValidater(LabOpenTime?.enteredValue)
+    let LongitudeInput_validate = LongitudeInputValidater(LongitudeInput?.enteredValue)
+    let LatitudeInput_validate = LatitudeInputValidater(LatitudeInput?.enteredValue)
+    let CityInput_validate = CityInputValidater(CityInput?.enteredValue)
+    let StateInput_validate = StateInputValidater(StateInput?.enteredValue)
+    let EmailInput_validate = EmailInputValidater(EmailInput?.enteredValue)
+    let ContactInput_validate = ContactInputValidater(ContactInput?.enteredValue)
+    let AddressLine1Input_validate = AddressLine1InputValidater(AddressLine1Input?.enteredValue)
+    let LabCloseTime_validate = LabCloseTimeValidater(LabCloseTime?.enteredValue)
+    let PinCode_validate=PinCodeValidater(PinCode?.enteredValue)
+
+    console.log(CenterName_validate, LabOpenTime_validate, LongitudeInput_validate, LatitudeInput_validate, CityInput_validate, StateInput_validate, EmailInput_validate, ContactInput_validate, AddressLine1Input_validate, LabCloseTime_validate,PinCode_validate);
+
+    if (!CenterName_validate || !LabOpenTime_validate || !LongitudeInput_validate || !LatitudeInput_validate || !CityInput_validate || !StateInput_validate || !EmailInput_validate || !ContactInput_validate || !AddressLine1Input_validate || !LabCloseTime_validate || !PinCode_validate) {
       toast.error("Please check all validations before continuing!");
       return;
     }
-    var submitBody = {
-      title: titleInput?.enteredValue,
-      author: "Test Author",
-      description: blogDescription,
-      category_id: 1,
-      image: "https://picsum.photos/500/200",
-      is_home: selectedTags.some((item) => item?.value == "is_home"),
-      trending: selectedTags.some((item) => item?.value == "trending"),
-      is_popular: selectedTags.some((item) => item?.value == "is_popular"),
-      metaTitle: "",
-      metaDescription: "",
-      keywords: [],
-      published_at: isPublish ? moment().toString() : null,
-    };
-    await blogSubmitHandler({ body: submitBody });
+    else {
+      var submitBody = {
+        centre: CenterName?.enteredValue ?? null,
+        address: AddressLine1Input?.enteredValue ?? null,
+        address2: AddressLine2Input?.enteredValue ?? null,
+        contact: ContactInput?.enteredValue ?? null,
+        pinCode: PinCode?.enteredValue ?? null,
+        email: EmailInput?.enteredValue ?? null,
+        labOpeningTime: LabOpenTime?.enteredValue ?? null,
+        labClosingTime: LabCloseTime?.enteredValue ?? null,
+        latitude: LatitudeInput?.enteredValue ?? null,
+        longitude: LongitudeInput?.enteredValue ?? null,
+        labFacilities: [] ?? [],
+        city: CityInput?.enteredValue ?? null,
+        state: StateInput?.enteredValue ?? null
+      };
+      await centerSubmitHandler({ body: submitBody });
+    }
+
   };
 
-
-  const [centerSitResponse, centerSuHandler] = useAPI(
-    {
-      url: "/centers/create",
-      method: "post",
-    },
-    (e) => {
-       
-    },
-    (e) => {
-      toast.error(
-        transformErrorDefault("Something went wrong while creating Center!", e)
-      );
-      return e;
-    }
-  );
-
-  const abab=()=>{
-    centerSuHandler()
-  }
 
   return (
     <div>
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Blogs", link: "/admin/blogs" },
+          { label: "Centers", link: "/admin/centers" },
           { label: "Create", active: true },
         ]}
       />
       <div className="admin-content-box">
         <h1 className="main-heading">Create Center</h1>
-        <p className="sub-heading">
+        <p className="sub-heading mb-4">
           Easily Add and Configure a New Center to Application Database
         </p>
-        <buttom onClick={()=>{abab()}}>hhkhj</buttom>
+
         <form>
           <div className="row mt-2">
             <div className="col-lg-6 col-md-6 col-sm-12 ">
@@ -363,6 +396,7 @@ export default function Home() {
                 validateHandler={ContactInputValidater}
                 reset={ContactInput.reset}
                 isRequired={true}
+                type={'number'}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 ">
@@ -414,7 +448,22 @@ export default function Home() {
                 isLoading={cityListResponse?.fetching}
               />
             </div>
-            <div className="col-lg-3 col-md-3 col-sm-6 ">
+            <div className="col-lg-4 col-md-4 col-sm-6 ">
+              <InputWithAddOn
+                label="Pin Code"
+                className="loginInputs"
+                setValue={PinCode.setEnteredValue}
+                value={PinCode.enteredValue}
+                feedbackMessage={PinCode.feedbackMessage}
+                feedbackType={PinCode.messageType}
+                isTouched={PinCode.isTouched}
+                setIsTouched={PinCode.setIsTouched}
+                validateHandler={PinCodeValidater}
+                reset={PinCode.reset}
+                isRequired={true}
+              />
+            </div>
+            <div className="col-lg-4 col-md-4 col-sm-6 ">
               <InputWithAddOn
                 label="Latitude"
                 className="loginInputs"
@@ -429,7 +478,7 @@ export default function Home() {
                 isRequired={true}
               />
             </div>
-            <div className="col-lg-3 col-md-3 col-sm-6 ">
+            <div className="col-lg-4 col-md-4 col-sm-6 ">
               <InputWithAddOn
                 label="Longitude"
                 className="loginInputs"
@@ -448,27 +497,23 @@ export default function Home() {
               <button
                 disabled={centerSubmitResponse?.fetching}
                 className="btn  btn-outline-dark px-5 me-2"
-                onClick={createCenterSubmitHandler}
+                onClick={() => { }}
                 type="button"
               >
-                {centerSubmitResponse?.fetching && !publish ? (
-                  <Spinner size={"sm"} />
-                ) : (
-                  "Save"
-                )}
+                Cancel
               </button>
               <button
                 disabled={centerSubmitResponse?.fetching}
                 className="btn btn-success px-5"
                 onClick={() => {
-                  createCenterSubmitHandler(true);
+                  createCenterSubmitHandler();
                 }}
                 type="button"
               >
-                {centerSubmitResponse?.fetching && publish ? (
+                {centerSubmitResponse?.fetching ? (
                   <Spinner size={"sm"} />
                 ) : (
-                  "Publish"
+                  "Add"
                 )}
               </button>
             </div>

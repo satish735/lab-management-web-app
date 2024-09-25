@@ -1,14 +1,24 @@
 'use client'
-import React, { useRef, useState } from 'react'
-import { Input } from 'reactstrap'
+import React, { useEffect, useRef, useState } from 'react'
+import { Input, Spinner } from 'reactstrap'
 import CheckboxInput from '../../formInput/CheckboxInput'
 import '@/components/table/CustomFilter.css'
 import PackageCardDesign from '../../package-details/package-card/PackageCardDesign'
 import useAPI from '@/hooks/useAPI'
-import toast from 'react-hot-toast'
+import toast, { ToastBar } from 'react-hot-toast'
+import './health-package.css'
+import transformErrorDefault from "@/utils/transformErrorDefault";
+
 const HealthPackage = () => {
 
     const [ListingFields, setListingFields] = useState();
+    const [InputSearch, setInputSearch] = useState();
+    const [locationSelected, setlocationSelected] = useState();
+
+    const [bodyPartValue, setBodyPartValue] = useState([])
+    const [ConditionsValue, setConditionsValue] = useState([])
+
+
 
     const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
         {
@@ -38,10 +48,10 @@ const HealthPackage = () => {
         },
         (e) => {
 
-            //  transformErrorDefault(
-            //     "Something went wrong while creating Test Case!",
-            //     e
-            // );
+            transformErrorDefault(
+                "Something went wrong while creating Test Case!",
+                e
+            );
         }
     );
 
@@ -52,17 +62,16 @@ const HealthPackage = () => {
         {
             url: "/test/list",
             method: "get",
-            sendImmediately: true,
             params: {
-                // sortColumn: sort?.column,
-                // sortDirection: sort?.direction,
                 pageNo: 1,
                 pageSize: 20,
-                // searchQuery: searchValue,
+                location: locationSelected
             },
         },
         (e) => {
 
+
+            console.log(e);
 
 
 
@@ -81,12 +90,65 @@ const HealthPackage = () => {
         }
     );
 
+    useEffect(() => {
 
-    const [bodyPartValue, setBodyPartValue] = useState([])
-   
 
-    const changeSearchValue = () => {
 
+        if (!locationSelected) {
+            let data = JSON.parse(localStorage.getItem("selectedLocation"));
+            setlocationSelected(data?.selectedLocation)
+
+
+
+            allPackageHandler({
+                params: {
+
+                    pageNo: 1,
+                    pageSize: 20,
+                    searchQuery: InputSearch,
+                    location: data?.selectedLocation ?? null,
+                    bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                }
+            })
+        }
+
+        else {
+            allPackageHandler({
+                params: {
+
+                    pageNo: 1,
+                    pageSize: 20,
+                    searchQuery: InputSearch,
+                    location: locationSelected ?? null,
+                    bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                    conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+
+                }
+            })
+        }
+
+
+
+
+    }, [ConditionsValue, bodyPartValue])
+
+
+
+
+    const changeSearchValue = (value) => {
+        setInputSearch(value)
+        allPackageHandler({
+            params: {
+
+                pageNo: 1,
+                pageSize: 20,
+                searchQuery: value,
+                bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
+                conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
+            }
+        })
     }
     return (
         <div className='pt-3 pb-4' style={{ backgroundColor: '#f1f6ee' }}>
@@ -96,7 +158,9 @@ const HealthPackage = () => {
                 <div className='row '>
                     <div className='col-lg-3 col-md-3 col-sm-12  py-3' style={{ backgroundColor: 'white', border: '1px solid #dee2db', borderRadius: "10px" }}>
 
+
                         <div style={{ fontSize: '20px', color: '#1e1e2f' }}>
+
                             Filters
                         </div>
                         <div className='mb-2 mt-3'>
@@ -107,12 +171,25 @@ const HealthPackage = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Body Parts
                             </p>
-                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-                                {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
-                                })}
 
-                            </div>
+                            {
+                                (getBasicDetailsResponse?.fetching ?
+                                    <div className='text-center my-5'>
+
+                                        <Spinner size={"xl"} />
+                                    </div>
+
+                                    :
+
+                                    <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                        {(ListingFields?.BodyPartListing ?? []).map((item, index) => {
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
+                                        })}
+
+                                    </div>
+                                )
+                            }
+
                         </div>
 
                         <hr className='my-4 ' />
@@ -120,28 +197,54 @@ const HealthPackage = () => {
                             <p style={{ fontSize: '20px', color: '#1e1e2f' }} >
                                 Health Conditions
                             </p>
-                            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-                                {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
-                                    return <FiltersList item={item} key={index} setBodyPartValue={setBodyPartValue} />
-                                })}
 
-                            </div>
+                            {
+                                (getBasicDetailsResponse?.fetching ?
+                                    <div className='text-center my-5'>
+
+                                        <Spinner size={"xl"} />
+                                    </div>
+
+                                    :
+
+                                    <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                                        {(ListingFields?.TestConditionListing ?? []).map((item, index) => {
+                                            return <FiltersList item={item} key={index} setBodyPartValue={setConditionsValue} />
+                                        })}
+
+                                    </div>
+                                )
+                            }
+
                         </div>
                     </div>
 
-                    <div className='col-lg-9 col-md-9 col-sm-12 ps-4 pt-3'>
+                    <div className='col-lg-9 col-md-9 col-sm-12  pt-3 main-health-package'>
                         <div className='mb-2' style={{ color: '#000', fontSize: '24px', fontWeight: '500' }}>
                             Health Packages
                         </div>
                         <div className='mb-3' style={{ color: '#1e1e2f', fontSize: '18px' }}>
-                            Showing 1-19 of 19 Packages
+                            Showing {(allPackageResponse?.data?.packageList ?? []).length} Packages
                         </div>
 
-                        <div className='row'>
-                            {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
-                                return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
-                            })}
-                        </div>
+                        {
+                            (allPackageResponse?.fetching ?
+                                <div className='text-center my-5'>
+
+                                    <Spinner size={"xl"} />
+                                </div>
+
+                                :
+
+                                <div className='row'>
+                                    {(allPackageResponse?.data?.packageList ?? []).map((keyValue, index) => {
+                                        return <PackageCardDesign listing={keyValue} lg={4} md={4} key={index} />
+                                    })}
+                                </div>
+                            )
+                        }
+
+
 
 
 
@@ -252,7 +355,7 @@ const FiltersList = ({ item, setBodyPartValue }) => {
                 </div>
 
                 <div  >
-                    {item.label}
+                    {(item.label)?.charAt(0)?.toUpperCase() + (item.label)?.slice(1)}
                 </div>
             </div>
 

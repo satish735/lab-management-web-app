@@ -1,4 +1,5 @@
-const UserSvg = () => { return (<div>
+'use client'
+const UserSvg = () => { return (<div style={{width:"0px",height:"0px"}}>
     <svg className="svg-pathes" width="0" height="0"
         xmlns="http://www.w3.org/2000/svg" version="1.1">
         <defs>
