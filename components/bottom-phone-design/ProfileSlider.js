@@ -21,7 +21,7 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
                 toggle={() => { setisopencart(!isopencart) }}
                 isOpen={isopencart}
                 className="isopencart "
-                style={{ height: '74vh'  }}
+                style={{ height: '72vh'  }}
             >
 
                 <OffcanvasBody className='off-canvas-body-profile p-0' >
@@ -38,46 +38,46 @@ const ProfileSlider = ({ isopencart, setisopencart  }) => {
                     </div>
 
 
-                    <div onClick={()=>{ router.push("/mybookings")}} className=" text-start ps-3 my-booking" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
+                    <div onClick={()=>{ router.push("/mybookings")}} className="   text-start ps-3 my-booking  " style={{margin:'35px 0', fonSize: '17px', fonWeight: '500'  }}>
 
-                      <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
+                      <span style={{ marginRight: '15px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <FaBook />
 
                       </span>
-                      <span>My Bookings</span>
+                      <span style={{fontWeight:'600' }}>My Bookings</span>
 
 
                     </div>
 
                     <div onClick={()=>{ router.push("/myaddress")}} className=" text-start ps-3 my-address" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
-                      <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
+                      <span style={{ marginRight: '15px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <FaLocationDot />
 
 
                       </span>
-                      <span>My Address</span>
+                      <span style={{fontWeight:'600' }}>My Address</span>
 
 
                     </div>
 
                     <div onClick={()=>{ router.push("/myfamilymembers")}} className=" text-start ps-3 my-family" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
-                      <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
+                      <span style={{ marginRight: '15px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <FaUserGroup />
 
                       </span>
-                      <span>My Family Members</span>
+                      <span style={{fontWeight:'600' }}>My Family Members</span>
 
 
                     </div>
                     <div onClick={()=>{ router.push("/my-profile")}} className=" text-start ps-3 my-profile" style={{margin:'35px 0', fonSize: '17px', fonWeight: '500' }}>
 
-                      <span style={{ marginRight: '5px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
+                      <span style={{ marginRight: '15px', color: '#003747',backgroundColor:'#dbe8e6',padding:'10px',borderRadius:'50%' }}>
                         <MdAccountCircle />
 
                       </span>
-                      <span>My Profile</span>
+                      <span style={{fontWeight:'600' }}>My Profile</span>
 
 
                     </div>

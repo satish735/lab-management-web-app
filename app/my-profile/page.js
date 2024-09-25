@@ -181,7 +181,7 @@ const MyProfile = () => {
                     <div className="text-center">
                         <img src="/assets/images/male.png" style={{ marginRight: "18px" }} alt="" />
                     </div>
-                    <div className='row px-5 mx-5 my-2'>
+                    <div className='row  mx-lg-5 mx-0 my-2'>
                         <div className=" my-1 col-12">
                             <InputWithAddOn
                                 placeholder="Full Name"

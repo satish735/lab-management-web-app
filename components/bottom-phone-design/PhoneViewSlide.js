@@ -41,7 +41,7 @@ const PhoneViewSlide = () => {
 
             <div style={{ width: '20%' }} onClick={() => { router.push('/') }}>
                 <div className='text-center pt-2'>
-                    <span style={{ color: 'white', backgroundColor: '#003747', padding: '8px', borderRadius: '50%' }}>
+                    <span style={{ color: 'white', backgroundColor: '#003747', padding: '9px 9px 10px 10px', borderRadius: '50%' }}>
                         <FaPhoneAlt size={18} className="phone-icon" />
 
                     </span>

@@ -4,7 +4,7 @@ import './skeleton.css'
 const TextLoader = () => {
     return (
         <div >
-            <Skeleton count={1} style={{width:'280px',height:'30px'}} />
+            <Skeleton count={1} style={{width:'240px',height:'30px'}} />
         </div>
     );
 };
