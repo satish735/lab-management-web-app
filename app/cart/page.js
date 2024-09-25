@@ -863,6 +863,11 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
         setisCouponcode(!iscouponcode)
     }
 
+    // selectedCriteria =  Packages , testCondition
+
+  
+
+    console.log("selectCoupon", selectCoupon)
 
     return (<>
         <div className="text-capitalize" >
@@ -886,7 +891,30 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                                                     src="/assets/images/test-icon.png"
 
                                                 />
-                                                <div className="checkbox-tests-name">{item?.name} <span>₹ {item?.testType == "Test" ? item?.rate : item?.totalMrp}</span></div>
+                                                <div className="checkbox-tests-name">
+                                                    {item?.name} 
+                                                    <span>₹ {item?.testType == "Test" ? 
+                                                               item?.rate : item?.totalMrp}
+                                                    </span> 
+                                                    <h6> discountValue  -  {item?.testType == "Test" ? 
+                                                             (((selectCoupon?.testCondition ?? [])[0] ?? "") == "*" || 
+                                                                selectCoupon?.testCondition?.some(key =>
+                                                                     key === item?._id)) 
+                                                                ? (Number(item?.rate ) 
+                                                                / Number(selectCoupon?.discountValue))
+                                                                : 0
+                                                               : 
+                                                               (((selectCoupon?.Packages ?? [])[0] ?? "") == "*" || 
+                                                               selectCoupon?.Packages?.some(key =>
+                                                                    key === item?._id)) 
+                                                               ? (Number(item?.totalMrp) 
+                                                               / Number(selectCoupon?.discountValue))
+                                                                : 0
+                                                               }
+                                                    </h6>
+                                                </div>
+
+
 
                                             </div>
                                         </div>
@@ -1004,6 +1032,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                             toggle={CouponToggle}
                             CouponResponse={CouponResponse?.data}
                             setselectCoupon={setselectCoupon}
+                            selectCoupon={selectCoupon}
                         />
 
 
