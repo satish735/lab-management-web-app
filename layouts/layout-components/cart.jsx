@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 
 import "@/app/cart/cart.css"
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 import {
@@ -17,7 +19,8 @@ const Usercart = ({ isopencart, setisopencart }) => {
 
 
 
-
+    const session = useSession()
+    const router = useRouter();
 
 
 
@@ -48,10 +51,16 @@ const Usercart = ({ isopencart, setisopencart }) => {
         localStorage.setItem('testpackage', JSON.stringify({ item: updatecart }));
     }
 
-
+    const continuenext = () => {
+        if (session?.data?.user?.otherDetails) {
+            router.push("/cart")
+        } else {
+            router.push("/login")
+        }
+    }
 
     return (
-        <div className="midbox-inner " style={{ backgroundColor: "#dee2db" }}>
+        <div className="midbox-inner" style={{ backgroundColor: "#dee2db" }}>
 
             <Offcanvas
                 direction="end"
@@ -126,7 +135,7 @@ const Usercart = ({ isopencart, setisopencart }) => {
 
 
                                 {(cartitem ?? [])?.length && <div className="my-4 ">
-                                    <a href="/cart" className="text-white card-button-2 " style={{
+                                    <button onClick={continuenext} className="btn btn-primary-theme w-100 " style={{
                                         display: "block",
                                         width: "100%",
 
@@ -135,7 +144,7 @@ const Usercart = ({ isopencart, setisopencart }) => {
 
                                     }}>
                                         Book Now
-                                    </a>
+                                    </button>
                                 </div>}
                             </>}
 

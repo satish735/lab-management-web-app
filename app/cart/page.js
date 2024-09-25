@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 import moment from "moment"
+import axios from 'axios';
 
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
@@ -97,12 +98,13 @@ const Cart = () => {
 
 
     // step 2 
+    const [nearCenter, setnearCenter] = useState()
     const [selectlab, setselectlab] = useState(null)
     const [selectaddress, setselectaddress] = useState(null)
 
 
-    const [iscollection, setChecked] = useState(true)
-    const [islab, setislab] = useState(false)
+    const [iscollection, setChecked] = useState(false)
+    const [islab, setislab] = useState(true)
 
     const changecheckboxcollecion = () => {
         if (iscollection == false) {
@@ -169,6 +171,7 @@ const Cart = () => {
 
                         changecheckboxcollecion={changecheckboxcollecion}
                         changecheckboxlab={changecheckboxlab}
+                        setnearCenter={setnearCenter}
                     />}
 
 
@@ -192,6 +195,7 @@ const Cart = () => {
                         selectaddress={selectaddress}
                         selectlab={selectlab}
                         slotdata={slotdata}
+                        nearCenter={nearCenter}
                     />}
                 </div>
             }
@@ -393,7 +397,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
 const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
     selectlab, setselectaddress, selectaddress,
     changecheckboxcollecion, changecheckboxlab,
-    islab, iscollection }) => {
+    islab, iscollection, setnearCenter }) => {
 
     const session = useSession()
 
@@ -420,6 +424,85 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
             return e
         }
     );
+
+
+
+
+
+
+    const findNearestLocation =  (locations, target) => {
+        const haversineDistance = (coords1, coords2) => {
+            const toRad = (value) => (value * Math.PI) / 180;
+
+            const lat1 = coords1.lat;
+            const lon1 = coords1.lng;
+            const lat2 = coords2.lat;
+            const lon2 = coords2.lng;
+
+            const R = 6371; // Radius of the Earth in km
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Distance in km
+        };
+
+        let nearestLocation = null;
+        let shortestDistance = Infinity;
+
+        for (const location of locations) {
+            const distance = haversineDistance(location, target);
+            // Check if the distance is shorter than the current shortestDistance
+            if (distance < shortestDistance) {
+                shortestDistance = distance;
+                nearestLocation = location;
+            }
+        }
+
+        return {
+            nearestLocation,
+            distance: shortestDistance
+        };
+    };
+
+
+
+
+    useEffect(() => {
+        if (labResponse?.data) {
+            let locations = (labResponse?.data ?? [])?.map((item) => {
+                return { ...item, lat: item?.latitude, lng: item?.longitude }
+            })
+
+            const targetLocation = selectaddress ?? {}
+            const result = findNearestLocation(locations, targetLocation);
+
+            console.log(`Nearest Location:`, result.nearestLocation);
+            console.log(`Distance: ${result.distance} km`);
+
+
+            if (result) {
+                if (Number(result?.distance) > 15) {
+                    setnearCenter(null)
+                    setselectaddress()
+                    toast.error("Select Area Under 15 KM")
+                } else {
+                    setnearCenter(result?.nearestLocation)
+                }
+
+            }
+
+
+
+        }
+
+
+    }, [selectaddress])
 
 
 
@@ -589,7 +672,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                     })}
                 </div>}
 
-                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                 <div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary" style={{ fontWeight: '700' }}>
                         <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
                         <div className="checkout-summary">
@@ -638,7 +721,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                         </div>
 
                     </div>
-                </div>}
+                </div>
 
             </div>
 
@@ -666,7 +749,7 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
                 <div className="col-sm-8 col-12" >
                     <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} setslotdata={setslotdata} />
                 </div>
-                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                { <div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary" style={{ fontWeight: '700' }} >
                         <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
                         <div className="checkout-summary">
@@ -719,13 +802,15 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
     )
 }
 
-const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata }) => {
+const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata, nearCenter }) => {
 
 
 
-    console.log("setstepsetstepsetstepsetstep", slotdata)
 
     // step 4 
+
+    const router = useRouter();
+
 
     const session = useSession()
 
@@ -756,9 +841,10 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
             method: "post",
         },
         (e) => {
+
             toast.success("transaction successfully")
             router.push(e?.url);
-            localStorage?.setItem('testpackage', {});
+            localStorage?.setItem('testpackage', JSON.stringify({}));
 
 
         },
@@ -793,7 +879,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                     }
                 })
             } else {
-                localStorage?.setItem('testpackage', {});
+                localStorage?.setItem('testpackage', JSON.stringify({}));
                 router.push("/");
             }
 
@@ -817,8 +903,8 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
         {
             url: "/bookings/getcoupon",
             method: "get",
-            body:{
-                
+            body: {
+
             }
         },
         (e) => {
@@ -858,13 +944,10 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                 packages: item?.istest?.map((key) => key?._id)
             }));
 
-
-
-  
-         BookingHandler({
+        BookingHandler({
             body: {
                 team_members: bookingtest,
-                center_id: islab ? selectlab?._id : "66d2f3a4ec819eaf2ac4bcfc",
+                center_id: islab ? selectlab?._id : nearCenter?._id,
                 payment_type: ispayonline ? "online" : "cash",
                 collection_type: islab ? "lab" : "home",
                 slot_id: selectedSlotId,
