@@ -2,10 +2,17 @@
 import haversine from "haversine";
 import { useEffect, useState } from "react";
 import "./UserHeader2.css";
-import "./AdminHeader.css"
-import { Navbar, NavbarBrand, Button, Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
+import "./AdminHeader.css";
+import {
+  Navbar,
+  NavbarBrand,
+  Button,
+  Offcanvas,
+  OffcanvasHeader,
+  OffcanvasBody,
+} from "reactstrap";
 import MultiLevelDropDown from "@/components/multilevel-dropdown/MultiLevelDropDown";
-import Usercart from "@/layouts/layout-components/cart"
+import Usercart from "@/layouts/layout-components/cart";
 
 import {
   FaPhone,
@@ -16,8 +23,9 @@ import {
   FaChevronDown,
   FaCartShopping,
   FaBell,
-  FaBook, FaLocationDot,
-  FaUserGroup
+  FaBook,
+  FaLocationDot,
+  FaUserGroup,
 } from "react-icons/fa6";
 import useAPI from "@/hooks/useAPI";
 import { MdAccountCircle } from "react-icons/md";
@@ -25,7 +33,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
- import { useMediaQuery } from "react-responsive";
+import { useMediaQuery } from "react-responsive";
 import MobileHeaderMenu from "./MobileHeaderMenu";
 
 // const updateLocalStorage = (key, value) => {
@@ -38,13 +46,12 @@ const UserHeader2 = () => {
 
   const router = useRouter();
 
-  const session = useSession()
-
+  const session = useSession();
 
   const [localStorageData, setLocalStorageData] = useState();
   useEffect(() => {
     const checkLocalStorage = () => {
-      const storedData = localStorage?.getItem('testpackage');
+      const storedData = localStorage?.getItem("testpackage");
       if (storedData !== localStorageData) {
         setLocalStorageData(storedData);
       }
@@ -54,7 +61,7 @@ const UserHeader2 = () => {
   }, [localStorageData]);
 
   useEffect(() => {
-    const storedData = localStorage?.getItem?.('testpackage');
+    const storedData = localStorage?.getItem?.("testpackage");
     let parsedData = null;
 
     try {
@@ -62,7 +69,7 @@ const UserHeader2 = () => {
       parsedData = storedData ? JSON?.parse?.(storedData) : null;
     } catch (error) {
       // Log the error if parsing fails
-      console.error('Failed to parse stored data:', error);
+      console.error("Failed to parse stored data:", error);
       parsedData = null;
     }
 
@@ -70,52 +77,46 @@ const UserHeader2 = () => {
     setCartItemCount((parsedData?.item ?? []).length);
   }, [localStorageData]);
 
-
-
-
   const [allCentersResponse, allCentersHandler] = useAPI(
     {
       url: "/getCentersLocation",
       method: "get",
       sendImmediately: true,
-
     },
     (e) => {
-
-      return e
+      return e;
     },
     (e) => {
-      toast.error(transformErrorDefault(
-        "Something went wrong while Getting locations!",
-        e
-      ));
-      return e
+      toast.error(
+        transformErrorDefault(
+          "Something went wrong while Getting locations!",
+          e
+        )
+      );
+      return e;
     }
   );
-
-
-
 
   const [getSelectedCenterResponse, getSelectedCenterHandler] = useAPI(
     {
       url: `/getSelectedLocation/${session?.data?.user?.id}`,
       method: "get",
-
     },
     (e) => {
       console.log(e);
 
       // session.update({ selectedCity: e?.selectedCity })
 
-
-      return e
+      return e;
     },
     (e) => {
-      toast.error(transformErrorDefault(
-        "Something went wrong while Getting selected location!",
-        e
-      ));
-      return e
+      toast.error(
+        transformErrorDefault(
+          "Something went wrong while Getting selected location!",
+          e
+        )
+      );
+      return e;
     }
   );
   // const [FirstTimeFetch, setFirstTimeFetch] = useState(true)
@@ -133,37 +134,33 @@ const UserHeader2 = () => {
   // console.log(session?.status)
   // console.log(session?.data?.user)
 
-
   const [saveSelectedCenterResponse, saveSelectedCenterHandler] = useAPI(
     {
       url: `/getSelectedLocation/${session?.data?.user?.id}`,
       method: "put",
-
-
     },
     (e) => {
       console.log(e);
 
       // session.update({ selectedCity: e?.selectedCity })
 
-      return e
+      return e;
     },
     (e) => {
-      toast.error(transformErrorDefault(
-        "Something went wrong while Getting selected location!",
-        e
-      ));
-      return e
+      toast.error(
+        transformErrorDefault(
+          "Something went wrong while Getting selected location!",
+          e
+        )
+      );
+      return e;
     }
   );
-
-
-
 
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("selectedLocation"));
 
-    setCurrentLocation(data?.selectedLocation)
+    setCurrentLocation(data?.selectedLocation);
 
     const findNearestCity = (currentLat, currentLon) => {
       let nearestCity = null;
@@ -202,7 +199,7 @@ const UserHeader2 = () => {
       menu: [
         { label: "Packages", href: "/health-packages" },
 
-        { label: "Tests", href: "/lab-tests" }
+        { label: "Tests", href: "/lab-tests" },
         // { label: "Corporate Report Panel", href: "#" },
       ],
     },
@@ -237,11 +234,22 @@ const UserHeader2 = () => {
           href: "#",
           type: "sub-menu",
           menu: [
-
-            { label: "Franchising Opportunity", href: "/partner-with-us/franchising-opportunity" },
-            { label: "Lab Acquisition", href: "/partner-with-us/lab-acquisition" },
-            { label: "Hospital Lab Management", href: "/partner-with-us/hospital-lab-management" },
-            { label: "Corporate Wellness", href: "/partner-with-us/corporate-wellness" },
+            {
+              label: "Franchising Opportunity",
+              href: "/partner-with-us/franchising-opportunity",
+            },
+            {
+              label: "Lab Acquisition",
+              href: "/partner-with-us/lab-acquisition",
+            },
+            {
+              label: "Hospital Lab Management",
+              href: "/partner-with-us/hospital-lab-management",
+            },
+            {
+              label: "Corporate Wellness",
+              href: "/partner-with-us/corporate-wellness",
+            },
           ],
         },
       ],
@@ -249,10 +257,10 @@ const UserHeader2 = () => {
   ];
   const [cartItemCount, setCartItemCount] = useState("0");
   const [bellItemCount, setBellItemCount] = useState("4");
-  const [isopencart, setisopencart] = useState(false)
-  const isMobileScreen = useMediaQuery({ minWidth: 880 })
-  const isMiniMobileScreen = useMediaQuery({ minWidth: 680 })
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isopencart, setisopencart] = useState(false);
+  const isMobileScreen = useMediaQuery({ minWidth: 880 });
+  const isMiniMobileScreen = useMediaQuery({ minWidth: 680 });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <div className="header header-layout1">
       <div className="header-topbar">
@@ -261,80 +269,93 @@ const UserHeader2 = () => {
             <div className="col-12">
               <div className="d-flex align-items-center justify-content-between">
                 <ul className="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0 ">
-                  {isMobileScreen && <li >
-                    <FaPhone size={18} className="phone-icon" />
-                    <a href="tel:+5565454117">9739923174 | 1800000000 </a>
-                  </li>}
+                  {isMobileScreen && (
+                    <li>
+                      <FaPhone size={18} className="phone-icon" />
+                      <a href="tel:+5565454117">9739923174 | 1800000000 </a>
+                    </li>
+                  )}
 
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html">  8:00 AM - 8:00 PM(365 Days)</a>
+                    <a href="contact-us.html"> 8:00 AM - 8:00 PM(365 Days)</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">
-                  {isMiniMobileScreen && <ul className="header-topbar-links d-flex list-unstyled mb-0 mr-10">
-                    <li className="">
-                      <FaLocationArrow size={18} className="phone-icon" />
-                      <a
-                        href="/near-by"
-                        className="header-nearby-labs"
-                      >
-                        Find Nearby Labs
-                      </a>
-                    </li>
-                    {isMobileScreen && <li >
-                      <FaBox size={18} className="phone-icon" />
+                  {isMiniMobileScreen && (
+                    <ul className="header-topbar-links d-flex list-unstyled mb-0 mr-10">
+                      <li className="">
+                        <FaLocationArrow size={18} className="phone-icon" />
+                        <a href="/near-by" className="header-nearby-labs">
+                          Find Nearby Labs
+                        </a>
+                      </li>
+                      {isMobileScreen && (
+                        <li>
+                          <FaBox size={18} className="phone-icon" />
 
-                      <a href="/health-packages" className="header-packages">
-                        Packages
-                      </a>
-                    </li>}
-                    {isMobileScreen && <li >
-                      <FaMicroscope size={18} className="phone-icon" />
+                          <a
+                            href="/health-packages"
+                            className="header-packages"
+                          >
+                            Packages
+                          </a>
+                        </li>
+                      )}
+                      {isMobileScreen && (
+                        <li>
+                          <FaMicroscope size={18} className="phone-icon" />
 
-
-                      <a href="/lab-tests" className="header-tests">
-                        Tests
-                      </a>
-                    </li>}
-                  </ul>}
-                  <div className="miniPopup-language-area location-buttons" style={{ position: 'relative' }}>
+                          <a href="/lab-tests" className="header-tests">
+                            Tests
+                          </a>
+                        </li>
+                      )}
+                    </ul>
+                  )}
+                  <div
+                    className="miniPopup-language-area location-buttons"
+                    style={{ position: "relative" }}
+                  >
                     <button
                       className="miniPopup-language-trigger"
                       type="button"
                     >
-                      <span className="btn-text" >
+                      <span className="btn-text">
                         {currentLocation ?? "Select Location"}
                       </span>
                       {/* currentLocation, setCurrentLocation */}
                       <FaChevronDown size={14} className="dropdonw-arrow" />
                       <span className="btn-shape"></span>
                     </button>
-                    <div className="location-divs "   >
-                      {(allCentersResponse?.data?.cityArray ?? []).map((item,index) => {
-                        return (
-                          <>
-                            <div key={index} onClick={() => {
-
-                              localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
-                              setCurrentLocation(item)
-                              saveSelectedCenterHandler({
-                                body: {
-                                  selectedCity: item
-                                }
-                              })
-                              router.push(`/${item}`)
-                            }} className="center-selection-item  text-start ps-3 m-0 " style={{ fonSize: '10px', fonWeight: '200', lineHeight: '13px' }}>
-
+                    <div className="location-divs ">
+                      {(allCentersResponse?.data?.cityArray ?? []).map(
+                        (item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "selectedLocation",
+                                  JSON.stringify({ selectedLocation: item })
+                                );
+                                setCurrentLocation(item);
+                                saveSelectedCenterHandler({
+                                  body: {
+                                    selectedCity: item,
+                                  },
+                                });
+                                router.push(`/${item}`);
+                              }}
+                              className={`center-selection-item ${
+                                currentLocation == item ? "selected" : ""
+                              }`}
+                            >
                               {item}
-
-
                             </div>
-                            <hr />
-                          </>
-
-                        )
-                      })}
+                          );
+                        }
+                      )}
                     </div>
                   </div>
                 </div>
@@ -364,7 +385,15 @@ const UserHeader2 = () => {
             }}
           >
             <div className="d-flex" style={{ alignItems: "center" }}>
-              <NavbarBrand href="/" onClick={(e) => { e?.preventDefault(); if (!isMobileScreen || !isMiniMobileScreen) { setMobileMenuOpen(true) } }}>
+              <NavbarBrand
+                href="/"
+                onClick={(e) => {
+                  e?.preventDefault();
+                  if (!isMobileScreen || !isMiniMobileScreen) {
+                    setMobileMenuOpen(true);
+                  }
+                }}
+              >
                 <img
                   alt="logo"
                   src="/assets/images/MainLogo.png"
@@ -384,139 +413,219 @@ const UserHeader2 = () => {
                   width: "max-content",
                   display: "flex",
                   gap: "10px",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
-                <a onClick={() => {
-                  setisopencart(!isopencart)
-                }} className=" cart-button">
+                <a
+                  onClick={() => {
+                    setisopencart(!isopencart);
+                  }}
+                  className=" cart-button"
+                >
                   <FaCartShopping size={20} className="cart-icon" />
                   {Number.isInteger(Number(cartItemCount)) &&
                     Number(cartItemCount) > 0 && (
                       <div className="cart-badge">{cartItemCount}</div>
                     )}
                 </a>
-                {isMiniMobileScreen && <a
+                {isMiniMobileScreen && (
+                  <a
+                    type="button"
+                    className="btn  call-button"
+                    href="tel:+919166125555"
+                  >
+                    <FaPhone size={18} className="call-icon" />
+                    +91 9739923174
+                  </a>
+                )}
+                <a
                   type="button"
-                  className="btn  call-button"
-                  href="tel:+919166125555"
+                  className={`btn ${
+                    session?.status == "authenticated" && session?.data?.user
+                      ? "user-button"
+                      : "login-button"
+                  }`}
+                  href={
+                    session?.status === "authenticated" && session?.data?.user
+                      ? undefined
+                      : "/login"
+                  }
+                  style={{
+                    position: "relative",
+                    lineHeight: `${
+                      session?.status == "authenticated" && session?.data?.user
+                        ? "20px"
+                        : "50px"
+                    }`,
+                    padding: `${
+                      session?.status == "authenticated" && session?.data?.user
+                        ? "2px 6px 0 7px"
+                        : "0 20px"
+                    }`,
+                  }}
                 >
-                  <FaPhone size={18} className="call-icon" />
-                  +91 9739923174
-                </a>}
-                <a type="button" className={`btn ${(session?.status == 'authenticated' && session?.data?.user) ? 'user-button' : 'login-button'}`} href={session?.status === 'authenticated' && session?.data?.user ? undefined : "/login"} style={{
-                  position: 'relative', lineHeight: `${(session?.status == 'authenticated' && session?.data?.user) ? '20px' : '50px'}`, padding: `${(session?.status == 'authenticated' && session?.data?.user) ? '2px 6px 0 7px' : '0 20px'}`
-                }}>
-
-                  {(session?.status == 'authenticated' && session?.data?.user) ?
-                    <div className="d-flex gap-2"  >
-                      <div style={{ width: '30%' }} >
-                        <img src="/assets/icons/MEN.png" style={{ height: '45px', width: '45px' }} />
+                  {session?.status == "authenticated" && session?.data?.user ? (
+                    <div className="d-flex gap-2">
+                      <div style={{ width: "30%" }}>
+                        <img
+                          src="/assets/icons/MEN.png"
+                          style={{ height: "45px", width: "45px" }}
+                        />
                       </div>
                       {/* <div style={{ width: '70%', textAlign: 'start' }} className="ps-2" >
                         <h1 className=" text-truncate text-capitalize m-0  " style={{ fontSize: '17px', fontWeight: '400', paddingTop: '10px' }}>{session?.data?.user?.name ?? 'Name'}</h1>
                       </div> */}
+                    </div>
+                  ) : (
+                    "Login"
+                  )}
 
+                  {session?.status == "authenticated" &&
+                    session?.data?.user && (
+                      <div className="profile-div">
+                        <div
+                          className="d-flex pt-2 pb-2"
+                          style={{
+                            border: "1px solid green",
+                            borderRadius: "6px",
+                          }}
+                        >
+                          <div style={{ width: "30%" }}>
+                            <img
+                              src="/assets/icons/MEN.png"
+                              style={{ height: "60px", width: "60px" }}
+                            />
+                          </div>
+                          <div
+                            style={{ width: "70%", textAlign: "start" }}
+                            className="ps-2 pt-2"
+                          >
+                            <h1
+                              className=" text-capitalize mb-1 p-0"
+                              style={{ fontSize: "17px", fontWeight: "500" }}
+                            >
+                              {session?.data?.user?.name ?? "Name"}
+                            </h1>
 
-                    </div> : 'Login'
-                  }
-
-
-
-                  {(session?.status == 'authenticated' && session?.data?.user) &&
-                    <div className="profile-div"  >
-                      <div className="d-flex pt-2 pb-2" style={{ border: '1px solid green', borderRadius: '6px' }}>
-                        <div style={{ width: '30%' }} >
-                          <img src="/assets/icons/MEN.png" style={{ height: '60px', width: '60px' }} />
+                            <p
+                              className="text-capitalize  m-0 p-0"
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "500",
+                                color: "green",
+                              }}
+                            >
+                              {session?.data?.user?.role ?? "Role"} ,{" "}
+                              {calculateAgeInYears(
+                                session?.data?.user?.otherDetails?.dob ?? null
+                              )}{" "}
+                              years
+                            </p>
+                          </div>
                         </div>
-                        <div style={{ width: '70%', textAlign: 'start' }} className="ps-2 pt-2">
-                          <h1 className=" text-capitalize mb-1 p-0" style={{ fontSize: '17px', fontWeight: '500' }}>{session?.data?.user?.name ?? 'Name'}</h1>
 
-                          <p className="text-capitalize  m-0 p-0" style={{ fontSize: '13px', fontWeight: '500', color: 'green' }}>{session?.data?.user?.role ?? 'Role'} , {calculateAgeInYears(session?.data?.user?.otherDetails?.dob ?? null)} years</p>
+                        <div
+                          onClick={() => {
+                            router.push("/mybookings");
+                          }}
+                          className=" text-start user-profile-menu ps-3  mt-2"
+                          style={{
+                            padding: "10px 0",
+                            fonSize: "17px",
+                            fonWeight: "500",
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: "5px", color: "#003747" }}
+                          >
+                            <FaBook />
+                          </span>
+                          <span>My Bookings</span>
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            router.push("/my-address");
+                          }}
+                          className=" text-start ps-3 user-profile-menu"
+                          style={{
+                            padding: "10px 0",
+                            fonSize: "17px",
+                            fonWeight: "500",
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: "5px", color: "#003747" }}
+                          >
+                            <FaLocationDot />
+                          </span>
+                          <span>My Address</span>
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            router.push("/myfamilymembers");
+                          }}
+                          className=" text-start ps-3 user-profile-menu"
+                          style={{
+                            padding: "10px 0",
+                            fonSize: "17px",
+                            fonWeight: "500",
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: "5px", color: "#003747" }}
+                          >
+                            <FaUserGroup />
+                          </span>
+                          <span>My Family Members</span>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push("/my-profile");
+                          }}
+                          className=" text-start ps-3 user-profile-menu"
+                          style={{
+                            padding: "10px 0",
+                            fonSize: "17px",
+                            fonWeight: "500",
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: "5px", color: "#003747" }}
+                          >
+                            <MdAccountCircle />
+                          </span>
+                          <span>My Profile</span>
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            signOut({ redirect: true, callbackUrl: "/" });
+                          }}
+                          className=" text-start ps-3 user-profile-menu"
+                          style={{
+                            padding: "10px 0",
+                            fonSize: "17px",
+                            fonWeight: "500",
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: "5px", color: "#003747" }}
+                          >
+                            <MdAccountCircle />
+                          </span>
+                          <span>Logout</span>
                         </div>
                       </div>
-
-
-                      <div onClick={() => {
-                        router.push("/mybookings")
-                      }} className=" text-start user-profile-menu ps-3  mt-2" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
-
-                        <span style={{ marginRight: '5px', color: '#003747' }}>
-                          <FaBook />
-
-                        </span>
-                        <span>My Bookings</span>
-
-
-                      </div>
-
-                      <div onClick={() => {
-                        router.push("/my-address")
-                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
-
-                        <span style={{ marginRight: '5px', color: '#003747' }}>
-                          <FaLocationDot />
-
-
-                        </span>
-                        <span>My Address</span>
-
-
-                      </div>
-
-                      <div onClick={() => {
-                        router.push("/myfamilymembers")
-                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
-
-                        <span style={{ marginRight: '5px', color: '#003747' }}>
-                          <FaUserGroup />
-
-                        </span>
-                        <span>My Family Members</span>
-
-
-                      </div>
-                      <div onClick={() => {
-                        router.push("/my-profile")
-                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
-
-                        <span style={{ marginRight: '5px', color: '#003747' }}>
-                          <MdAccountCircle />
-
-                        </span>
-                        <span>My Profile</span>
-
-
-                      </div>
-
-                      <div onClick={() => {
-                        signOut({ redirect: true, callbackUrl: '/' });
-                      }} className=" text-start ps-3 user-profile-menu" style={{ padding: '10px 0', fonSize: '17px', fonWeight: '500' }}>
-
-                        <span style={{ marginRight: '5px', color: '#003747' }}>
-                          <MdAccountCircle />
-
-                        </span>
-                        <span>Logout</span>
-
-
-                      </div>
-                    </div>}
+                    )}
                 </a>
-
-
               </div>
-
-
-
-
-
-
             </div>
           </div>
         </Navbar>
       </div>
-      <MobileHeaderMenu isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen}  />
+      <MobileHeaderMenu isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />
       <Usercart isopencart={isopencart} setisopencart={setisopencart} />
     </div>
   );
@@ -582,25 +691,23 @@ export default UserHeader2;
 function calculateAgeInYears(dateString) {
   // Remove time and only keep the date portion
 
-  const birthDate = new Date(dateString?.split('T')?.[0]);
+  const birthDate = new Date(dateString?.split("T")?.[0]);
   const today = new Date();
 
   let age = today?.getFullYear() - birthDate?.getFullYear();
   const monthDifference = today?.getMonth() - birthDate?.getMonth();
 
   // Subtract 1 from the age if the birthday hasn't occurred yet this year
-  if (monthDifference < 0 || (monthDifference === 0 && today?.getDate() < birthDate?.getDate())) {
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today?.getDate() < birthDate?.getDate())
+  ) {
     age--;
   }
 
   if (age < 0) {
-    return 0
-  }
-
-  else {
+    return 0;
+  } else {
     return age;
-
   }
 }
-
-
