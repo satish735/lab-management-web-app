@@ -575,7 +575,7 @@ const Test = () => {
             }
         }
         else {
-            let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
+            // let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
             let ActualCostInputValidate = commonValidate(ActualCost.enteredValue);
             let PackageNameValidate = commonValidate(PackageName.enteredValue);
             let TestlistingSelectValidate = commonValidate(Testlisting);
@@ -595,7 +595,8 @@ const Test = () => {
             let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
 
 
-            if (!FinalMRPInputValidate ||
+            if (
+                // !FinalMRPInputValidate ||
                 !ActualCostInputValidate ||
                 !TestlistingSelectValidate ||
                 !PackageNameValidate
@@ -724,18 +725,46 @@ const Test = () => {
     );
 
 
+
+
     useEffect(() => {
-        let total_cost = 0;
-        let TestListing = (Testlisting ?? []).map((item) => {
 
-            console.log(item);
+        if (Testlisting) {
 
-            total_cost += Number(item?.price);
-            return item
-        })
-        ActualCost.setEnteredValue(total_cost);
+            let total_cost = 0;
+            let TestListing = (Testlisting ?? []).map((item) => {
+
+                console.log(item);
+
+                total_cost += Number(item?.price);
+                return item
+            })
+            ActualCost.setEnteredValue(total_cost);
+        }
 
     }, [Testlisting])
+
+
+    
+    function calculateFinalPrice(originalPrice, discountPercentage) {
+        // Calculate the discount amount
+        const discountAmount = (discountPercentage / 100) * originalPrice;
+
+        // Calculate the final price
+        const finalPrice = originalPrice - discountAmount;
+
+        return finalPrice;
+    }
+
+    useEffect(() => {
+
+        if (DiscountPercentage?.enteredValue) {
+
+            let final_cost = calculateFinalPrice(ActualCost?.enteredValue, DiscountPercentage?.enteredValue);
+            FinalMRP.setEnteredValue(final_cost?.toFixed(2));
+        }
+
+    }, [DiscountPercentage?.enteredValue])
     return (<>
 
         <div className='bg-white pt-2 pb-3 mt-2' style={{ borderRadius: '5px' }}>
@@ -855,24 +884,6 @@ const Test = () => {
                                     <div className="col-lg-4 col-md-4 col-sm-12 ">
 
                                         <InputWithAddOn
-                                            label="Final Price"
-                                            className="loginInputs"
-                                            setValue={FinalMRP.setEnteredValue}
-                                            value={FinalMRP.enteredValue}
-                                            feedbackMessage={FinalMRP.feedbackMessage}
-                                            feedbackType={FinalMRP.messageType}
-                                            isTouched={FinalMRP.isTouched}
-                                            setIsTouched={FinalMRP.setIsTouched}
-                                            validateHandler={FinalMRPValidater}
-                                            reset={FinalMRP.reset}
-                                            isRequired={true}
-                                            type="number"
-                                        />
-                                    </div>
-
-                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                        <InputWithAddOn
                                             label="Discount Percentage"
                                             className="loginInputs"
                                             setValue={DiscountPercentage.setEnteredValue}
@@ -886,6 +897,27 @@ const Test = () => {
                                             isRequired={true}
                                         />
                                     </div>
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                        <InputWithAddOn
+                                            label="Final Price"
+                                            className="loginInputs"
+                                            setValue={FinalMRP.setEnteredValue}
+                                            value={FinalMRP.enteredValue}
+                                            feedbackMessage={FinalMRP.feedbackMessage}
+                                            feedbackType={FinalMRP.messageType}
+                                            isTouched={FinalMRP.isTouched}
+                                            setIsTouched={FinalMRP.setIsTouched}
+                                            validateHandler={FinalMRPValidater}
+                                            reset={FinalMRP.reset}
+                                            isRequired={true}
+                                            type="number"
+                                            disabled={true}
+                                        />
+                                    </div>
+
+
 
 
                                     <div className="col-lg-4 col-md-4 col-sm-12 ">

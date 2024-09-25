@@ -582,7 +582,7 @@ const ViewEdit = ({ searchParams }) => {
             }
         }
         else {
-            let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
+            // let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
             let ActualCostInputValidate = commonValidate(ActualCost.enteredValue);
             let PackageNameValidate = commonValidate(PackageName.enteredValue);
             let TestlistingSelectValidate = commonValidate(Testlisting);
@@ -602,7 +602,8 @@ const ViewEdit = ({ searchParams }) => {
             let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
 
 
-            if (!FinalMRPInputValidate ||
+            if (
+                // !FinalMRPInputValidate ||
                 !ActualCostInputValidate ||
                 !TestlistingSelectValidate ||
                 !PackageNameValidate
@@ -698,7 +699,7 @@ const ViewEdit = ({ searchParams }) => {
         },
         (e) => {
             toast.error(transformErrorDefault(
-                "Something went wrong while Getting milestones!",
+                "Something went wrong while Getting centers!",
                 e
             ));
             return e
@@ -718,7 +719,7 @@ const ViewEdit = ({ searchParams }) => {
         (e) => {
 
 
-
+ 
             setTestOrPackage(e?.testType)
 
 
@@ -754,7 +755,7 @@ const ViewEdit = ({ searchParams }) => {
             }
 
             if (e?.testType === 'Package') {
-                ActualCost.setEnteredValue()
+                // ActualCost.setEnteredValue()
                 FinalMRP.setEnteredValue(e?.totalMrp)
 
             }
@@ -768,7 +769,7 @@ const ViewEdit = ({ searchParams }) => {
         (e) => {
 
             toast.error(transformErrorDefault(
-                "Something went wrong while Getting Faq!",
+                "Something went wrong while Getting details!",
                 e
             ));
             return e
@@ -876,6 +877,57 @@ const ViewEdit = ({ searchParams }) => {
         }
 
     }, [testResponse?.data, getTestsPackagesResponse?.data])
+
+
+
+
+
+
+
+    function calculateFinalPrice(originalPrice, discountPercentage) {
+        // Calculate the discount amount
+        const discountAmount = (discountPercentage / 100) * originalPrice;
+
+        // Calculate the final price
+        const finalPrice = originalPrice - discountAmount;
+
+        return finalPrice;
+    }
+
+
+
+    useEffect(() => {
+
+        if (Testlisting) {
+
+            let total_cost = 0;
+            let TestListing = (Testlisting ?? []).map((item) => {
+
+
+                total_cost += Number(item?.price);
+                return item
+            })
+            ActualCost.setEnteredValue(total_cost);
+
+            if (DiscountPercentage?.enteredValue) {
+                let final_cost = calculateFinalPrice(total_cost, DiscountPercentage?.enteredValue);
+                FinalMRP.setEnteredValue(final_cost?.toFixed(2));
+            }
+        }
+
+    }, [Testlisting])
+
+
+
+    useEffect(() => {
+
+        if (DiscountPercentage?.enteredValue) {
+
+            let final_cost = calculateFinalPrice(ActualCost?.enteredValue, DiscountPercentage?.enteredValue);
+            FinalMRP.setEnteredValue(final_cost?.toFixed(2));
+        }
+
+    }, [DiscountPercentage?.enteredValue])
 
 
     return (<>
@@ -1022,25 +1074,6 @@ const ViewEdit = ({ searchParams }) => {
                                             <div className="col-lg-4 col-md-4 col-sm-12 ">
 
                                                 <InputWithAddOn
-                                                    label="Final Price"
-                                                    className="loginInputs"
-                                                    setValue={FinalMRP.setEnteredValue}
-                                                    value={FinalMRP.enteredValue}
-                                                    feedbackMessage={FinalMRP.feedbackMessage}
-                                                    feedbackType={FinalMRP.messageType}
-                                                    isTouched={FinalMRP.isTouched}
-                                                    setIsTouched={FinalMRP.setIsTouched}
-                                                    validateHandler={FinalMRPValidater}
-                                                    reset={FinalMRP.reset}
-                                                    isRequired={true}
-                                                    type="number"
-                                                    disabled={searchParams?.type === 'view'}
-                                                />
-                                            </div>
-
-                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
-
-                                                <InputWithAddOn
                                                     label="Discount Percentage"
                                                     className="loginInputs"
                                                     setValue={DiscountPercentage.setEnteredValue}
@@ -1055,6 +1088,26 @@ const ViewEdit = ({ searchParams }) => {
                                                     disabled={searchParams?.type === 'view'}
                                                 />
                                             </div>
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+
+                                                <InputWithAddOn
+                                                    label="Final Price"
+                                                    className="loginInputs"
+                                                    setValue={FinalMRP.setEnteredValue}
+                                                    value={FinalMRP.enteredValue}
+                                                    feedbackMessage={FinalMRP.feedbackMessage}
+                                                    feedbackType={FinalMRP.messageType}
+                                                    isTouched={FinalMRP.isTouched}
+                                                    setIsTouched={FinalMRP.setIsTouched}
+                                                    validateHandler={FinalMRPValidater}
+                                                    reset={FinalMRP.reset}
+                                                    isRequired={true}
+                                                    type="number"
+                                                    disabled={true}
+                                                />
+                                            </div>
+
+
 
 
                                             <div className="col-lg-4 col-md-4 col-sm-12 ">
@@ -1615,11 +1668,7 @@ const ViewEdit = ({ searchParams }) => {
 
                         <button onClick={() => { router.push("/admin/tests") }} className="btn btn-dark px-4 mx-3 ">
 
-                            {createTestResponse?.fetching ? (
-                                <Spinner size={"sm"} />
-                            ) : (
-                                "Cancel"
-                            )}
+                            Cancel 
                         </button>
                         <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-3">
 

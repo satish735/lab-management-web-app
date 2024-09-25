@@ -87,7 +87,7 @@ const UserHeader2 = () => {
     },
     (e) => {
       toast.error(transformErrorDefault(
-        "Something went wrong while Getting milestones!",
+        "Something went wrong while Getting locations!",
         e
       ));
       return e
@@ -312,10 +312,10 @@ const UserHeader2 = () => {
                       <span className="btn-shape"></span>
                     </button>
                     <div className="location-divs "   >
-                      {(allCentersResponse?.data?.cityArray ?? []).map((item) => {
+                      {(allCentersResponse?.data?.cityArray ?? []).map((item,index) => {
                         return (
                           <>
-                            <div onClick={() => {
+                            <div key={index} onClick={() => {
 
                               localStorage.setItem('selectedLocation', JSON.stringify({ selectedLocation: item }))
                               setCurrentLocation(item)
