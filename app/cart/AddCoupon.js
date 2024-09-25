@@ -37,27 +37,33 @@ const AddCoupon = ({ toggle, modal, CouponResponse, setselectCoupon }) => {
                 size="lg"
 
             >
-                <ModalHeader toggle={reset}>Apply Coupon Code </ModalHeader>
+                <ModalHeader toggle={reset}style={{fontWeight:"700"}}>Apply Coupon Code </ModalHeader>
 
                 <ModalBody>
 
-                    {(CouponResponse ?? [])?.map((item) => {
-                        return (<>
-                            <div className="border border-1 rounded p-2 shadow my-2" >
-                                <h4> {item?.couponCode ?? ""}</h4>
+                    <div className='row' >
+
+                    {(CouponResponse ?? [])?.map((item , index) => {
+                        return (
+                            <div key={index} className={` col-sm-6 col-12  border border-1 rounded p-2 shadow my-2  ${item?._id == selectCoupon?._id ? "border-success" : ""} `} >
+                                <h4 className='' style={{color:"#21cdad"}}  > {item?.couponCode ?? ""}</h4>
                                 <p className="small" > Expiration Date - {moment(item?.expirationDate)?.format("LLL") ?? ""}</p>
 
-                                <p className="small" > Discount - {item?.discountValue ?? 0} Percentage</p>
+                                <p className="small p-0" > Discount - {item?.discountValue ?? 0} Percentage</p>
+
+                                <p className="small" >  {item?.descriptionShort ?? ""} </p>
 
                                 <button onClick={() => {
                                     setselectCoupon(item ?? {})
+                                    reset()
                                 }} className="continue_button">
                                     Apply Now
                                 </button>
 
                             </div>
-                        </>)
+                        )
                     })}
+                     </div>   
 
                 </ModalBody>
 
