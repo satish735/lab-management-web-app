@@ -583,7 +583,7 @@ const Form = ({ searchParams }) => {
 
                                 <div className="col-12 mb-3">
                                     <p>Additional Documents</p>
-                                    <div style={{ width: '300px' }}>
+                                    <div style={{ width: '' }}>
                                         <MultipleDropZone dropZoneMessage={'Add attachment'} files={addAdditionalDocuments} setFiles={setAddAdditionalDocuments}  typeAllowed={{
                                         'application/pdf': ['.pdf'],
                                         'application/msword': ['.doc'],

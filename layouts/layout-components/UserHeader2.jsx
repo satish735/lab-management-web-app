@@ -689,7 +689,7 @@ const cityList = [
 ];
 export default UserHeader2;
 
-function calculateAgeInYears(dateString) {
+export function calculateAgeInYears(dateString) {
   // Remove time and only keep the date portion
 
   const birthDate = new Date(dateString?.split("T")?.[0]);
