@@ -3,30 +3,21 @@ import Link from "next/link";
 import React from "react";
 import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import {
-  FaSquarePollVertical,
-  FaCalendarDay,
-  FaTicket,
-  FaCoins,
-  FaUsers,
   FaBuilding,
   FaBriefcase,
   FaFlaskVial,
-  FaHandHoldingMedical,
-  FaLungs,
   FaBlogger,
+  FaLocationArrow,
+  FaBox,
+  FaAward,
+  FaPhone,
+  FaMap,
+  FaHandshake,
+  FaPeopleRoof,
+  FaBuildingFlag,
+  FaHospital,
 } from "react-icons/fa6";
-import {
-  FaHouseUser,
-  FaHospitalUser,
-  FaUser,
-  FaQuestion,
-  FaTags,
-} from "react-icons/fa";
-import {
-  TbLayoutDashboardFilled,
-  TbReportSearch,
-  TbPackages,
-} from "react-icons/tb";
+
 import { usePathname } from "next/navigation";
 const MobileHeaderMenu = ({ isOpen = false, setIsOpen = () => {} }) => {
   const toggle = () => {
@@ -37,64 +28,70 @@ const MobileHeaderMenu = ({ isOpen = false, setIsOpen = () => {} }) => {
     {
       label: "Packages",
       href: "/health-packages",
-      icon: <FaFlaskVial className="admin-left-menu-icon" />,
+      icon: <FaBox className="user-left-menu-icon" />,
     },
     {
       label: "Tests",
       href: "/lab-tests",
-      icon: <FaFlaskVial className="admin-left-menu-icon" />,
+      icon: <FaFlaskVial className="user-left-menu-icon" />,
     },
     { type: "parent", label: "About Us" },
     {
+      label: "Near By Centers",
+      icon: <FaLocationArrow className="user-left-menu-icon" />,
+      href: "/near-by",
+    },
+
+    {
       label: "Company Profile",
       href: "/about-us",
-      icon: <FaBuilding className="admin-left-menu-icon" />,
+      icon: <FaBuilding className="user-left-menu-icon" />,
     },
     {
       label: "Milestones",
       href: "/about-us/milestones",
-      icon: <FaBuilding className="admin-left-menu-icon" />,
+      icon: <FaMap className="user-left-menu-icon" />,
     },
     {
       label: "Awards & Acreditations",
       href: "/awards-recognitions",
-      icon: <FaBuilding className="admin-left-menu-icon" />,
+      icon: <FaAward className="user-left-menu-icon" />,
     },
     { type: "parent", label: "Quick Links" },
     {
       label: "Blogs",
       href: "/blog",
-      icon: <FaBlogger className="admin-left-menu-icon" />,
+      icon: <FaBlogger className="user-left-menu-icon" />,
     },
     {
       label: "Career",
       href: "/career",
-      icon: <FaBriefcase className="admin-left-menu-icon" />,
+      icon: <FaBriefcase className="user-left-menu-icon" />,
     },
     {
       label: "Contact Us",
       href: "/contact-us",
-      icon: <FaBriefcase className="admin-left-menu-icon" />,
+      icon: <FaPhone className="user-left-menu-icon" />,
     },
     {
       label: "Franchising Opportunity",
       href: "/partner-with-us/franchising-opportunity",
-      icon: <FaBriefcase className="admin-left-menu-icon" />,
+      icon: <FaPeopleRoof className="user-left-menu-icon" />,
     },
     {
       label: "Lab Acquisition",
       href: "/partner-with-us/lab-acquisition",
-      icon: <FaBriefcase className="admin-left-menu-icon" />,
+      icon: <FaBuildingFlag className="user-left-menu-icon" />,
     },
     {
       label: "Hospital Lab Management",
       href: "/partner-with-us/hospital-lab-management",
-      icon: <FaBriefcase className="admin-left-menu-icon" />,
+      icon: <FaHospital className="user-left-menu-icon" />,
     },
     {
       label: "Corporate Wellness",
       href: "/partner-with-us/corporate-wellness",
-      icon: <FaBriefcase className="admin-left-menu-icon" />,
+      icon: <FaHandshake className="user-left-menu-icon" />,
     },
   ];
   const pathname = usePathname();
@@ -118,13 +115,14 @@ const MobileHeaderMenu = ({ isOpen = false, setIsOpen = () => {} }) => {
           {menuItems.map((item, index) => {
             if (item?.type == "parent") {
               return (
-                <div className="menu-parent">
+                <div className="menu-parent" key={index}>
                   <p>{item?.label}</p>
                 </div>
               );
             } else {
               return (
                 <Link
+                  key={index}
                   href={item?.href}
                   className={`menu-button ${
                     pathname == item?.href ? "selected" : ""
