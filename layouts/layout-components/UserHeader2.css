@@ -121,6 +121,7 @@ button {
   height: 100%;
   top: 0;
   left: -38px;
+  left: -37px;
   z-index: -1;
   -webkit-clip-path: url(#curve-left);
   clip-path: url(#curve-left);
@@ -318,11 +319,12 @@ button {
 }
 
 .location-divs {
+  padding: 8px;
   display: none;
   background-color: white;
   position: absolute;
   border-radius: 0 0 9px 9px;
-  padding: 10px 5px;
+  /* padding: 10px 5px; */
   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px 0px,
     rgba(0, 0, 0, 0.4) 0px 0px 1px 0px;
   color: black;
@@ -341,6 +343,20 @@ button {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
     rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   border-radius: 9px;
+}
+.location-divs .center-selection-item {
+  margin: 2px 0px;
+  padding: 12px 18px;
+  font-size: 16px;
+  line-height: 16px;
+  min-height: 40px;
+  border-radius: 8px;
+  color: rgb(0, 55, 71);
+}
+.location-divs .center-selection-item:hover,
+.location-divs .center-selection-item.selected {
+  background-color: #19b91059;
+  font-weight: 600;
 }
 
 .user-left-side-menu {
