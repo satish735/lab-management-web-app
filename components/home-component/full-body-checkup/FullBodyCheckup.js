@@ -13,23 +13,9 @@ const FullBodyCheckup = () => {
 
   const [locationSelected, setlocationSelected] = useState();
 
-  const [SelectCategory, setSelectCategory] = useState();
-  const [SelectCategoryIsTouch, setSelectCategoryIsTouch] = useState();
+ 
   const router = useRouter();
-
-  const [SelectCategoryFeedbackMessage, setSelectCategoryFeedBackMessage] =
-    useState({
-      type: "info",
-      message: "",
-    });
-  const SelectCategorySelectValidater = (value) => {
-    return true;
-  };
-
-
-
-
-
+ 
   const [testResponse, testHandler] = useAPI(
     {
       url: "/test/list",
@@ -88,7 +74,7 @@ const FullBodyCheckup = () => {
 
   }, [])
 
-
+ 
 
   return (
     <div className="">
@@ -115,6 +101,7 @@ const FullBodyCheckup = () => {
               slidesToScroll={1}
               slidesToShow_lg={3}
               sliderFor={"packages"}
+              location={locationSelected}
             />
           </div>
         )}
@@ -144,6 +131,7 @@ const FullBodyCheckup = () => {
               slidesToScroll={1}
               slidesToShow_lg={3}
               sliderFor={"popular test"}
+              location={locationSelected}
             />
           </div>
         )}

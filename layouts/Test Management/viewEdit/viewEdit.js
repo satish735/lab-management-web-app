@@ -29,6 +29,29 @@ const ViewEdit = ({ searchParams }) => {
 
     const [ObservationsData, setObservationsData] = useState([{ observations: '', id: uuid() }]);
 
+
+
+
+
+
+    const [IsPopular, setIsPopular] = useState();
+    const [IsPopularIsTouch, setIsPopularIsTouch] = useState(false);
+
+    const [IsPopularMessage, setIsPopularMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const IsPopularSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setIsPopularMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setIsPopularMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+
     const [TestOrPackage, setTestOrPackage] = useState();
     const [TestOrPackageIsTouch, setTestOrPackageIsTouch] = useState(false);
 
@@ -502,25 +525,26 @@ const ViewEdit = ({ searchParams }) => {
         if (TestOrPackage === 'Test') {
 
 
+            let TestNameInputValidate = TestNameInputValidater(TestNameInput.enteredValue);
+            let DescriptionInputValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
+            let BodyPartTypeSelectValidate = BodyPartTypeSelectValidater(BodyPartType);
+            let MedicalConditionsSelectValidate = MedicalConditionsSelectValidater(MedicalConditions);
+            let PriceValidate = PriceValidater(Price.enteredValue);
 
-            let TestNameInputValidate = commonValidate(TestNameInput.enteredValue);
-            let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
-            let BodyPartTypeSelectValidate = commonValidate(BodyPartType);
-            let MedicalConditionsSelectValidate = commonValidate(MedicalConditions);
-            let PriceValidate = commonValidate(Price.enteredValue);
+            let GenderTypeSelectValidate = GenderTypeSelectValidater(GenderType);
+            let AgeGroupToValidate = AgeGroupToValidater(AgeGroupTo.enteredValue);
+            let AgeGroupFromValidate = AgeGroupFromValidater(AgeGroupFrom.enteredValue);
+            let SampleRequiredValidate = SampleRequiredValidater(SampleRequired.enteredValue);
 
-            let GenderTypeSelectValidate = commonValidate(GenderType);
-            let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
-            let AgeGroupFromValidate = commonValidate(AgeGroupFrom.enteredValue);
-            let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
-            let SelectCenterValidate = commonValidate(SelectCenter);
+            let SelectCenterValidate = SelectCenterSelectValidater(SelectCenter);
+            let SelectIsPopularValidate = IsPopularSelectValidater(IsPopular);
 
             let ObservationsInputValidate = (ObservationsData ?? []).length > 0;
-            let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
-            let DiscountPercentageValidate = commonValidate(DiscountPercentage.enteredValue);
+            let PreparationRequiredValidate = PreparationRequiredValidater(PreparationRequired.enteredValue);
+            let DiscountPercentageValidate = DiscountPercentageValidater(DiscountPercentage.enteredValue);
 
-            let HomeCollectionSelectValidate = commonValidate(HomeCollection);
-            let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
+            let HomeCollectionSelectValidate = HomeCollectionSelectValidater(HomeCollection);
+            let ResultWithinHoursValidate = ResultWithinHoursValidater(ResultWithinHours.enteredValue);
 
 
 
@@ -538,7 +562,7 @@ const ViewEdit = ({ searchParams }) => {
                 !DiscountPercentageValidate ||
                 !AgeGroupFromValidate ||
                 !HomeCollectionSelectValidate ||
-
+                !SelectIsPopularValidate ||
                 !ResultWithinHoursValidate ||
                 !imageFile?.filePath
                 || !SelectCenterValidate
@@ -567,6 +591,7 @@ const ViewEdit = ({ searchParams }) => {
                             testType: TestOrPackage ?? null,
                             toAge: AgeGroupTo.enteredValue ?? null,
                             discountPercentage: DiscountPercentage.enteredValue,
+                            is_popular: (IsPopular === 'yes' ? true : false),
 
                             sampleCollection: SampleRequired.enteredValue ?? null,
                             preparation: PreparationRequired.enteredValue ?? null,
@@ -582,29 +607,30 @@ const ViewEdit = ({ searchParams }) => {
             }
         }
         else {
-            // let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
-            let ActualCostInputValidate = commonValidate(ActualCost.enteredValue);
-            let PackageNameValidate = commonValidate(PackageName.enteredValue);
-            let TestlistingSelectValidate = commonValidate(Testlisting);
+            // let FinalMRPInputValidate = FinalMRPValidater(FinalMRP.enteredValue);
+            // let ActualCostInputValidate = ActualCostValidater(ActualCost.enteredValue);
+            let PackageNameValidate = PackageNameValidater(PackageName.enteredValue);
+            let TestlistingSelectValidate = TestlistingSelectValidater(Testlisting);
+            let SelectIsPopularValidate = IsPopularSelectValidater(IsPopular);
 
-            let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
-            let SelectCenterValidate = commonValidate(SelectCenter);
+            let DescriptionInputValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
+            let SelectCenterValidate = SelectCenterSelectValidater(SelectCenter);
 
-            let GenderTypeSelectValidate = commonValidate(GenderType);
-            let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
-            let AgeGroupFromValidate = commonValidate(AgeGroupFrom.enteredValue);
-            let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
+            let GenderTypeSelectValidate = GenderTypeSelectValidater(GenderType);
+            let AgeGroupToValidate = AgeGroupToValidater(AgeGroupTo.enteredValue);
+            let AgeGroupFromValidate = AgeGroupFromValidater(AgeGroupFrom.enteredValue);
+            let SampleRequiredValidate = SampleRequiredValidater(SampleRequired.enteredValue);
 
-            let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
-            let DiscountPercentageValidate = commonValidate(DiscountPercentage.enteredValue);
+            let PreparationRequiredValidate = PreparationRequiredValidater(PreparationRequired.enteredValue);
+            let DiscountPercentageValidate = DiscountPercentageValidater(DiscountPercentage.enteredValue);
 
-            let HomeCollectionSelectValidate = commonValidate(HomeCollection);
-            let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
+            let HomeCollectionSelectValidate = HomeCollectionSelectValidater(HomeCollection);
+            let ResultWithinHoursValidate = ResultWithinHoursValidater(ResultWithinHours.enteredValue);
 
 
             if (
                 // !FinalMRPInputValidate ||
-                !ActualCostInputValidate ||
+                // !ActualCostInputValidate ||
                 !TestlistingSelectValidate ||
                 !PackageNameValidate
                 ||
@@ -616,6 +642,7 @@ const ViewEdit = ({ searchParams }) => {
                 !DiscountPercentageValidate ||
                 !AgeGroupFromValidate ||
                 !HomeCollectionSelectValidate ||
+                !SelectIsPopularValidate ||
 
                 !ResultWithinHoursValidate ||
                 !imageFile?.filePath
@@ -645,6 +672,7 @@ const ViewEdit = ({ searchParams }) => {
                             testType: TestOrPackage ?? null,
                             toAge: Number(AgeGroupTo.enteredValue) ?? null,
                             discountPercentage: Number(DiscountPercentage.enteredValue),
+                            is_popular: (IsPopular === 'yes' ? true : false),
 
                             sampleCollection: SampleRequired.enteredValue ?? null,
                             preparation: PreparationRequired.enteredValue ?? null,
@@ -738,7 +766,7 @@ const ViewEdit = ({ searchParams }) => {
             SampleRequired.setEnteredValue(e?.sampleCollection)
             PreparationRequired.setEnteredValue(e?.preparation)
             setHomeCollection(e?.homeCollection ? 'yes' : 'no')
-
+            setIsPopular(e?.is_popular ? 'yes' : 'no')
 
 
             if (e?.testType === 'Test') {
@@ -882,6 +910,8 @@ const ViewEdit = ({ searchParams }) => {
 
 
 
+    
+
 
 
     function calculateFinalPrice(originalPrice, discountPercentage) {
@@ -936,7 +966,8 @@ const ViewEdit = ({ searchParams }) => {
 
             <h3 className="mb-3 px-3 py-2 mt-2  " >
 
-                Create Test
+            {searchParams?.type === 'view' ? 'Test Details' : 'Update Details'}
+                
             </h3>
 
 
@@ -1217,6 +1248,23 @@ const ViewEdit = ({ searchParams }) => {
                                                 />
 
 
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputSelect
+                                                    setValue={setIsPopular}
+                                                    value={IsPopular}
+                                                    options={homeCollectionOption ?? []}
+                                                    isTouched={IsPopularIsTouch}
+                                                    setIsTouched={setIsPopularIsTouch}
+                                                    className=""
+                                                    label={"Is Popular"}
+                                                    isRequired={true}
+                                                    feedbackMessage={IsPopularMessage?.message}
+                                                    feedbackType={IsPopularMessage?.type}
+                                                    validateHandler={IsPopularSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
                                             </div>
 
 
@@ -1541,6 +1589,23 @@ const ViewEdit = ({ searchParams }) => {
                                                 />
 
 
+                                            </div>
+
+                                            <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                                <InputSelect
+                                                    setValue={setIsPopular}
+                                                    value={IsPopular}
+                                                    options={homeCollectionOption ?? []}
+                                                    isTouched={IsPopularIsTouch}
+                                                    setIsTouched={setIsPopularIsTouch}
+                                                    className=""
+                                                    label={"Is Popular"}
+                                                    isRequired={true}
+                                                    feedbackMessage={IsPopularMessage?.message}
+                                                    feedbackType={IsPopularMessage?.type}
+                                                    validateHandler={IsPopularSelectValidater}
+                                                    disabled={searchParams?.type === 'view'}
+                                                />
                                             </div>
 
 

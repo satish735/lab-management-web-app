@@ -14,6 +14,8 @@ import TestListing from "@/components/package-details/total-test-include/TestLis
 import { useRouter } from "next/navigation";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
+import CheckboxInput from "@/components/formInput/CheckboxInput";
+import BreadcrumbDiv from "@/components/BreadcrumbDiv";
 
 const Test = () => {
 
@@ -23,6 +25,10 @@ const Test = () => {
     const [imageFile, setImageFile] = useState();
 
     const [ListingFields, setListingFields] = useState();
+
+
+    const [FilterCheck, setFilterCheck] = useState();
+
 
     const [ObservationsData, setObservationsData] = useState([{ observations: '', id: uuid() }]);
 
@@ -341,6 +347,24 @@ const Test = () => {
 
 
 
+    const [IsPopular, setIsPopular] = useState();
+    const [IsPopularIsTouch, setIsPopularIsTouch] = useState(false);
+
+    const [IsPopularMessage, setIsPopularMessage] = useState({
+        type: "info",
+        message: "",
+    });
+    const IsPopularSelectValidater = (value) => {
+        if (value === "" || !value) {
+            setIsPopularMessage({ type: "error", message: "Field Required!" });
+            return false;
+        }
+        setIsPopularMessage({ type: "info", message: "" });
+
+        return true;
+    };
+
+
     const [HomeCollection, setHomeCollection] = useState();
     const [HomeCollectionIsTouch, setHomeCollectionIsTouch] = useState(false);
 
@@ -473,24 +497,29 @@ const Test = () => {
 
 
 
-            let TestNameInputValidate = commonValidate(TestNameInput.enteredValue);
-            let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
-            let BodyPartTypeSelectValidate = commonValidate(BodyPartType);
-            let MedicalConditionsSelectValidate = commonValidate(MedicalConditions);
-            let PriceValidate = commonValidate(Price.enteredValue);
+            let TestNameInputValidate = TestNameInputValidater(TestNameInput.enteredValue);
+            let DescriptionInputValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
+            let BodyPartTypeSelectValidate = BodyPartTypeSelectValidater(BodyPartType);
+            let MedicalConditionsSelectValidate = MedicalConditionsSelectValidater(MedicalConditions);
+            let PriceValidate = PriceValidater(Price.enteredValue);
 
-            let GenderTypeSelectValidate = commonValidate(GenderType);
-            let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
-            let AgeGroupFromValidate = commonValidate(AgeGroupFrom.enteredValue);
-            let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
-            let SelectCenterValidate = commonValidate(SelectCenter);
+            let GenderTypeSelectValidate = GenderTypeSelectValidater(GenderType);
+            let AgeGroupToValidate = AgeGroupToValidater(AgeGroupTo.enteredValue);
+            let AgeGroupFromValidate = AgeGroupFromValidater(AgeGroupFrom.enteredValue);
+            let SampleRequiredValidate = SampleRequiredValidater(SampleRequired.enteredValue);
+
+            let SelectCenterValidate = SelectCenterSelectValidater(SelectCenter);
+            let SelectIsPopularValidate = IsPopularSelectValidater(IsPopular);
 
             let ObservationsInputValidate = (ObservationsData ?? []).length > 0;
-            let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
-            let DiscountPercentageValidate = commonValidate(DiscountPercentage.enteredValue);
+            let PreparationRequiredValidate = PreparationRequiredValidater(PreparationRequired.enteredValue);
+            let DiscountPercentageValidate = DiscountPercentageValidater(DiscountPercentage.enteredValue);
 
-            let HomeCollectionSelectValidate = commonValidate(HomeCollection);
-            let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
+            let HomeCollectionSelectValidate = HomeCollectionSelectValidater(HomeCollection);
+            let ResultWithinHoursValidate = ResultWithinHoursValidater(ResultWithinHours.enteredValue);
+
+
+
 
 
 
@@ -508,7 +537,7 @@ const Test = () => {
                 !DiscountPercentageValidate ||
                 !AgeGroupFromValidate ||
                 !HomeCollectionSelectValidate ||
-
+                !SelectIsPopularValidate ||
                 !ResultWithinHoursValidate ||
                 !imageFile?.filePath
                 || !SelectCenterValidate
@@ -560,7 +589,7 @@ const Test = () => {
                             testType: TestOrPackage ?? null,
                             toAge: AgeGroupTo.enteredValue ?? null,
                             discountPercentage: DiscountPercentage.enteredValue,
-
+                            is_popular: (IsPopular === 'yes' ? true : false),
                             sampleCollection: SampleRequired.enteredValue ?? null,
                             preparation: PreparationRequired.enteredValue ?? null,
                             availableInCenters: SelectCenter ?? [],
@@ -575,29 +604,30 @@ const Test = () => {
             }
         }
         else {
-            // let FinalMRPInputValidate = commonValidate(FinalMRP.enteredValue);
-            let ActualCostInputValidate = commonValidate(ActualCost.enteredValue);
-            let PackageNameValidate = commonValidate(PackageName.enteredValue);
-            let TestlistingSelectValidate = commonValidate(Testlisting);
+            // let FinalMRPInputValidate = FinalMRPValidater(FinalMRP.enteredValue);
+            // let ActualCostInputValidate = ActualCostValidater(ActualCost.enteredValue);
+            let PackageNameValidate = PackageNameValidater(PackageName.enteredValue);
+            let TestlistingSelectValidate = TestlistingSelectValidater(Testlisting);
+            let SelectIsPopularValidate = IsPopularSelectValidater(IsPopular);
 
-            let DescriptionInputValidate = commonValidate(DescriptionInput.enteredValue);
-            let SelectCenterValidate = commonValidate(SelectCenter);
+            let DescriptionInputValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
+            let SelectCenterValidate = SelectCenterSelectValidater(SelectCenter);
 
-            let GenderTypeSelectValidate = commonValidate(GenderType);
-            let AgeGroupToValidate = commonValidate(AgeGroupTo.enteredValue);
-            let AgeGroupFromValidate = commonValidate(AgeGroupFrom.enteredValue);
-            let SampleRequiredValidate = commonValidate(SampleRequired.enteredValue);
+            let GenderTypeSelectValidate = GenderTypeSelectValidater(GenderType);
+            let AgeGroupToValidate = AgeGroupToValidater(AgeGroupTo.enteredValue);
+            let AgeGroupFromValidate = AgeGroupFromValidater(AgeGroupFrom.enteredValue);
+            let SampleRequiredValidate = SampleRequiredValidater(SampleRequired.enteredValue);
 
-            let PreparationRequiredValidate = commonValidate(PreparationRequired.enteredValue);
-            let DiscountPercentageValidate = commonValidate(DiscountPercentage.enteredValue);
+            let PreparationRequiredValidate = PreparationRequiredValidater(PreparationRequired.enteredValue);
+            let DiscountPercentageValidate = DiscountPercentageValidater(DiscountPercentage.enteredValue);
 
-            let HomeCollectionSelectValidate = commonValidate(HomeCollection);
-            let ResultWithinHoursValidate = commonValidate(ResultWithinHours.enteredValue);
+            let HomeCollectionSelectValidate = HomeCollectionSelectValidater(HomeCollection);
+            let ResultWithinHoursValidate = ResultWithinHoursValidater(ResultWithinHours.enteredValue);
 
 
             if (
                 // !FinalMRPInputValidate ||
-                !ActualCostInputValidate ||
+                // !ActualCostInputValidate ||
                 !TestlistingSelectValidate ||
                 !PackageNameValidate
                 ||
@@ -609,7 +639,7 @@ const Test = () => {
                 !DiscountPercentageValidate ||
                 !AgeGroupFromValidate ||
                 !HomeCollectionSelectValidate ||
-
+                !SelectIsPopularValidate ||
                 !ResultWithinHoursValidate ||
                 !imageFile?.filePath
                 || !SelectCenterValidate
@@ -654,6 +684,7 @@ const Test = () => {
                             availableInCenters: SelectCenter ?? [],
 
                             image: imageFile?.filePath ?? null,
+                            is_popular: (IsPopular === 'yes' ? true : false),
 
                             rate: Number(ActualCost.enteredValue) ?? null,
                             totalMrp: Number(FinalMRP.enteredValue) ?? null,
@@ -680,29 +711,29 @@ const Test = () => {
     }
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (isSubmit) {
+    //     if (isSubmit) {
 
-            TestNameInputValidater(TestNameInput.enteredValue)
-            DescriptionInputValidater(DescriptionInput.enteredValue)
-            BodyPartTypeSelectValidater(BodyPartType)
-            MedicalConditionsSelectValidater(MedicalConditions)
-            PriceValidater(Price.enteredValue)
+    //         TestNameInputValidater(TestNameInput.enteredValue)
+    //         DescriptionInputValidater(DescriptionInput.enteredValue)
+    //         BodyPartTypeSelectValidater(BodyPartType)
+    //         MedicalConditionsSelectValidater(MedicalConditions)
+    //         PriceValidater(Price.enteredValue)
 
-            GenderTypeSelectValidater(GenderType)
-            AgeGroupToValidater(AgeGroupTo.enteredValue)
-            SampleRequiredValidater(SampleRequired.enteredValue)
-            ObservationsInputValidater(ObservationsInput.enteredValue)
-            PreparationRequiredValidater(PreparationRequired.enteredValue)
-            setTestlisting(Testlisting)
-            setSelectCenter(SelectCenter)
-            HomeCollectionSelectValidater(HomeCollection)
-            // ObservationTitleTypeSelectValidater(ObservationTitleType)
-            ResultWithinHoursValidater(ResultWithinHours.enteredValue)
-        }
+    //         GenderTypeSelectValidater(GenderType)
+    //         AgeGroupToValidater(AgeGroupTo.enteredValue)
+    //         SampleRequiredValidater(SampleRequired.enteredValue)
+    //         ObservationsInputValidater(ObservationsInput.enteredValue)
+    //         PreparationRequiredValidater(PreparationRequired.enteredValue)
+    //         setTestlisting(Testlisting)
+    //         setSelectCenter(SelectCenter)
+    //         HomeCollectionSelectValidater(HomeCollection)
+    //         // ObservationTitleTypeSelectValidater(ObservationTitleType)
+    //         ResultWithinHoursValidater(ResultWithinHours.enteredValue)
+    //     }
 
-    }, [isSubmit])
+    // }, [isSubmit])
 
     const [testResponse, testHandler] = useAPI(
         {
@@ -734,8 +765,6 @@ const Test = () => {
             let total_cost = 0;
             let TestListing = (Testlisting ?? []).map((item) => {
 
-                console.log(item);
-
                 total_cost += Number(item?.price);
                 return item
             })
@@ -766,6 +795,13 @@ const Test = () => {
 
     }, [DiscountPercentage?.enteredValue])
     return (<>
+        <BreadcrumbDiv
+            options={[
+                { label: "Home", link: "/admin" },
+                { label: "Tests & Packages", link: "/admin/tests" },
+                { label: "Create Tests & Packages", link: "/admin/tests/create", active: true },
+            ]}
+        />
 
         <div className='bg-white pt-2 pb-3 mt-2' style={{ borderRadius: '5px' }}>
 
@@ -784,7 +820,7 @@ const Test = () => {
                         options={TestOrPackageOption ?? []}
                         isTouched={TestOrPackageIsTouch}
                         setIsTouched={setTestOrPackageIsTouch}
-                        className="py-1"
+                        className=""
                         label={"Select Test Or Package"}
                         isRequired={true}
                         feedbackMessage={TestOrPackageMessage?.message}
@@ -838,7 +874,7 @@ const Test = () => {
                                             options={testResponse?.data?.centerListing ?? []}
                                             isTouched={SelectCenterIsTouch}
                                             setIsTouched={setSelectCenterIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Select Center To Include"}
                                             isRequired={true}
                                             feedbackMessage={SelectCenterMessage?.message}
@@ -853,7 +889,7 @@ const Test = () => {
                                             options={ListingFields?.TestListing ?? []}
                                             isTouched={TestlistingIsTouch}
                                             setIsTouched={setTestlistingIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Select Tests To Include"}
                                             isRequired={true}
                                             feedbackMessage={TestlistingMessage?.message}
@@ -927,7 +963,7 @@ const Test = () => {
                                             options={genderoption ?? []}
                                             isTouched={GenderTypeIsTouch}
                                             setIsTouched={setGenderTypeIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Gender"}
                                             isRequired={true}
                                             feedbackMessage={GenderTypeMessage?.message}
@@ -991,7 +1027,7 @@ const Test = () => {
                                             options={homeCollectionOption ?? []}
                                             isTouched={HomeCollectionIsTouch}
                                             setIsTouched={setHomeCollectionIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Home Collection"}
                                             isRequired={true}
                                             feedbackMessage={HomeCollectionMessage?.message}
@@ -1022,6 +1058,22 @@ const Test = () => {
                                         />
 
 
+                                    </div>
+
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputSelect
+                                            setValue={setIsPopular}
+                                            value={IsPopular}
+                                            options={homeCollectionOption ?? []}
+                                            isTouched={IsPopularIsTouch}
+                                            setIsTouched={setIsPopularIsTouch}
+                                            className=""
+                                            label={"Is Popular"}
+                                            isRequired={true}
+                                            feedbackMessage={IsPopularMessage?.message}
+                                            feedbackType={IsPopularMessage?.type}
+                                            validateHandler={IsPopularSelectValidater}
+                                        />
                                     </div>
 
 
@@ -1149,7 +1201,7 @@ const Test = () => {
                                             options={ListingFields?.TestConditionListing ?? []}
                                             isTouched={MedicalConditionsIsTouch}
                                             setIsTouched={setMedicalConditionsIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Health Condition"}
                                             isRequired={true}
                                             feedbackMessage={MedicalConditionsMessage?.message}
@@ -1166,7 +1218,7 @@ const Test = () => {
                                             options={ListingFields?.BodyPartListing ?? []}
                                             isTouched={BodyPartTypeIsTouch}
                                             setIsTouched={setBodyPartTypeIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Body Part"}
                                             isRequired={true}
                                             feedbackMessage={BodyPartTypeMessage?.message}
@@ -1182,7 +1234,7 @@ const Test = () => {
                                             options={testResponse?.data?.centerListing ?? []}
                                             isTouched={SelectCenterIsTouch}
                                             setIsTouched={setSelectCenterIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Select Center To Include"}
                                             isRequired={true}
                                             feedbackMessage={SelectCenterMessage?.message}
@@ -1237,7 +1289,7 @@ const Test = () => {
                                             options={genderoption ?? []}
                                             isTouched={GenderTypeIsTouch}
                                             setIsTouched={setGenderTypeIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Gender"}
                                             isRequired={true}
                                             feedbackMessage={GenderTypeMessage?.message}
@@ -1301,7 +1353,7 @@ const Test = () => {
                                             options={homeCollectionOption ?? []}
                                             isTouched={HomeCollectionIsTouch}
                                             setIsTouched={setHomeCollectionIsTouch}
-                                            className="py-1"
+                                            className=""
                                             label={"Home Collection"}
                                             isRequired={true}
                                             feedbackMessage={HomeCollectionMessage?.message}
@@ -1334,6 +1386,21 @@ const Test = () => {
 
                                     </div>
 
+                                    <div className="col-lg-4 col-md-4 col-sm-12 ">
+                                        <InputSelect
+                                            setValue={setIsPopular}
+                                            value={IsPopular}
+                                            options={homeCollectionOption ?? []}
+                                            isTouched={IsPopularIsTouch}
+                                            setIsTouched={setIsPopularIsTouch}
+                                            className=""
+                                            label={"Is Popular"}
+                                            isRequired={true}
+                                            feedbackMessage={IsPopularMessage?.message}
+                                            feedbackType={IsPopularMessage?.type}
+                                            validateHandler={IsPopularSelectValidater}
+                                        />
+                                    </div>
 
 
 
@@ -1412,6 +1479,9 @@ const Test = () => {
 
                         </div>
 
+
+
+
                         <hr />
                         <h5 className="mb-4 mt-2">
                             Add Observations
@@ -1435,8 +1505,21 @@ const Test = () => {
 
 
             }
+
+
+
             <div className=" my-3  text-end  ">
-                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-5">
+
+
+                <button onClick={() => { router.push("/admin/tests") }} className="btn btn-dark px-4  ">
+
+                    {createTestResponse?.fetching ? (
+                        <Spinner size={"sm"} />
+                    ) : (
+                        "Cancel"
+                    )}
+                </button>
+                <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-2">
 
                     {createTestResponse?.fetching ? (
                         <Spinner size={"sm"} />
@@ -1446,7 +1529,7 @@ const Test = () => {
                 </button>
             </div>
 
-        </div>
+        </div >
 
     </>
     )
@@ -1535,9 +1618,9 @@ const ObservationsSection = ({ observationsItem, key, setObservationsData, lengt
 
     return (
         <>
-            <div className="col-lg-8 col-md-8 col-sm-12 " key={key}>
+            <div className="col-12 " key={key}>
                 <div className='row'>
-                    <div className='col-9'>
+                    <div className='col-10'>
                         <InputWithAddOn
                             label="Observations"
                             className="loginInputs"
@@ -1560,8 +1643,8 @@ const ObservationsSection = ({ observationsItem, key, setObservationsData, lengt
 
                     {
                         (length > 1) &&
-                        <div className='col-3 ' style={{ paddingTop: '29px', boxSizing: 'border-box' }}>
-                            <button onClick={() => { deleteobservations() }} className='' style={{ border: '2px solid red', borderRadius: '10px', color: 'red', fontSize: '15px', fontWeight: '500', backgroundColor: 'white', padding: '2px 10px' }}>X <span>Remove</span></button>
+                        <div className='col-2 ' style={{ paddingTop: '29px', boxSizing: 'border-box' }}>
+                            <button onClick={() => { deleteobservations() }} className='' style={{ border: '2px solid red', borderRadius: '10px', color: 'red', fontSize: '15px', fontWeight: '500', backgroundColor: 'white', padding: '2px 10px' }}>X </button>
 
 
                         </div>

@@ -25,8 +25,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import toast from "react-hot-toast";
-import SkeletonTextLoder from "@/components/SkeletonLoders/SkeletonTextLoder";
-import { useMediaQuery } from "react-responsive";
+ import { useMediaQuery } from "react-responsive";
 import MobileHeaderMenu from "./MobileHeaderMenu";
 
 // const updateLocalStorage = (key, value) => {
@@ -406,17 +405,17 @@ const UserHeader2 = () => {
                   +91 9739923174
                 </a>}
                 <a type="button" className={`btn ${(session?.status == 'authenticated' && session?.data?.user) ? 'user-button' : 'login-button'}`} href={session?.status === 'authenticated' && session?.data?.user ? undefined : "/login"} style={{
-                  position: 'relative', lineHeight: `${(session?.status == 'authenticated' && session?.data?.user) ? '20px' : '50px'}`, padding: `${(session?.status == 'authenticated' && session?.data?.user) ? '5px 20px 0 7px' : '0 20px'}`
+                  position: 'relative', lineHeight: `${(session?.status == 'authenticated' && session?.data?.user) ? '20px' : '50px'}`, padding: `${(session?.status == 'authenticated' && session?.data?.user) ? '2px 6px 0 7px' : '0 20px'}`
                 }}>
 
                   {(session?.status == 'authenticated' && session?.data?.user) ?
                     <div className="d-flex gap-2"  >
                       <div style={{ width: '30%' }} >
-                        <img src="/assets/icons/MEN.png" style={{ height: '40px', width: '40px' }} />
+                        <img src="/assets/icons/MEN.png" style={{ height: '45px', width: '45px' }} />
                       </div>
-                      <div style={{ width: '70%', textAlign: 'start' }} className="ps-2" >
+                      {/* <div style={{ width: '70%', textAlign: 'start' }} className="ps-2" >
                         <h1 className=" text-truncate text-capitalize m-0  " style={{ fontSize: '17px', fontWeight: '400', paddingTop: '10px' }}>{session?.data?.user?.name ?? 'Name'}</h1>
-                      </div>
+                      </div> */}
 
 
                     </div> : 'Login'

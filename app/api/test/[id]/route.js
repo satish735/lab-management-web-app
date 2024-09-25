@@ -17,10 +17,8 @@ export const GET = async (request, { params }) => {
 export const PUT = async (request, { params }) => {
   try {
 
-    // console.log("paramsparams", params)
-    const toUpdateBody = await request.json();
-    // console.log("lllllllllll",toUpdateBody)
-    makeS3FilesPermanent(process.env.S3_BUCKET, "single", toUpdateBody?.oldImage, toUpdateBody?.image)
+     const toUpdateBody = await request.json();
+     makeS3FilesPermanent(process.env.S3_BUCKET, "single", toUpdateBody?.oldImage, toUpdateBody?.image)
     const bodyParts = (toUpdateBody?.bodyParts ?? []).map(part => new Types.ObjectId(part.value));
     const conditions = (toUpdateBody?.conditions ?? []).map(condition => new Types.ObjectId(condition.value));
     const itemId = (toUpdateBody?.itemId ?? []).map(condition => new Types.ObjectId(condition.value));
@@ -36,36 +34,31 @@ export const PUT = async (request, { params }) => {
       if (key in existingBlog) {
         switch (key) {
           case 'bodyParts': {
-            console.log('bodyParts');
-
+ 
             existingBlog[key] = bodyParts;
             break
 
           }
           case 'conditions': {
-            console.log('conditions');
-
+ 
             existingBlog[key] = conditions;
             break
 
           }
           case 'itemId': {
-            console.log('itemId');
-
+ 
             existingBlog[key] = itemId;
             break
 
           }
           case 'availableInCenters': {
-            console.log('availableInCenters');
-
+ 
             existingBlog[key] = centerId;
             break
 
           }
           case 'observation': {
-            console.log('observation');
-
+ 
             existingBlog[key] = observation;
             break
 

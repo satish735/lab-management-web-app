@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Usercart from "@/layouts/layout-components/cart"
 import toast from "react-hot-toast";
 
-const PopularTestCard = ({ listing }) => {
+const PopularTestCard = ({ listing ,location}) => {
   const router = useRouter();
   const [discountprice, setdiscountprice] = useState();
   useEffect(() => {
@@ -141,7 +141,7 @@ const PopularTestCard = ({ listing }) => {
 
             <div className="d-flex justify-content-between px-1 pb-1">
               <div className=" ">
-                <button className="card-button " style={{ fontSize: "13px" }} onClick={() => { router.push(`/jaipur/lab-test/test?id=${listing?._id}`) }}>
+                <button className="card-button " style={{ fontSize: "13px" }} onClick={() => { router.push(`/${(location ?? '')?.replace(/\s+/g, '-') ?? 'jaipur'}/lab-test/test?id=${listing?._id}`) }}>
                   View Details <span>→</span>
                 </button>
               </div>

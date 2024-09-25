@@ -44,6 +44,8 @@ const PackageTestSchema = new Schema({
   editorContent: { type: String },
   publishedAt: { type: Date },
   is_delete: { type: Boolean, default: false },
+  is_popular: { type: Boolean, default: false },
+
   slug: { type: String, unique: true }
 });
 

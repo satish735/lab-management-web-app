@@ -32,7 +32,7 @@ const CarousalSlider = ({
     slidesToShow_lg = 4,
     slidesToShow_md = 2,
     slidesToShow_sm = 1,
-    sliderFor
+    sliderFor,location
 
 }) => {
     const settings = {
@@ -64,8 +64,7 @@ const CarousalSlider = ({
 
     };
 
-    // console.log(DataList);
-    
+     
 
     return (
         <>
@@ -75,7 +74,7 @@ const CarousalSlider = ({
                     sliderFor == 'packages' &&
 
                     ((DataList ?? []).map((listing,index) => {
-                        return <FullBodyCheckupCard listing={listing} key={index} />
+                        return <FullBodyCheckupCard listing={listing} key={index} location={location?.selectedLocation} />
                     }))
                 }
 
@@ -84,7 +83,7 @@ const CarousalSlider = ({
                     sliderFor == 'popular test' &&
 
                     ((DataList ?? []).map((listing,index) => {
-                        return <PopularTestCard listing={listing} key={index} />
+                        return <PopularTestCard listing={listing} key={index}  location={location?.selectedLocation} />
                     }))
                 }
                 {

@@ -132,8 +132,8 @@ const EditpackagecategoryMainPage = ({ searchParams }) => {
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
-                    { label: "Package Categorys", link: "/admin/package-category" },
-                    { label: "Update Package Category", link: "/admin/package-category/view", active: true },
+                    { label: "Package Category", link: "/admin/package-category" },
+                    { label: "Update Category", link: "/admin/package-category/view", active: true },
                 ]}
             />
 

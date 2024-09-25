@@ -540,7 +540,7 @@ const TestsComponent = () => {
               textAlign: "center",
               margin: "0 20%",
               padding: "0 0 50px",
-              fontFamily: "Inter Medium",
+              // fontFamily: "Inter Medium",
             }}
           >
             Frequently Asked Questions

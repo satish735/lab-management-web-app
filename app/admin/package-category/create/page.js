@@ -64,8 +64,8 @@ export default function Home() {
       <BreadcrumbDiv
         options={[
           { label: "Home", link: "/admin" },
-          { label: "Package Category", link: "/admin/Package-Category" },
-          { label: "Create", active: true },
+          { label: "Package Category", link: "/admin/package-category" },
+          { label: "Add Category", active: true },
         ]}
       />
       <div className="admin-content-box" style={{minHeight:'100%'}}>

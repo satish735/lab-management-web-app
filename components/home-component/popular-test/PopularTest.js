@@ -1,8 +1,54 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import '@/components/home-component/popular-test/popular-test-bottom-portion.css'
 import PopularLinkComponent from './PopularLinkComponent'
+import useAPI from '@/hooks/useAPI'
 
 const PopularTest = () => {
+
+    const [ListingFields, setListingFields] = useState({});
+    const [getBasicDetailsResponse, getBasicDetailsHandler] = useAPI(
+        {
+            url: "/getTestAndCenterListing",
+            method: "get",
+            sendImmediately: true,
+
+        },
+        (e) => {
+
+
+
+            let CenterListing = (e?.CenterListing ?? []).map((item) => {
+                return { label: item?.city, value: item?._id }
+            })
+
+ 
+            let TestListing = (e?.PackageTestInstanceListing ?? []).map((item) => {
+
+
+                return { label: item?.name, value: item?._id }
+            })
+            setListingFields({
+                CenterListing: CenterListing, TestListing: TestListing
+            })
+
+
+            // toast.success("");
+            // setisSubmit(false)
+        },
+        (e) => {
+            // setisSubmit(false)
+            //  transformErrorDefault(
+            //     "Something went wrong while creating Test Case!",
+            //     e
+            // );
+        }
+    );
+
+
+
+
+
     return (
         <div className='popular-tests-link-div  '>
             <div className='midbox-inner' >
@@ -13,19 +59,10 @@ const PopularTest = () => {
 
                 <div >
 
-                    <PopularLinkComponent item={array} />
+                    <PopularLinkComponent item={ListingFields?.TestListing ?? []} type={'test'} />
 
                 </div>
 
-                <hr className='dashed-2 my-4' />
-
-                <h2 className='heading-text-popular-tests '>
-                    Popular Categories
-                </h2>
-
-                <div >
-                    <PopularLinkComponent item={array} />
-                </div>
 
 
                 <hr className='dashed-2 my-4' />
@@ -37,7 +74,7 @@ const PopularTest = () => {
 
                 <div >
 
-                    <PopularLinkComponent item={array} />
+                    <PopularLinkComponent item={ListingFields?.CenterListing ?? []} type={'center'}  />
 
                 </div>
 

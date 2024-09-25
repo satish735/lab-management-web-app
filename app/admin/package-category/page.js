@@ -168,7 +168,7 @@ export default function Home() {
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
-                    { label: "package category", link: "/admin/package-category", active: true },
+                    { label: "Package Category", link: "/admin/package-category", active: true },
                 ]}
             />
             <div className="admin-content-box">
