@@ -350,6 +350,7 @@ const UserHeader2 = () => {
                               className={`center-selection-item ${
                                 currentLocation == item ? "selected" : ""
                               }`}
+                              
                             >
                               {item}
                             </div>
