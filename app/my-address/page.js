@@ -94,7 +94,7 @@ const Page = () => {
                         <button onClick={() => {
                             setIsaddress(false)
                             setModal2(true)
-                        }} className="card-button-2 mr-2 small" > + Add New Address</button>
+                        }} className="btn btn-primary-theme " > + Add Address</button>
                     </div>
                 </div>
 

@@ -152,7 +152,7 @@ const Blog = ({ searchParams }) => {
                         </div>
 
                         <div className="col-lg-4 col-md-4 col-sm-12" >
-                            <div className="mx-2" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px', borderRadius: '10px', padding: '20px 10px 20px 20px' }}>
+                            <div className="mx-0" style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px', borderRadius: '10px', padding: '20px 10px 20px 20px' }}>
                                 <h2 className="mb-3" style={{ color: '#003747', fontWeight: "800", fontSize: "1.3rem" }}>Popular Blogs</h2>
 
                                 {blogsResponse?.data?.map((item, index) =>

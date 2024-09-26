@@ -103,7 +103,7 @@ const FullBodyCheckupCard = ({ listing, location }) => {
                 <span> ₹ {listing?.totalMrp}</span>
                 <p className="mt-3">
                   <span className="dicount-off-percentage">
-                    {listing?.discountPercentage}% off
+                    {listing?.discountPercentage}%off
                   </span>
                 </p>
               </div>

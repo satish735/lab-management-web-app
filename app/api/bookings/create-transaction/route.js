@@ -31,7 +31,7 @@ export const POST = async (request, { params }) => {
             transactionid: createTransaction?.transactionId,
             merchantUserId,
             amount: createTransaction?.amount,
-            redirectUrl: "test", callbackUrl: "api/bookings/transaction-callback"
+            redirectUrl: "/mybookings", callbackUrl: "api/bookings/transaction-callback"
         })
         if (paymentinitiate?.status == "failed") {
             throw new Error(paymentinitiate?.message)

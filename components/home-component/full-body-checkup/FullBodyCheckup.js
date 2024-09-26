@@ -167,7 +167,7 @@ const FullBodyCheckup = () => {
           </div>
 
           <div className="col-lg-4 col-md-4 col-sm-12" style={{ position: 'relative' }}>
-            <img className=" " style={{ height: "270px", position: 'absolute', bottom: '-24px', right: '20px' }} src="/assets/images/temp/discount-image.webp" alt="post image" loading="lazy" />
+            <img className="discount-coupen-main-page-image " style={{}} src="/assets/images/temp/discount-image.webp" alt="post image" loading="lazy" />
           </div>
         </div>
       </div>

@@ -65,8 +65,8 @@ const DashBoardBookings = () => {
                                     Collection Type: {bItem?.collectionType}
                                 </span>{" "}
                             </div>
-                            <hr className="m-0" />
-                            <div className="col-12 py-2 m-0 general-details-2">
+                            {/* <hr className="m-0" /> */}
+                            {/* <div className="col-12 py-2 m-0 general-details-2">
                                 <div className="section">
                                     <p className="heading">Package/Test Included</p>
                                     {bItem?.packages?.map?.((item, index) => {
@@ -83,7 +83,7 @@ const DashBoardBookings = () => {
                                     <p className="heading">Price</p>
                                     <p className="values">₹{bItem?.total}</p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     }
                     )

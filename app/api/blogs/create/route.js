@@ -11,6 +11,7 @@ export const POST = async (request, { params }) => {
       author: requestBody?.author || "",
       description: requestBody?.description || "",
       is_home: requestBody?.is_home ?? false,
+      isPopular: requestBody?.isPopular ?? false,
       trending: requestBody?.trending ?? false,
       published_at: requestBody?.published_at ?? null,
       image: requestBody?.image ?? null,
@@ -18,7 +19,6 @@ export const POST = async (request, { params }) => {
 
     });
 
-    console.log("requestBody", BlogNew)
     await BlogNew.save();
     return new Response(BlogNew, { status: 200 });
   } catch (error) {

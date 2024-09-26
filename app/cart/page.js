@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 import moment from "moment"
+import axios from 'axios';
 
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
@@ -97,12 +98,13 @@ const Cart = () => {
 
 
     // step 2 
+    const [nearCenter, setnearCenter] = useState()
     const [selectlab, setselectlab] = useState(null)
     const [selectaddress, setselectaddress] = useState(null)
 
 
-    const [iscollection, setChecked] = useState(true)
-    const [islab, setislab] = useState(false)
+    const [iscollection, setChecked] = useState(false)
+    const [islab, setislab] = useState(true)
 
     const changecheckboxcollecion = () => {
         if (iscollection == false) {
@@ -169,6 +171,7 @@ const Cart = () => {
 
                         changecheckboxcollecion={changecheckboxcollecion}
                         changecheckboxlab={changecheckboxlab}
+                        setnearCenter={setnearCenter}
                     />}
 
 
@@ -192,6 +195,7 @@ const Cart = () => {
                         selectaddress={selectaddress}
                         selectlab={selectlab}
                         slotdata={slotdata}
+                        nearCenter={nearCenter}
                     />}
                 </div>
             }
@@ -240,7 +244,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
     );
     return (<>
         <div className="text-capitalize" style={{ textTransform: "capitalize" }}  >
-            <h2 className="p-4 " style={{ fontWeight: "700", fontSize: "1.2rem" }}> Add Patients</h2>
+            <h2 className="py-4 px-1 " style={{ fontWeight: "700", fontSize: "1.2rem" ,color:'#003747'}}> Add Patients</h2>
             <div className="row">
                 <div className=" col-sm-8 col-12 ">
                     {addtestandpackage?.map((item, index) => {
@@ -336,9 +340,9 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
                 </div >
 
 
-                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12 px-2" >
                     <div className=" " style={{ fontWeight: '700' }}>
-                        <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
+                        <h3 style={{ fontWeight: '700'  }} className="text-capitalize">Summary</h3>
                         <div className="checkout-summary">
                             {(addtestandpackage ?? [])?.map((itemtest, index) => {
 
@@ -393,7 +397,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
 const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
     selectlab, setselectaddress, selectaddress,
     changecheckboxcollecion, changecheckboxlab,
-    islab, iscollection }) => {
+    islab, iscollection, setnearCenter }) => {
 
     const session = useSession()
 
@@ -420,6 +424,85 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
             return e
         }
     );
+
+
+
+
+
+
+    const findNearestLocation = (locations, target) => {
+        const haversineDistance = (coords1, coords2) => {
+            const toRad = (value) => (value * Math.PI) / 180;
+
+            const lat1 = coords1.lat;
+            const lon1 = coords1.lng;
+            const lat2 = coords2.lat;
+            const lon2 = coords2.lng;
+
+            const R = 6371; // Radius of the Earth in km
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Distance in km
+        };
+
+        let nearestLocation = null;
+        let shortestDistance = Infinity;
+
+        for (const location of locations) {
+            const distance = haversineDistance(location, target);
+            // Check if the distance is shorter than the current shortestDistance
+            if (distance < shortestDistance) {
+                shortestDistance = distance;
+                nearestLocation = location;
+            }
+        }
+
+        return {
+            nearestLocation,
+            distance: shortestDistance
+        };
+    };
+
+
+
+
+    useEffect(() => {
+        if (labResponse?.data) {
+            let locations = (labResponse?.data ?? [])?.map((item) => {
+                return { ...item, lat: item?.latitude, lng: item?.longitude }
+            })
+
+            const targetLocation = selectaddress ?? {}
+            const result = findNearestLocation(locations, targetLocation);
+
+            console.log(`Nearest Location:`, result.nearestLocation);
+            console.log(`Distance: ${result.distance} km`);
+
+
+            if (result) {
+                if (Number(result?.distance) > 15) {
+                    setnearCenter(null)
+                    setselectaddress()
+                    toast.error("Select Area Under 15 KM")
+                } else {
+                    setnearCenter(result?.nearestLocation)
+                }
+
+            }
+
+
+
+        }
+
+
+    }, [selectaddress])
 
 
 
@@ -481,20 +564,35 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
         <div className="text-capitalize" >
             <div className="my-3 select-tab" style={{ display: "flex", color: "green" }} >
 
-                <div onClick={changecheckboxcollecion} class=" mx-3 bg-white py-2 px-3 border border-2 rounded">
-                    <CheckboxInput
-                        check={iscollection}
-                        setChecked={changecheckboxcollecion}
-                        label={'Home Collection'}
-                    />
+                <div onClick={changecheckboxcollecion} class="d-flex mx-3 bg-white py-2 px-3 border border-2 rounded">
+                    <div>
+
+                        <CheckboxInput
+                            check={iscollection}
+                            setChecked={changecheckboxcollecion}
+                            label={''}
+                        />
+
+                    </div>
+                    <div className='pt-1' >
+                        {'Home Collection'}
+                    </div>
 
                 </div>
-                <div onClick={changecheckboxlab} class="form-check mx-3 bg-white py-2 px-3 border border-2 rounded">
-                    <CheckboxInput
-                        check={islab}
-                        setChecked={changecheckboxlab}
-                        label={'Lab'}
-                    />
+                <div onClick={changecheckboxlab} class="d-flex form-check mx-3 bg-white py-2 px-3 border border-2 rounded">
+                    <div>
+
+                        <CheckboxInput
+                            check={islab}
+                            setChecked={changecheckboxlab}
+                            label={''}
+                        />
+
+
+                    </div>
+                    <div className='pt-1' >
+                        {'Lab'}
+                    </div>
 
                 </div>
             </div>
@@ -534,6 +632,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                                                 }}
                                                 label={''}
                                             />
+
                                             <span className="px-2 pt-0" style={{
                                                 fontSize: "1.1rem",
                                                 fontWeight: "700"
@@ -567,90 +666,98 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                             setselectlab(item)
                         }} >
                             <div className="p-3 bg-white rounded border w-100 ">
-                                <div className="filter-boxleft py-2 " style={{ borderBottom: "1px solid #dee2db ", width: "100%" }}>
-                                    <CheckboxInput
-                                        check={selectlab?._id == item?._id}
-                                        setChecked={() => {
-                                            setselectlab(item)
-                                        }}
-                                        label={''}
-                                    />
-                                    <span className="px-2" style={{ fontSize: "1.1rem", fontWeight: "700" }}>{item?.centre ?? ""}</span>
+                                <div className=" d-flex filter-boxleft py-2 " style={{ borderBottom: "1px solid #dee2db ", width: "100%" }}>
+                                    <div>
+
+                                        <CheckboxInput
+                                            check={selectlab?._id == item?._id}
+                                            setChecked={() => {
+                                                setselectlab(item)
+                                            }}
+                                            label={''}
+                                        />
+                                    </div>
+
+                                    <div className='pt-1 px-2' style={{ fontSize: "1.1rem", fontWeight: "700" }} >
+                                        {item?.centre ?? ""}
+                                    </div>
 
                                 </div>
 
-                                <div className="checkbox-tests-name  " style={{ display: "block", paddingLeft: "15px" }}>
-                                    {item?.address ?? ""}
-                                </div>
+                            
 
+                            <div className="checkbox-tests-name  " style={{ display: "block", paddingLeft: "15px" }}>
+                                {item?.address ?? ""}
                             </div>
-                        </div>
-
-                    })}
-                </div>}
-
-                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
-                    <div className="summary" style={{ fontWeight: '700' }}>
-                        <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
-                        <div className="checkout-summary">
-                            {(addtestandpackage ?? [])?.map((itemtest, index) => {
-
-                                return (
-                                    <div key={index} className="member-box">{itemtest?.name}
-                                        <span>{(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Test" && testtype?.isselect == true)?.length ?? 0}
-                                            {" "} Tests, {(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Package" && testtype?.isselect == true)?.length ?? 0}
-                                            {" "} Package(s)</span>
-                                    </div>)
-
-                            })}
 
                         </div>
-                        <h3 style={{ fontWeight: '700' }} className="text-capitalize">Rate Details</h3>
-                        <div className="checkout-rate-details">
-
-                            {(addtestandpackage ?? [])?.map((testrate, index) => {
-                                return <div className="member-box" key={index}>
-                                    <span style={{ fontWeight: "400" }} >{testrate?.name}</span>
-                                    <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
-                                        testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)}</span></div>
-
-
-                            })}
-
-                        </div><div className="checkout-rate-total my-2 py-2" style={{ borderTop: "1px solid #dee2db" }}>Total <span style={{ float: "right" }} >₹ {rate}</span>
                         </div>
-                    </div>
 
+                })}
+            </div>}
 
-                    <div className="checkout-proceed">
-                        {isselectaddresoptions && <div className="filter-boxleft text-center">
+            <div className="checkout-mid-right col-sm-4 col-12" >
+                <div className="summary" style={{ fontWeight: '700' }}>
+                    <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
+                    <div className="checkout-summary">
+                        {(addtestandpackage ?? [])?.map((itemtest, index) => {
 
-                            <button onClick={() => {
-                                setstep(3)
+                            return (
+                                <div key={index} className="member-box">{itemtest?.name}
+                                    <span>{(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Test" && testtype?.isselect == true)?.length ?? 0}
+                                        {" "} Tests, {(itemtest?.istest ?? [])?.filter((testtype) => testtype?.testType == "Package" && testtype?.isselect == true)?.length ?? 0}
+                                        {" "} Package(s)</span>
+                                </div>)
 
-                            }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
-                        </div>}
-
-                        <div>
-                            <button onClick={() => {
-                                setstep(1)
-                            }} className="btn btn-primary-theme  w-100 block  "  >Back</button>
-                        </div>
+                        })}
 
                     </div>
-                </div>}
+                    <h3 style={{ fontWeight: '700' }} className="text-capitalize">Rate Details</h3>
+                    <div className="checkout-rate-details">
 
+                        {(addtestandpackage ?? [])?.map((testrate, index) => {
+                            return <div className="member-box" key={index}>
+                                <span style={{ fontWeight: "400" }} >{testrate?.name}</span>
+                                <span>₹ {(testrate?.istest ?? [])?.filter((testtype) =>
+                                    testtype?.isselect == true)?.reduce((accumulator, item) => accumulator + (item?.testType == "Test" ? item?.rate : item?.totalMrp || 0), 0)}</span></div>
+
+
+                        })}
+
+                    </div><div className="checkout-rate-total my-2 py-2" style={{ borderTop: "1px solid #dee2db" }}>Total <span style={{ float: "right" }} >₹ {rate}</span>
+                    </div>
+                </div>
+
+
+                <div className="checkout-proceed">
+                    {isselectaddresoptions && <div className="filter-boxleft text-center">
+
+                        <button onClick={() => {
+                            setstep(3)
+
+                        }} className="continue_button" style={{ textDecoration: "none" }} >Continue</button>
+                    </div>}
+
+                    <div>
+                        <button onClick={() => {
+                            setstep(1)
+                        }} className="btn btn-primary-theme  w-100 block  "  >Back</button>
+                    </div>
+
+                </div>
             </div>
 
-
-
-            <Address
-                modal={modal2}
-                toggle={toggle2}
-                AddressHandler={AddressHandler}
-            />
-
         </div>
+
+
+
+        <Address
+            modal={modal2}
+            toggle={toggle2}
+            AddressHandler={AddressHandler}
+        />
+
+    </div >
     </>)
 }
 
@@ -666,7 +773,7 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
                 <div className="col-sm-8 col-12" >
                     <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} setslotdata={setslotdata} />
                 </div>
-                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                {<div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary" style={{ fontWeight: '700' }} >
                         <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
                         <div className="checkout-summary">
@@ -719,13 +826,15 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
     )
 }
 
-const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata }) => {
+const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata, nearCenter }) => {
 
 
 
-    console.log("setstepsetstepsetstepsetstep", slotdata)
 
     // step 4 
+
+    const router = useRouter();
+
 
     const session = useSession()
 
@@ -756,9 +865,10 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
             method: "post",
         },
         (e) => {
+
             toast.success("transaction successfully")
             router.push(e?.url);
-            localStorage?.setItem('testpackage', {});
+            localStorage?.setItem('testpackage', JSON.stringify({}));
 
 
         },
@@ -793,7 +903,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                     }
                 })
             } else {
-                localStorage?.setItem('testpackage', {});
+                localStorage?.setItem('testpackage', JSON.stringify({}));
                 router.push("/");
             }
 
@@ -817,8 +927,8 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
         {
             url: "/bookings/getcoupon",
             method: "get",
-            body:{
-                
+            body: {
+
             }
         },
         (e) => {
@@ -858,13 +968,10 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                 packages: item?.istest?.map((key) => key?._id)
             }));
 
-
-
-  
-         BookingHandler({
+        BookingHandler({
             body: {
                 team_members: bookingtest,
-                center_id: islab ? selectlab?._id : "66d2f3a4ec819eaf2ac4bcfc",
+                center_id: islab ? selectlab?._id : nearCenter?._id,
                 payment_type: ispayonline ? "online" : "cash",
                 collection_type: islab ? "lab" : "home",
                 slot_id: selectedSlotId,
@@ -948,7 +1055,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                 <div className="col-sm-8 col-12 rounded "  >
 
                     <div>
-                        <h3 style={{ fontWeight: '700' }} className="text-capitalize my-2">Summary</h3>
+                        <h3 style={{ fontWeight: '700',color:'#003747' }} className="text-capitalize my-2">Summary</h3>
 
                         {(TestPackage ?? [])?.filter((check) => check?.istest
                             ?.some((key) => key?.isselect == true) == true)?.map((item, index) => {
@@ -1032,7 +1139,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
 
 
                     <div>
-                        <h6 style={{ fontWeight: "700", fontSize: "1.0rem" }} >{islab ? "Lab" : "Home Collection"} </h6>
+                        <h6 style={{ fontWeight: "700", fontSize: "1.0rem",color:'#003747' }} >{islab ? "Lab" : "Home Collection"} </h6>
 
 
                         {islab ? <div className="p-3 bg-white rounded border w-100 ">
@@ -1081,9 +1188,9 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                             <div className="col-2 text-center" >
                                 <img src="/assets/images/time.png" className="p-2 mt-2 rounded-circle" style={{ height: "40px", background: "#f1f6ee" }} />
                             </div>
-                            <div className="col-10" >
+                            <div className="col-10 pt-2" >
                                 <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >At {slotdata?.slotStartTime ?? ""} </h6>
-                                <p className="" style={{ fontSize: "0.7rem" }}>Tuesday | September 3, 2024</p>
+                                <p className="mb-1" style={{ fontSize: "0.7rem" }}>Tuesday | September 3, 2024</p>
                             </div>
 
                         </div>

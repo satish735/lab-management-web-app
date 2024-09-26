@@ -12,7 +12,9 @@ export const POST = async (request, { params }) => {
       pincode: requestBody?.pincode,
       state:requestBody?.state ?? "",
       city:requestBody?.city ?? "",
-      userId:requestBody?.userId 
+      userId:requestBody?.userId ,
+      lat: requestBody?.lat ?? null ,
+      lng : requestBody?.lng ?? null
     });
 
 

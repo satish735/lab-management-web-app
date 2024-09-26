@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { Spinner } from "reactstrap";
 import { useSession } from "next-auth/react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import axios from 'axios';
 
 
 const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) => {
@@ -72,89 +73,143 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
 
 
 
-
-    const State = useInputComponent("");
-    const StateValidater = (value) => {
+    const CityInput = useInputComponent("");
+    const CityInputValidater = (value) => {
         if (value === "" || !value) {
-            State.setFeedbackMessage("Field required!");
-            State.setMessageType("error");
+            CityInput.setFeedbackMessage("Field required!");
+            CityInput.setMessageType("error");
             return false;
         }
-        State.setFeedbackMessage("");
-        State.setMessageType("none");
+        CityInput.setFeedbackMessage("");
+        CityInput.setMessageType("none");
+        return true;
+    };
+    const StateInput = useInputComponent("");
+    const StateInputValidater = (value) => {
+        if (value === "" || !value) {
+            StateInput.setFeedbackMessage("Field required!");
+            StateInput.setMessageType("error");
+            return false;
+        }
+        StateInput.setFeedbackMessage("");
+        StateInput.setMessageType("none");
         return true;
     };
 
+    const [stateListResponse, StateListHandler] = useAPI(
+        {
+            url: "/states/in",
+            method: "get",
+            sendImmediately: true,
+        },
+        (e) => {
+            return e?.data.map((stateItem) => {
+                if (stateItem?.state_code === 'RJ') {
+                    return { label: stateItem?.name, value: stateItem?.state_code };
 
-    const City = useInputComponent("");
-    const CityValidater = (value) => {
-        if (value === "" || !value) {
-            City.setFeedbackMessage("Field required!");
-            City.setMessageType("error");
-            return false;
+                }
+                else {
+                    return { label: stateItem?.name, value: stateItem?.state_code };
+
+                }
+            });
+        },
+        (e) => {
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while Loading StateInput List!",
+                    e
+                )
+            );
+            return e;
         }
-        City.setFeedbackMessage("");
-        City.setMessageType("none");
-        return true;
-    };
+    );
+    const [cityListResponse, CityListHandler] = useAPI(
+        {
+            url: `/cities/${StateInput?.enteredValue}`,
+            method: "get",
+        },
+        (e) => {
+            return e?.data.map((cityItem) => {
+                return { label: cityItem?.name, value: cityItem?.name };
+            });
+        },
+        (e) => {
+            toast.error(
+                transformErrorDefault(
+                    "Something went wrong while Loading City List!",
+                    e
+                )
+            );
+            return e;
+        }
+    );
+
+    useEffect(() => {
+        if (StateInput?.enteredValue && StateInput?.enteredValue != "") {
+
+            CityListHandler({
+                url: `/cities/${StateInput?.enteredValue}`,
+            });
+        }
+    }, [StateInput?.enteredValue]);
 
 
     const Phone = useInputComponent("");
 
     const PhoneValidater = (value) => {
         const phoneRegex = /^\d{10}$/;
-    
+
         if (value === "" || !value) {
             Phone.setFeedbackMessage("Required!");
             Phone.setMessageType("error");
             return false;
         }
-    
+
         if (!phoneRegex.test(value)) {
             Phone.setFeedbackMessage("Invalid number!");
             Phone.setMessageType("error");
             return false;
         }
-    
+
         Phone.setFeedbackMessage("");
         Phone.setMessageType("none");
         return true;
     };
-    
+
 
     const Pincode = useInputComponent("");
 
     const PincodeValidater = (value) => {
-        const pincodeRegex = /^\d{6}$/; 
-    
+        const pincodeRegex = /^\d{6}$/;
+
         if (value === "" || !value) {
             Pincode.setFeedbackMessage("Required!");
             Pincode.setMessageType("error");
             return false;
         }
-    
+
         if (!pincodeRegex.test(value)) {
             Pincode.setFeedbackMessage("Invalid pincode!");
             Pincode.setMessageType("error");
             return false;
         }
-    
+
         Pincode.setFeedbackMessage("");
         Pincode.setMessageType("none");
         return true;
     };
-    
+
 
     const ResetModel = () => {
 
         HouseNO.setEnteredValue()
         Address.setEnteredValue()
-        State.setEnteredValue()
         setSaveASType()
-        State.setEnteredValue()
+        StateInput.setEnteredValue()
         Phone.setEnteredValue()
         Pincode.setEnteredValue()
-        City.setEnteredValue()
+        CityInput.setEnteredValue()
 
         AddressHandler()
 
@@ -187,9 +242,9 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
         if (update) {
             HouseNO?.setEnteredValue(update?.houseNo)
             Address.setEnteredValue(update?.addressLine1)
-            State.setEnteredValue(update?.state)
+            StateInput.setEnteredValue(update?.state)
             Phone.setEnteredValue(update?.phone)
-            City.setEnteredValue(update?.city)
+            CityInput.setEnteredValue(update?.city)
             Pincode.setEnteredValue(update?.pincode)
             setSaveASType(update?.addressType)
         }
@@ -222,49 +277,73 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
 
 
 
-    const submit = () => {
+
+
+
+
+    const submit =async () => {
         var isFullnameValidater = FullnameValidater(HouseNO.enteredValue)
         var isDOBValidater = DOBValidater(Address.enteredValue)
         var isSaveASTypeSelectValidater = SaveASTypeSelectValidater(SaveASType)
-        var isStateValidater = StateValidater(State.enteredValue)
         var isPhoneValidater = PhoneValidater(Phone.enteredValue)
         var isPincodeValidater = PincodeValidater(Pincode.enteredValue)
-        var isCityValidater = CityValidater(City.enteredValue)
+        let isCityInputValidater = CityInputValidater(CityInput?.enteredValue)
+        let isStateInputValidater = StateInputValidater(StateInput?.enteredValue)
+
+        let address = `${HouseNO?.enteredValue ?? ""} ${Address?.enteredValue ?? ""} ${CityInput?.enteredValue} ${StateInput?.enteredValue} ${Pincode?.enteredValue} `
+
+
+        const response = await axios.get(
+            `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+        );
 
 
         if (!isFullnameValidater || !isDOBValidater || !isSaveASTypeSelectValidater
-            || !isStateValidater || !isPhoneValidater || !isPincodeValidater || !isCityValidater) {
+            || !isStateInputValidater || !isPhoneValidater || !isPincodeValidater || !isCityInputValidater) {
             toast.error(
                 "Fill Required fields!"
             );
         } else {
-            if (isupdate) {
-                UpdateAddressHandler({
-                    body: {
-                        houseNo: HouseNO.enteredValue,
-                        addressLine1: Address.enteredValue,
-                        state: State.enteredValue,
-                        addressType: SaveASType,
-                        phone: Phone?.enteredValue,
-                        pincode: Pincode?.enteredValue,
-                        city: City?.enteredValue ?? "",
-                    }
-                })
-            } else {
-                addressHandler({
-                    body: {
-                        houseNo: HouseNO.enteredValue,
-                        addressLine1: Address.enteredValue,
-                        state: State.enteredValue,
-                        addressType: SaveASType,
-                        phone: Phone?.enteredValue,
-                        pincode: Pincode?.enteredValue,
-                        city: City?.enteredValue ?? "",
-                        userId: session?.data?.user?.id
+            if (response.data.status === 'OK') {
 
-                    }
-                })
+
+                let latlng = response?.data?.results[0]?.geometry?.location
+
+                if (isupdate) {
+                    UpdateAddressHandler({
+                        body: {
+                            houseNo: HouseNO.enteredValue,
+                            addressLine1: Address.enteredValue,
+                            state: StateInput.enteredValue,
+                            addressType: SaveASType,
+                            phone: Phone?.enteredValue,
+                            pincode: Pincode?.enteredValue,
+                            city: CityInput?.enteredValue ?? "",
+                            lat:latlng?.lat ?? null,
+                            lng: latlng?.lng ?? null
+                        }
+                    })
+                } else {
+                    addressHandler({
+                        body: {
+                            houseNo: HouseNO.enteredValue,
+                            addressLine1: Address.enteredValue,
+                            state: StateInput.enteredValue,
+                            addressType: SaveASType,
+                            phone: Phone?.enteredValue,
+                            pincode: Pincode?.enteredValue,
+                            city: CityInput?.enteredValue ?? "",
+                            userId: session?.data?.user?.id,
+                            lat:latlng?.lat ?? null,
+                            lng: latlng?.lng ?? null
+
+                        }
+                    })
+                }
+
             }
+
+
 
         }
     }
@@ -379,38 +458,38 @@ const Address = ({ toggle, modal, AddressHandler, isupdate = false, update }) =>
                             />
                         </div>
 
-                        <div className="col-lg-6 col-md-6 col-sm-12">
-                            <InputWithAddOn
-                                label="State"
-                                placeholder="State"
+                        <div className="col-lg-6 col-md-6 col-sm-12 ">
+                            <InputSelect
+                                options={stateListResponse?.data ?? []}
+                                label="State "
                                 className="loginInputs"
-                                setValue={State.setEnteredValue}
-                                value={State.enteredValue}
-                                feedbackMessage={State.feedbackMessage}
-                                feedbackType={State.messageType}
-                                isTouched={State.isTouched}
-                                setIsTouched={State.setIsTouched}
-                                validateHandler={StateValidater}
-                                reset={State.reset}
+                                setValue={StateInput.setEnteredValue}
+                                value={StateInput.enteredValue}
+                                feedbackMessage={StateInput.feedbackMessage}
+                                feedbackType={StateInput.messageType}
+                                isTouched={StateInput.isTouched}
+                                setIsTouched={StateInput.setIsTouched}
+                                validateHandler={StateInputValidater}
+                                reset={StateInput.reset}
                                 isRequired={true}
+                                isLoading={stateListResponse?.fetching}
                             />
                         </div>
-
                         <div className="col-lg-6 col-md-6 col-sm-12">
-                            <InputWithAddOn
+                            <InputSelect
+                                options={cityListResponse?.data ?? []}
                                 label="City"
-                                placeholder="City"
                                 className="loginInputs"
-                                // type="number"
-                                setValue={City.setEnteredValue}
-                                value={City.enteredValue}
-                                feedbackMessage={City.feedbackMessage}
-                                feedbackType={City.messageType}
-                                isTouched={City.isTouched}
-                                setIsTouched={City.setIsTouched}
-                                validateHandler={CityValidater}
-                                reset={City.reset}
+                                setValue={CityInput.setEnteredValue}
+                                value={CityInput.enteredValue}
+                                feedbackMessage={CityInput.feedbackMessage}
+                                feedbackType={CityInput.messageType}
+                                isTouched={CityInput.isTouched}
+                                setIsTouched={CityInput.setIsTouched}
+                                validateHandler={CityInputValidater}
+                                reset={CityInput.reset}
                                 isRequired={true}
+                                isLoading={cityListResponse?.fetching}
                             />
                         </div>
 

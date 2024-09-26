@@ -8,9 +8,12 @@ import SideBarProfile from '@/components/profile-side-bar/SideBarProfile'
 import moment from "moment";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
-
+import LoaderGeneral from "@/components/loaders/LoaderGeneral";
+import { useRouter } from "next/navigation";
+import './bookings.css'
 const MyBooking = () => {
     const session = useSession()
+    const router = useRouter();
 
     const [booking, setbooking] = useState([])
 
@@ -38,12 +41,45 @@ const MyBooking = () => {
     );
 
 
+    const [membersResponse, membersHandler] = useAPI(
+        {
+            url: "/member/myfamilymember",
+            method: "get",
+            params: {
+                loginId: session?.data?.user?.otherDetails?._id
+            },
+        },
+        (e) => {
+
+           let user = [session?.data?.user?.otherDetails, ...e]
+            return user
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting members!",
+                e
+            ));
+            return e
+        }
+    );
+
+
+
+
+
+
     useEffect(() => {
         if (session?.data) {
             bookingdataHandler({
                 params: {
                     teamMemberId: session?.data?.user?.otherDetails?._id
                 }
+            })
+
+            membersHandler({
+                params: {
+                    loginId: session?.data?.user?.otherDetails?._id
+                },
             })
         }
     }, [session?.data])
@@ -167,14 +203,26 @@ const MyBooking = () => {
                 <SideBarProfile />
             </div>
 
-            <div className='item-page-section'>
-                <div className="my-3">
+            <div className='item-page-section my-3'>
+
+                <LoaderGeneral
+                    noContentMessage="records are not found"
+                    state={
+                        bookingdataResponse?.fetching
+                            ? "loading"
+                            : [null, undefined].includes(bookingdataResponse?.data)
+                                ? "no-content"
+                                : "none"
+
+                    }
+                />
+                {!bookingdataResponse?.fetching && <div className="my-3">
                     <div className="row m-3">
                         <div className="col-sm-4 col-12 my-1 ">
                             <InputSelect
                                 setValue={setPatient}
                                 value={Patient}
-                                options={booking?.map((item) => {
+                                options={membersResponse?.data?.map((item) => {
                                     return { label: item?.name, value: item?._id }
                                 }) ?? []}
                                 isTouched={PatientIsTouch}
@@ -224,7 +272,7 @@ const MyBooking = () => {
                         </div>
                     </div>
 
-                    {bookingdataResponse?.fetching ? <div className="text-center" > <Spinner size="lg" /> </div> : (getBookingdata ?? [])?.map((item) => {
+                    {(getBookingdata ?? [])?.map((item) => {
                         return (<>
                             <div className="shadow  rounded  mx-3 my-2" style={{ fontSize: "0.9rem" }} >
                                 <div className="p-2 py-3 mt-2" >
@@ -233,17 +281,17 @@ const MyBooking = () => {
                                         <div className="col-md-6 col-sm-12 col-12" >
                                             <div className="row">
                                                 <div className="col-sm-7 col-12 my-2">
-                                                    <span className="p-2  rounded small" style={{ background: "#dee2db" }}> <dpan style={{ fontWeight: "700" }} >{item?.teamMemberId?.name} </dpan>
+                                                    <span className="p-2  rounded small" style={{ background: "#212529" }}> <dpan style={{ fontWeight: "700" }} >{item?.teamMemberId?.name} </dpan>
                                                         |  {item?.teamMemberId?.gender}</span>
                                                 </div>
                                                 <div className="col-sm-5 col-12 my-2 small" >
-                                                    <span className=" p-2  rounded" style={{ background: "#dee2db" }}> Booking ID: <span style={{ fontWeight: "700" }} >{item?.bookingId}</span> </span>
+                                                    <span className=" p-2  rounded" > Booking ID: <span style={{ fontWeight: "700" }} >{item?.bookingId}</span> </span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="col-md-6 col-sm-12 col-12 my-2 small" >
-                                            <span className=" p-2  rounded" style={{ background: "#dee2db" }}> Booking Date & Time:   <dpan style={{ fontWeight: "700" }} >{moment(item?.createdAt)?.format("LLL")}</dpan> </span>
+                                            <span className=" p-2  " > Booking Date:   <dpan style={{ fontWeight: "700" }} >{moment(item?.createdAt)?.format("LLL")}</dpan> </span>
 
                                         </div>
                                     </div>
@@ -253,7 +301,7 @@ const MyBooking = () => {
 
                                 <div className="m-2 p-3" >
                                     <div className="row" >
-                                        <div className="col-sm-7 col-12"  >
+                                        <div className="col-sm-12 col-12"  >
                                             <div className="row" >
                                                 <div className="col-6 " style={{ color: "#97979" }} >
                                                     <p>Collection Type</p>
@@ -268,9 +316,9 @@ const MyBooking = () => {
 
                                             </div>
                                         </div>
-                                        <div className="col-sm-5 col-12 px-3 bold" style={{ textAlign: "right", color: "rgb(1, 7, 63)" }} >
+                                        {/* <div className="col-sm-5 col-12 px-3 bold" style={{ textAlign: "right", color: "rgb(1, 7, 63)" }} >
                                             ₹ 1160
-                                        </div>
+                                        </div> */}
 
                                     </div>
 
@@ -283,12 +331,14 @@ const MyBooking = () => {
 
 
                                     <div className="row my-4">
-                                        <div className="col-6" >
-                                            <span className="px-4 py-2 mx-4 rounded" style={{ background: "#dee2db" }}>{item?.status}</span>
+                                        <div className="col-6 pb-3" >
+                                            <button className="px-4 py-2  rounded" style={{ background: "#dee2db" }}>{item?.status}</button>
 
                                         </div>
                                         <div className="col-6 text-end" >
-                                            <button className="card-button-2"   > View More</button>
+                                            <button className="btn btn-primary-theme   view-more-at-booking"  onClick={()=>{
+                                                router.push(`/mybookingprofile/${item?.bookingId}`)
+                                            }}   > View More</button>
                                         </div>
                                     </div>
                                 </div>
@@ -296,7 +346,7 @@ const MyBooking = () => {
                         </>)
                     })}
 
-                </div>
+                </div>}
             </div>
         </div>
 

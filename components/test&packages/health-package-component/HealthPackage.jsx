@@ -354,7 +354,7 @@ const FiltersList = ({ item, setBodyPartValue }) => {
                 />
                 </div>
 
-                <div  >
+                <div  className='pt-1' >
                     {(item.label)?.charAt(0)?.toUpperCase() + (item.label)?.slice(1)}
                 </div>
             </div>

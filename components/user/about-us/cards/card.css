@@ -12,8 +12,8 @@
     border-radius: 12px 12px 0 0;
     display: none;
     position: absolute;
-    
-   
+
+
 
 }
 
@@ -21,33 +21,65 @@
     overflow-y: auto;
     width: 100%;
     height: 100%;
-     
-    color:white;
+
+    color: white;
     text-align: justify;
 
 }
+
 .scientific-team:hover .scientific-team-hover-content {
     display: block;
-    
+
 }
 
-.director-image-div{
+
+.chairman-div {
+    padding: 0px 10px 0 90px;
+}
+
+.director-image-div {
     position: absolute;
     top: 12px;
-    
+
     left: -10px;
 }
+
+.director-image-div img {
+    height: 320px;
+    width: 400px
+}
+
 .why-choose-us-image-div-parent-div {
     height: 332px;
 }
 
-.director-image-div-parent-div{
+.director-image-div-parent-div {
     height: 332px;
 
 }
-.why-choose-us-image-div{
+
+.why-choose-us-image-div {
     position: absolute;
     top: -68px;
-    left: -10px;   
+    left: -10px;
 }
 
+
+@media screen and (max-width: 390px) {
+    .chairman-div {
+        padding: 0px;
+    }
+
+    .director-image-div img {
+        height: 270px;
+        width: 350px
+    }
+    
+
+    .director-image-div {
+        position: absolute;
+        top: 62px;
+
+        right: 0px;
+    }
+}

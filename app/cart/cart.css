@@ -43,7 +43,23 @@
 } */
 
 
+.btn_checkout {
+    background-color: #003747;
+    color: white;
+    font-weight: 600;
+    display: block;
+    width: 100%;
+    padding: 18px 30px;
+    
+}
 
+.btn_checkout:hover {
+    background-color: #21cdad;
+    color: white;
+    font-weight: 600;
+    display: block;
+    width: 100%;
+}
 
 .add_another_member_btn {
     display: flex;
@@ -198,7 +214,7 @@
     font-size: 18px;
     margin: 0;
     padding: 10px 0;
-    font-family: Inter Medium;
+    /* font-family: Inter Medium; */
     position: relative;
 }
 

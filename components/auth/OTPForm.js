@@ -86,11 +86,12 @@ const OTPForm = ({ searchParams }) => {
       <h3 className="secondary-heading">OTP send on +91 {phone}</h3>
       <form className="w-100 otp-boxes-form" onSubmit={otpVerifySubmitHandler}>
         <br />
+        
         <OTPInput
           value={otp}
           onChange={setOtp}
           numInputs={6}
-          containerStyle={{ justifyContent: "center", width: "100%" }}
+          containerStyle={{ justifyContent: "center", width: "90%",margin:'0 auto'  }}
           inputStyle={{
             width: "3rem !important",
             height: "3rem",
@@ -102,6 +103,8 @@ const OTPForm = ({ searchParams }) => {
           renderSeparator={<span></span>}
           renderInput={(props) => <input {...props} />}
         />
+        
+
         {counter == 0 ? (
           <p
             className="default-link text-decoration-none resend-otp"

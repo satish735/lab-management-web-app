@@ -278,7 +278,7 @@ const UserHeader2 = () => {
 
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html"> 8:00 AM - 8:00 PM(365 Days)</a>
+                    <a href="contact-us.html"> 8:30 AM - 7:00 PM(365 Days)</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">
@@ -293,7 +293,6 @@ const UserHeader2 = () => {
                       {isMobileScreen && (
                         <li>
                           <FaBox size={18} className="phone-icon" />
-
                           <a
                             href="/health-packages"
                             className="header-packages"
@@ -340,17 +339,21 @@ const UserHeader2 = () => {
                                   JSON.stringify({ selectedLocation: item })
                                 );
                                 setCurrentLocation(item);
-                                saveSelectedCenterHandler({
-                                  body: {
-                                    selectedCity: item,
-                                  },
-                                });
+                                if (session?.data?.user) {
+                                  console.log(session?.data?.user);
+                                  
+                                  saveSelectedCenterHandler({
+                                    body: {
+                                      selectedCity: item,
+                                    },
+                                  });
+                                }
+
                                 router.push(`/${item}`);
                               }}
-                              className={`center-selection-item ${
-                                currentLocation == item ? "selected" : ""
-                              }`}
-                              
+                              className={`center-selection-item ${currentLocation == item ? "selected" : ""
+                                }`}
+
                             >
                               {item}
                             </div>
@@ -441,11 +444,10 @@ const UserHeader2 = () => {
                 )}
                 <a
                   type="button"
-                  className={`btn ${
-                    session?.status == "authenticated" && session?.data?.user
-                      ? "user-button"
-                      : "login-button"
-                  }`}
+                  className={`btn ${session?.status == "authenticated" && session?.data?.user
+                    ? "user-button"
+                    : "login-button"
+                    }`}
                   href={
                     session?.status === "authenticated" && session?.data?.user
                       ? undefined
@@ -453,16 +455,14 @@ const UserHeader2 = () => {
                   }
                   style={{
                     position: "relative",
-                    lineHeight: `${
-                      session?.status == "authenticated" && session?.data?.user
-                        ? "20px"
-                        : "50px"
-                    }`,
-                    padding: `${
-                      session?.status == "authenticated" && session?.data?.user
-                        ? "2px 6px 0 7px"
-                        : "0 20px"
-                    }`,
+                    lineHeight: `${session?.status == "authenticated" && session?.data?.user
+                      ? "20px"
+                      : "50px"
+                      }`,
+                    padding: `${session?.status == "authenticated" && session?.data?.user
+                      ? "2px 6px 0 7px"
+                      : "0 20px"
+                      }`,
                   }}
                 >
                   {session?.status == "authenticated" && session?.data?.user ? (
@@ -689,7 +689,7 @@ const cityList = [
 ];
 export default UserHeader2;
 
-function calculateAgeInYears(dateString) {
+export function calculateAgeInYears(dateString) {
   // Remove time and only keep the date portion
 
   const birthDate = new Date(dateString?.split("T")?.[0]);

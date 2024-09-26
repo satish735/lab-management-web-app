@@ -1,0 +1,12 @@
+.view-more-at-booking {
+    font-size: 18px
+}
+
+
+@media screen and (max-width: 390px) {
+    .view-more-at-booking {
+        font-size: 12px
+    }
+    
+  
+}

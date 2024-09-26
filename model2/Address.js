@@ -13,6 +13,9 @@ const AddressSchema = new Schema({
   city: { type: String, required: true },
   userId: { type: Schema.Types.ObjectId, ref: 'Login', required: true },
   isDelete: { type: Boolean, default: false },
+  lat: { type: String },
+  lng: { type: String },
+
 });
 
 export default mongoose.models.Address || mongoose.model('Address', AddressSchema);

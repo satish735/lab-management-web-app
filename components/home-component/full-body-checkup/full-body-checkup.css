@@ -118,3 +118,20 @@
 .full-body-checkup-section {
   /* background: linear-gradient(  #ffffff, #ced2d2, #ffffff); */
 }
+
+
+.discount-coupen-main-page-image {
+  height: 270px;
+   position: absolute;
+    bottom: -24px;
+     right: 20px 
+}
+
+@media screen and (max-width: 390px) {
+  .discount-coupen-main-page-image {
+    height: 230px;
+     position: relative;
+      bottom: -24px;
+       right: 30px 
+  }   
+}
