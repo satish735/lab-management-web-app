@@ -337,7 +337,7 @@ const MyBooking = () => {
                                         </div>
                                         <div className="col-6 text-end" >
                                             <button className="btn btn-primary-theme " onClick={()=>{
-                                                router.push("")
+                                                router.push(`/mybookingprofile/${item?.bookingId}`)
                                             }}   > View More</button>
                                         </div>
                                     </div>

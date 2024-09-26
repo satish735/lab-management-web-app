@@ -340,7 +340,7 @@ const Step1 = ({ addtestandpackage, setstep, rate, settestandpackage, userinfoHa
                 </div >
 
 
-                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12" >
+                {(rate) > 0 && <div className="checkout-mid-right col-sm-4 col-12 px-2" >
                     <div className=" " style={{ fontWeight: '700' }}>
                         <h3 style={{ fontWeight: '700' }} className="text-capitalize">Summary</h3>
                         <div className="checkout-summary">

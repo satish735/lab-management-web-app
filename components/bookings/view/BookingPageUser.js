@@ -310,7 +310,8 @@ const BookingPageUser = ({ bookingNumber = null }) => {
                                 {Array.isArray(testReports) && testReports.length > 0 && <AccordionItem>
                                     <AccordionHeader targetId="4">Test/Package Reports</AccordionHeader>
                                     <AccordionBody accordionId="4" >
-                                        <ReportListComponent testReports={testReports} isEdit={false} successHandler={removeReportHandler} />
+                                        <ReportListComponent testReports={testReports}
+                                         isEdit={false} successHandler={removeReportHandler} />
                                     </AccordionBody>
                                 </AccordionItem>}
                             </Accordion>
