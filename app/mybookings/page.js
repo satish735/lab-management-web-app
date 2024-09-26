@@ -10,7 +10,7 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
 import LoaderGeneral from "@/components/loaders/LoaderGeneral";
 import { useRouter } from "next/navigation";
-
+import './bookings.css'
 const MyBooking = () => {
     const session = useSession()
     const router = useRouter();
@@ -331,12 +331,12 @@ const MyBooking = () => {
 
 
                                     <div className="row my-4">
-                                        <div className="col-6" >
-                                            <span className="px-4 py-2  rounded" style={{ background: "#dee2db" }}>{item?.status}</span>
+                                        <div className="col-6 pb-3" >
+                                            <button className="px-4 py-2  rounded" style={{ background: "#dee2db" }}>{item?.status}</button>
 
                                         </div>
                                         <div className="col-6 text-end" >
-                                            <button className="btn btn-primary-theme " onClick={()=>{
+                                            <button className="btn btn-primary-theme   view-more-at-booking"  onClick={()=>{
                                                 router.push(`/mybookingprofile/${item?.bookingId}`)
                                             }}   > View More</button>
                                         </div>

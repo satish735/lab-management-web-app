@@ -27,7 +27,7 @@ const CheckboxInput = ({
           check
           inline
           htmlFor={rest?.id ?? "2747b743"}
-          className="check-box-input-label p-1"
+          className="check-box-input-label p-1 "
         >
           {label}
         </Label>
