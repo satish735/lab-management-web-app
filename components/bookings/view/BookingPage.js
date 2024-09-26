@@ -49,6 +49,7 @@ const BookingPage = ({ bookingNumber = null }) => {
   var preparation = bookingDetails?.packages?.filter?.(item => typeof item?.preparation == "string" && item?.preparation != "No specific Preparation Required" && item?.preparation)?.map?.((item) => item?.preparation)?.join?.(',').split(',')
   var samplesToCollect = bookingDetails?.packages?.filter?.(item => typeof item?.sampleCollection == "string" && item?.sampleCollection)?.map?.((item) => item?.sampleCollection)?.join?.(',').split(',')
   var testReports = bookingDetails?.testReports ?? []
+  
   const [activityAccordionOpen, setActivityAccordionOpen] = useState('1');
   const toggleActivityAccordion = (id) => {
     if (activityAccordionOpen === id) {

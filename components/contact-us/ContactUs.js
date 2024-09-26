@@ -364,7 +364,7 @@ const ContactUs = () => {
                                     </div>
                                 </form>
                                 <div className="call-button slide-item" >
-                                    <button onClick={() => { submitHandler() }} type="button  " className=" py-2  px-3    card-button-2" style={{ fontSize: '14px', fontWeight: '500' }}>
+                                    <button onClick={() => { submitHandler() }} type="button  " className="   px-3  btn_checkout " style={{ width:'200px',fontSize: '14px', fontWeight: '500',borderRadius:'7px' ,padding:'10px 10px'}}>
                                         {(getContactWithUsResponse?.fetching) ? <Spinner size={"sm"} /> : 'Send your message'}
                                     </button>
 
@@ -436,7 +436,8 @@ const ContactUs = () => {
 
                             </h3>
                             <p>
-                                <a href=" " style={{ color: '#46b902' }}>+91-9739923174</a>
+                                <a href=" " style={{ color: '#46b902' }}>+91-9739923174 | </a>
+                                <a href=" " style={{ color: '#46b902' }}> +91- 9327448843</a>
                             </p>
 
 

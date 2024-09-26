@@ -278,7 +278,7 @@ const UserHeader2 = () => {
 
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html"> 8:00 AM - 8:00 PM(365 Days)</a>
+                    <a href="contact-us.html"> 8:30 AM - 7:00 PM(365 Days)</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">

@@ -3,7 +3,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaLocationPin, FaPhone, FaXTwit
 import "./UserFooter.css";
 const UserFooter = () => {
   return (
-    <div className="user-footer global-background-gradient" style={{ backgroundColor: 'rgb(1, 7, 63)' }}>
+    <div className="user-footer global-background-gradient px-2" style={{ backgroundColor: 'rgb(1, 7, 63)' }}>
       <div className="midbox-inner">
         <div className="footer-section row">
           <div className="footer-about col-md-4 col-sm-4 col-12">
@@ -21,7 +21,7 @@ const UserFooter = () => {
                 </li>
                 <li>
                   <a href="https://twitter.com/Blalclinicallab" target="_black">
-                  <FaXTwitter />
+                    <FaXTwitter />
 
                   </a>
                 </li>
@@ -39,7 +39,7 @@ const UserFooter = () => {
                     href="https://www.instagram.com/Blalclinicallab"
                     target="_black"
                   >
-                    <FaInstagram/>
+                    <FaInstagram />
 
 
                   </a>
@@ -101,7 +101,7 @@ const UserFooter = () => {
           <div className="footer-links col-md-7 col-sm-7 col-12 ">
             <div className="row">
               <div className="footer-navbox col-md-3 col-sm-3">
-                <a href="/about-us"  style={{textDecoration:'none'}}>
+                <a href="/about-us" style={{ textDecoration: 'none' }}>
                   {" "}
                   <h4 className="footer-nav-des" >About Us</h4>
                 </a>
@@ -175,7 +175,7 @@ const UserFooter = () => {
                 </ul>
               </div> */}
               <div className="footer-navbox col-md-3 col-sm-3">
-                <a href="/contact-us" style={{textDecoration:'none'}}>
+                <a href="/contact-us" style={{ textDecoration: 'none' }}>
                   <h4 className="footer-nav-des">Contact Us</h4>
                 </a>
                 {/* <h4 className="but  footer-nav-mob">
@@ -202,7 +202,7 @@ const UserFooter = () => {
           <div className="wh">
             © Copyright 2024{" "}
             <a href="/" style={{ color: "inherit" }}>
-            Endolabs
+              Endolabs
             </a>
             , All rights reserved.
           </div>

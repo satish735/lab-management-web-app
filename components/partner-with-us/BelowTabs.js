@@ -12,7 +12,7 @@ const BelowTabs = () => {
 
     const [tab, setTab] = useState('franchising');
 
-    const[getdata, setdata] = useState([])
+    const [getdata, setdata] = useState([])
 
     const [partbersResponse, partbersHandler] = useAPI(
         {
@@ -21,6 +21,7 @@ const BelowTabs = () => {
             sendImmediately: true
         },
         (e) => {
+            console.log(e)
             setdata(e?.data)
             return e?.data
         },
@@ -40,11 +41,11 @@ const BelowTabs = () => {
     const [content, setcontent] = useState()
     useEffect(() => {
         let getpartnertext = getdata?.filter((item) => item?.type == tab)
-        console.log("getpartnertext",getpartnertext[0])
+        console.log("getpartnertext", getpartnertext[0])
         setcontent(getpartnertext[0] ?? {})
-    }, [tab])
+    }, [tab,getdata])
 
-
+    console.log(content)
     return (
         <div>
             <div className='my-5'>

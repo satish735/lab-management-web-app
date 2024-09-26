@@ -171,18 +171,18 @@ const AboutUs = () => {
                 <div className='row py-4   my-5' >
 
                     <div className='col-lg-6 col-md-6 col-sm-12  '>
-                        <p style={{ color: '#003747', fontWeight: "700", fontSize: "2rem"}}>
+                        <p style={{ color: '#003747', fontWeight: "700", fontSize: "2rem" }}>
                             Director’s Message
                         </p>
 
                         <div style={{ color: '#97979a', fontSize: '16px' }}>
 
                             <p style={{ justifyContent: 'center' }}>
-                                While providing clinical investigation services, quality is an important criterion. We are committed to maintain excellence in all our services, ensuring patient satisfaction.
+                                While providing clinical investigation services, the aim and Objectives of this center is to provide QUALITY DIAGNOSTIC SERVICES at affordable price with stress on both accuracy and precision with MINIMUM TURN AROUND TIME to guide clinicians through patient care.
                             </p>
                             <p style={{ justifyContent: 'center' }}>
 
-                                Our contribution to the overall Diagnostic Pathology industry and continuous pursuit towards a vision of providing quality healthcare services in India is our goal and everyday mission.
+                                Being a diagnostic centre our job is to deliver satisfactory services to our patients and clients. A strong team is the main prerequisite to provide these services round the clock and up to wide distances.
                             </p>
 
                             <p style={{ justifyContent: 'center' }}>
@@ -196,15 +196,15 @@ const AboutUs = () => {
                     </div>
 
 
-                    <div className='col-lg-6 col-md-6 col-sm-12  chairman-div' style={{   }}>
+                    <div className='col-lg-6 col-md-6 col-sm-12  chairman-div' style={{}}>
                         <div className='pe-3 pt-3 director-image-div-parent-div global-background-gradient' style={{ width: '100%', borderRadius: '15px', position: 'relative' }}>
 
                             <div>
                                 <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
-                                    SSDBC (Chairman)
+                                    A. Girdhari lal Agarwal 
                                 </p>
                                 <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
-                                    MD (Micribiology)
+                                (Managing Director)
                                 </p>
                                 {/* <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
                                     Managing Director
@@ -218,7 +218,7 @@ const AboutUs = () => {
                                     alt=""
                                     className="director-image"
                                     style={{
-                                        
+
                                         border: "none",
                                         borderRadius: "12px 12px 0 0 ",
                                         background: 'transparent'

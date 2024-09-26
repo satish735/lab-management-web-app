@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import "@/app/cart/cart.css"
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -13,6 +12,7 @@ import {
     Nav,
     Button
 } from "reactstrap";
+import "@/app/cart/cart.css"
 
 const Usercart = ({ isopencart, setisopencart }) => {
 
@@ -75,12 +75,16 @@ const Usercart = ({ isopencart, setisopencart }) => {
                         Cart Details
 
                     </div>
-                    <button type="button"
-                        className="close border-0"
-                        onClick={() => { setisopencart(!isopencart) }}
-                        style={{ position: 'relative', float: "right", background: "white", fontSize: "1.9rem" }}>
-                        &times;
-                    </button>
+                    <div className="pe-3">
+
+                        <button type="button"
+                            className="close border-0"
+                            onClick={() => { setisopencart(!isopencart) }}
+                            style={{ position: 'relative', float: "right", background: "white", fontSize: "1.9rem" }}>
+                            &times;
+                        </button>
+                    </div>
+
                     <div className="px-3">
 
                         {(cartitem ?? [])?.length > 0 &&
@@ -135,12 +139,12 @@ const Usercart = ({ isopencart, setisopencart }) => {
 
 
                                 {(cartitem ?? [])?.length && <div className="my-4 ">
-                                    <button onClick={continuenext} className="btn btn-primary-theme w-100 " style={{
+                                    <button onClick={continuenext} className="    btn_checkout w-100 " style={{
                                         display: "block",
                                         width: "100%",
-
+                                        borderRadius:'4px',
                                         textAlign: "center",
-                                        textDecoration: "none",
+                                        // textDecoration: "none",
 
                                     }}>
                                         Book Now

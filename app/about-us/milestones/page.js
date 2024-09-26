@@ -60,20 +60,20 @@ export default function Page() {
                     heading="Milestones"
                     paragraph="A success story “Truth, Trust and Care for more than 30 Years”"
                 />
-                <div className="timeline ps-2">
+                <div className="timeline px-3 my-3">
 
 
 
 
                     {milestonesResponse?.data?.map((item, index) => {
 
-                        return <div className="container left" key={index} style={{ borderLeft: "8px solid #FF9F55" }}>
-                            <div className="content shadow">
-                                <h2 style={{ color: "#21cdad", fontSize: "1.1rem", fontWeight: "bold" }} >{item?.year}</h2>
-                                {item?.title && <h3 style={{ fontSize: "1.3rem", fontWeight: "bold" }}>{item?.title}</h3>}
-                                <p>{item?.desc}</p>
-                            </div>
+
+                        return <div key={index} className="content shadow my-3" style={{ borderLeft: "15px solid orange" }}>
+                            <h2 style={{ color: "#21cdad", fontSize: "1.1rem", fontWeight: "bold" }} >{item?.year}</h2>
+                            {item?.title && <h3 style={{ fontSize: "1.3rem", fontWeight: "bold" }}>{item?.title}</h3>}
+                            <p>{item?.desc}</p>
                         </div>
+
                     })}
 
                 </div>
