@@ -466,7 +466,7 @@ const ContactUs = () => {
             </div>
 
 
-            <div className='midbox-inner mt-5 pb-5' style={{ backgroundColor: '#f1f6ee' }}>
+            <div className='midbox-inner mt-5 pb-5 px-3' style={{ backgroundColor: '#f1f6ee' }}>
 
                 <h1>
                     <br />
