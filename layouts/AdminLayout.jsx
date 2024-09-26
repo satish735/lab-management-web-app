@@ -1,6 +1,6 @@
 "use client";
-import '@/styles/globals.css'
-import "./AdminLayout.css"
+import "@/styles/globals.css";
+import "./AdminLayout.css";
 import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Switch from "./layout-components/sidemenu-components/Switch";
@@ -25,7 +25,10 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import matchDynamicPaths from "@/utils/matchDynamicPaths";
 import Link from "next/link";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
+import { Spinner } from "reactstrap";
+import AdminSessionLoader from "./AdminSessionLoader";
+import UnauthorizedRedirect from "./UnauthorizedRedirect";
 
 const themes = {
   light: {
@@ -44,13 +47,13 @@ const themes = {
         color: "#9fb6cf",
       },
       [`&.active`]: {
-        backgroundColor: 'black',
-        color: '#b6c8d9',
+        backgroundColor: "black",
+        color: "#b6c8d9",
       },
       active: {
         backgroundColor: "black",
         color: "#44596e",
-      }
+      },
     },
   },
   dark: {
@@ -89,13 +92,12 @@ const AdminLayout = ({ children }) => {
   const [hasImage, setHasImage] = useState(false);
   const [theme, setTheme] = useState("light");
 
-
-  const isMobileScreen = useMediaQuery({ maxWidth: 880 })
+  const isMobileScreen = useMediaQuery({ maxWidth: 880 });
   useEffect(() => {
     if (isMobileScreen) {
-      setToggled(true)
+      setToggled(true);
     }
-  }, [])
+  }, []);
   // handle on RTL change event
   const handleRTLChange = (e) => {
     setRtl(e.target.checked);
@@ -129,9 +131,9 @@ const AdminLayout = ({ children }) => {
       backgroundColor:
         level === 0
           ? hexToRgba(
-            themes[theme].menu.menuContent,
-            hasImage && !collapsed ? 0.4 : 1
-          )
+              themes[theme].menu.menuContent,
+              hasImage && !collapsed ? 0.4 : 1
+            )
           : "transparent",
     }),
     button: {
@@ -152,40 +154,37 @@ const AdminLayout = ({ children }) => {
         ),
         color: themes[theme].menu.hover.color,
       },
-
     },
     label: ({ open }) => ({
       fontWeight: open ? 600 : undefined,
     }),
   };
 
-
-
-  const session = useSession()
-  const pathname = usePathname()
-  const router = useRouter()
-  const onlyAdminPaths = []
-  var userRole = session?.data?.user?.role
-  console.log(session, pathname, "mmmmmmmm")
+  const session = useSession();
+  const pathname = usePathname();
+  const router = useRouter();
+  const onlyAdminPaths = [];
+  var userRole = session?.data?.user?.role;
   useEffect(() => {
-
     switch (session?.status) {
       case "authenticated":
         if (!["admin", "adminuser"].includes(userRole)) {
-          signOut({ redirect: true, callbackUrl: '/' });
+          signOut({ redirect: true, callbackUrl: "/" });
         }
         if (userRole != "admin") {
-          var checkIfRouteMatch = onlyAdminPaths.some(onlyAdminPathsItem => matchDynamicPaths(onlyAdminPathsItem, pathname))
+          var checkIfRouteMatch = onlyAdminPaths.some((onlyAdminPathsItem) =>
+            matchDynamicPaths(onlyAdminPathsItem, pathname)
+          );
           if (checkIfRouteMatch) {
-            router.push("/admin")
+            router.push("/admin");
           }
         }
         break;
       case "unauthenticated":
-        router.push("/login/admin")
+        router.push("/login/admin");
         break;
     }
-  }, [session?.status, pathname])
+  }, [session?.status, pathname]);
   return (
     <div
       style={{
@@ -215,7 +214,6 @@ const AdminLayout = ({ children }) => {
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
-
         >
           <SidebarHeader
             collapsed={collapsed}
@@ -223,36 +221,43 @@ const AdminLayout = ({ children }) => {
             style={{ marginBottom: "24px", marginTop: "5px" }}
           />
           <div style={{ flex: 1, marginBottom: "24px" }}>
-            {defaultSideMenus.filter(subItem => !subItem?.roles || subItem?.roles == "*" || (subItem?.roles?.includes?.(userRole))).map((parentItem, index) => {
-              return {
-                head: (
-                  <div
-                    key={index}
-                    style={{
-                      padding: "0 24px",
-                      marginBottom: "8px",
-                      marginTop: "8px",
-                    }}
-                  >
-                    <Typography
-                      variant="body2"
-                      fontWeight={600}
+            {defaultSideMenus
+              .filter(
+                (subItem) =>
+                  !subItem?.roles ||
+                  subItem?.roles == "*" ||
+                  subItem?.roles?.includes?.(userRole)
+              )
+              .map((parentItem, index) => {
+                return {
+                  head: (
+                    <div
+                      key={index}
                       style={{
-                        opacity: collapsed ? 0 : 0.7,
-                        letterSpacing: "0.5px",
+                        padding: "0 24px",
+                        marginBottom: "8px",
+                        marginTop: "8px",
                       }}
                     >
-                      {parentItem?.label}
-                    </Typography>
-                  </div>
-                ),
-                menu: (
-                  <Menu menuItemStyles={menuItemStyles} key={index}>
-                    <RecursiveMenuCreaterList list={parentItem?.menu ?? []} />
-                  </Menu>
-                ),
-              }[parentItem?.type];
-            })}
+                      <Typography
+                        variant="body2"
+                        fontWeight={600}
+                        style={{
+                          opacity: collapsed ? 0 : 0.7,
+                          letterSpacing: "0.5px",
+                        }}
+                      >
+                        {parentItem?.label}
+                      </Typography>
+                    </div>
+                  ),
+                  menu: (
+                    <Menu menuItemStyles={menuItemStyles} key={index}>
+                      <RecursiveMenuCreaterList list={parentItem?.menu ?? []} />
+                    </Menu>
+                  ),
+                }[parentItem?.type];
+              })}
           </div>
           {/* <SidebarFooter collapsed={collapsed} /> */}
         </div>
@@ -280,14 +285,13 @@ const AdminLayout = ({ children }) => {
             minHeight: "calc(100vh - 115px)",
           }}
         >
-          {/* <div style={{ marginBottom: '16px' }}>
-            {broken && (
-              <button className="sb-button" onClick={() => setToggled(!toggled)}>
-                Toggle
-              </button>
-            )}
-          </div> */}
-          {children}
+          {
+            {
+              unauthenticated: <UnauthorizedRedirect />,
+              loading: <AdminSessionLoader />,
+              authenticated: children,
+            }[session?.status]
+          }
         </div>
         <AdminFooter />
       </main>
@@ -296,54 +300,69 @@ const AdminLayout = ({ children }) => {
 };
 
 const RecursiveMenuCreaterList = ({ list }) => {
-  const session = useSession()
-  const pathname = usePathname()
-  var userRole = session?.data?.user?.role
+  const session = useSession();
+  const pathname = usePathname();
+  var userRole = session?.data?.user?.role;
   const getAllLinks = (obj) =>
-    obj?.menu?.flatMap(item =>
-      item.type === 'sub' ? [item.link] : item.menu ? getAllLinks({ menu: item.menu }) : []
+    obj?.menu?.flatMap((item) =>
+      item.type === "sub"
+        ? [item.link]
+        : item.menu
+        ? getAllLinks({ menu: item.menu })
+        : []
     ) || [];
   const checkAllObjectRecursive = (obj) => {
-    var traversedlinks = getAllLinks(obj)
-    return Array.isArray(traversedlinks) ? traversedlinks.includes(pathname) : false
-  }
+    var traversedlinks = getAllLinks(obj);
+    return Array.isArray(traversedlinks)
+      ? traversedlinks.includes(pathname)
+      : false;
+  };
   return (
     <>
-      {list.filter(subItem => !subItem?.roles || subItem?.roles == "*" || (subItem?.roles?.includes?.(userRole))).map((subItem, index) => {
-        var isOpenOrActive = subItem?.type == "main" ? checkAllObjectRecursive(subItem) : pathname == subItem?.link
+      {list
+        .filter(
+          (subItem) =>
+            !subItem?.roles ||
+            subItem?.roles == "*" ||
+            subItem?.roles?.includes?.(userRole)
+        )
+        .map((subItem, index) => {
+          var isOpenOrActive =
+            subItem?.type == "main"
+              ? checkAllObjectRecursive(subItem)
+              : pathname == subItem?.link;
 
-        return {
-          main: (
-            <SubMenu
-              active={isOpenOrActive}
-              defaultOpen={isOpenOrActive}
-              key={index}
-              icon={subItem?.icon}
-              disabled={subItem?.disabled}
-              suffix={subItem?.suffix}
-              label={subItem?.label}
-            >
-              <RecursiveMenuCreaterList list={subItem?.menu} />
-            </SubMenu>
-          ),
-          sub: (
-            <MenuItem
-              active={isOpenOrActive}
-              href={subItem?.link}
-              key={index}
-              icon={subItem?.icon}
-              disabled={subItem?.disabled}
-              suffix={subItem?.suffix}
-              component={<Link />}
-
-            >
-              {/* <a  style={{ color: "inherit", textDecoration: "none" }}> */}
-              {subItem?.label}
-              {/* </a> */}
-            </MenuItem>
-          ),
-        }[subItem?.type];
-      })}
+          return {
+            main: (
+              <SubMenu
+                active={isOpenOrActive}
+                defaultOpen={isOpenOrActive}
+                key={index}
+                icon={subItem?.icon}
+                disabled={subItem?.disabled}
+                suffix={subItem?.suffix}
+                label={subItem?.label}
+              >
+                <RecursiveMenuCreaterList list={subItem?.menu} />
+              </SubMenu>
+            ),
+            sub: (
+              <MenuItem
+                active={isOpenOrActive}
+                href={subItem?.link}
+                key={index}
+                icon={subItem?.icon}
+                disabled={subItem?.disabled}
+                suffix={subItem?.suffix}
+                component={<Link />}
+              >
+                {/* <a  style={{ color: "inherit", textDecoration: "none" }}> */}
+                {subItem?.label}
+                {/* </a> */}
+              </MenuItem>
+            ),
+          }[subItem?.type];
+        })}
     </>
   );
 };

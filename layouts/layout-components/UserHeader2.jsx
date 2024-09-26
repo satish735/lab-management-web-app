@@ -340,8 +340,6 @@ const UserHeader2 = () => {
                                 );
                                 setCurrentLocation(item);
                                 if (session?.data?.user) {
-                                  console.log(session?.data?.user);
-                                  
                                   saveSelectedCenterHandler({
                                     body: {
                                       selectedCity: item,

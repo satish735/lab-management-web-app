@@ -34,7 +34,7 @@ const DashBoardPage = () => {
       // Convert to DateObject format required by react-multi-date-picker
       const startDateObject = new DateObject(startDate);
       const endDateObject = new DateObject(new Date());
-      setSelectedRangeValues([[startDateObject, endDateObject]]);
+      setSelectedRangeValues([startDateObject, endDateObject]);
     }
   }, [defaultCenter]);
   console.log(selectedRangeValues);
