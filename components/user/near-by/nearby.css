@@ -126,3 +126,13 @@
   }
   
   
+  @media screen and (max-width: 390px) {
+    .floating-map-div{
+      position:relative;
+      
+       top: 0px;
+      left: 10px;
+  
+  }
+  
+}

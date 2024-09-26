@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import "@/app/blog/blog.css"
 import { FaCheckDouble } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import '../form/career.css'
 
 const Post = ({ searchParams }) => {
 
@@ -103,7 +104,7 @@ const Post = ({ searchParams }) => {
 
                     </div>
 
-                    <div className='row' style={{ width: '80%', margin: '0 auto' }}>
+                    <div className='row apply-now-section'>
 
 
 

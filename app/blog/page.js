@@ -62,7 +62,7 @@ const Blog = ({ params: { id } }) => {
                 />
 
 
-                <div className="row px-3 m-2 mt-2 midbox-inner">
+                <div className="row     mt-2 midbox-inner">
 
                     {blogsResponse?.data?.map((item, index) => <div className=" col-md-4 col-sm-6 col-12 my-2" key={index}>
 

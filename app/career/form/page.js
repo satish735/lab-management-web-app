@@ -435,13 +435,13 @@ const Form = ({ searchParams }) => {
                 <div className="py-1 my-1 midbox-inner">
                     <div className=" text-center" >
 
-                        <h4 className="mx-auto" style={{ width: '60%', color: "#065465", fontSize: "2.0rem", fontWeight: "700" }}>Please Fill Out the Form Below to Submit Your Job Application!</h4>
+                        <h4 className="mx-auto career-job-form" style={{ color: "#065465", fontSize: "2.0rem", fontWeight: "700" }}>Please Fill Out the Form Below to Submit Your Job Application!</h4>
                     </div>
                     <div className="row py-2">
 
                         <div className=" col-12" >
-                            <p className="mx-auto text-center" style={{ width: '70%', fontSize: "0.9rem", color: "rgb(153 151 151 / 93%)" }} >Our customer care staff will distribute your request for consultation to the appropriate Laboratory Medicine discipline.</p>
-                            <p className="mx-auto  text-center" style={{ width: '60%', fontSize: "0.9rem", color: "rgb(153 151 151 / 93%)" }} >A member of the Medical/Scientific Staff will get back
+                            <p className="mx-auto text-center fill-form-text" style={{   fontSize: "0.9rem", color: "rgb(153 151 151 / 93%)" }} >Our customer care staff will distribute your request for consultation to the appropriate Laboratory Medicine discipline.</p>
+                            <p className="mx-auto  text-center c" style={{  fontSize: "0.9rem", color: "rgb(153 151 151 / 93%)" }} >A member of the Medical/Scientific Staff will get back
                                 to the requesting healthcare provider within one business day.
                             </p>
 

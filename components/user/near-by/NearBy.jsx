@@ -52,7 +52,7 @@ const NearBy = () => {
 
                     },
                     (error) => {
-                        console.error('Error getting location:', error);
+                        console.error('Error while getting location:', error);
                     }
                 );
             } else {

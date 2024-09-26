@@ -114,7 +114,7 @@ const AwardsRecognitions = () => {
                         <p className='mt-5 mb-3' style={{ textAlign: 'center', fontSize: '2.2rem', fontWeight: '700', color: '#003747', textDecoration: 'underline' }}> Awards</p>
 
 
-                        <div className="row px-3 m-2">
+                        <div className="row px-0 m-2">
                             {awardaccreditationResponse?.data?.map((item, index) => (
                                 <div className="col-md-4 col-sm-6 col-12 my-3" key={index}>
                                     <AwardCard

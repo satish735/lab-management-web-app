@@ -60,7 +60,7 @@ export default function Page() {
                     heading="Milestones"
                     paragraph="A success story “Truth, Trust and Care for more than 30 Years”"
                 />
-                <div className="timeline ">
+                <div className="timeline ps-2">
 
 
 

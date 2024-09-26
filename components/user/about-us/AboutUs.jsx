@@ -52,7 +52,7 @@ const AboutUs = () => {
         <div>
             <Banner heading={'About Us'} />
 
-            <div className='pb-4 pt-0  midbox-inner' style={{ backgroundColor: 'white' }}>
+            <div className='pb-4 pt-0  midbox-inner px-3' style={{ backgroundColor: 'white' }}>
                 <div style={{ justifyContent: 'center' }}>
 
                     <p className='mb-3 text-center' style={{ textDecoration: 'underline', color: '#003747', fontWeight: "800", fontSize: "2rem" }}> SSDBSHYAM Diagnostic LLP</p>
@@ -166,7 +166,7 @@ const AboutUs = () => {
                 </div>
             </div> */}
 
-            <div className='midbox-inner'>
+            <div className='midbox-inner px-3'>
 
                 <div className='row py-4   my-5' >
 
@@ -196,7 +196,7 @@ const AboutUs = () => {
                     </div>
 
 
-                    <div className='col-lg-6 col-md-6 col-sm-12  ' style={{ padding: '0px 10px 0 90px' }}>
+                    <div className='col-lg-6 col-md-6 col-sm-12  chairman-div' style={{   }}>
                         <div className='pe-3 pt-3 director-image-div-parent-div global-background-gradient' style={{ width: '100%', borderRadius: '15px', position: 'relative' }}>
 
                             <div>
@@ -218,8 +218,7 @@ const AboutUs = () => {
                                     alt=""
                                     className="director-image"
                                     style={{
-                                        height: "320px",
-                                        width: "400px",
+                                        
                                         border: "none",
                                         borderRadius: "12px 12px 0 0 ",
                                         background: 'transparent'
