@@ -141,7 +141,7 @@ export const POST = async (request, { params }) => {
           addressId: address_id,
           couponSelectedId: coupon_id,
           membershipUsed: membership_id,
-          bookingId: (getLastBooking?.sequence ?? 0) + index + 1,
+          bookingId: `BKN-${(getLastBooking?.sequence ?? 0) + index + 1}`,
           sequence: (getLastBooking?.sequence ?? 0) + index + 1,
         };
       });
