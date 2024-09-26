@@ -110,7 +110,7 @@ const Mymember = () => {
                             <button onClick={() => {
                                 setIsmember(false)
                                 setModal2(true)
-                            }} className="card-button-2 mr-2 small" > + Add New member</button>
+                            }} className="btn btn-primary-theme " > + Add member</button>
                         </div>
                     </div>
 
