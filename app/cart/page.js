@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import apiRequest from "../../utils/apiRequest"; tet
 import "./cart.css"
-import useInputComponent from '@/hooks/useInputComponent';
-import InputWithAddOn from '../../components/formInput/InputWithAddOn';
 import Addmember from "@/app/cart/addmember"
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
@@ -19,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 import moment from "moment"
-import axios from 'axios';
 
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
@@ -790,7 +786,12 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
         <div className="text-capitalize" >
             <div className="row" >
                 <div className="col-sm-8 col-12" >
-                    <UpcomingSlots selectedSlot={selectedSlotId} selectedCenter={islab ? selectlab?._id : nearCenter?._id} onChange={setSelectedSlotId} setslotdata={setslotdata} />
+                    <UpcomingSlots 
+                    selectedSlot={selectedSlotId} 
+                    selectedCenter={islab ? selectlab?._id : nearCenter?._id} 
+                    onChange={setSelectedSlotId} 
+                    setslotdata={setslotdata} 
+                    />
                 </div>
                 {<div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary" style={{ fontWeight: '700' }} >
@@ -1210,7 +1211,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                             </div>
                             <div className="col-10 pt-2" >
                                 <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >At {slotdata?.slotStartTime ?? ""} </h6>
-                                <p className="mb-1" style={{ fontSize: "0.7rem" }}>Tuesday | September 3, 2024</p>
+                                <p className="mb-1" style={{ fontSize: "0.7rem" }}>{moment(slotdata?.date)?.format("DD MMMM YYYY")}</p>
                             </div>
 
                         </div>

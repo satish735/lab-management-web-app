@@ -20,9 +20,7 @@ const UpcomingSlots = ({
       url: "/slots/upcoming-slots",
       method: "get",
       sendImmediately: false,
-      params: {
-        center_id: "66d0bfdc53c49c313401480e",
-      },
+      
     },
     (e) => {
       return e.data ?? [];
@@ -166,7 +164,7 @@ const UpcomingSlots = ({
                             );
                           } else if (slot_color_class == "upcoming") {
                             onChange(slot?._id);
-                            setslotdata(slot);
+                            setslotdata({...slot,date:selectedSlotDate?.date});
                           }
                         }}
                       >
