@@ -664,6 +664,9 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
 
 
 
+                { islab && <div className="col-sm-8 col-12 my-2">
+
+                    
                    <LoaderGeneral
                             noContentMessage="Center not found"
                             state={
@@ -675,8 +678,8 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
 
                             }
                         />
-                {!labResponse?.fetching &&  islab && <div className="col-sm-8 col-12 my-2">
-                    {(labResponse?.data ?? [])?.map((item, index) => {
+                  {!labResponse?.fetching &&  <div>
+                   {(labResponse?.data ?? [])?.map((item, index) => {
                         return <div key={index} className="my-1" onClick={() => {
                             setselectlab(item)
                         }} >
@@ -709,6 +712,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                         </div>
 
                 })}
+                    </div>}
             </div>}
 
             <div className="checkout-mid-right col-sm-4 col-12" >
