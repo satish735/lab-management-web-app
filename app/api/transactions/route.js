@@ -9,7 +9,7 @@ export const GET = async (request, { params }) => {
             pageNo = 1,
             sortColumn = "createdAt",
             sortDirection = "desc",
-            searchQuery = "",
+            searchQuery = "",centerId
         } = urlParams.query;
         const skip = (pageNo - 1) * pageSize;
         const sort = {};
@@ -25,6 +25,9 @@ export const GET = async (request, { params }) => {
                 { paymentMethod: { $regex: searchQuery, $options: "i" } },
                 { referenceTransactionId: { $regex: searchQuery, $options: "i" } }
             ];
+        }
+        if(centerId){
+            // searchFilter.bookingId={centerId}
         }
         const bookingList = await Transaction
             .find(searchFilter).populate({ path: "bookingId" })

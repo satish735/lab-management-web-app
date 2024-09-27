@@ -184,6 +184,9 @@ const Cart = () => {
                         setstep={setstep}
                         rate={rate}
                         addtestandpackage={addtestandpackage}
+                        nearCenter={nearCenter} 
+                        selectlab={selectlab} 
+                        islab={islab}
                     />}
 
                     {step == 4 && <Step4
@@ -604,7 +607,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                     <div>
 
                         <LoaderGeneral
-                            noContentMessage="Job Posts not found"
+                            noContentMessage="Address not found"
                             state={
                                 AddressResponse?.fetching
                                     ? "loading"
@@ -660,7 +663,19 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                 }
 
 
-                {islab && <div className="col-sm-8 col-12 my-2">
+
+                   <LoaderGeneral
+                            noContentMessage="Center not found"
+                            state={
+                                labResponse?.fetching
+                                    ? "loading"
+                                    : [null, undefined].includes(labResponse?.data)
+                                        ? "no-content"
+                                        : "none"
+
+                            }
+                        />
+                {!labResponse?.fetching &&  islab && <div className="col-sm-8 col-12 my-2">
                     {(labResponse?.data ?? [])?.map((item, index) => {
                         return <div key={index} className="my-1" onClick={() => {
                             setselectlab(item)
@@ -762,7 +777,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
 }
 
 
-const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setstep, rate, addtestandpackage }) => {
+const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setstep, rate, addtestandpackage , nearCenter , selectlab , islab}) => {
 
 
 
@@ -771,7 +786,7 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
         <div className="text-capitalize" >
             <div className="row" >
                 <div className="col-sm-8 col-12" >
-                    <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} setslotdata={setslotdata} />
+                    <UpcomingSlots selectedSlot={selectedSlotId} selectedCenter={islab ? selectlab?._id : nearCenter?._id} onChange={setSelectedSlotId} setslotdata={setslotdata} />
                 </div>
                 {<div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary" style={{ fontWeight: '700' }} >
@@ -826,7 +841,8 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
     )
 }
 
-const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata, nearCenter }) => {
+const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress,
+     selectlab, slotdata, nearCenter }) => {
 
 
 

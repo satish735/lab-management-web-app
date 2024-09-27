@@ -15,9 +15,12 @@ import { Eye, Pencil } from "lucide-react";
 import moment from "moment";
 import ActionOption from "@/components/ActionOption";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const centerId = "66d2f3a4ec819eaf2ac4bcfc"
+  const session = useSession()
+
+  const centerId = session?.data?.user?.currentCenter?._id
   const router = useRouter();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
