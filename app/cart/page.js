@@ -79,7 +79,7 @@ const Cart = () => {
             })
         }
 
-    }, [session?.data])
+    }, [session?.data?.user?.otherDetails?._id])
 
     const [rate, setrate] = useState(0)
 
@@ -133,10 +133,10 @@ const Cart = () => {
         <div className="midbox-inner m_title" style={{ backgroundColor: "white", textTransform: "capitalize" }}>
             <div className="text-center py-3" style={{ fontWeight: "bold", borderBottom: "1px solid #ccc" }}>
                 <span className="px-2">
-                    Home {">"}
+                    Cart {">"}
                 </span>
                 <span style={{ color: "#828599" }}>
-                    {step == 1 ? "Cart" : step == 2 ? "Address" : step == 4 ? "Order Review" : ""}
+                    {step == 1 ? "Select Team Member" : step == 2 ? "Select Location/Center" : step == 3 ? "Select Slot" : "Review Order/Payment"}
                 </span>
             </div>
 
