@@ -363,9 +363,12 @@ const ContactUs = () => {
 
                                     </div>
                                 </form>
-                                <div className="call-button slide-item" >
-                                    <button onClick={() => { submitHandler() }} type="button  " className="   px-3  btn_checkout " style={{ width:'200px',fontSize: '14px', fontWeight: '500',borderRadius:'7px' ,padding:'10px 10px'}}>
-                                        {(getContactWithUsResponse?.fetching) ? <Spinner size={"sm"} /> : 'Send your message'}
+                                <div className=" " >
+                                    <button onClick={() => { submitHandler() }} type="  " className="   px-3  btn_checkout " style={{ width:'200px',fontSize: '14px', fontWeight: '500',borderRadius:'7px' ,padding:'10px 10px'}}>
+                                        {(getContactWithUsResponse?.fetching) ?
+                                         <Spinner size={"sm"} /> 
+                                         :
+                                          'Send your message'}
                                     </button>
 
                                 </div>
@@ -421,7 +424,7 @@ const ContactUs = () => {
 
                             </h3>
                             <p>
-                                <a href=" " style={{ color: '#46b902' }}>endocrinejaipur@gmail.com</a>
+                                <a href=" " style={{ color: '#46b902' }}>info@ssdbc.in</a>
                             </p>
 
 

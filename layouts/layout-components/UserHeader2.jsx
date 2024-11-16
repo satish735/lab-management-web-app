@@ -227,7 +227,7 @@ const UserHeader2 = () => {
       menu: [
         { label: "Blogs", href: "/blog" },
         { label: "Career", href: "/career" },
-        // { label: "Member ship", href: "/membership-card" },
+        { label: "Membership Card", href: "/membership-card" },
         { label: "Contact Us", href: "/contact-us" },
         {
           label: "Partner With Us",

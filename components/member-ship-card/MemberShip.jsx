@@ -14,11 +14,7 @@ const MemberShip = () => {
             method: "get",
             sendImmediately: true,
             params: {
-                // sortColumn: sort?.column,
-                // sortDirection: sort?.direction,
-                // pageNo: pageNo,
-                // pageSize: pageSize,
-                // searchQuery: searchValue,
+
             },
         },
         (e) => {
@@ -40,9 +36,7 @@ const MemberShip = () => {
 
             <Banner heading={'Care Membership Cards'} />
             <div style={{ padding: '30px 0' }}>
-                <div className='text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>
-                    About Membership Cards
-                </div>
+            <p className='mt-0 mb-2' style={{ textAlign: 'center', fontSize: '2.2rem', fontWeight: '700', color: '#003747', textDecoration: 'underline' }}> Membership Cards</p>
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ color: '#97979a', width: '70%', margin: '0 auto' }}>
 
@@ -61,11 +55,11 @@ const MemberShip = () => {
             </div> */}
 
             <div className='row mb-5 px-3 m-2 mt-2 midbox-inner' >
-                {(MemberShipResponse?.data ?? []).map((item, index) => {
+                {(array ?? []).map((item, index) => {
                     return <div className=" col-md-4 col-sm-6 col-12 my-2" key={index}>
                         <MemberShipCard
-                            card_name={item.name}
-                            imgsrc={process.env.NEXT_PUBLIC_BUCKET_URL + item?.banner}
+                            card_name={item?.card_name}
+                            imgsrc={item?.image}
                             description={item.description}
                             validity={item.validity}
                             price={item.price} />
@@ -75,6 +69,7 @@ const MemberShip = () => {
                 }
             </div>
 
+            {/* familyMembershipCard  seniorCetizen */}
 
 
 
@@ -132,8 +127,7 @@ const MemberShipCardList = ({ item }) => {
     )
 }
 
-let array = [{ image: '/assets/images/temp/img1.jpg', card_name: 'SENIOR CITIZEN CARD', validity: '1 Year', price: '100.00/-', description: 'Card for 60 years and above age' },
-{ image: '/assets/images/temp/img2.jpg', card_name: 'FAMILY CARE CARD', validity: '1 Year', price: '50.00/-', description: '5% discount on all tests' },
-{ image: '/assets/images/temp/img3.jpg', card_name: 'DIABETES SURAKSHA SUBSCRIPTION', validity: '1 Year', price: '1290.00/-', description: '5% discount on all tests' }
+let array = [{ image: '/assets/images/seniorCetizen.jpg', card_name: 'SENIOR CITIZEN CARD', validity: '1 Year', price: '100.00/-', description: 'Card for 60 years and above age' },
+{ image: '/assets/images/familyMembershipCard.jpg', card_name: 'FAMILY CARE CARD', validity: '1 Year', price: '50.00/-', description: '5% discount on all tests' }
 
 ]

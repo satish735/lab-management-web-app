@@ -74,6 +74,12 @@ const MobileHeaderMenu = ({ isOpen = false, setIsOpen = () => {} }) => {
       icon: <FaPhone className="user-left-menu-icon" />,
     },
     {
+      label: "Membership Card",
+      href: "/membership-card",
+      icon: <FaPhone className="user-left-menu-icon" />,
+    },
+    
+    {
       label: "Franchising Opportunity",
       href: "/partner-with-us/franchising-opportunity",
       icon: <FaPeopleRoof className="user-left-menu-icon" />,
