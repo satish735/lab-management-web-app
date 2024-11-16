@@ -4,7 +4,7 @@ export const GET = async (request, { params }) => {
   try {
     const urlParams = parse(request.url, true);
     const {
-      pageSize = 20,
+      pageSize = 300,
       pageNo = 1,
       sortColumn = "createdAt",
       sortDirection = "desc",
@@ -14,8 +14,16 @@ export const GET = async (request, { params }) => {
       conditionIds = ''
     } = urlParams.query;
 
-    let bodyPartsIdsArray = bodyPartsIds ? JSON.parse(bodyPartsIds ) : []
-    let conditionIdsArray = conditionIds ? JSON.parse(conditionIds ) : []
+    console.log('////////////////////////////////////////////////////////////////////////////////',pageSize,
+      pageNo,
+      sortColumn,
+      sortDirection,
+      searchQuery,
+      location,
+      bodyPartsIds,
+      conditionIds)
+    let bodyPartsIdsArray = bodyPartsIds ? JSON.parse(bodyPartsIds) : []
+    let conditionIdsArray = conditionIds ? JSON.parse(conditionIds) : []
 
     const skip = (pageNo - 1) * pageSize;
     const sort = {};
@@ -39,7 +47,7 @@ export const GET = async (request, { params }) => {
       searchFilter.conditions = { $in: conditionIdsArray };
     }
 
-
+    console.log(searchFilter)
 
 
     if (!location || location === null) {

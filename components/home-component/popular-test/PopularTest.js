@@ -69,7 +69,7 @@ const PopularTest = () => {
 
 
                 <h2 className='heading-text-popular-tests'>
-                    City Wise Diagnostic Center
+                    City Wise Services
                 </h2>
 
                 <div >

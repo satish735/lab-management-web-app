@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import apiRequest from "../../utils/apiRequest"; tet
 import "./cart.css"
-import useInputComponent from '@/hooks/useInputComponent';
-import InputWithAddOn from '../../components/formInput/InputWithAddOn';
 import Addmember from "@/app/cart/addmember"
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
@@ -19,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { Input, Spinner } from 'reactstrap'
 import UpcomingSlots from "@/components/slots/UpcomingSlots";
 import moment from "moment"
-import axios from 'axios';
 
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import { useSession } from "next-auth/react";
@@ -79,7 +75,7 @@ const Cart = () => {
             })
         }
 
-    }, [session?.data])
+    }, [session?.data?.user?.otherDetails?._id])
 
     const [rate, setrate] = useState(0)
 
@@ -133,10 +129,10 @@ const Cart = () => {
         <div className="midbox-inner m_title" style={{ backgroundColor: "white", textTransform: "capitalize" }}>
             <div className="text-center py-3" style={{ fontWeight: "bold", borderBottom: "1px solid #ccc" }}>
                 <span className="px-2">
-                    Home {">"}
+                    Cart {">"}
                 </span>
                 <span style={{ color: "#828599" }}>
-                    {step == 1 ? "Cart" : step == 2 ? "Address" : step == 4 ? "Order Review" : ""}
+                    {step == 1 ? "Select Team Member" : step == 2 ? "Select Location/Center" : step == 3 ? "Select Slot" : "Review Order/Payment"}
                 </span>
             </div>
 
@@ -184,6 +180,9 @@ const Cart = () => {
                         setstep={setstep}
                         rate={rate}
                         addtestandpackage={addtestandpackage}
+                        nearCenter={nearCenter} 
+                        selectlab={selectlab} 
+                        islab={islab}
                     />}
 
                     {step == 4 && <Step4
@@ -604,7 +603,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                     <div>
 
                         <LoaderGeneral
-                            noContentMessage="Job Posts not found"
+                            noContentMessage="Address not found"
                             state={
                                 AddressResponse?.fetching
                                     ? "loading"
@@ -660,8 +659,23 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                 }
 
 
-                {islab && <div className="col-sm-8 col-12 my-2">
-                    {(labResponse?.data ?? [])?.map((item, index) => {
+
+                { islab && <div className="col-sm-8 col-12 my-2">
+
+                    
+                   <LoaderGeneral
+                            noContentMessage="Center not found"
+                            state={
+                                labResponse?.fetching
+                                    ? "loading"
+                                    : [null, undefined].includes(labResponse?.data)
+                                        ? "no-content"
+                                        : "none"
+
+                            }
+                        />
+                  {!labResponse?.fetching &&  <div>
+                   {(labResponse?.data ?? [])?.map((item, index) => {
                         return <div key={index} className="my-1" onClick={() => {
                             setselectlab(item)
                         }} >
@@ -694,6 +708,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
                         </div>
 
                 })}
+                    </div>}
             </div>}
 
             <div className="checkout-mid-right col-sm-4 col-12" >
@@ -762,7 +777,7 @@ const Step2 = ({ setstep, rate, addtestandpackage, setselectlab,
 }
 
 
-const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setstep, rate, addtestandpackage }) => {
+const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setstep, rate, addtestandpackage , nearCenter , selectlab , islab}) => {
 
 
 
@@ -771,7 +786,12 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
         <div className="text-capitalize" >
             <div className="row" >
                 <div className="col-sm-8 col-12" >
-                    <UpcomingSlots selectedSlot={selectedSlotId} onChange={setSelectedSlotId} setslotdata={setslotdata} />
+                    <UpcomingSlots 
+                    selectedSlot={selectedSlotId} 
+                    selectedCenter={islab ? selectlab?._id : nearCenter?._id} 
+                    onChange={setSelectedSlotId} 
+                    setslotdata={setslotdata} 
+                    />
                 </div>
                 {<div className="checkout-mid-right col-sm-4 col-12" >
                     <div className="summary" style={{ fontWeight: '700' }} >
@@ -826,7 +846,8 @@ const Step3 = ({ selectedSlotId, setSelectedSlotId, slotdata, setslotdata, setst
     )
 }
 
-const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress, selectlab, slotdata, nearCenter }) => {
+const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, selectaddress,
+     selectlab, slotdata, nearCenter }) => {
 
 
 
@@ -1190,7 +1211,7 @@ const Step4 = ({ setstep, rate, addtestandpackage, selectedSlotId, islab, select
                             </div>
                             <div className="col-10 pt-2" >
                                 <h6 style={{ fontWeight: "700", fontSize: "0.9rem" }} >At {slotdata?.slotStartTime ?? ""} </h6>
-                                <p className="mb-1" style={{ fontSize: "0.7rem" }}>Tuesday | September 3, 2024</p>
+                                <p className="mb-1" style={{ fontSize: "0.7rem" }}>{moment(slotdata?.date)?.format("DD MMMM YYYY")}</p>
                             </div>
 
                         </div>

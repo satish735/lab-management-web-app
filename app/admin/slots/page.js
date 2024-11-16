@@ -12,9 +12,13 @@ import SortWithOutTable from "@/components/table/SortWithOutTable";
 import ViewSlots from "@/components/slots/ViewSlots";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from 'reactstrap';
 import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-    const centerId = "66d0bfdc53c49c313401480e"
+    const session = useSession()
+
+
+    const centerId = session?.data?.user?.currentCenter?._id
 
     const router = useRouter();
     const [pageNo, setPageNo] = useState(1);

@@ -22,27 +22,27 @@ const Form = ({ searchParams }) => {
     const [jobRoles, setjobRoles] = useState([])
     const [jobPositions, setjobPositions] = useState([])
 
-    const [getCareerResponse, getCareerHandler] = useAPI(
-        {
-            url: "/addJobApply",
-            method: "post",
-            // sendImmediately: true,
+    // const [getCareerResponse, getCareerHandler] = useAPI(
+    //     {
+    //         url: "/addJobApply",
+    //         method: "post",
+    //         // sendImmediately: true,
 
-        },
-        (e) => {
-            toast.success('Job Applied successfully.')
-            router.push('/career')
+    //     },
+    //     (e) => {
+    //         toast.success('Job Applied successfully.')
+    //         router.push('/career')
 
-            return e
-        },
-        (e) => {
+    //         return e
+    //     },
+    //     (e) => {
 
-            toast.error(transformErrorDefault(
-                "Something went wrong while saving details!",
-                e
-            ));
-        }
-    );
+    //         toast.error(transformErrorDefault(
+    //             "Something went wrong while saving details!",
+    //             e
+    //         ));
+    //     }
+    // );
 
 
     const [getJobsResponse, getJobsHandler] = useAPI(
@@ -55,6 +55,7 @@ const Form = ({ searchParams }) => {
         (e) => {
             let data = (e ?? []).map((item) => { return { label: item?.name, value: item?._id } })
             setjobRoles([{ label: 'Select Role', value: '' }, ...data])
+            return e
         },
         (e) => {
 
@@ -66,7 +67,7 @@ const Form = ({ searchParams }) => {
     );
 
 
-
+ 
 
 
     const [ExperienceData, setExperienceData] = useState([]);
@@ -310,6 +311,7 @@ const Form = ({ searchParams }) => {
         (e) => {
             let data = (e.position ?? []).map((item) => { return { label: item, value: item } })
             setjobPositions([{ label: 'Select Role', value: '' }, ...data])
+            return e
         },
         (e) => {
 
@@ -340,6 +342,7 @@ const Form = ({ searchParams }) => {
         }
     );
 
+    const [urir, seturir] = useState([])
 
     const [getContactUsResponse, getContactUsHandler] = useAPI(
         {
@@ -350,7 +353,7 @@ const Form = ({ searchParams }) => {
         },
         (e) => {
 
-
+            console.log(e)
             FirstName.setEnteredValue(e?.firstName ?? '')
             LastName.setEnteredValue(e?.lastName ?? '')
             Email.setEnteredValue(e?.email ?? '')
@@ -359,6 +362,9 @@ const Form = ({ searchParams }) => {
             ExperienceYear.setEnteredValue(e?.experienceYear ?? '')
             ExperienceMonth.setEnteredValue(e?.experienceMonth ?? '')
             setAddResume(e?.resume ?? [])
+
+            seturir([process.env.NEXT_PUBLIC_BUCKET_URL + e?.resume[0]?.filePath])
+            console.log(e?.resume[0]?.filePath, e?.resume[0])
             CurrentSalary.setEnteredValue(e?.currentSalary ?? '')
             ExpectedSalary.setEnteredValue(e?.expectedSalary ?? '')
             AvailableToJoin.setEnteredValue(e?.availableToJoin ?? '')
@@ -373,6 +379,8 @@ const Form = ({ searchParams }) => {
             setExperienceData(data ?? [])
             setJobRole(e?.forOpening ?? '')
             setAddAdditionalDocuments(additionalDetails ?? [])
+
+            // process.env.NEXT_PUBLIC_BUCKET_URL + e?.image
             // {
             //     "_id": "66ec48f430f491697e6c147d",
             //     "firstName": "jai",
@@ -414,6 +422,7 @@ const Form = ({ searchParams }) => {
                     }
                 })
             }
+            return e
 
         },
         (e) => {
@@ -425,7 +434,7 @@ const Form = ({ searchParams }) => {
             return e
         }
     );
-
+    // console.log(urir)
 
 
 
@@ -470,7 +479,17 @@ const Form = ({ searchParams }) => {
                                 <MultipleDropZone dropZoneMessage={'Upload Resume'} files={addResume} setFiles={setAddResume} />
 
                             </div>
+                            <div>
 
+                                {
+                                    (urir ?? []).map((item,index) => {
+                                        return <p key={index} onClick={() => {
+                                            window.open(item, '_blank', 'noopener, noreferrer');
+
+                                        }}>dc</p>
+                                    })
+                                }
+                            </div>
                             <div className="col-lg-4 col-md-6 col-sm-12">
                                 <InputSelect
                                     setValue={setJobRole}
@@ -756,7 +775,7 @@ const Form = ({ searchParams }) => {
 
                             <div className="col-12 mb-2">
                                 <p className="input-heading">
-                                    Any relative working in SSDBSHYAM Diagnostic *
+                                    Any relative working in SSDBC Shyam Diagnostic *
                                 </p>
                                 <div className='d-flex gap-3'>
                                     <div className='d-flex gap-3'>
@@ -862,7 +881,7 @@ const Form = ({ searchParams }) => {
 
 
 
-                v
+
             </div >
         </>
     );

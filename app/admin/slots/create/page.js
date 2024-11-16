@@ -9,10 +9,14 @@ import useAPI from "@/hooks/useAPI";
 import { Spinner } from "reactstrap";
 import toast from "react-hot-toast";
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const router = useRouter();
-  const centerId = "66d0bfdc53c49c313401480e"
+  const session = useSession()
+
+
+    const centerId = session?.data?.user?.currentCenter?._id
 
 
 

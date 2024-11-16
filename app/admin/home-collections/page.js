@@ -15,8 +15,13 @@ import { Eye, Pencil } from "lucide-react";
 import moment from "moment";
 import ActionOption from "@/components/ActionOption";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function HomeCollections() {
+    const session = useSession()
+
+
+    const centerId = session?.data?.user?.currentCenter?._id
     const router = useRouter();
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -30,7 +35,7 @@ export default function HomeCollections() {
                 sortDirection: d,
                 pageNo: pageNo,
                 pageSize: pageSize,
-                searchQuery: searchValue,
+                searchQuery: searchValue,centerId
 
             },
         });
@@ -58,7 +63,7 @@ export default function HomeCollections() {
                 sortDirection: sort?.direction,
                 pageNo: page,
                 pageSize: rows,
-                searchQuery: searchValue
+                searchQuery: searchValue,centerId
             },
         });
         setPageNo(page);
@@ -71,7 +76,7 @@ export default function HomeCollections() {
                 sortDirection: sort?.direction,
                 pageNo: pageNo,
                 pageSize: pageSize,
-                searchQuery: e,
+                searchQuery: e,centerId
             },
         });
         setSearchValue(e);
@@ -89,7 +94,7 @@ export default function HomeCollections() {
                 sortDirection: sort?.direction,
                 pageNo: pageNo,
                 pageSize: pageSize,
-                searchQuery: searchValue,
+                searchQuery: searchValue,centerId
             },
         },
         (e) => {

@@ -217,7 +217,7 @@ const UserHeader2 = () => {
       menu: [
         { label: "Company Profile", href: "/about-us" },
         { label: "Milestones", href: "/about-us/milestones" },
-        { label: "Awards & Acreditations", href: "/awards-recognitions" },
+        { label: "Certificates", href: "/awards-recognitions" },
         // { label: "Life at Blal Labs", href: "#" },
       ],
     },
@@ -278,7 +278,7 @@ const UserHeader2 = () => {
 
                   <li>
                     <FaClock size={18} className="phone-icon" />
-                    <a href="contact-us.html"> 8:30 AM - 7:00 PM(365 Days)</a>
+                    <a href="contact-us.html"> 8:00 AM - 7:00 PM</a>
                   </li>
                 </ul>
                 <div className="d-flex align-items-center">
@@ -394,16 +394,19 @@ const UserHeader2 = () => {
                   if (!isMobileScreen || !isMiniMobileScreen) {
                     setMobileMenuOpen(true);
                   }
+                  else{
+                    router.push("/")
+                                    }
                 }}
               >
                 <img
                   alt="logo"
-                  src="/assets/images/MainLogo.png"
+                  src="/assets/images/elablogo.png"
                   style={{
                     transition: "transform .3s ease-in-out",
                     translate: "translateY(1px)",
-                    height: 56,
-                    width: 150,
+                    height: 66,
+                    width: 120,
                   }}
                 />
               </NavbarBrand>
