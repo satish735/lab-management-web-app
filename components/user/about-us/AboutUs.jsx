@@ -55,10 +55,10 @@ const AboutUs = () => {
             <div className='pb-4 pt-0  midbox-inner px-3' style={{ backgroundColor: 'white' }}>
                 <div style={{ justifyContent: 'center' }}>
 
-                    <p className='mb-3 text-center' style={{ textDecoration: 'underline', color: '#003747', fontWeight: "800", fontSize: "2rem" }}> SSDBSHYAM Diagnostic LLP</p>
+                    <p className='mb-3 text-center' style={{ textDecoration: 'underline', color: '#003747', fontWeight: "800", fontSize: "2rem" }}> SSDBC Shyam Diagnostic LLP</p>
 
                     <p style={{ color: '#97979a', justifyContent: 'center', fontWeight: '500' }}>
-                        Welcome to <span style={{ fontWeight: '700' }}>SSDBSHYAM Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
+                        Welcome to <span style={{ fontWeight: '700' }}>SSDBC Shyam Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
                     </p>
                 </div>
 

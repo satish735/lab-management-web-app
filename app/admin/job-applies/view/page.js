@@ -775,7 +775,7 @@ const Form = ({ searchParams }) => {
 
                             <div className="col-12 mb-2">
                                 <p className="input-heading">
-                                    Any relative working in SSDBSHYAM Diagnostic *
+                                    Any relative working in SSDBC Shyam Diagnostic *
                                 </p>
                                 <div className='d-flex gap-3'>
                                     <div className='d-flex gap-3'>

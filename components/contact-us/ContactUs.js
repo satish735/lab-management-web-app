@@ -172,7 +172,7 @@ const ContactUs = () => {
                     textAlign: 'center',
                     margin: '0 auto'
                 }}>
-                    SSDBSHYAM Diagnostic LLP team would love to hear
+                     SSDBC Shyam  Diagnostic LLP team would love to hear
                     from you!
                 </h1>
 
@@ -407,7 +407,7 @@ const ContactUs = () => {
                                 marginBottom: '50px',
                                 padding: '0',
                             }}>
-                                SSDBSHYAM Diagnostic LLP, D6-Opposite, Chamatkareshwar Mahadev, Banipark, Jaipur, 302016
+                                SSDBC Shyam Diagnostic LLP, D-6, Banipark, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Jaipur, 302016
                             </p>
 
 
@@ -421,7 +421,7 @@ const ContactUs = () => {
 
                             </h3>
                             <p>
-                                <a href=" " style={{ color: '#46b902' }}>customercare@SSDBSHYAM.com</a>
+                                <a href=" " style={{ color: '#46b902' }}>endocrinejaipur@gmail.com</a>
                             </p>
 
 
@@ -437,7 +437,7 @@ const ContactUs = () => {
                             </h3>
                             <p>
                                 <a href=" " style={{ color: '#46b902' }}>+91-9739923174 | </a>
-                                <a href=" " style={{ color: '#46b902' }}> +91- 9327448843</a>
+                                <a href=" " style={{ color: '#46b902' }}> +91- 9116133343</a>
                             </p>
 
 
@@ -482,9 +482,9 @@ const ContactUs = () => {
 
 
                 <h3 className='mt-4' style={{ fontWeight: '600' }}>Jaipur</h3>
-                <p className='center-contact-listing'>6E, Malviya Industrial Area, Malviya Nagar, Jaipur</p>
-                <p className='center-contact-listing'>customercare@blallab.com</p>
-                <p className='center-contact-listing'>+91-9166125555
+                <p className='center-contact-listing'>D-6, Banipark, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Jaipur, 302016</p>
+                <p className='center-contact-listing'>endocrinejaipur@gmail.com</p>
+                <p className='center-contact-listing'>+91-9116133343
 
                 </p>
 

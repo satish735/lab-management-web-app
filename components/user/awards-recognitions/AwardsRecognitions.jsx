@@ -110,7 +110,7 @@ const AwardsRecognitions = () => {
 
 
                     {/* Awards List Section */}
-                    <div className="midbox-inner" style={{ margin: '0 auto' }}>
+                    {/* <div className="midbox-inner" style={{ margin: '0 auto' }}>
                         <p className='mt-5 mb-3' style={{ textAlign: 'center', fontSize: '2.2rem', fontWeight: '700', color: '#003747', textDecoration: 'underline' }}> Awards</p>
 
 
@@ -127,7 +127,7 @@ const AwardsRecognitions = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             )}
         </>
