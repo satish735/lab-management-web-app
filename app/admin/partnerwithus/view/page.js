@@ -32,6 +32,7 @@ const Partnerwithusupdate = ({ searchParams }) => {
 
         },
         (e) => {
+            console.log('?????????????????????????????????????????',e)
             setContent(e?.text)
             setPartnertype(e?.type)
             return e
@@ -191,7 +192,7 @@ const Partnerwithusupdate = ({ searchParams }) => {
                                 className="btn btn-success px-5 "
                                 onClick={submit}
                             >
-                                {partnerwithusResponse?.fetching ? <Spinner size={"sm"} /> : "Update Psrtner"}
+                                {partnerwithusResponse?.fetching ? <Spinner size={"sm"} /> : "Update Partner"}
                             </button>
 
                             <button
