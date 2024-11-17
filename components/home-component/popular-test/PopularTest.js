@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '@/components/home-component/popular-test/popular-test-bottom-portion.css'
 import PopularLinkComponent from './PopularLinkComponent'
 import useAPI from '@/hooks/useAPI'
@@ -11,7 +11,6 @@ const PopularTest = () => {
         {
             url: "/getTestAndCenterListing",
             method: "get",
-            sendImmediately: true,
 
         },
         (e) => {
@@ -22,7 +21,7 @@ const PopularTest = () => {
                 return { label: item?.city, value: item?._id }
             })
 
- 
+
             let TestListing = (e?.PackageTestInstanceListing ?? []).map((item) => {
 
 
@@ -45,6 +44,12 @@ const PopularTest = () => {
         }
     );
 
+    useEffect(() => {
+
+        getBasicDetailsHandler()
+
+
+    }, [])
 
 
 
@@ -74,7 +79,7 @@ const PopularTest = () => {
 
                 <div >
 
-                    <PopularLinkComponent item={ListingFields?.CenterListing ?? []} type={'center'}  />
+                    <PopularLinkComponent item={ListingFields?.CenterListing ?? []} type={'center'} />
 
                 </div>
 

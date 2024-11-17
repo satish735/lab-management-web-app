@@ -7,6 +7,7 @@ import Banner from "@/components/customdesign/Banner.jsx";
 import useAPI from "@/hooks/useAPI";
 import LoaderGeneral from '@/components/loaders/LoaderGeneral';
 import transformErrorDefault from "@/utils/transformErrorDefault";
+import { useEffect } from 'react';
 
 export default function Page() {
 
@@ -17,11 +18,7 @@ export default function Page() {
     const [milestonesResponse, milestonesHandler] = useAPI(
         {
             url: "/milestones/list",
-            method: "get",
-            sendImmediately: true,
-            params: {
-
-            },
+            method: "get" 
         },
         (e) => {
 
@@ -38,6 +35,9 @@ export default function Page() {
         }
     );
 
+    useEffect(()=>{
+        milestonesHandler()
+    },[])
 
 
     return (

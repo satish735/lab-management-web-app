@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAPI from "@/hooks/useAPI";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,8 @@ const Page = ({ searchParams }) => {
 
 
 
+    const [oldImage, setoldImage] = useState();
+
 
 
 
@@ -34,12 +36,11 @@ const Page = ({ searchParams }) => {
         {
             url: `/blogs/${searchParams?.id}`,
             method: "get",
-            sendImmediately: true,
+            
 
         },
         (e) => {
-            console.log("ee", e)
-            titleInput?.setEnteredValue(e?.title)
+             titleInput?.setEnteredValue(e?.title)
             descriptionInput?.setEnteredValue(e?.description)
             setContent(e?.ckdescription)
             setImageFile({
@@ -47,6 +48,8 @@ const Page = ({ searchParams }) => {
                 status: 'original'
             })
 
+
+            setoldImage(e?.image)
             let getdata = [
                 { label: "Show At Home", value: "is_home" },
                 { label: "Trending", value: "trending" },
@@ -74,6 +77,14 @@ const Page = ({ searchParams }) => {
             return e
         }
     );
+
+
+    useEffect(() => {
+        if (searchParams?.id) {
+            getblogHandler()
+        }
+
+    }, [searchParams])
 
 
     const [deleteblogResponse, deleteblogHandler] = useAPI(
@@ -181,12 +192,15 @@ const Page = ({ searchParams }) => {
             is_home: selectedTags.some((item) => item?.value == "is_home"),
             trending: selectedTags.some((item) => item?.value == "trending"),
             isPopular: selectedTags.some((item) => item?.value == "is_popular"),
-            // image: imageFile?.filePath,
+            image: imageFile?.filePath ?? null,
+            oldImage: (imageFile?.filePath === oldImage) ? null : oldImage,
             ckdescription: content,
         };
         await blogHandler({ body: submitBody });
     };
 
+    console.log(imageFile?.filePath ?? null)
+    console.log((imageFile?.filePath === oldImage) ? null : oldImage)
     return (
         <>
             {getblogResponse?.fetching ? <div className="my-4 text-center" ><Spinner size={"xl"} /></div> : <div className=' bg-white p-4  ' style={{ textAlign: "left" }}>

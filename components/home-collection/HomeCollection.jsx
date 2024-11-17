@@ -20,8 +20,7 @@ import '@/components/test&packages/health-package-component/health-package.css'
         {
             url: "/getTestDetails",
             method: "get",
-            sendImmediately: true,
-
+ 
         },
         (e) => {
 
@@ -52,6 +51,9 @@ import '@/components/test&packages/health-package-component/health-package.css'
     );
 
 
+    useEffect(()=>{
+        getBasicDetailsHandler()
+    },[])
 
 
     const [allPackageResponse, allPackageHandler] = useAPI(
