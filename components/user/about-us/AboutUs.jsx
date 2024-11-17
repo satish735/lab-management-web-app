@@ -72,7 +72,7 @@ const AboutUs = () => {
                         Our vision is to make Pathologist, Biochemist and Microbiologist part of treating team so that patient is benefitted the most by continuous mutual interaction with Clinician and change the present scenario by which diagnostic facilities are functioning.
                     </p>
                 </div>
-               
+
 
                 <div>
                     <p style={{ color: '#46b902', fontSize: '24px', fontWeight: '600' }}>
@@ -80,7 +80,7 @@ const AboutUs = () => {
                     </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                    Our Moto is to deliver Best Quality and ENDOLAB result at Affordable Price at your door step.
+                        Our Moto is to deliver Best Quality and ENDOLAB result at Affordable Price at your door step.
                     </p>
                 </div>
                 <div>
@@ -89,7 +89,7 @@ const AboutUs = () => {
                     </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                    The aim and Objectives of this center is to provide QUALITY DIAGNOSTIC SERVICES at affordable price with stress on both accuracy and precision with MINIMUM TURN AROUND TIME to guide clinicians through patient care.
+                        The aim and Objectives of this center is to provide QUALITY DIAGNOSTIC SERVICES at affordable price with stress on both accuracy and precision with MINIMUM TURN AROUND TIME to guide clinicians through patient care.
                     </p>
                 </div>
                 <div>
@@ -98,19 +98,19 @@ const AboutUs = () => {
                     </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                    We have three renowned pathologists and one microbiologist attached to handle the work load and each case of blood collection; cytology and biopsy are handled by these consultants personally. To achieve the right level of quality in biopsies and cytology we maintain that two pathologists report each of the cases independently followed by discussion and then reaching on final interpretation. (As per international. norms) The lab has fully trained and qualified laboratory technicians qualified by education, training and experience. Proper training and updating of knowledge is maintained by, attending regional and national conferences, seminars and in-house training programs.
+                        We have three renowned pathologists and one microbiologist attached to handle the work load and each case of blood collection; cytology and biopsy are handled by these consultants personally. To achieve the right level of quality in biopsies and cytology we maintain that two pathologists report each of the cases independently followed by discussion and then reaching on final interpretation. (As per international. norms) The lab has fully trained and qualified laboratory technicians qualified by education, training and experience. Proper training and updating of knowledge is maintained by, attending regional and national conferences, seminars and in-house training programs.
                     </p>
                 </div>
 
                 <div>
                     <p style={{ color: '#46b902', fontSize: '24px', fontWeight: '600' }}>
-                    QUALITY ASSURANCE (QA) AT ENDOLAB:                    </p>
+                        QUALITY ASSURANCE (QA) AT ENDOLAB:                    </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                    Refers to the systematic activities implemented in a quality system so that quality requirements for services will be fulfilled. It is the systematic measurement, comparison with a standard, monitoring of processes and an associated feedback loop that confers error prevention. At ENDOLAB the laboratory testing services conform to stringent quality standards specified ISO15189. The quality assurance team at our centre monitors the process in the laboratory by monitoring the quality performance indicators. We continuously strive to follow and implement the ISO 9001:2000 standards. The quality is assured by following internal and external quality control programs along with continuous quality improvement plans.
+                        Refers to the systematic activities implemented in a quality system so that quality requirements for services will be fulfilled. It is the systematic measurement, comparison with a standard, monitoring of processes and an associated feedback loop that confers error prevention. At ENDOLAB the laboratory testing services conform to stringent quality standards specified ISO15189. The quality assurance team at our centre monitors the process in the laboratory by monitoring the quality performance indicators. We continuously strive to follow and implement the ISO 9001:2000 standards. The quality is assured by following internal and external quality control programs along with continuous quality improvement plans.
                     </p>
                 </div>
-                
+
             </div>
 
             <div className="col-sm-4 col-12 text-center midbox-inner mt-5" style={{ margin: "0 auto" }} >
@@ -230,10 +230,10 @@ const AboutUs = () => {
 
                             <div>
                                 <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
-                                    A. Girdhari lal Agarwal 
+                                    A. Girdhari lal Agarwal
                                 </p>
                                 <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
-                                (Managing Director)
+                                    Managing Director
                                 </p>
                                 {/* <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
                                     Managing Director
@@ -268,19 +268,19 @@ const AboutUs = () => {
 
             <div className='midbox-inner'>
 
-                {/* <div className='py-4 ' style={{}}>
-                    <p className='mb-5 text-center' style={{ color: '#000', fontSize: '40px', fontWeight: '500' }}>Our Team </p>
+                <div className='py-4 ' style={{}}>
+                    <p className='mb-3 text-center' style={{ color: "#003747", fontWeight: "800", fontSize: "2rem" }}>Our Team </p>
 
                     <div className='row'>
                         {
-                            teammemberResponse?.data?.filter((item) => item?.type == "core")?.map((item, index) => {
+                            (memberslisting ?? [])?.map((item, index) => {
                                 return <MembersCard key={index} data={item} />
                             })
                         }
 
                     </div>
 
-                </div> */}
+                </div>
             </div>
             {/* <div className='midbox-inner'>
 
@@ -304,7 +304,11 @@ const AboutUs = () => {
 
 export default AboutUs
 
-
+let memberslisting = [
+    { name: 'Dr Maryam Ansar', qualification: '', image: '/assets/images/maryamansari.jpeg', post: 'Pathologist', linkedIn: '' },
+    { name: 'Dr Menka Kapil', qualification: '', image: '/assets/images/menakakapila.jpeg', post: 'Pathologist', linkedIn: '' },
+    // { name: '', qualification: '', image: '', post: '', linkedIn: '' }
+]
 
 
 

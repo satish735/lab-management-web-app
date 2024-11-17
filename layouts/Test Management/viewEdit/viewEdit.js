@@ -445,7 +445,7 @@ const ViewEdit = ({ searchParams }) => {
 
     const DiscountPercentage = useInputComponent('');
     const DiscountPercentageValidater = (value) => {
-        if (value === "" || !value) {
+        if (value === ""  ) {
             DiscountPercentage.setFeedbackMessage(
                 "Field required!"
             );

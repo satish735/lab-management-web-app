@@ -410,7 +410,7 @@ const ContactUs = () => {
                                 marginBottom: '50px',
                                 padding: '0',
                             }}>
-                                SSDBC Shyam Diagnostic LLP, D-6, Banipark, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Jaipur, 302016
+                                SSDBC Shyam Diagnostic LLP, D-6, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Banipark, Jaipur, 302016
                             </p>
 
 
@@ -485,7 +485,7 @@ const ContactUs = () => {
 
 
                 <h3 className='mt-4' style={{ fontWeight: '600' }}>Jaipur</h3>
-                <p className='center-contact-listing'>D-6, Banipark, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Jaipur, 302016</p>
+                <p className='center-contact-listing'>D-6, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Banipark, Jaipur, 302016</p>
                 <p className='center-contact-listing'>endocrinejaipur@gmail.com</p>
                 <p className='center-contact-listing'>+91-9116133343
 

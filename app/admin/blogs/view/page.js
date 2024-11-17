@@ -141,6 +141,7 @@ const Page = ({ searchParams }) => {
     const [content, setContent] = useState("");
 
     const [imageFile, setImageFile] = useState();
+    console.log(imageFile)
 
     const descriptionInput = useInputComponent();
     const descriptionInputValidater = (value) => {
@@ -164,7 +165,7 @@ const Page = ({ searchParams }) => {
 
 
     const createBlogSubmitHandler = async (isPublish = false) => {
-        setPublish(isPublish);
+        // setPublish(isPublish);
         var titleIsValid = titleInputValidater(titleInput?.enteredValue);
         var isdescription = descriptionInputValidater(
             descriptionInput?.enteredValue

@@ -52,7 +52,7 @@ const AwardsRecognitions = () => {
             {!awardaccreditationResponse?.fetching && (
                 <div>
                     <Banner
-                        heading="Awards and Accreditations"
+                        heading="Certificates"
                         paragraph="A Legacy of Healthcare Excellence Recognised with Truth, Trust and Care"
                     />
 

@@ -24,7 +24,7 @@ const Test = () => {
 
     const [imageFile, setImageFile] = useState();
 
-    const [ListingFields, setListingFields] = useState();
+     const [ListingFields, setListingFields] = useState();
 
 
     const [FilterCheck, setFilterCheck] = useState();
@@ -52,7 +52,6 @@ const Test = () => {
     };
     const TestOrPackageOption = [
         { label: "Select", value: "" },
-
         { label: "Test", value: "Test", },
         { label: "Package", value: "Package" },
 
@@ -410,7 +409,8 @@ const Test = () => {
 
     const DiscountPercentage = useInputComponent('');
     const DiscountPercentageValidater = (value) => {
-        if (value === "" || !value) {
+        console.log(value)
+        if (value === "") {
             DiscountPercentage.setFeedbackMessage(
                 "Field required!"
             );
@@ -490,8 +490,7 @@ const Test = () => {
 
 
 
-
-    const SubmitHandler = () => {
+     const SubmitHandler = () => {
 
 
         if (TestOrPackage === 'Test') {

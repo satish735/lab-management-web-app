@@ -25,7 +25,7 @@ const FullBodyCheckup = () => {
         // sortColumn: sort?.column,
         // sortDirection: sort?.direction,
         pageNo: 1,
-        pageSize: 20,
+        pageSize: 200,
         location: locationSelected ?? null
 
         // searchQuery: searchValue,
@@ -33,8 +33,7 @@ const FullBodyCheckup = () => {
     },
     (e) => {
 
-      console.log(e);
-
+ 
 
       let packages = (e?.data ?? []).filter((item) => {
         return item.testType === 'Package'
@@ -64,7 +63,7 @@ const FullBodyCheckup = () => {
     testHandler({
       params: {
         pageNo: 1,
-        pageSize: 20,
+        pageSize: 200,
         location: data?.selectedLocation  ?? null,
         bodyPartsIds: JSON.stringify([]),
         conditionIds: JSON.stringify([]),

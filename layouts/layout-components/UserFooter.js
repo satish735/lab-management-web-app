@@ -194,7 +194,7 @@ const UserFooter = () => {
                   <li>
                     <a style={{ color: "#fff", cursor: "pointer", display: 'flex', gap: '5px' }}>
 
-                      <FaLocationPin style={{ color: 'rgb(204 241 122)', fontSize: '27px' }} /> D-6, Banipark, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Jaipur, 302016</a>
+                      <FaLocationPin style={{ color: 'rgb(204 241 122)', fontSize: '27px' }} /> D-6, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Banipark, Jaipur, 302016</a>
                   </li>
 
                   <li>
