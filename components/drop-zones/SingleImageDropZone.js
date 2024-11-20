@@ -32,9 +32,7 @@ const SingleImageDropZone = ({
   const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
     noClick: true,
     noKeyboard: true,
-    accept: {
-      "image/*": [".jpeg", ".png", ".jpg"],
-    },
+    accept: "image/*" ,
     maxSize: fileSizeLimit * 1024 * 1024,
     maxFiles: 1,
     multiple: false,

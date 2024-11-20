@@ -154,10 +154,10 @@ const UserFooter = () => {
                     <a href="/near-by">Find a Center </a>
                   </li>
                   <li>
-                    <a href="/privacypolicy">Privacy &amp; Policy</a>
+                    <a href="/privacy-and-policy">Privacy &amp; Policy</a>
                   </li>
                   <li>
-                    <a href="/terms_and_conditions">Terms &amp; Conditions </a>
+                    <a href="/terms-and-condition">Terms &amp; Conditions </a>
                   </li>
                 </ul>
               </div>
