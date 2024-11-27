@@ -7,9 +7,10 @@ import Image from "next/image";
 const icons = [
   "/assets/icons/awards/1.webp",
   "/assets/icons/awards/2.webp",
-  "/assets/icons/awards/3.webp",
+  "/assets/icons/awards/awardlogo1.png",
   "/assets/icons/awards/4.webp",
-  "/assets/icons/awards/5.webp",
+  "/assets/icons/awards/awardlogo2.png",
+  "/assets/icons/awards/awardlogo3.png",
 ];
 
 const MainBannerSecondCrousel = ({
@@ -48,10 +49,17 @@ const MainBannerSecondCrousel = ({
   return (
     <div className="achivement-midbox-inner">
       <Slider {...settings}>
-        {icons.map((itemIcon,index) => {
+        {icons.map((itemIcon, index) => {
           return (
             <div className="p-2" key={index}>
-              <img src={itemIcon} alt={itemIcon}  className="m-auto"/>
+              {(itemIcon === "/assets/icons/awards/4.webp") ?
+
+                <img src={itemIcon} alt={itemIcon} className="m-auto" style={{ height: '90px', width: '60px' }} />
+                :
+                <img src={itemIcon} alt={itemIcon} className="m-auto" style={{ height: '90px', width: '90px' }} />
+
+
+              }
             </div>
           );
         })}

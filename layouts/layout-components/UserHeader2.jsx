@@ -272,7 +272,7 @@ const UserHeader2 = () => {
                   {isMobileScreen && (
                     <li>
                       <FaPhone size={18} className="phone-icon" />
-                      <a href="tel:+5565454117">9739923174 | 1800000000 </a>
+                      <a href="tel:+9739923174">9739923174 | 9116133343 </a>
                     </li>
                   )}
 
@@ -405,7 +405,7 @@ const UserHeader2 = () => {
                   style={{
                     transition: "transform .3s ease-in-out",
                     translate: "translateY(1px)",
-                    height: 66,
+                    height: 70,
                     width: 120,
                   }}
                 />

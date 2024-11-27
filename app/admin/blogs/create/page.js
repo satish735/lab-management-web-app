@@ -50,10 +50,10 @@ export default function Home() {
     return true;
   };
 
-  const handleChange = (event, editor) => {
-    const data = editor.getData();
-    setContent(data);
-  };
+  // const handleChange = (event, editor) => {
+  //   const data = editor.getData();
+  //   setContent(data);
+  // };
 
   const [selectedTags, setSelectedTags] = useState([]);
 

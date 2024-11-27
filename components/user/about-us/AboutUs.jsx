@@ -58,7 +58,7 @@ const AboutUs = () => {
                     <p className='mb-3 text-center' style={{ textDecoration: 'underline', color: '#003747', fontWeight: "800", fontSize: "2rem" }}> SSDBC Shyam Diagnostic LLP</p>
 
                     <p style={{ color: '#97979a', justifyContent: 'center', fontWeight: '500' }}>
-                        Welcome to <span style={{ fontWeight: '700' }}>SSDBC Shyam Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 30+ years.
+                        Welcome to <span style={{ fontWeight: '700' }}>SSDBC Shyam Diagnostic LLP</span>, your premier diagnostic center in Jaipur, proudly branded under the name ENDOLAB. We are dedicated to providing the highest standards of diagnostic services with a commitment to excellence and accuracy, combined with the uncompromised trust shown by doctors and patients in our services have made us a distinguished preference over the last 20+ years.
                     </p>
                 </div>
 
@@ -107,7 +107,7 @@ const AboutUs = () => {
                         QUALITY ASSURANCE (QA) AT ENDOLAB:                    </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                        Refers to the systematic activities implemented in a quality system so that quality requirements for services will be fulfilled. It is the systematic measurement, comparison with a standard, monitoring of processes and an associated feedback loop that confers error prevention. At ENDOLAB the laboratory testing services conform to stringent quality standards specified ISO15189. The quality assurance team at our centre monitors the process in the laboratory by monitoring the quality performance indicators. We continuously strive to follow and implement the ISO 9001:2000 standards. The quality is assured by following internal and external quality control programs along with continuous quality improvement plans.
+                        Refers to the systematic activities implemented in a quality system so that quality requirements for services will be fulfilled. It is the systematic measurement, comparison with a standard, monitoring of processes and an associated feedback loop that confers error prevention. At ENDOLAB the laboratory testing services conform to stringent quality standards specified ISO15189. The quality assurance team at our centre monitors the process in the laboratory by monitoring the quality performance indicators. We continuously strive to follow and implement the ISO 9001:2015 standards. The quality is assured by following internal and external quality control programs along with continuous quality improvement plans.
                     </p>
                 </div>
 
@@ -226,31 +226,34 @@ const AboutUs = () => {
 
 
                     <div className='col-lg-6 col-md-6 col-sm-12  chairman-div' style={{}}>
-                        <div className='pe-3 pt-3 director-image-div-parent-div global-background-gradient' style={{ width: '100%', borderRadius: '15px', position: 'relative' }}>
+                        <div className='pe-3 pt-3 director-image-div-parent-div  '  >
 
-                            <div>
-                                <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
+                            {/* <div> */}
+                            {/* <p className='' style={{ marginBottom: '2px', color: '#e1fba6', fontWeight: '500', fontSize: '18px', textAlign: 'end' }}>
                                     A. Girdhari lal Agarwal
                                 </p>
                                 <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
                                     Managing Director
-                                </p>
-                                {/* <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
+                                </p> */}
+                            {/* <p style={{ color: 'white', fontWeight: '400', fontSize: '16px', textAlign: 'end' }}>
                                     Managing Director
                                 </p> */}
 
-                            </div>
+                            {/* </div> */}
 
-                            <div className="director-image-div">
+                            <div className=" " style={{
+                                width: '85%',
+                                height: '330px',margin:'0 auto'
+                            }}>
                                 <img
-                                    src={'/assets/images/temp/why-choose-us.png'}
+                                    src={'/assets/images/Directors.jpeg'}
                                     alt=""
-                                    className="director-image"
+                                    className=" "
                                     style={{
-
+                                        width: '100%',
+                                         
                                         border: "none",
-                                        borderRadius: "12px 12px 0 0 ",
-                                        background: 'transparent'
+                                        borderRadius: "12px"
                                     }}
                                 />
 
@@ -305,8 +308,12 @@ const AboutUs = () => {
 export default AboutUs
 
 let memberslisting = [
-    { name: 'Dr Maryam Ansar', qualification: '', image: '/assets/images/maryamansari.jpeg', post: 'Pathologist', linkedIn: '' },
-    { name: 'Dr Menka Kapil', qualification: '', image: '/assets/images/menakakapila.jpeg', post: 'Pathologist', linkedIn: '' },
+    { name: 'A.Girdhari lal Agarwal', qualification: '', image: '/assets/images/Girdharilalji.jpeg', post: 'Director', linkedIn: '' },
+    { name: 'Khushi Agarwal ', qualification: 'B.TEC , Bio', image: '/assets/images/Kushiji.jpeg', post: 'Director', linkedIn: '' },
+    { name: 'Ronak Agarwal', qualification: 'Software Consultant Engg', image: '/assets/images/DirectorEng.jpeg', post: 'Director', linkedIn: '' },
+    { name: 'Dr. Maryam Ansari', qualification: '', image: '/assets/images/maryamansari.jpeg', post: 'Pathologist', linkedIn: '' },
+    { name: 'Dr. Menka Kapil', qualification: '', image: '/assets/images/menkaji.jpeg', post: 'Pathologist', linkedIn: '' },
+
     // { name: '', qualification: '', image: '', post: '', linkedIn: '' }
 ]
 
