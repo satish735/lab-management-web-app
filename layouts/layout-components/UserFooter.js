@@ -2,17 +2,26 @@
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaLocationPin, FaPhone, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import "./UserFooter.css";
 const UserFooter = () => {
+ 
   return (
     <div className="user-footer global-background-gradient px-2" style={{ backgroundColor: 'rgb(1, 7, 63)' }}>
       <div className="midbox-inner">
         <div className="footer-section row">
           <div className="footer-about col-md-4 col-sm-4 col-12">
-            <img src="/assets/images/MainLogo.png" alt="Brand Logo" />
+            <span className=" ">
+
+            <img src="/assets/images/elablogo.png" alt="Brand Logo" style={{
+                     
+                    height: 76,
+                    width: 135,
+                    backgroundColor:'white'
+                  }} />
+            </span>
             <div className="wiki">
               <ul>
                 <li>
                   <a
-                    href="https://www.facebook.com/blalclinicallab/?utm_source=WiseStamp&amp;amp%3Butm_medium=email&amp;amp%3Butm_term&amp;amp%3Butm_content&amp;amp%3Butm_campaign=signature"
+                    href="https://www.facebook.com"
                     target="_black"
                   >
                     <span > <FaFacebookF /></span>
@@ -20,14 +29,14 @@ const UserFooter = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://twitter.com/Blalclinicallab" target="_black">
+                  <a href="https://twitter.com" target="_black">
                     <FaXTwitter />
 
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://www.youtube.com/channel/UCBhmPyrCSDREuEDTGBX_Pbg?utm_source=WiseStamp&amp;utm_medium=email&amp;utm_term=&amp;utm_content=&amp;utm_campaign=signature"
+                    href="https://www.youtube.com"
                     target="_black"
                   >
                     <FaYoutube />
@@ -36,7 +45,7 @@ const UserFooter = () => {
                 </li>
                 <li>
                   <a
-                    href="https://www.instagram.com/Blalclinicallab"
+                    href="https://www.instagram.com"
                     target="_black"
                   >
                     <FaInstagram />
@@ -46,7 +55,7 @@ const UserFooter = () => {
                 </li>
                 <li>
                   <a
-                    href="https://www.linkedin.com/company/blalclinicallab/mycompany/?viewAsMember=true"
+                    href="https://www.linkedin.com"
                     target="_black"
                   >
                     <FaLinkedinIn />
@@ -145,10 +154,10 @@ const UserFooter = () => {
                     <a href="/near-by">Find a Center </a>
                   </li>
                   <li>
-                    <a href="/privacypolicy">Privacy &amp; Policy</a>
+                    <a href="/privacy-and-policy">Privacy &amp; Policy</a>
                   </li>
                   <li>
-                    <a href="/terms_and_conditions">Terms &amp; Conditions </a>
+                    <a href="/terms-and-condition">Terms &amp; Conditions </a>
                   </li>
                 </ul>
               </div>
@@ -185,7 +194,7 @@ const UserFooter = () => {
                   <li>
                     <a style={{ color: "#fff", cursor: "pointer", display: 'flex', gap: '5px' }}>
 
-                      <FaLocationPin style={{ color: 'rgb(204 241 122)', fontSize: '27px' }} /> D6-Opposite, Chamatkareshwar Mahadev, Banipark, Jaipur 302016</a>
+                      <FaLocationPin style={{ color: 'rgb(204 241 122)', fontSize: '27px' }} /> D-6, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Banipark, Jaipur, 302016</a>
                   </li>
 
                   <li>

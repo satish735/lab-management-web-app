@@ -23,22 +23,21 @@ import LightBoxComponent from "../LightBoxComponent";
 const SingleImageDropZone = ({
   fileSizeLimit = 1,
   file = {},
-  setFile = () => {},
+  setFile = () => { },
   disabled = false,
   filePathSuffix = "public/",
-  size = { height: "200px", width: "200px" },
+  size = { height: "200px", width: "200px" }
 }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
     noClick: true,
     noKeyboard: true,
-    accept: {
-      "image/*": [".jpeg", ".png"],
-    },
+    accept: "image/*" ,
     maxSize: fileSizeLimit * 1024 * 1024,
     maxFiles: 1,
     multiple: false,
   });
+  console.log(acceptedFiles)
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       var newuuid = uuid();
@@ -47,8 +46,8 @@ const SingleImageDropZone = ({
         file?.status == "original"
           ? { original: file?.url }
           : file?.status == "uploaded"
-          ? { oldURL: file?.url, original: file?.original }
-          : {};
+            ? { oldURL: file?.url, original: file?.original }
+            : {};
 
       setFile({
         file: selectedFile,

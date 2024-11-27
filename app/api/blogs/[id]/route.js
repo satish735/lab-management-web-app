@@ -1,4 +1,6 @@
 import Blog from "@/model2/Blog";
+import { makeS3FilesPermanent } from '@/utils/S3Helpers'
+
 export const GET = async (request, { params }) => {
   try {
     const { id = null } = params;
@@ -17,6 +19,8 @@ export const PUT = async (request, { params }) => {
     console.log("paramsparams", params)
     const toUpdateBody = await request.json();
     console.log("lllllllllll", toUpdateBody)
+    makeS3FilesPermanent(process.env.S3_BUCKET, "single", toUpdateBody?.oldImage, toUpdateBody?.image)
+
     const { id = null } = params;
     const existingBlog = await Blog.findById(id);
     if (!existingBlog) {

@@ -64,7 +64,7 @@ const HealthPackage = () => {
             method: "get",
             params: {
                 pageNo: 1,
-                pageSize: 20,
+                pageSize: 300,
                 location: locationSelected
             },
         },
@@ -104,7 +104,7 @@ const HealthPackage = () => {
                 params: {
 
                     pageNo: 1,
-                    pageSize: 20,
+                    pageSize: 300,
                     searchQuery: InputSearch,
                     location: data?.selectedLocation ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
@@ -119,7 +119,7 @@ const HealthPackage = () => {
                 params: {
 
                     pageNo: 1,
-                    pageSize: 20,
+                    pageSize: 300,
                     searchQuery: InputSearch,
                     location: locationSelected ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
@@ -143,7 +143,7 @@ const HealthPackage = () => {
             params: {
 
                 pageNo: 1,
-                pageSize: 20,
+                pageSize: 300,
                 searchQuery: value,
                 bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                 conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],
@@ -289,7 +289,7 @@ const SearchComponent = ({ changeSearchValue }) => {
                 className="search-icon"
             />
             <Input
-                className="filter-search w-100 "
+                className="filter-search w-300 "
                 placeholder="Search"
                 value={searchValue}
                 onChange={onChangeHandler}

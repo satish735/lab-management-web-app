@@ -58,7 +58,7 @@ const InputWithAddOn = ({
           }}
           onBlur={(e) => {
             if (rest?.type ?? "text" === "text") {
-              setValue((value ?? "").trim());
+              setValue((value ?? "")?.trim());
             }
             validateHandler(value);
             setIsTouched(true);

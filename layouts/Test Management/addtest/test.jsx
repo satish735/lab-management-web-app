@@ -24,13 +24,14 @@ const Test = () => {
 
     const [imageFile, setImageFile] = useState();
 
-    const [ListingFields, setListingFields] = useState();
+     const [ListingFields, setListingFields] = useState();
 
 
     const [FilterCheck, setFilterCheck] = useState();
 
 
     const [ObservationsData, setObservationsData] = useState([{ observations: '', id: uuid() }]);
+
 
 
     const [TestOrPackage, setTestOrPackage] = useState();
@@ -51,7 +52,6 @@ const Test = () => {
     };
     const TestOrPackageOption = [
         { label: "Select", value: "" },
-
         { label: "Test", value: "Test", },
         { label: "Package", value: "Package" },
 
@@ -409,7 +409,8 @@ const Test = () => {
 
     const DiscountPercentage = useInputComponent('');
     const DiscountPercentageValidater = (value) => {
-        if (value === "" || !value) {
+        console.log(value)
+        if (value === "") {
             DiscountPercentage.setFeedbackMessage(
                 "Field required!"
             );
@@ -489,18 +490,23 @@ const Test = () => {
 
 
 
-
-    const SubmitHandler = () => {
+     const SubmitHandler = () => {
 
 
         if (TestOrPackage === 'Test') {
 
 
-
             let TestNameInputValidate = TestNameInputValidater(TestNameInput.enteredValue);
             let DescriptionInputValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
-            let BodyPartTypeSelectValidate = BodyPartTypeSelectValidater(BodyPartType);
-            let MedicalConditionsSelectValidate = MedicalConditionsSelectValidater(MedicalConditions);
+            let BodyPartTypeSelectValidate = (BodyPartType ?? [])?.length > 0 ? true : false;
+            if (!BodyPartTypeSelectValidate) {
+                setBodyPartTypeMessage({ type: "error", message: "Field Required!" });
+
+            }
+            let MedicalConditionsSelectValidate = (MedicalConditions ?? [])?.length > 0 ? true : false;
+            if (!MedicalConditionsSelectValidate) {
+                setMedicalConditionsMessage({ type: "error", message: "Field Required!" });
+            }
             let PriceValidate = PriceValidater(Price.enteredValue);
 
             let GenderTypeSelectValidate = GenderTypeSelectValidater(GenderType);
@@ -508,7 +514,11 @@ const Test = () => {
             let AgeGroupFromValidate = AgeGroupFromValidater(AgeGroupFrom.enteredValue);
             let SampleRequiredValidate = SampleRequiredValidater(SampleRequired.enteredValue);
 
-            let SelectCenterValidate = SelectCenterSelectValidater(SelectCenter);
+            let SelectCenterValidate = (SelectCenter ?? [])?.length > 0 ? true : false;
+            if (!SelectCenterValidate) {
+                setSelectCenterMessage({ type: "error", message: "Field Required!" });
+
+            }
             let SelectIsPopularValidate = IsPopularSelectValidater(IsPopular);
 
             let ObservationsInputValidate = (ObservationsData ?? []).length > 0;
@@ -519,7 +529,23 @@ const Test = () => {
             let ResultWithinHoursValidate = ResultWithinHoursValidater(ResultWithinHours.enteredValue);
 
 
-
+            console.log(!TestNameInputValidate,
+                !DescriptionInputValidate,
+                !BodyPartTypeSelectValidate,
+                !MedicalConditionsSelectValidate,
+                !PriceValidate,
+                !GenderTypeSelectValidate,
+                !AgeGroupToValidate,
+                !SampleRequiredValidate,
+                !ObservationsInputValidate,
+                !PreparationRequiredValidate,
+                !DiscountPercentageValidate,
+                !AgeGroupFromValidate,
+                !HomeCollectionSelectValidate,
+                !SelectIsPopularValidate,
+                !ResultWithinHoursValidate,
+                !imageFile?.filePath
+                , !SelectCenterValidate)
 
 
 
@@ -532,14 +558,12 @@ const Test = () => {
                 !GenderTypeSelectValidate ||
                 !AgeGroupToValidate ||
                 !SampleRequiredValidate ||
-                !ObservationsInputValidate ||
                 !PreparationRequiredValidate ||
                 !DiscountPercentageValidate ||
                 !AgeGroupFromValidate ||
                 !HomeCollectionSelectValidate ||
                 !SelectIsPopularValidate ||
-                !ResultWithinHoursValidate ||
-                !imageFile?.filePath
+                !ResultWithinHoursValidate
                 || !SelectCenterValidate
 
 
@@ -549,57 +573,69 @@ const Test = () => {
                 toast.error("Validation failed for one or more inputs or at image upload.");
             } else {
 
-                // console.log({
-                //     body: {
-                //         name: TestNameInput.enteredValue ?? null,
-                //         description: DescriptionInput.enteredValue ?? null,
-                //         body_parts_type: BodyPartType ?? null,
-                //         observations: ObservationsData ?? null,
-                //         image: imageFile?.filePath ?? null,
-                //         medical_conditions: MedicalConditions ?? null,
-                //         price: Price.enteredValue ?? null,
-                //         gender: GenderType ?? null,
-                //         age_groupFrom: AgeGroupFrom.enteredValue ?? null,
+                if (!ObservationsInputValidate) {
 
-                //         age_groupTo: AgeGroupTo.enteredValue ?? null,
-                //         requirements: null,
-                //         DiscountPercentage: DiscountPercentage.enteredValue,
+                    toast.error("Add Observation to proceed.");
 
-                //         SampleRequiredValidate: SampleRequired.enteredValue ?? null,
-                //         PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
+                }
+                else if (!imageFile?.filePath) {
+                    toast.error("Add Image to proceed.");
 
-                //         HomeCollectionSelectValidate: HomeCollection ?? null,
-                //         ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
+                }
+                else {
 
+                    // console.log({
+                    //     body: {
+                    //         name: TestNameInput.enteredValue ?? null,
+                    //         description: DescriptionInput.enteredValue ?? null,
+                    //         body_parts_type: BodyPartType ?? null,
+                    //         observations: ObservationsData ?? null,
+                    //         image: imageFile?.filePath ?? null,
+                    //         medical_conditions: MedicalConditions ?? null,
+                    //         price: Price.enteredValue ?? null,
+                    //         gender: GenderType ?? null,
+                    //         age_groupFrom: AgeGroupFrom.enteredValue ?? null,
 
-                //     }
-                // });
-                createTestHandler(
-                    {
-                        body: {
-                            name: TestNameInput.enteredValue ?? null,
-                            desc: DescriptionInput.enteredValue ?? null,
-                            bodyParts: BodyPartType ?? null,
-                            observation: ObservationsData ?? null,
-                            image: imageFile?.filePath ?? null,
-                            conditions: MedicalConditions ?? null,
-                            rate: Price.enteredValue ?? null,
-                            gender: GenderType ?? null,
-                            fromAge: AgeGroupFrom.enteredValue ?? null,
-                            testType: TestOrPackage ?? null,
-                            toAge: AgeGroupTo.enteredValue ?? null,
-                            discountPercentage: DiscountPercentage.enteredValue,
-                            is_popular: (IsPopular === 'yes' ? true : false),
-                            sampleCollection: SampleRequired.enteredValue ?? null,
-                            preparation: PreparationRequired.enteredValue ?? null,
-                            availableInCenters: SelectCenter ?? [],
-                            homeCollection: (HomeCollection === 'yes' ? true : false),
-                            reportGenerationHours: ResultWithinHours.enteredValue ?? null,
+                    //         age_groupTo: AgeGroupTo.enteredValue ?? null,
+                    //         requirements: null,
+                    //         DiscountPercentage: DiscountPercentage.enteredValue,
+
+                    //         SampleRequiredValidate: SampleRequired.enteredValue ?? null,
+                    //         PreparationRequiredValidate: PreparationRequired.enteredValue ?? null,
+
+                    //         HomeCollectionSelectValidate: HomeCollection ?? null,
+                    //         ResultWithinHoursValidate: ResultWithinHours.enteredValue ?? null,
 
 
+                    //     }
+                    // });
+                    createTestHandler(
+                        {
+                            body: {
+                                name: TestNameInput.enteredValue ?? null,
+                                desc: DescriptionInput.enteredValue ?? null,
+                                bodyParts: BodyPartType ?? null,
+                                observation: ObservationsData ?? null,
+                                image: imageFile?.filePath ?? null,
+                                conditions: MedicalConditions ?? null,
+                                rate: Price.enteredValue ?? null,
+                                gender: GenderType ?? null,
+                                fromAge: AgeGroupFrom.enteredValue ?? null,
+                                testType: TestOrPackage ?? null,
+                                toAge: AgeGroupTo.enteredValue ?? null,
+                                discountPercentage: DiscountPercentage.enteredValue,
+                                is_popular: (IsPopular === 'yes' ? true : false),
+                                sampleCollection: SampleRequired.enteredValue ?? null,
+                                preparation: PreparationRequired.enteredValue ?? null,
+                                availableInCenters: SelectCenter ?? [],
+                                homeCollection: (HomeCollection === 'yes' ? true : false),
+                                reportGenerationHours: ResultWithinHours.enteredValue ?? null,
+
+
+                            }
                         }
-                    }
-                )
+                    )
+                }
 
             }
         }
@@ -607,11 +643,19 @@ const Test = () => {
             // let FinalMRPInputValidate = FinalMRPValidater(FinalMRP.enteredValue);
             // let ActualCostInputValidate = ActualCostValidater(ActualCost.enteredValue);
             let PackageNameValidate = PackageNameValidater(PackageName.enteredValue);
-            let TestlistingSelectValidate = TestlistingSelectValidater(Testlisting);
+            let TestlistingSelectValidate = (Testlisting ?? [])?.length > 0 ? true : false;
+            if (!TestlistingSelectValidate) {
+                setTestlistingMessage({ type: "error", message: "Field Required!" });
+
+            }
             let SelectIsPopularValidate = IsPopularSelectValidater(IsPopular);
 
             let DescriptionInputValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
-            let SelectCenterValidate = SelectCenterSelectValidater(SelectCenter);
+            let SelectCenterValidate = (SelectCenter ?? [])?.length > 0 ? true : false;
+            if (!SelectCenterValidate) {
+                setSelectCenterMessage({ type: "error", message: "Field Required!" });
+
+            }
 
             let GenderTypeSelectValidate = GenderTypeSelectValidater(GenderType);
             let AgeGroupToValidate = AgeGroupToValidater(AgeGroupTo.enteredValue);
@@ -640,8 +684,7 @@ const Test = () => {
                 !AgeGroupFromValidate ||
                 !HomeCollectionSelectValidate ||
                 !SelectIsPopularValidate ||
-                !ResultWithinHoursValidate ||
-                !imageFile?.filePath
+                !ResultWithinHoursValidate
                 || !SelectCenterValidate
             ) {
                 toast.error("Validation failed for one or more inputs or at image upload.");
@@ -675,36 +718,43 @@ const Test = () => {
 
                 // });
 
-                createTestHandler(
-                    {
-                        body: {
-                            name: PackageName.enteredValue ?? null,
-                            itemId: Testlisting ?? [],
-                            desc: DescriptionInput.enteredValue ?? null,
-                            availableInCenters: SelectCenter ?? [],
+                if (!imageFile?.filePath) {
+                    toast.error("Add Image to proceed.");
 
-                            image: imageFile?.filePath ?? null,
-                            is_popular: (IsPopular === 'yes' ? true : false),
+                }
+                else {
 
-                            rate: Number(ActualCost.enteredValue) ?? null,
-                            totalMrp: Number(FinalMRP.enteredValue) ?? null,
-                            gender: GenderType ?? null,
-                            fromAge: Number(AgeGroupFrom.enteredValue) ?? null,
-                            testType: TestOrPackage ?? null,
-                            toAge: Number(AgeGroupTo.enteredValue) ?? null,
-                            discountPercentage: Number(DiscountPercentage.enteredValue),
+                    createTestHandler(
+                        {
+                            body: {
+                                name: PackageName.enteredValue ?? null,
+                                itemId: Testlisting ?? [],
+                                desc: DescriptionInput.enteredValue ?? null,
+                                availableInCenters: SelectCenter ?? [],
 
-                            sampleCollection: SampleRequired.enteredValue ?? null,
-                            preparation: PreparationRequired.enteredValue ?? null,
+                                image: imageFile?.filePath ?? null,
+                                is_popular: (IsPopular === 'yes' ? true : false),
 
-                            homeCollection: (HomeCollection === 'yes' ? true : false),
-                            reportGenerationHours: ResultWithinHours.enteredValue ?? null,
+                                rate: Number(ActualCost.enteredValue) ?? null,
+                                totalMrp: Number(FinalMRP.enteredValue) ?? null,
+                                gender: GenderType ?? null,
+                                fromAge: Number(AgeGroupFrom.enteredValue) ?? null,
+                                testType: TestOrPackage ?? null,
+                                toAge: Number(AgeGroupTo.enteredValue) ?? null,
+                                discountPercentage: Number(DiscountPercentage.enteredValue),
+
+                                sampleCollection: SampleRequired.enteredValue ?? null,
+                                preparation: PreparationRequired.enteredValue ?? null,
+
+                                homeCollection: (HomeCollection === 'yes' ? true : false),
+                                reportGenerationHours: ResultWithinHours.enteredValue ?? null,
 
 
+                            }
                         }
-                    }
-                )
+                    )
 
+                }
             }
         }
 
@@ -774,7 +824,7 @@ const Test = () => {
     }, [Testlisting])
 
 
-    
+
     function calculateFinalPrice(originalPrice, discountPercentage) {
         // Calculate the discount amount
         const discountAmount = (discountPercentage / 100) * originalPrice;
@@ -1513,11 +1563,7 @@ const Test = () => {
 
                 <button onClick={() => { router.push("/admin/tests") }} className="btn btn-dark px-4  ">
 
-                    {createTestResponse?.fetching ? (
-                        <Spinner size={"sm"} />
-                    ) : (
-                        "Cancel"
-                    )}
+                    Cancel
                 </button>
                 <button onClick={() => { SubmitHandler(); setisSubmit(true) }} className="btn btn-success px-4 mx-2">
 

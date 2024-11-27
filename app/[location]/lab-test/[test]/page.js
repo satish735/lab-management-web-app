@@ -18,8 +18,7 @@ const Page = ({ searchParams }) => {
     {
       url: "/test/list",
       method: "get",
-      sendImmediately: true,
-      params: {
+       params: {
         // sortColumn: sort?.column,
         // sortDirection: sort?.direction,
         pageNo: 1,
@@ -50,8 +49,7 @@ const Page = ({ searchParams }) => {
         {
             url: `/getSinglePackageDetails/${searchParams?.id} `,
             method: "get",
-            sendImmediately: true,
-
+ 
         },
         (e) => {
 
@@ -70,6 +68,7 @@ const Page = ({ searchParams }) => {
 
     useEffect(() => {
         if (searchParams?.id) {
+            allTestHandler()
             testHandler()
         }
 

@@ -74,6 +74,12 @@ const MobileHeaderMenu = ({ isOpen = false, setIsOpen = () => {} }) => {
       icon: <FaPhone className="user-left-menu-icon" />,
     },
     {
+      label: "Membership Card",
+      href: "/membership-card",
+      icon: <FaPhone className="user-left-menu-icon" />,
+    },
+    
+    {
       label: "Franchising Opportunity",
       href: "/partner-with-us/franchising-opportunity",
       icon: <FaPeopleRoof className="user-left-menu-icon" />,
@@ -101,12 +107,12 @@ const MobileHeaderMenu = ({ isOpen = false, setIsOpen = () => {} }) => {
       <OffcanvasHeader toggle={toggle}>
         <img
           alt="logo"
-          src="/assets/images/MainLogo.png"
+          src="/assets/images/elablogo.png"
           style={{
             transition: "transform .3s ease-in-out",
             translate: "translateY(1px)",
-            height: 56,
-            width: 150,
+            height: 76,
+            width: 130,
           }}
         />
       </OffcanvasHeader>

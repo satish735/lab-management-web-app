@@ -3,7 +3,7 @@ import LoaderAndNoContent from "@/components/loaders/LoaderAndNoContent";
 import useAPI from "@/hooks/useAPI";
 import useTopLoader from "@/hooks/useTopLoader";
 import transformErrorDefault from "@/utils/transformErrorDefault";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import toast from "react-hot-toast";
 import "../../bookings/view/BookingPage.css";
 import moment from "moment";
@@ -16,8 +16,7 @@ const HomeCollectionPage = ({ CollectionId = null }) => {
         {
             url: `/home-collections/${CollectionId}`,
             method: "get",
-            sendImmediately: true,
-        },
+         },
         (e) => {
             if (!e) {
                 toast.error("Home Collection details not found in database!");
@@ -31,6 +30,12 @@ const HomeCollectionPage = ({ CollectionId = null }) => {
             return e;
         }
     );
+    useEffect(()=>{
+        if(CollectionId){
+            getHomeCollectionHandler()
+
+        }
+    },[CollectionId])
     const toploaderhook = useTopLoader(getHomeCollectionResponse?.fetching);
     var homeCollection = getHomeCollectionResponse?.data
     var AddressDetails = getHomeCollectionResponse?.data?.addressId

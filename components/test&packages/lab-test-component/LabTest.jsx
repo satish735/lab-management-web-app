@@ -69,13 +69,14 @@ const LabTest = () => {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
-                pageSize: 20,
+                pageSize: 300,
                 location: locationSelected
             },
         },
         (e) => {
 
 
+console.log(e);
 
 
             let packageList = (e?.data ?? []).filter((item) => {
@@ -107,7 +108,7 @@ const LabTest = () => {
                 params: {
 
                     pageNo: 1,
-                    pageSize: 20,
+                    pageSize: 300,
                     searchQuery: InputSearch,
                     location: data?.selectedLocation ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
@@ -122,7 +123,7 @@ const LabTest = () => {
                 params: {
 
                     pageNo: 1,
-                    pageSize: 20,
+                    pageSize: 300,
                     searchQuery: InputSearch,
                     location: locationSelected ?? null,
                     bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
@@ -146,7 +147,7 @@ const LabTest = () => {
             params: {
 
                 pageNo: 1,
-                pageSize: 20,
+                pageSize: 300,
                 searchQuery: value,
                 bodyPartsIds: bodyPartValue ? JSON.stringify((bodyPartValue ?? []).map((item) => { return item.value })) : [],
                 conditionIds: ConditionsValue ? JSON.stringify((ConditionsValue ?? []).map((item) => { return item.value })) : [],

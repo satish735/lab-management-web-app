@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "@/components/home-component/full-body-checkup/full-body-checkup.css";
  import CarousalSlider from "@/components/CarousalSlider";
  
@@ -22,8 +22,7 @@ const TestsComponent = () => {
     {
       url: "/faq/faqlisting",
       method: "get",
-      sendImmediately: true,
-      params: {
+       params: {
         // sortColumn: sort?.column,
         // sortDirection: sort?.direction,
         // pageNo: pageNo,
@@ -50,8 +49,7 @@ const TestsComponent = () => {
     {
       url: "/getTestDetails",
       method: "get",
-      sendImmediately: true,
-
+ 
     },
     (e) => {
 
@@ -78,6 +76,11 @@ const TestsComponent = () => {
   );
 
 
+  useEffect(()=>{
+
+    FaqHandler()
+    getBasicDetailsHandler()
+  },[])
 
   return (
     <div >

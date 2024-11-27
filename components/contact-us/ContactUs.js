@@ -172,7 +172,7 @@ const ContactUs = () => {
                     textAlign: 'center',
                     margin: '0 auto'
                 }}>
-                    SSDBSHYAM Diagnostic LLP team would love to hear
+                     SSDBC Shyam  Diagnostic LLP team would love to hear
                     from you!
                 </h1>
 
@@ -363,9 +363,12 @@ const ContactUs = () => {
 
                                     </div>
                                 </form>
-                                <div className="call-button slide-item" >
-                                    <button onClick={() => { submitHandler() }} type="button  " className="   px-3  btn_checkout " style={{ width:'200px',fontSize: '14px', fontWeight: '500',borderRadius:'7px' ,padding:'10px 10px'}}>
-                                        {(getContactWithUsResponse?.fetching) ? <Spinner size={"sm"} /> : 'Send your message'}
+                                <div className=" " >
+                                    <button onClick={() => { submitHandler() }} type="  " className="   px-3  btn_checkout " style={{ width:'200px',fontSize: '14px', fontWeight: '500',borderRadius:'7px' ,padding:'10px 10px'}}>
+                                        {(getContactWithUsResponse?.fetching) ?
+                                         <Spinner size={"sm"} /> 
+                                         :
+                                          'Send your message'}
                                     </button>
 
                                 </div>
@@ -407,7 +410,7 @@ const ContactUs = () => {
                                 marginBottom: '50px',
                                 padding: '0',
                             }}>
-                                SSDBSHYAM Diagnostic LLP, D6-Opposite, Chamatkareshwar Mahadev, Banipark, Jaipur, 302016
+                                SSDBC Shyam Diagnostic LLP, D-6, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Banipark, Jaipur, 302016
                             </p>
 
 
@@ -421,7 +424,7 @@ const ContactUs = () => {
 
                             </h3>
                             <p>
-                                <a href=" " style={{ color: '#46b902' }}>customercare@SSDBSHYAM.com</a>
+                                <a href=" " style={{ color: '#46b902' }}>info@ssdbc.in</a>
                             </p>
 
 
@@ -437,7 +440,7 @@ const ContactUs = () => {
                             </h3>
                             <p>
                                 <a href=" " style={{ color: '#46b902' }}>+91-9739923174 | </a>
-                                <a href=" " style={{ color: '#46b902' }}> +91- 9327448843</a>
+                                <a href=" " style={{ color: '#46b902' }}> +91- 9116133343</a>
                             </p>
 
 
@@ -482,9 +485,9 @@ const ContactUs = () => {
 
 
                 <h3 className='mt-4' style={{ fontWeight: '600' }}>Jaipur</h3>
-                <p className='center-contact-listing'>6E, Malviya Industrial Area, Malviya Nagar, Jaipur</p>
-                <p className='center-contact-listing'>customercare@blallab.com</p>
-                <p className='center-contact-listing'>+91-9166125555
+                <p className='center-contact-listing'>D-6, Opposite Chamatkareshwar Mandir, Chamatkareshwar Marg, Banipark, Jaipur, 302016</p>
+                <p className='center-contact-listing'>endocrinejaipur@gmail.com</p>
+                <p className='center-contact-listing'>+91-9116133343
 
                 </p>
 

@@ -17,8 +17,7 @@ const Home = ({ searchParams }) => {
         {
             url: "/test/list",
             method: "get",
-            sendImmediately: true,
-            params: {
+             params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
@@ -46,13 +45,16 @@ const Home = ({ searchParams }) => {
     );
 
 
+    useEffect(()=>{
+        allPackageHandler()
+    })
+
 
     const [packageResponse, packageHandler] = useAPI(
         {
             url: `/getSinglePackageDetails/${searchParams?.id} `,
             method: "get",
-            // sendImmediately: true,
-
+ 
         },
         (e) => {
 

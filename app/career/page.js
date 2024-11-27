@@ -7,6 +7,8 @@ import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import Form from './form/page';
+import JobFormComponent from '@/components/job-form/JobFormComponent';
 const Blog = ({ params: { id } }) => {
     const [fillForm, setFillForm] = useState(false);
 
@@ -64,19 +66,24 @@ const Blog = ({ params: { id } }) => {
 
                 {
                     !(getJobsResponse?.fetching) &&
-                    (getJobsResponse?.data ?? []).map((item,index) => {
+                    (getJobsResponse?.data ?? []).map((item, index) => {
                         return <ListJob item={item} key={index} />
                     })
                 }
 
             </div>
 
+            <div className='mb-3 mt-5'>
+                <JobFormComponent />
+            </div>
+
+
         </div>
     )
 };
 export default Blog;
 
-const ListJob = ({ item,key }) => {
+const ListJob = ({ item, key }) => {
 
     const router = useRouter()
 

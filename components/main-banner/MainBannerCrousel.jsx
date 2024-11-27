@@ -17,7 +17,7 @@ const items = [
           <div className="col-12 col-xl-7">
             <div className="slide-content">
               <h2 className="slide-title">
-                India&apos;s leading doorstep diagnostic service provider
+                India&apos;s leading diagnostic center
               </h2>
               <ul>
                 <li>
@@ -61,7 +61,7 @@ const items = [
           <div className="col-12 col-xl-7">
             <div className="slide-content">
               <h2 className="slide-title">
-                Clear, Relatable, And Informative Testing Results!
+                Clear And Genuine Test Results!
               </h2>
               <p className="slide-desc">
                 We are continually harnessing our medical expertise to build
