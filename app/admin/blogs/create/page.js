@@ -120,7 +120,9 @@ export default function Home() {
             <button
               disabled={blogSubmitResponse?.fetching}
               className="btn  btn-outline-dark px-5 me-2"
-              onClick={createBlogSubmitHandler(false)}
+              onClick={()=> {
+                createBlogSubmitHandler(false)
+              }}
               type="button"
             >
               {blogSubmitResponse?.fetching && !publish ? (
