@@ -64,10 +64,10 @@ const SidebarHeader = ({ collapsed, children, rtl, ...rest }) => {
           />
         ) : (
           <Image
-            src={"/assets/images/logo.png"}
+            src={"/assets/images/elablogo.png"}
             alt="hello"
-            height={50}
-            width={160}
+            height={70}
+            width={130}
           />
         )}
         {/* <Typography variant="subtitle1" fontWeight={700} color="#0098e5">

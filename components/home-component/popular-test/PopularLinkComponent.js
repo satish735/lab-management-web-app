@@ -37,9 +37,9 @@ const PopularLinkComponent = ({ item, type }) => {
                 </div>
             ) : (
                 <div className='center-break-border' style={{ justifyContent: 'center' }}>
-                    {(item ?? []).map((value, index) => (
+                Diagnostic Center In {(item ?? []).map((value, index) => (
                         <span className='links-test' style={{ lineHeight: '1.9' }} key={index}>
-                            Diagnostic Center In {value?.label}{' '}
+                             {value?.label}{' '}
                             <span style={{ fontWeight: '900', fontSize: '20px' }}>|</span>{' '}
                         </span>
                     ))}

@@ -12,9 +12,10 @@ const UserFooter = () => {
 
             <img src="/assets/images/elablogo.png" alt="Brand Logo" style={{
                      
-                    height: 76,
-                    width: 135,
-                    backgroundColor:'white'
+                    height: 90,
+                    width: 150,
+                    backgroundColor:'white',
+                    padding:'5px'
                   }} />
             </span>
             <div className="wiki">

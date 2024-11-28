@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import transformErrorDefault from "@/utils/transformErrorDefault";
 import LightBoxComponent from "../LightBoxComponent";
 const SingleImageDropZone = ({
-  fileSizeLimit = 1,
+  fileSizeLimit = 10,
   file = {},
   setFile = () => { },
   disabled = false,

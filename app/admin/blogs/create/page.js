@@ -50,10 +50,10 @@ export default function Home() {
     return true;
   };
 
-  const handleChange = (event, editor) => {
-    const data = editor.getData();
-    setContent(data);
-  };
+  // const handleChange = (event, editor) => {
+  //   const data = editor.getData();
+  //   setContent(data);
+  // };
 
   const [selectedTags, setSelectedTags] = useState([]);
 
@@ -120,7 +120,9 @@ export default function Home() {
             <button
               disabled={blogSubmitResponse?.fetching}
               className="btn  btn-outline-dark px-5 me-2"
-              onClick={createBlogSubmitHandler(false)}
+              onClick={()=> {
+                createBlogSubmitHandler(false)
+              }}
               type="button"
             >
               {blogSubmitResponse?.fetching && !publish ? (
