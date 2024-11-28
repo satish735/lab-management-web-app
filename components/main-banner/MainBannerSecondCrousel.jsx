@@ -8,7 +8,7 @@ const icons = [
   "/assets/icons/awards/1.webp",
   "/assets/icons/awards/2.webp",
   "/assets/icons/awards/awardlogo1.png",
-  "/assets/icons/awards/4.webp",
+  // "/assets/icons/awards/4.webp",
   "/assets/icons/awards/awardlogo2.png",
   "/assets/icons/awards/awardlogo3.png",
 ];
