@@ -36,7 +36,7 @@ const Page = ({ searchParams }) => {
         {
             url: `/blogs/${searchParams?.id}`,
             method: "get",
-            
+            sendImmediately:true
 
         },
         (e) => {
@@ -79,12 +79,12 @@ const Page = ({ searchParams }) => {
     );
 
 
-    useEffect(() => {
-        if (searchParams?.id) {
-            getblogHandler()
-        }
+    // useEffect(() => {
+    //     if (searchParams?.id) {
+    //         getblogHandler()
+    //     }
 
-    }, [searchParams])
+    // }, [searchParams])
 
 
     const [deleteblogResponse, deleteblogHandler] = useAPI(
