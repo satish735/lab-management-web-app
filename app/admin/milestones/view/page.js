@@ -19,7 +19,6 @@ const Page = ({ searchParams }) => {
         {
             url: `/milestones/${searchParams?.id}`,
             method: "get",
-            sendImmediately: true,
 
         },
         (e) => {
@@ -28,7 +27,6 @@ const Page = ({ searchParams }) => {
             TitleInput.setEnteredValue(e?.title ?? "")
             DescriptionInput?.setEnteredValue(e?.desc ?? "")
             YearInput?.setEnteredValue(e?.year ?? "")
-            console.log("eeeeeeeeeeeee", e)
         },
         (e) => {
 
@@ -40,6 +38,14 @@ const Page = ({ searchParams }) => {
         }
     );
 
+    useEffect(() => {
+
+        if (searchParams?.id) {
+            console.log(searchParams?.id);
+
+            getteammeberHandler()
+        }
+    }, [searchParams])
 
     const [deleteteammeberResponse, deleteteammeberHandler] = useAPI(
         {

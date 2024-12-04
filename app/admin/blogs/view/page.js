@@ -36,11 +36,11 @@ const Page = ({ searchParams }) => {
         {
             url: `/blogs/${searchParams?.id}`,
             method: "get",
-            sendImmediately:true
+            sendImmediately: true
 
         },
         (e) => {
-             titleInput?.setEnteredValue(e?.title)
+            titleInput?.setEnteredValue(e?.title)
             descriptionInput?.setEnteredValue(e?.description)
             setContent(e?.ckdescription)
             setImageFile({
