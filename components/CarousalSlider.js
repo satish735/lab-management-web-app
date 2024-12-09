@@ -32,7 +32,7 @@ const CarousalSlider = ({
     slidesToShow_lg = 4,
     slidesToShow_md = 2,
     slidesToShow_sm = 1,
-    sliderFor,location
+    sliderFor, location
 
 }) => {
     const settings = {
@@ -64,7 +64,7 @@ const CarousalSlider = ({
 
     };
 
-     
+    console.log('DataList', DataList)
 
     return (
         <>
@@ -73,8 +73,11 @@ const CarousalSlider = ({
                 {
                     sliderFor == 'packages' &&
 
-                    ((DataList ?? []).map((listing,index) => {
-                        return <FullBodyCheckupCard listing={listing} key={index} location={location?.selectedLocation} />
+                    ((DataList ?? []).map((listing, index) => {
+                        if (index < 8) {
+                            return <FullBodyCheckupCard listing={listing} key={index} location={location?.selectedLocation} />
+                        }
+
                     }))
                 }
 
@@ -82,26 +85,35 @@ const CarousalSlider = ({
                 {
                     sliderFor == 'popular test' &&
 
-                    ((DataList ?? []).map((listing,index) => {
-                        return <PopularTestCard listing={listing} key={index}  location={location?.selectedLocation} />
+                    ((DataList ?? []).map((listing, index) => {
+                        if (index < 8) {
+                            return <PopularTestCard listing={listing} key={index} location={location?.selectedLocation} />
+                        }
+
                     }))
                 }
                 {
                     sliderFor == 'tests-by-body-part' &&
 
-                    ((DataList ?? []).map((listing,index) => {
-                        return <TestsCard listing={listing} key={index} type={'body-part'} />
+                    ((DataList ?? []).map((listing, index) => {
+                        if (index < 8) {
+                            return <TestsCard listing={listing} key={index} type={'body-part'} />
+
+                        }
                     }))
                 }
 
-{
+                {
                     sliderFor == 'tests-by-medical-condition' &&
 
-                    ((DataList ?? []).map((listing,index) => {
-                        return <TestsCard listing={listing} key={index}  type={'medical-condition'} />
+                    ((DataList ?? []).map((listing, index) => {
+                        if (index < 8) {
+                            return <TestsCard listing={listing} key={index} type={'medical-condition'} />
+
+                        }
                     }))
                 }
-                
+
 
             </Slider>
         </>

@@ -147,8 +147,8 @@ export default function Home() {
       label: "Status",
       value: (row) => {
         return (
-          <Badge color={row?.published_at ? "success" : "warning"}>
-            {row?.published_at ? "Published" : "Draft"}
+          <Badge color={"success"}>
+            {"Published"}
           </Badge>
         );
       },

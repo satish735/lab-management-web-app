@@ -127,7 +127,7 @@
      right: 20px 
 }
 
-@media screen and (max-width: 390px) {
+@media screen and (max-width: 770px) {
   .discount-coupen-main-page-image {
     height: 230px;
      position: relative;
