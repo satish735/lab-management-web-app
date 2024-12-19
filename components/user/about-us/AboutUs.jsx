@@ -69,7 +69,7 @@ const AboutUs = () => {
                     </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                        Our vision is to make Pathologist, Biochemist and Microbiologist part of treating team so that patient is benefitted the most by continuous mutual interaction with Clinician and change the present scenario by which diagnostic facilities are functioning.
+                        Our vision is to make Pathologist, Biochemist and Microbiologist part of treating team so that patient is benefits the most by continuous mutual interaction with Clinician and change the present scenario by which diagnostic facilities are functioning.
                     </p>
                 </div>
 
@@ -80,18 +80,10 @@ const AboutUs = () => {
                     </p>
 
                     <p style={{ color: '#97979a', fontSize: '16px', }}>
-                        Our Moto is to deliver Best Quality and ENDOLAB result at Affordable Price at your door step.
+                        Our Motto is to deliver Best Quality and ENDOLAB result at Affordable Price at your door step.
                     </p>
                 </div>
-                <div>
-                    <p style={{ color: '#46b902', fontSize: '24px', fontWeight: '600' }}>
-                        Our Objective:
-                    </p>
-
-                    <p style={{ color: '#97979a', fontSize: '16px', }}>
-                        The aim and Objectives of this center is to provide QUALITY DIAGNOSTIC SERVICES at affordable price with stress on both accuracy and precision with MINIMUM TURN AROUND TIME to guide clinicians through patient care.
-                    </p>
-                </div>
+                
                 <div>
                     <p style={{ color: '#46b902', fontSize: '24px', fontWeight: '600' }}>
                         Our Personnel:

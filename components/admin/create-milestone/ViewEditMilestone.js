@@ -40,12 +40,9 @@ const ViewEditMilestone = ({ searchParams }) => {
 
     useEffect(() => {
 
-        console.log('searchParams, searchParams?.id', searchParams, searchParams?.id)
-        if (searchParams?.id) {
-            console.log('searchParams,  ', searchParams?.id)
-
-            console.log(searchParams?.id);
-
+         if (searchParams?.id) {
+ 
+ 
             getteammeberHandler()
         }
     }, [searchParams])
@@ -107,8 +104,12 @@ const ViewEditMilestone = ({ searchParams }) => {
         let titleValidate = TitleInputValidater(TitleInput.enteredValue);
         let yearValidate = YearInputValidater(YearInput.enteredValue);
         let descValidate = DescriptionInputValidater(DescriptionInput.enteredValue);
-        if (!titleValidate || !yearValidate || !descValidate) {
-            toast.error('Fill all the fields.')
+        if (!titleValidate  ) {
+            toast.error('Add title to add.')
+        }
+        else if(!yearValidate){
+            toast.error('Add year to add.')
+            
         }
         else {
             teammeberHandler({
