@@ -22,22 +22,22 @@ const UserFooter = () => {
               <ul>
                 <li>
                   <a
-                    href="https://www.facebook.com"
+                    href="https://www.facebook.com/profile.php?id=61570897952646&mibextid=ZbWKwL"
                     target="_black"
                   >
                     <span > <FaFacebookF /></span>
 
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="https://twitter.com" target="_black">
                     <FaXTwitter />
 
                   </a>
-                </li>
+                </li> */}
                 <li>
                   <a
-                    href="https://www.youtube.com"
+                    href="https://www.youtube.com/channel/UCQQV70cuPV7TcOVA4tJfMLw"
                     target="_black"
                   >
                     <FaYoutube />
@@ -46,7 +46,7 @@ const UserFooter = () => {
                 </li>
                 <li>
                   <a
-                    href="https://www.instagram.com"
+                    href="https://www.instagram.com/ssdbc.in/profilecard/?igsh=b2RmcDdleTZucGxo"
                     target="_black"
                   >
                     <FaInstagram />
@@ -54,7 +54,7 @@ const UserFooter = () => {
 
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     href="https://www.linkedin.com"
                     target="_black"
@@ -62,7 +62,7 @@ const UserFooter = () => {
                     <FaLinkedinIn />
 
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
 

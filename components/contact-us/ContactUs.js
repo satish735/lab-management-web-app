@@ -172,7 +172,7 @@ const ContactUs = () => {
                     textAlign: 'center',
                     margin: '0 auto'
                 }}>
-                     SSDBC Shyam  Diagnostic LLP team would love to hear
+                    SSDBC Shyam  Diagnostic LLP team would love to hear
                     from you!
                 </h1>
 
@@ -364,11 +364,11 @@ const ContactUs = () => {
                                     </div>
                                 </form>
                                 <div className=" " >
-                                    <button onClick={() => { submitHandler() }} type="  " className="   px-3  btn_checkout " style={{ width:'200px',fontSize: '14px', fontWeight: '500',borderRadius:'7px' ,padding:'10px 10px'}}>
+                                    <button onClick={() => { submitHandler() }} type="  " className="   px-3  btn_checkout " style={{ width: '200px', fontSize: '14px', fontWeight: '500', borderRadius: '7px', padding: '10px 10px' }}>
                                         {(getContactWithUsResponse?.fetching) ?
-                                         <Spinner size={"sm"} /> 
-                                         :
-                                          'Send your message'}
+                                            <Spinner size={"sm"} />
+                                            :
+                                            'Send your message'}
                                     </button>
 
                                 </div>
@@ -451,11 +451,14 @@ const ContactUs = () => {
 
                             <div className="d-flex  ">
 
-                                <span className='me-4' ><FaFacebookF style={{ color: '#46b902', fontSize: '19px' }} /></span>
-                                <span className='mx-4' ><FaYoutube style={{ color: '#46b902', fontSize: '19px' }} /></span>
-                                <span className='mx-4' ><FaXTwitter style={{ color: '#46b902', fontSize: '19px' }} />  </span>
-                                <span className='mx-4' ><FaInstagram style={{ color: '#46b902', fontSize: '19px' }} /></span>
-                                <span className='mx-4' ><FaLinkedinIn style={{ color: '#46b902', fontSize: '19px' }} /></span>
+                                <a className='me-4' href="https://www.facebook.com/profile.php?id=61570897952646&mibextid=ZbWKwL"
+                                    target="_black"><FaFacebookF style={{ color: '#46b902', fontSize: '19px' }} /></a>
+                                <a className='mx-4' href="https://www.youtube.com/channel/UCQQV70cuPV7TcOVA4tJfMLw"
+                                    target="_black"><FaYoutube style={{ color: '#46b902', fontSize: '19px' }} /></a>
+                                {/* <span className='mx-4' ><FaXTwitter style={{ color: '#46b902', fontSize: '19px' }} />  </span> */}
+                                <a className='mx-4' href="https://www.instagram.com/ssdbc.in/profilecard/?igsh=b2RmcDdleTZucGxo"
+                                    target="_black" ><FaInstagram style={{ color: '#46b902', fontSize: '19px' }} /></a>
+                                {/* <span className='mx-4' ><FaLinkedinIn style={{ color: '#46b902', fontSize: '19px' }} /></span> */}
 
 
                             </div>
