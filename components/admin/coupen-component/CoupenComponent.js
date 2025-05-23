@@ -679,9 +679,7 @@ const CoupenComponent = ({ searchParams }) => {
     const [getCouponResponse, getCouponHandler] = useAPI(
         {
             url: `/addCoupon/${searchParams?.id}`,
-            method: "get",
-            sendImmediately: true,
-
+            method: "get"
         },
         (e) => {
 
@@ -735,6 +733,13 @@ const CoupenComponent = ({ searchParams }) => {
     );
 
 
+    useEffect(() => {
+        console.log("searchParamssearchParamssearchParams", searchParams)
+        if (searchParams?.id) {
+
+            getCouponHandler()
+        }
+    }, [searchParams])
 
     useEffect(() => {
 
