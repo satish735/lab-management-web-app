@@ -338,28 +338,7 @@ const JobFormComponent = ({searchParams=null}) => {
         // console.log(FirstName?.enteredValue, LastName?.enteredValue, Phone?.enteredValue, Email?.enteredValue, DateOfBirth?.enteredValue, ExperienceYear?.enteredValue, CurrentSalary?.enteredValue, ExpectedSalary?.enteredValue, AvailableToJoin?.enteredValue, CurrentLocation?.enteredValue, Skill?.enteredValue, Gender, JobRole, isexperienced)
 
 
-        console.log(
-            {
-                firstName: FirstName?.enteredValue ?? '',
-                lastName: LastName?.enteredValue ?? '',
-                phone: Phone?.enteredValue ?? '',
-                email: Email?.enteredValue ?? '',
-                dateOfBirth: DateOfBirth?.enteredValue ?? '',
-                experienceYear: ExperienceYear?.enteredValue ?? '',
-                currentSalary: CurrentSalary?.enteredValue ?? '',
-                expectedSalary: ExpectedSalary?.enteredValue ?? '',
-                availableToJoin: AvailableToJoin?.enteredValue ?? '',
-                currentLocation: CurrentLocation?.enteredValue ?? '',
-                experienceMonth: ExperienceMonth?.enteredValue ?? '',
-                skill: Skill?.enteredValue ?? '',
-                gender: Gender ?? '',
-                forOpening: JobRole ?? '',
-                isExperienced: isexperienced,
-                resume: addResume ?? [],
-                addAdditionalDocuments: addAdditionalDocuments ?? [],
-                experienceData: ExperienceData
-            }
-        );
+ 
 
 
         if (isexperienced) {
