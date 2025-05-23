@@ -23,11 +23,10 @@ const TextEditor = dynamic(
     { ssr: false }
 );
 
-const ViewEditBlogs = () => {
+const ViewEditBlogs = ({ searchParams }) => {
     const router = useRouter();
 
-    const searchParams = new URLSearchParams(router?.asPath?.split(/\?/)[1]);
-    const id = searchParams.get("id");
+
 
 
     const [oldImage, setoldImage] = useState();
@@ -37,7 +36,7 @@ const ViewEditBlogs = () => {
 
     const [getblogResponse, getblogHandler] = useAPI(
         {
-            url: `/blogs/${id}`,
+            url: `/blogs/${searchParams?.id}`,
             method: "get",
             sendImmediately: true
 
@@ -82,12 +81,17 @@ const ViewEditBlogs = () => {
     );
 
 
+    // useEffect(() => {
+    //     if (searchParams?.id) {
+    //         getblogHandler()
+    //     }
 
+    // }, [searchParams])
 
 
     const [deleteblogResponse, deleteblogHandler] = useAPI(
         {
-            url: `/blogs/${id}`,
+            url: `/blogs/${searchParams?.id}`,
             method: "DELETE",
 
         },
@@ -109,7 +113,7 @@ const ViewEditBlogs = () => {
 
     const [blogResponse, blogHandler] = useAPI(
         {
-            url: `/blogs/${id}`,
+            url: `/blogs/${searchParams?.id}`,
             method: "put",
         },
         (e) => {
