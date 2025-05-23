@@ -122,8 +122,7 @@ const FaqComponent = ({ searchParams }) => {
     const [getFaqResponse, getFaqHandler] = useAPI(
         {
             url: `/faq/${searchParams?.id}`,
-            method: "get",
-            sendImmediately: true,
+            method: "get"
 
         },
         (e) => {
@@ -141,6 +140,15 @@ const FaqComponent = ({ searchParams }) => {
             return e
         }
     );
+
+
+
+    useEffect(()=>{
+        if(searchParams?.id){
+            getFaqHandler()
+        }
+
+    },[searchParams])
 
     return (
         <>
