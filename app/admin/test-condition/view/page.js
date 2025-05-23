@@ -1,5 +1,5 @@
 
-"use client";
+ 
 
 import ViewEdit from "@/layouts/testcondition/viewEdit/ViewEdit";
 

@@ -1,4 +1,4 @@
-
+'use client'
 import InputWithAddOn from "@/components/formInput/InputWithAddOn";
 import InputMultipleSelect from "@/components/formInput/select/InputMultipleSelect";
 import InputSelect from "@/components/formInput/select/InputSelect";
@@ -129,9 +129,12 @@ const ViewEdit = ({ searchParams }) => {
         }
     );
 
+    // useEffect(()=>{
+
+    // },[])
 
     return (
-        <>erfe
+        <>
             <BreadcrumbDiv
                 options={[
                     { label: "Home", link: "/admin" },
