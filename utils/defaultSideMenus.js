@@ -235,12 +235,12 @@ const defaultSideMenus = [
 
         ],
       },
-      {
-        type: "sub",
-        label: "User Profile",
-        icon: <FaUser className="admin-left-menu-icon" />,
-        link: "/admin/profile"
-      },
+      // {
+      //   type: "sub",
+      //   label: "User Profile",
+      //   icon: <FaUser className="admin-left-menu-icon" />,
+      //   link: "/admin/profile"
+      // },
     ]
   },
   // old
