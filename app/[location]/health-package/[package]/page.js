@@ -6,27 +6,30 @@ import TotalTestInclude from '@/components/package-details/total-test-include/To
 import useAPI from '@/hooks/useAPI'
 import UserLayout from '@/layouts/UserLayout'
 import transformErrorDefault from '@/utils/transformErrorDefault'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 const Home = ({ searchParams }) => {
 
 
+    const [showViewMore, setShowViewMore] = useState(false)
 
     const [allPackageResponse, allPackageHandler] = useAPI(
         {
             url: "/test/list",
             method: "get",
-             params: {
+            params: {
                 // sortColumn: sort?.column,
                 // sortDirection: sort?.direction,
                 pageNo: 1,
-                pageSize: 20,
+                pageSize: 6,
                 // searchQuery: searchValue,
+                searchTestOrPackage: 'Package'
             },
         },
         (e) => {
 
+            setShowViewMore(Number(e?.total) > 6)
 
 
             let packageList = (e?.data ?? []).filter((item) => {
@@ -45,16 +48,13 @@ const Home = ({ searchParams }) => {
     );
 
 
-    useEffect(()=>{
-        allPackageHandler()
-    })
 
 
     const [packageResponse, packageHandler] = useAPI(
         {
             url: `/getSinglePackageDetails/${searchParams?.id} `,
             method: "get",
- 
+
         },
         (e) => {
 
@@ -75,6 +75,8 @@ const Home = ({ searchParams }) => {
     useEffect(() => {
         if (searchParams?.id) {
             packageHandler()
+            allPackageHandler()
+
         }
 
     }, [searchParams])
@@ -128,7 +130,21 @@ const Home = ({ searchParams }) => {
                                         }
                                     </div>
 
+                                    {
+                                        showViewMore &&
+                                        <div className="text-center my-4">
+                                            <button onClick={() => { router.push(`/lab-tests`) }}
+                                                className=" card-button-view-all px-4 py-2 "
+                                                style={{ fontSize: "18px", fontWeight: "600" }}
+                                            >
+                                                View All
+                                            </button>
+                                        </div>
+                                    }
+
                                 </div>
+
+
 
                             </div>
 

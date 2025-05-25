@@ -11,17 +11,11 @@ export const GET = async (request, { params }) => {
       searchQuery = "",
       location = null,
       bodyPartsIds = '',
-      conditionIds = ''
+      conditionIds = '',
+      searchTestOrPackage = null
     } = urlParams.query;
 
-    console.log('////////////////////////////////////////////////////////////////////////////////',pageSize,
-      pageNo,
-      sortColumn,
-      sortDirection,
-      searchQuery,
-      location,
-      bodyPartsIds,
-      conditionIds)
+
     let bodyPartsIdsArray = bodyPartsIds ? JSON.parse(bodyPartsIds) : []
     let conditionIdsArray = conditionIds ? JSON.parse(conditionIds) : []
 
@@ -35,7 +29,6 @@ export const GET = async (request, { params }) => {
       searchFilter.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
 
-    console.log(searchFilter, bodyPartsIdsArray, conditionIdsArray);
 
 
     if (bodyPartsIdsArray && bodyPartsIdsArray.length > 0) {
@@ -46,8 +39,9 @@ export const GET = async (request, { params }) => {
     if (conditionIdsArray && conditionIdsArray.length > 0) {
       searchFilter.conditions = { $in: conditionIdsArray };
     }
-
-    console.log(searchFilter)
+    if (searchTestOrPackage !== null && searchTestOrPackage !== '') {
+      searchFilter.testType = searchTestOrPackage;
+    }
 
 
     if (!location || location === null) {

@@ -117,8 +117,7 @@ const Card = ({ packageData }) => {
   
    const setitem = async (listing) => {
       
-      console.log("listinglisting", listing)
-      
+       
           const storedData = localStorage?.getItem?.('testpackage');
           
           const parsedData = storedData ? JSON.parse(storedData) : null;
@@ -138,7 +137,7 @@ const Card = ({ packageData }) => {
         }
   return (
     <div style={{ backgroundColor: 'white', borderRadius: '13px' }}>
-      <div style={{ backgroundColor: '#21cdad', padding: '10px', borderTopLeftRadius: '13px', borderTopRightRadius: '13px' }}>
+      <div style={{ backgroundColor: '#21cdad', padding: '10px', borderRadius: '13px'  }}>
 
         <div className='d-flex justify-content-between'>
           <p><span style={{ color: 'white' }}> ₹ {packageData?.totalMrp ?? ''}</span>  <span style={{ textDecoration: 'line-through', color: 'red' }}> ₹ {packageData?.rate ?? ''}</span></p>

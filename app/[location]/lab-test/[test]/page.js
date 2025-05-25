@@ -4,7 +4,7 @@ import TestCardDesign from '@/components/test-details/test-card/TestCardDesign'
 import TotalTestInclude from '@/components/test-details/total-test-include/TotalTestInclude'
 import useAPI from '@/hooks/useAPI'
 import UserLayout from '@/layouts/UserLayout'
-import React,{useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import transformErrorDefault from "@/utils/transformErrorDefault";
 
@@ -12,44 +12,46 @@ import transformErrorDefault from "@/utils/transformErrorDefault";
 const Page = ({ searchParams }) => {
 
 
-    
-
-  const [allTestResponse, allTestHandler] = useAPI(
-    {
-      url: "/test/list",
-      method: "get",
-       params: {
-        // sortColumn: sort?.column,
-        // sortDirection: sort?.direction,
-        pageNo: 1,
-        pageSize: 20,
-        // searchQuery: searchValue,
-      },
-    },
-    (e) => {
+    const [showViewMore, setShowViewMore] = useState(false)
 
 
- 
-      let tests = (e?.data ?? []).filter((item) => {
-        return item.testType === 'Test' && searchParams.id !==item?._id
-      });
+    const [allTestResponse, allTestHandler] = useAPI(
+        {
+            url: "/test/list",
+            method: "get",
+            params: {
+                // sortColumn: sort?.column,
+                // sortDirection: sort?.direction,
+                pageNo: 1,
+                pageSize: 6,
+                // searchQuery: 'Test',
+                searchTestOrPackage: 'Test'
+            },
+        },
+        (e) => {
 
-      return { testList: tests }
-    },
-    (e) => {
-      toast.error(transformErrorDefault(
-        "Something went wrong while Getting tests!",
-        e
-      ));
-      return e
-    }
-  );
+            setShowViewMore(Number(e?.total) > 6)
+
+            let tests = (e?.data ?? []).filter((item) => {
+                return item.testType === 'Test' && searchParams.id !== item?._id
+            });
+
+            return { testList: tests }
+        },
+        (e) => {
+            toast.error(transformErrorDefault(
+                "Something went wrong while Getting tests!",
+                e
+            ));
+            return e
+        }
+    );
 
     const [testResponse, testHandler] = useAPI(
         {
             url: `/getSinglePackageDetails/${searchParams?.id} `,
             method: "get",
- 
+
         },
         (e) => {
 
@@ -123,6 +125,18 @@ const Page = ({ searchParams }) => {
                                         {/* PackageCardDesign */}
                                     </div>
 
+                                    {
+                                        showViewMore &&
+                                        <div className="text-center my-4">
+                                            <button onClick={() => { router.push(`/lab-tests`) }}
+                                                className=" card-button-view-all px-4 py-2 "
+                                                style={{ fontSize: "18px", fontWeight: "600" }}
+                                            >
+                                                View All
+                                            </button>
+                                        </div>
+                                    }
+
                                 </div>
 
                             </div>
@@ -138,7 +152,7 @@ const Page = ({ searchParams }) => {
 
 export default Page
 
- 
+
 let popular_test = [{ test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
 { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
 { test_name: 'Vitamin D', test_price: '450', no_of_observation: '1', no_of_hours: '16' },
