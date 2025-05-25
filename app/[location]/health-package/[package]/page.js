@@ -133,7 +133,7 @@ const Home = ({ searchParams }) => {
                                     {
                                         showViewMore &&
                                         <div className="text-center my-4">
-                                            <button onClick={() => { router.push(`/lab-tests`) }}
+                                            <button onClick={() => { router.push(`/health-packages`) }}
                                                 className=" card-button-view-all px-4 py-2 "
                                                 style={{ fontSize: "18px", fontWeight: "600" }}
                                             >

@@ -149,8 +149,7 @@ const Card = ({ packageData }) => {
               Add to Cart
             </button>
           </div>
-      <Usercart
-       isopencart={isopencart} setisopencart={setisopencart} />
+
 
         </div>
 
@@ -214,7 +213,8 @@ const Card = ({ packageData }) => {
         </div>
 
       </div>
-
+      <Usercart
+       isopencart={isopencart} setisopencart={setisopencart} />
       {/* <div className='row ps-3 pe-4 py-3'>
         <div className='col-7' style={{ color: '#7c7c7c' }}>
           <span style={{ color: '#7c7c7c', fontWeight: '700' }}>10% off</span>   New user? Enjoy 10% off up to <span style={{ color: '#7c7c7c', fontWeight: '700' }}>Rs 200</span> on all tests and health packages.
