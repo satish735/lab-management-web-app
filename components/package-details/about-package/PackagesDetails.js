@@ -2,6 +2,7 @@ import SvgIcon from '@/components/home-component/SvgIcon'
 import React from 'react'
 import SkeletonTextLoder from '@/components/SkeletonLoders/SkeletonTextLoder'
 import Usercart from '@/layouts/layout-components/cart'
+import React, { useState } from 'react'
 
 const PackagesDetails = ({ packageData }) => {
   return (

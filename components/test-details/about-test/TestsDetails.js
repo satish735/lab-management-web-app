@@ -1,7 +1,7 @@
 import SvgIcon from '@/components/home-component/SvgIcon'
 import SkeletonTextLoder from '@/components/SkeletonLoders/SkeletonTextLoder'
 import Usercart from '@/layouts/layout-components/cart'
-import React from 'react'
+import React, { useState } from 'react'
 
 const TestsDetails = ({ packageData }) => {
    
