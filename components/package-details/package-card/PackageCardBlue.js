@@ -102,7 +102,7 @@ const PackageCardBlue = ({ listing,lg=6,md=6 }) => {
                                     </button>
                                 </div>
                                 <div className='col-6 text-end'>
-                                    <button onclick={()=>{
+                                    <button onClick={()=>{
                                         setitem()
                                     }} className='card-button ' style={{ fontSize: '13px',border:'1px solid transparent' }}>
                                         Add to Cart <span>→</span>

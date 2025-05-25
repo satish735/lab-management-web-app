@@ -143,7 +143,7 @@ const Card = ({ packageData }) => {
           <p><span style={{ color: 'white' }}> ₹ {packageData?.rate ?? ''}</span>  <span style={{ textDecoration: 'line-through', color: 'red' }}> ₹ {packageData?.rate ?? ''}</span></p>
 
           <div>
-            <button onclick={()=>{
+            <button onClick={()=>{
               setitem(packageData)
             }} className='card-button-package-card-light'>
               Add to Cart
