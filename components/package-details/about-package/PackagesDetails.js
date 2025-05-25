@@ -1,6 +1,7 @@
 import SvgIcon from '@/components/home-component/SvgIcon'
 import React from 'react'
 import SkeletonTextLoder from '@/components/SkeletonLoders/SkeletonTextLoder'
+import Usercart from '@/layouts/layout-components/cart'
 
 const PackagesDetails = ({ packageData }) => {
   return (
@@ -112,9 +113,11 @@ export default PackagesDetails
 
 
 const Card = ({ packageData }) => {
+    const [isopencart, setisopencart] = useState(false)
+  
    const setitem = async (listing) => {
       
-      
+      console.log("listinglisting", listing)
       
           const storedData = localStorage?.getItem?.('testpackage');
           
@@ -127,6 +130,8 @@ const Card = ({ packageData }) => {
           } else {
             const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
             localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+                  setisopencart(true)
+
           }
       
       
@@ -206,9 +211,10 @@ const Card = ({ packageData }) => {
             </div>
           </div>
         </div>
+      <Usercart isopencart={isopencart} setisopencart={setisopencart} />
 
       </div>
-
+{/* 
       <div className='row ps-3 pe-4 py-3'>
         <div className='col-8' style={{ color: '#7c7c7c' }}>
           <span style={{ color: '#7c7c7c', fontWeight: '700' }}>10% off</span>   New user? Enjoy 10% off up to <span style={{ color: '#7c7c7c', fontWeight: '700' }}>Rs 200</span> on all tests and health packages.
@@ -219,7 +225,7 @@ const Card = ({ packageData }) => {
 
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
