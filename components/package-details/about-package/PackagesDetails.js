@@ -144,7 +144,6 @@ const Card = ({ packageData }) => {
 
           <div>
             <button onClick={()=>{
-              alert("yess")
               setitem(packageData)
             }} className='card-button-package-card-light'>
               Add to Cart
