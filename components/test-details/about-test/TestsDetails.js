@@ -112,6 +112,24 @@ export default TestsDetails
 
 
 const Card = ({ packageData }) => {
+    const setitem = async (listing) => {
+
+
+
+    const storedData = localStorage?.getItem?.('testpackage');
+    
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+
+    const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+
+    if ((filterdata ?? [])?.length > 0) {
+      toast.error("This package already exists in your cart")
+    } else {
+      const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
+
+      localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+    }
+  }
   return (
     <div style={{ backgroundColor: 'white', borderRadius: '13px' }}>
       <div style={{ backgroundColor: '#21cdad', padding: '10px', borderTopLeftRadius: '13px', borderTopRightRadius: '13px' }}>
@@ -120,7 +138,9 @@ const Card = ({ packageData }) => {
           <p><span style={{ color: 'white' }}> ₹ {packageData?.rate ?? ''}</span>  <span style={{ textDecoration: 'line-through', color: 'red' }}> ₹ {packageData?.rate ?? ''}</span></p>
 
           <div>
-            <button className='card-button-package-card-light'>
+            <button onclick={()=>{
+              setitem(packageData)
+            }} className='card-button-package-card-light'>
               Add to Cart
             </button>
           </div>

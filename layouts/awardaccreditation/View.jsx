@@ -197,7 +197,7 @@ const View = ({ searchParams }) => {
                             isTouched={DescriptionnInput.isTouched}
                             setIsTouched={DescriptionnInput.setIsTouched}
                             isRequired={true}
-
+                            setValue={DescriptionnInput.setEnteredValue}
                             validateHandler={DescriptionnInputValidater}
                             reset={DescriptionnInput.reset}
                             disabled={searchParams.type == "view" ? true : false}

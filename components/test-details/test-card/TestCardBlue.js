@@ -3,6 +3,27 @@ import SvgIcon from '../../home-component/SvgIcon'
 import '../../../styles/common-card-designs/card_designs.css'
 import '../total-test-include/totalTestInclude.css'
 const TestCardBlue = ({ listing,lg=6,md=6 }) => {
+      const setitem = async (listing) => {
+    
+    
+    
+        const storedData = localStorage?.getItem?.('testpackage');
+        
+        const parsedData = storedData ? JSON.parse(storedData) : null;
+    
+        const filterdata = await (parsedData?.item ?? [])?.filter((item) => item?._id === listing._id)
+    
+        if ((filterdata ?? [])?.length > 0) {
+          toast.error("This package already exists in your cart")
+        } else {
+          const dataToStore = { item: parsedData?.item == null || parsedData?.item == [] ? [listing] : [...parsedData?.item, listing] };
+    
+          localStorage?.setItem('testpackage', JSON.stringify(dataToStore));
+          setisopencart(true)
+        }
+    
+    
+      }
     return (
         <div className={`card-outer-layer-div  col-lg-${lg} col-md-${md} col-sm-12`}  >
             <div className='main-card-border   ' style={{ borderRadius: '13px', boxShadow: '0px 5px 83px 0px rgba(13, 14, 67, 0.09)' ,background:'linear-gradient(180deg, rgb(1 7 63) , #004e92)'}}>
@@ -82,7 +103,7 @@ const TestCardBlue = ({ listing,lg=6,md=6 }) => {
                                     </button>
                                 </div>
                                 <div className='col-6 text-end'>
-                                    <button className='card-button ' style={{ fontSize: '13px',border:'1px solid transparent' }}>
+                                    <button onClick={setitem(listing)} className='card-button ' style={{ fontSize: '13px',border:'1px solid transparent' }}>
                                         Add to Cart <span>→</span>
                                     </button>
                                 </div>
